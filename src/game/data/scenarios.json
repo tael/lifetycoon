@@ -9753,5 +9753,580 @@
       "병맛"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_birthday_surprise",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 25
+      }
+    ],
+    "ageRange": [
+      25,
+      26
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "25번째 생일!",
+    "text": "청춘의 한가운데! 특별한 생일을 보내볼까?",
+    "choices": [
+      {
+        "label": "깜짝 파티!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "25번째 생일을 깜짝 파티로 축하했다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "혼자 맛집 투어",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "청년기",
+      "생일"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_eco_invest",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      25,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "친환경 투자",
+    "text": "ESG 펀드에 투자해볼까? 지구를 위한 투자!",
+    "choices": [
+      {
+        "label": "투자한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "ESG투자자"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "수익률이 중요",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "교육",
+      "주식"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_sunrise_run",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      18,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "일출 달리기",
+    "text": "새벽 5시에 일어나 일출을 보며 달릴까?",
+    "choices": [
+      {
+        "label": "달린다!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "새벽 일출을 보며 달리는 습관을 들였다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "5분만 더...",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -2
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "건강"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_language_learn",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      15,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "외국어 도전",
+    "text": "영어/일본어/중국어 중 뭘 배울까?",
+    "choices": [
+      {
+        "label": "영어",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "영어능통"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "일본어",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "일본어"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "시간 없어",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_global",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "영어능통"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "글로벌"
+      }
+    ],
+    "ageRange": [
+      30,
+      60
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "글로벌 기업 스카우트!",
+    "text": "해외 경험+영어 능력으로 글로벌 기업에서 스카우트!",
+    "choices": [
+      {
+        "label": "입사!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "글로벌리더"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "글로벌 기업에 스카우트되어 세계 무대에 섰다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "한국이 좋아",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "체인",
+      "직업"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_garage_sale",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      30,
+      65
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "차고 세일",
+    "text": "쓰지 않는 물건을 모아 차고 세일을 열까?",
+    "choices": [
+      {
+        "label": "판다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "추억이 있어서...",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_podcast",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      25,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "팟캐스트 시작",
+    "text": "경제 팟캐스트를 시작해볼까?",
+    "choices": [
+      {
+        "label": "시작!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "크리에이터"
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "듣는 게 좋아",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "기술",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_earthquake_real",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      20,
+      80
+    ],
+    "weight": 1,
+    "pausesGame": true,
+    "title": "진짜 지진!",
+    "text": "이번엔 진짜 지진이야! 대피해야 해!",
+    "choices": [
+      {
+        "label": "침착하게 대피",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지진 속에서 침착하게 대피했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "당황!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "happiness",
+            "delta": -8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "위기"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_volunteer_teach",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "교육자"
+      },
+      {
+        "kind": "ageRange",
+        "min": 50,
+        "max": 85
+      }
+    ],
+    "ageRange": [
+      50,
+      85
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "무료 경제 교실",
+    "text": "교육자 경험으로 동네에서 무료 경제 교실을 열까?",
+    "choices": [
+      {
+        "label": "열겠습니다!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "무료 경제 교실을 열어 아이들을 가르쳤다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "은퇴했으니...",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "체인",
+      "교육",
+      "사회"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_stargazing",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 95
+      }
+    ],
+    "ageRange": [
+      40,
+      95
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "별 보는 밤",
+    "text": "맑은 밤하늘에 별이 쏟아져. 잠시 쉬어갈까?",
+    "choices": [
+      {
+        "label": "별을 센다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "별이 쏟아지는 밤하늘 아래서 인생을 생각했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "따뜻한 이불이 좋아",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "감성"
+    ],
+    "oneShot": false
   }
 ]
