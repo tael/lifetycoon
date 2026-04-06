@@ -5831,5 +5831,404 @@
       "병맛"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_dream_journal",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      20,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "꿈 일기",
+    "text": "자기 전에 꿈 일기를 쓰기 시작했어. 신기한 꿈이 많아!",
+    "choices": [
+      {
+        "label": "매일 쓴다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "addTrait",
+            "trait": "몽상가"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "귀찮아",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_earthquake_stocks",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      25,
+      65
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "자연재해 뉴스",
+    "text": "해외에서 큰 자연재해! 글로벌 시장이 흔들려!",
+    "choices": [
+      {
+        "label": "패닉 매도",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "META",
+            "multiplier": 0.7
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "BORA",
+            "multiplier": 0.8
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "장기 관점 유지",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "META",
+            "multiplier": 0.7
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "BORA",
+            "multiplier": 0.8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "기부한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "META",
+            "multiplier": 0.7
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "주식",
+      "위기"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_family_vacation",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "기혼"
+      },
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      35,
+      55
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "가족 여행",
+    "text": "가족 여행을 계획해볼까? 아이도 좋아할 거야!",
+    "choices": [
+      {
+        "label": "해외여행! (500만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "온 가족이 해외여행을 다녀왔다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "국내여행 (100만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "집에서 쉰다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "중년기",
+      "가족"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_market_rumor",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      18,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "주식 루머",
+    "text": "온라인에 '레전드 치킨이 M&A 된다'는 루머가!",
+    "choices": [
+      {
+        "label": "루머 믿고 매수!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "LEGC",
+            "multiplier": 1.4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "주식 루머를 믿고 레전드 치킨을 매수했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "루머는 루머일 뿐",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "LEGC",
+            "multiplier": 1.4
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "주식"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_birthday_party_40",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 40
+      }
+    ],
+    "ageRange": [
+      40,
+      41
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "40번째 생일!",
+    "text": "40살 생일이다! 반이나 왔어! 어떻게 보낼까?",
+    "choices": [
+      {
+        "label": "친구들과 파티!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "40번째 생일을 친구들과 화려하게 축하했다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "혼자 조용히 회고",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "중년기",
+      "생일"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_crypto_hype",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      18,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "가상화폐 열풍",
+    "text": "모두가 가상화폐에 열광해! 투자할까?",
+    "choices": [
+      {
+        "label": "100만원 투자!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "가상화폐에 투자했다 (결과는...)",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "위험해 보여, 패스",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "신중함"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "소액만 (10만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "기술",
+      "병맛"
+    ],
+    "oneShot": true
   }
 ]
