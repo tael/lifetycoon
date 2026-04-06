@@ -8018,5 +8018,571 @@
       "금융"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_piano",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 16
+      }
+    ],
+    "ageRange": [
+      10,
+      16
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "피아노 배우기",
+    "text": "피아노를 배우고 싶어!",
+    "choices": [
+      {
+        "label": "레슨 시작",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "음악가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "피아노를 배우기 시작했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "다음에",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "유년기",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_coding",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 14,
+        "max": 25
+      }
+    ],
+    "ageRange": [
+      14,
+      25
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "코딩 배우기",
+    "text": "컴퓨터 프로그래밍을 배워볼까?",
+    "choices": [
+      {
+        "label": "시작!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "코딩마스터"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "코딩을 배워 새로운 세계가 열렸다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "어렵겠다",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "교육",
+      "기술"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_coding_startup",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "코딩마스터"
+      },
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      22,
+      40
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "IT 스타트업!",
+    "text": "코딩 실력으로 앱을 만들었더니 투자 제안이!",
+    "choices": [
+      {
+        "label": "사업화!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 20000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "IT사업가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "직접 만든 앱으로 IT 사업을 시작했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "취미로만",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "체인",
+      "기술",
+      "창업"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_volunteer_abroad",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 35
+      }
+    ],
+    "ageRange": [
+      20,
+      35
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "해외 봉사",
+    "text": "해외 봉사활동 프로그램에 참가할 기회!",
+    "choices": [
+      {
+        "label": "간다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "글로벌"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "해외 봉사활동으로 시야가 넓어졌다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "국내 봉사로",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "사회",
+      "여행"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_pension_plan",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      30,
+      50
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "연금 가입 권유",
+    "text": "국민연금 추가 가입을 권유받았어!",
+    "choices": [
+      {
+        "label": "가입한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "연금준비"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "이미 충분해",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "교육",
+      "금융"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_fashion_trend",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 35
+      }
+    ],
+    "ageRange": [
+      15,
+      35
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "패션 유행",
+    "text": "요즘 유행하는 옷을 사고 싶어!",
+    "choices": [
+      {
+        "label": "풀코디!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "작년 옷 입기",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "cash",
+            "delta": 100000
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "일상",
+      "소비"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_contest_win",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      15,
+      40
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "대회 우승!",
+    "text": "참가한 대회에서 1등을 했어!",
+    "choices": [
+      {
+        "label": "상금 받기!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "대회에서 우승해 영광의 순간을 맛봤다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      }
+    ],
+    "tags": [
+      "도전",
+      "이벤트"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_friendship_crisis",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      15,
+      40
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "친구와 다툼",
+    "text": "절친과 크게 싸웠어... 어떡하지?",
+    "choices": [
+      {
+        "label": "먼저 사과한다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "자존심 접고 먼저 사과해 우정을 지켰다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "시간이 해결해줄 거야",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "새 친구 사귄다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 4
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_garden_therapy",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 50,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      50,
+      90
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "텃밭 가꾸기",
+    "text": "옥상에 작은 텃밭을 만들까?",
+    "choices": [
+      {
+        "label": "시작한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "도시농부"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "귀찮아",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "노년기",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_stock_guru",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "ETF이해"
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      30,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "투자 고수 등극",
+    "text": "ETF 지식으로 투자 커뮤니티에서 유명해졌어!",
+    "choices": [
+      {
+        "label": "투자 강의 시작",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "투자 고수로 인정받아 강의를 시작했다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "조용히 투자만",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "체인",
+      "주식",
+      "교육"
+    ],
+    "oneShot": true
   }
 ]
