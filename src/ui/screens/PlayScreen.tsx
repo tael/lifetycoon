@@ -460,6 +460,11 @@ function StockRow({
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {stock.name}
+          {(stock as any).dividendRate > 0 && (
+            <span style={{ fontSize: '0.6rem', color: 'var(--success)', marginLeft: 4, fontWeight: 400 }}>
+              배당{((stock as any).dividendRate * 100).toFixed(0)}%
+            </span>
+          )}
         </div>
         <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
           <span style={{ color: price > stock.basePrice ? 'var(--success)' : price < stock.basePrice ? 'var(--danger)' : 'inherit' }}>
