@@ -1,0 +1,110 @@
+[
+  {
+    "id": "student",
+    "title": "학생",
+    "salary": 50000,
+    "minAge": 10,
+    "recommendedAssets": 0,
+    "iconEmoji": "📚",
+    "flavorText": "공부하고 용돈 받는 중"
+  },
+  {
+    "id": "parttime",
+    "title": "편의점 알바",
+    "salary": 120000,
+    "minAge": 15,
+    "recommendedAssets": 0,
+    "iconEmoji": "🏪",
+    "flavorText": "삼각김밥 전문가"
+  },
+  {
+    "id": "officeworker",
+    "title": "회사원",
+    "salary": 300000,
+    "minAge": 22,
+    "recommendedAssets": 0,
+    "iconEmoji": "💼",
+    "flavorText": "9시 출근 6시 퇴근 (그럴 리가)"
+  },
+  {
+    "id": "youtuber",
+    "title": "유튜버",
+    "salary": 250000,
+    "minAge": 15,
+    "recommendedAssets": 500000,
+    "iconEmoji": "📹",
+    "flavorText": "좋아요 누르고 구독!"
+  },
+  {
+    "id": "scientist",
+    "title": "과학자",
+    "salary": 400000,
+    "minAge": 28,
+    "recommendedAssets": 0,
+    "iconEmoji": "🔬",
+    "flavorText": "우주의 비밀을 찾는 중"
+  },
+  {
+    "id": "chef",
+    "title": "셰프",
+    "salary": 350000,
+    "minAge": 20,
+    "recommendedAssets": 200000,
+    "iconEmoji": "👨\u200d🍳",
+    "flavorText": "떡볶이로 세계 1등"
+  },
+  {
+    "id": "ceo",
+    "title": "사장님",
+    "salary": 800000,
+    "minAge": 30,
+    "recommendedAssets": 10000000,
+    "iconEmoji": "👔",
+    "flavorText": "회사 대표, 회의 100개"
+  },
+  {
+    "id": "artist",
+    "title": "예술가",
+    "salary": 180000,
+    "minAge": 18,
+    "recommendedAssets": 300000,
+    "iconEmoji": "🎨",
+    "flavorText": "그림이 마음을 말해요"
+  },
+  {
+    "id": "athlete",
+    "title": "운동선수",
+    "salary": 600000,
+    "minAge": 16,
+    "recommendedAssets": 0,
+    "iconEmoji": "🏃",
+    "flavorText": "땀방울의 힘"
+  },
+  {
+    "id": "doctor",
+    "title": "의사",
+    "salary": 700000,
+    "minAge": 30,
+    "recommendedAssets": 5000000,
+    "iconEmoji": "🏥",
+    "flavorText": "아픈 곳을 고치는 사람"
+  },
+  {
+    "id": "teacher",
+    "title": "선생님",
+    "salary": 320000,
+    "minAge": 24,
+    "recommendedAssets": 0,
+    "iconEmoji": "🍎",
+    "flavorText": "학생들의 꿈을 지원"
+  },
+  {
+    "id": "retired",
+    "title": "은퇴자",
+    "salary": 100000,
+    "minAge": 65,
+    "recommendedAssets": 0,
+    "iconEmoji": "🌴",
+    "flavorText": "이제는 쉬엄쉬엄"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "ticker": "DDUK",
+    "name": "떡볶이 제국",
+    "sector": "분식",
+    "basePrice": 1200,
+    "drift": 0.08,
+    "volatility": 0.35,
+    "iconEmoji": "🌶️",
+    "flavorText": "매콤달콤 제국의 꿈"
+  },
+  {
+    "ticker": "RAIN",
+    "name": "무지개 전자",
+    "sector": "기술",
+    "basePrice": 3500,
+    "drift": 0.12,
+    "volatility": 0.25,
+    "iconEmoji": "🌈",
+    "flavorText": "색색깔 기술의 힘"
+  },
+  {
+    "ticker": "PENG",
+    "name": "펭귄 택배",
+    "sector": "물류",
+    "basePrice": 2200,
+    "drift": 0.06,
+    "volatility": 0.18,
+    "iconEmoji": "🐧",
+    "flavorText": "얼음길도 배달!"
+  },
+  {
+    "ticker": "TOFU",
+    "name": "두부공주",
+    "sector": "식품",
+    "basePrice": 900,
+    "drift": 0.04,
+    "volatility": 0.12,
+    "iconEmoji": "🍱",
+    "flavorText": "하얗고 부드러운 왕국"
+  },
+  {
+    "ticker": "ROCK",
+    "name": "로켓김밥",
+    "sector": "분식",
+    "basePrice": 5000,
+    "drift": 0.15,
+    "volatility": 0.45,
+    "iconEmoji": "🚀",
+    "flavorText": "김밥이 우주로 갑니다"
+  },
+  {
+    "ticker": "CATB",
+    "name": "고양이 은행",
+    "sector": "금융",
+    "basePrice": 7800,
+    "drift": 0.05,
+    "volatility": 0.10,
+    "iconEmoji": "🐱",
+    "flavorText": "냥냥 저축왕"
+  },
+  {
+    "ticker": "META",
+    "name": "메타우주여행",
+    "sector": "엔터",
+    "basePrice": 12000,
+    "drift": 0.18,
+    "volatility": 0.55,
+    "iconEmoji": "🌌",
+    "flavorText": "꿈속의 우주여행"
+  },
+  {
+    "ticker": "LEGC",
+    "name": "레전드 치킨",
+    "sector": "식품",
+    "basePrice": 4200,
+    "drift": 0.10,
+    "volatility": 0.22,
+    "iconEmoji": "🍗",
+    "flavorText": "바삭한 전설"
+  },
+  {
+    "ticker": "BORA",
+    "name": "보라보라 화장품",
+    "sector": "뷰티",
+    "basePrice": 6300,
+    "drift": 0.09,
+    "volatility": 0.28,
+    "iconEmoji": "💜",
+    "flavorText": "반짝이는 아름다움"
+  },
+  {
+    "ticker": "DOGE",
+    "name": "댕댕이 사료",
+    "sector": "반려",
+    "basePrice": 1800,
+    "drift": 0.07,
+    "volatility": 0.15,
+    "iconEmoji": "🐕",
+    "flavorText": "멍멍이 행복"
+  }
+]

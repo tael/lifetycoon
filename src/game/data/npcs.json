@@ -1,0 +1,6 @@
+[
+  { "id": "npc1", "name": "민수", "personality": "conservative", "iconEmoji": "🧑" },
+  { "id": "npc2", "name": "지윤", "personality": "aggressive", "iconEmoji": "👧" },
+  { "id": "npc3", "name": "럭키", "personality": "lucky", "iconEmoji": "🍀" },
+  { "id": "npc4", "name": "서연", "personality": "scholarly", "iconEmoji": "📚" }
+]

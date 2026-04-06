@@ -1,0 +1,74 @@
+[
+  {
+    "id": "first_house",
+    "title": "첫 집 마련",
+    "description": "내 이름의 집 한 채 갖기",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 30000000 },
+    "achieved": false,
+    "rewardKeyMoment": "드디어 자기 집을 갖게 되었다",
+    "iconEmoji": "🏠"
+  },
+  {
+    "id": "space_trip",
+    "title": "우주여행",
+    "description": "진짜 우주로 떠나보기",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 100000000 },
+    "achieved": false,
+    "rewardKeyMoment": "우주선을 타고 지구를 내려다봤다",
+    "iconEmoji": "🚀"
+  },
+  {
+    "id": "ddukbokki_shop",
+    "title": "떡볶이 가게 창업",
+    "description": "떡볶이 제국 주식 100주 모으기",
+    "targetCondition": { "kind": "stockOwnedShares", "ticker": "DDUK", "shares": 100 },
+    "achieved": false,
+    "rewardKeyMoment": "세상에서 제일 매운 떡볶이 가게를 열었다",
+    "iconEmoji": "🍡"
+  },
+  {
+    "id": "rich_youth",
+    "title": "30대 부자",
+    "description": "30세에 1천만원 모으기",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 10000000 },
+    "achieved": false,
+    "rewardKeyMoment": "30대에 이미 천만원의 여유가 있었다",
+    "iconEmoji": "💰"
+  },
+  {
+    "id": "happy_life",
+    "title": "행복한 인생",
+    "description": "평생 행복도 평균 높게 유지",
+    "targetCondition": { "kind": "happinessGte", "value": 85 },
+    "achieved": false,
+    "rewardKeyMoment": "매일 웃는 날이 많았다",
+    "iconEmoji": "😊"
+  },
+  {
+    "id": "ceo_dream",
+    "title": "사장이 되자",
+    "description": "회사 대표가 되기",
+    "targetCondition": { "kind": "jobHeld", "jobId": "ceo" },
+    "achieved": false,
+    "rewardKeyMoment": "자기 회사의 대표가 되었다",
+    "iconEmoji": "👔"
+  },
+  {
+    "id": "long_life",
+    "title": "100세까지 건강하게",
+    "description": "100세 도달",
+    "targetCondition": { "kind": "ageReached", "value": 100 },
+    "achieved": false,
+    "rewardKeyMoment": "100번째 생일 케이크를 불었다",
+    "iconEmoji": "🎂"
+  },
+  {
+    "id": "billionaire",
+    "title": "10억 부자",
+    "description": "10억원 모으기",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 1000000000 },
+    "achieved": false,
+    "rewardKeyMoment": "10억의 주인이 되었다",
+    "iconEmoji": "🤑"
+  }
+]
