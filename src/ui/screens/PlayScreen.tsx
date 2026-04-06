@@ -26,6 +26,7 @@ export function PlayScreen() {
   const prices = useGameStore((s) => s.prices);
   const job = useGameStore((s) => s.job);
   const dreams = useGameStore((s) => s.dreams);
+  const traits = useGameStore((s) => s.traits);
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
   const advanceYear = useGameStore((s) => s.advanceYear);
@@ -146,6 +147,20 @@ export function PlayScreen() {
         {job && (
           <div className="text-muted" style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--sp-xs)' }}>
             {job.iconEmoji} {job.title} (월 {formatWon(job.salary)})
+          </div>
+        )}
+        {traits.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', marginTop: 'var(--sp-xs)' }}>
+            {traits.map((t) => (
+              <span key={t} style={{
+                background: 'var(--accent-light)',
+                color: 'var(--accent)',
+                padding: '1px 8px',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '0.65rem',
+                fontWeight: 600,
+              }}>#{t}</span>
+            ))}
           </div>
         )}
       </div>
@@ -348,7 +363,9 @@ function StockRow({
           {stock.name}
         </div>
         <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-          {formatWon(price)}
+          <span style={{ color: price > stock.basePrice ? 'var(--success)' : price < stock.basePrice ? 'var(--danger)' : 'inherit' }}>
+            {price > stock.basePrice ? '▲' : price < stock.basePrice ? '▼' : '─'}{formatWon(price)}
+          </span>
           {holding && ` · ${holding.shares}주`}
           {holding && (
             <span style={{ color: pnl >= 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
