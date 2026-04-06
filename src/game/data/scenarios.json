@@ -13488,5 +13488,1355 @@
       "노년기"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_magic_show",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 15
+      }
+    ],
+    "ageRange": [
+      10,
+      15
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "마술쇼!",
+    "text": "학교에서 마술쇼를 해볼까?",
+    "choices": [
+      {
+        "label": "마술사!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "마술사"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "관객으로",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "유년기",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_lemonade",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 14
+      }
+    ],
+    "ageRange": [
+      10,
+      14
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "레모네이드 가판대",
+    "text": "레모네이드를 만들어 팔아볼까? 첫 사업!",
+    "choices": [
+      {
+        "label": "팔아본다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "addTrait",
+            "trait": "꼬마사업가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "레모네이드 가판대로 첫 사업을 경험했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "만들기 귀찮아",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "유년기",
+      "창업",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_arcade",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 18
+      }
+    ],
+    "ageRange": [
+      10,
+      18
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "오락실!",
+    "text": "친구들이랑 오락실 갈까?",
+    "choices": [
+      {
+        "label": "가자!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "공부해야 해",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "유년기",
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_camping_trip",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      15,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "캠핑 여행",
+    "text": "주말 캠핑 어때?",
+    "choices": [
+      {
+        "label": "떠난다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": 8
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "벌레 싫어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "여행",
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_bike_ride",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      12,
+      60
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "자전거 라이딩",
+    "text": "한강 자전거 도로를 달려볼까?",
+    "choices": [
+      {
+        "label": "달린다!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "걷는 게 좋아",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "건강",
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_recycling",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      12,
+      70
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "재활용 챌린지",
+    "text": "환경을 위한 재활용 챌린지에 참여할까?",
+    "choices": [
+      {
+        "label": "참여!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "addTrait",
+            "trait": "환경지킴이"
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "다음에",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "사회"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_board_game",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      10,
+      40
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "보드게임의 밤",
+    "text": "가족/친구와 경제 보드게임!",
+    "choices": [
+      {
+        "label": "즐기자!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "폰게임이 좋아",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 4
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "일상",
+      "교육"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_meditation",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      25,
+      80
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "명상 시작",
+    "text": "마음의 평화를 위한 명상을 시작해볼까?",
+    "choices": [
+      {
+        "label": "옴...",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "명상러"
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "가만히 있기 어려워",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "건강",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_concert",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 14,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      14,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "콘서트!",
+    "text": "좋아하는 가수의 콘서트 티켓이 떴어!",
+    "choices": [
+      {
+        "label": "가야지!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -150000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "콘서트에서 최고의 밤을 보냈다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "비싸...",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "일상",
+      "관계"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_plant_grow",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      15,
+      60
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "화분 키우기",
+    "text": "작은 화분을 키워볼까? 식물 집사 도전!",
+    "choices": [
+      {
+        "label": "시작!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          },
+          {
+            "kind": "addTrait",
+            "trait": "식물집사"
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "귀찮아",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "일상",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_street_food",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      12,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "길거리 음식",
+    "text": "야시장에서 맛있는 냄새가!",
+    "choices": [
+      {
+        "label": "다 사먹기!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "health",
+            "delta": -2
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "한 개만",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_volunteer_animals",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      15,
+      60
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "유기동물 봉사",
+    "text": "유기동물 보호소에서 봉사할까?",
+    "choices": [
+      {
+        "label": "봉사한다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "동물사랑"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "마음은 아프지만...",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "사회",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_piggy_bank",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 12
+      }
+    ],
+    "ageRange": [
+      12,
+      13
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "저금통이 가득!",
+    "text": "저금통이 드디어 꽉 찼어! 10만원!",
+    "choices": [
+      {
+        "label": "은행에 넣는다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 100000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "저금통이 가득 차서 은행에 첫 입금했다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "장난감 사러!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "유년기",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_magic_show",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "마술사"
+      },
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      18,
+      40
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "마술 공연!",
+    "text": "어릴 때 배운 마술로 공연을 열어볼까?",
+    "choices": [
+      {
+        "label": "공연!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "마술 공연으로 관객을 사로잡았다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "취미로만",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "체인",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_lemonade_empire",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "꼬마사업가"
+      },
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      22,
+      40
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "레모네이드 → 카페 창업!",
+    "text": "어릴 때 레모네이드 팔던 경험으로 카페를 열까?",
+    "choices": [
+      {
+        "label": "카페 오픈!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -8000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "카페사장"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "레모네이드 소년이 카페 사장이 됐다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "직장이 안전해",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "체인",
+      "창업"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_photo_album",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 60,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      60,
+      90
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "사진첩 정리",
+    "text": "오래된 사진첩을 꺼내 봤어. 추억이 가득...",
+    "choices": [
+      {
+        "label": "디지털로 보관",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오래된 사진첩을 정리하며 소중한 추억을 떠올렸다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "그냥 닫는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "노년기",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_ice_cream",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 30
+      }
+    ],
+    "ageRange": [
+      10,
+      30
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "아이스크림 트럭!",
+    "text": "아이스크림 트럭이 왔어! 딩동~",
+    "choices": [
+      {
+        "label": "하나 사먹기!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.05
+      },
+      {
+        "label": "다이어트 중!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 3
+          },
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "일상",
+      "유년기"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_chain_env_award",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "환경지킴이"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "ESG투자자"
+      }
+    ],
+    "ageRange": [
+      35,
+      80
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "환경 공로상!",
+    "text": "환경 활동과 ESG 투자로 공로상 후보에!",
+    "choices": [
+      {
+        "label": "수상!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "환경챔피언"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "환경 공로상을 수상해 지구를 지키는 사람이 됐다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      }
+    ],
+    "tags": [
+      "체인",
+      "사회"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_cooking_class",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "요리 교실",
+    "text": "유명 셰프의 요리 클래스에 참가할까?",
+    "choices": [
+      {
+        "label": "참가!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "유튜브 보고 독학",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "일상",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_wifi_down",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 13,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      13,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "와이파이 끊김!",
+    "text": "인터넷이 안 돼! 하루를 어떻게 보내지?",
+    "choices": [
+      {
+        "label": "책 읽기",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "밖에 나가기",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "수리 기사 부르기",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -50000
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_teeth_fairy",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 12
+      }
+    ],
+    "ageRange": [
+      10,
+      12
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "이빨 요정",
+    "text": "이가 빠졌어! 베개 밑에 놓으면 돈이 온대!",
+    "choices": [
+      {
+        "label": "베개 밑에!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "이빨 요정이 5000원을 두고 갔다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "그런 건 없어!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "유년기",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_diy_project",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      20,
+      55
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "DIY 프로젝트",
+    "text": "직접 가구를 만들어볼까?",
+    "choices": [
+      {
+        "label": "만든다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "DIY장인"
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "사는 게 낫지",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "취미",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_nostalgia_game",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      30,
+      60
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "옛날 게임 발견",
+    "text": "옛날에 하던 게임기를 발견! 추억이...",
+    "choices": [
+      {
+        "label": "밤새 플레이",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": -3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "옛날 게임기를 발견하고 밤새 추억에 빠졌다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "박물관에 기증",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "일상",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_fortune_cookie",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      15,
+      80
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "포춘쿠키",
+    "text": "포춘쿠키를 깼더니... '오늘 투자하면 대박!'이래!",
+    "choices": [
+      {
+        "label": "믿는다! 주식 매수!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.2
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "쿠키나 먹자",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "병맛",
+      "행운"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_250th_thank_you",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 50
+      }
+    ],
+    "ageRange": [
+      50,
+      51
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "인생 감사",
+    "text": "50세, 돌아보니 참 감사한 인생이야.",
+    "choices": [
+      {
+        "label": "감사합니다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "50세에 인생에 깊은 감사를 느꼈다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      }
+    ],
+    "tags": [
+      "감성"
+    ],
+    "oneShot": true
   }
 ]
