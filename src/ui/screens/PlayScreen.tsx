@@ -184,8 +184,20 @@ export function PlayScreen() {
           </div>
           <SpeedControl current={speedMultiplier} onChange={setSpeed} />
         </div>
-        <div className="progress-bar">
+        <div className="progress-bar" style={{ position: 'relative' }}>
           <div className="progress-bar__fill" style={{ width: `${progress * 100}%` }} />
+          {/* Milestone markers */}
+          {[20, 30, 40, 50, 60, 70, 80, 90].map((a) => (
+            <div key={a} style={{
+              position: 'absolute',
+              left: `${((a - 10) / 90) * 100}%`,
+              top: -1,
+              width: 2,
+              height: 14,
+              background: Math.floor(character.age) >= a ? 'var(--accent)' : 'rgba(0,0,0,0.1)',
+              borderRadius: 1,
+            }} />
+          ))}
         </div>
         <div className="flex flex-between text-muted" style={{ fontSize: 'var(--font-size-xs)', marginTop: 2 }}>
           <span>10세</span>
