@@ -92,6 +92,41 @@ const ACHIEVEMENTS: Achievement[] = [
     emoji: '💎',
     check: (e) => e.finalAssets >= 1000000000,
   },
+  {
+    id: 'many_moments',
+    title: '드라마 주인공',
+    description: '핵심 인생 순간 10개 이상!',
+    emoji: '🎬',
+    check: (e) => e.keyMomentsSelected.length >= 8,
+  },
+  {
+    id: 'speed_run',
+    title: '스피드 러너',
+    description: '5번 이상 플레이!',
+    emoji: '⚡',
+    check: (_e, m) => m.totalGamesPlayed >= 5,
+  },
+  {
+    id: 'ten_games',
+    title: '인생 10회차',
+    description: '게임을 10번 완료!',
+    emoji: '🔟',
+    check: (_e, m) => m.totalGamesPlayed >= 10,
+  },
+  {
+    id: 'balanced_life',
+    title: '균형 잡힌 인생',
+    description: '행복도 70+, 자산 5000만+, 꿈 2개+ 달성!',
+    emoji: '⚖️',
+    check: (e) => e.finalHappiness >= 70 && e.finalAssets >= 50000000 && e.dreamsAchieved >= 2,
+  },
+  {
+    id: 'no_dreams',
+    title: '꿈 없는 자유인',
+    description: '꿈 0개 달성으로 C등급!',
+    emoji: '🍃',
+    check: (e) => e.dreamsAchieved === 0 && e.grade === 'C',
+  },
 ];
 
 const STORAGE_KEY = 'lifetycoon-kids:achievements';
