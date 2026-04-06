@@ -116,6 +116,12 @@ export function PlayScreen() {
   const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
   const totalAssets = cash + bank.balance + stocksValue;
 
+  // Stock portfolio return
+  const totalCost = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
+  const stockReturnPct = totalCost > 0
+    ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%`
+    : undefined;
+
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
   const myRank = sortedNpcs.filter((n) => n.currentAssets > totalAssets).length + 1;
@@ -222,7 +228,7 @@ export function PlayScreen() {
         <div className="flex flex-col gap-xs">
           <AssetRow label="현금" value={cash} />
           <AssetRow label="예금" value={bank.balance} extra={`연 ${(bank.interestRate * 100).toFixed(1)}%`} />
-          <AssetRow label="주식" value={stocksValue} />
+          <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
         </div>
         <div className="flex gap-xs" style={{ marginTop: 'var(--sp-sm)' }}>
           <QuickActionBtn label="입금 10만" onClick={() => {
@@ -290,7 +296,11 @@ export function PlayScreen() {
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{npc.name}</div>
                 <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-                  {npc.status}
+                  {npc.currentAssets < totalAssets * 0.5
+                    ? '😢 부러워...'
+                    : npc.currentAssets > totalAssets * 2
+                      ? '😏 나를 이겨봐!'
+                      : npc.status}
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
