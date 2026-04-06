@@ -174,6 +174,13 @@ export function PlayScreen() {
             {job.iconEmoji} {job.title} (월 {formatWon(job.salary)})
           </div>
         )}
+        {/* Tamagotchi care buttons */}
+        <div className="flex gap-xs" style={{ marginTop: 'var(--sp-sm)', justifyContent: 'center' }}>
+          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={3} />
+          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={5} />
+          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={3} />
+          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={3} />
+        </div>
         {traits.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', marginTop: 'var(--sp-xs)' }}>
             {traits.map((t) => (
@@ -509,6 +516,48 @@ function TradBtn({ label, color, onClick, disabled }: { label: string; color: 'b
       }}
     >
       {isBuy ? '▲' : '▼'}{label}
+    </button>
+  );
+}
+
+function CareBtn({ emoji, label, cost, stat, delta }: {
+  emoji: string; label: string; cost: number; stat: string; delta: number;
+}) {
+  const cash = useGameStore((s) => s.cash);
+  const character = useGameStore((s) => s.character);
+  const disabled = cash < cost || (character as any)[stat] >= 95;
+  return (
+    <button
+      onClick={() => {
+        const st = useGameStore.getState();
+        if (st.cash < cost) return;
+        useGameStore.setState({
+          cash: st.cash - cost,
+          character: {
+            ...st.character,
+            [stat]: Math.min(100, (st.character as any)[stat] + delta),
+          },
+        });
+        showToast(`${emoji} ${label}! +${delta}`, emoji, 'success', 1000);
+      }}
+      disabled={disabled}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '4px 8px',
+        borderRadius: 'var(--radius-md)',
+        background: disabled ? '#f5f5f5' : 'var(--bg-secondary)',
+        border: '1px solid #eee',
+        fontSize: '0.65rem',
+        opacity: disabled ? 0.4 : 1,
+        cursor: disabled ? 'default' : 'pointer',
+        minWidth: 48,
+      }}
+    >
+      <span style={{ fontSize: '1.2rem' }}>{emoji}</span>
+      <span>{label}</span>
+      <span className="text-muted" style={{ fontSize: '0.55rem' }}>{formatWon(cost)}</span>
     </button>
   );
 }
