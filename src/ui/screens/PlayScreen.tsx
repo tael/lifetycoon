@@ -230,13 +230,19 @@ export function PlayScreen() {
           <AssetRow label="예금" value={bank.balance} extra={`연 ${(bank.interestRate * 100).toFixed(1)}%`} />
           <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
         </div>
-        <div className="flex gap-xs" style={{ marginTop: 'var(--sp-sm)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
           <QuickActionBtn label="입금 10만" onClick={() => {
-            if (deposit(Math.min(cash, 100000))) showToast('예금 완료!', '🏦', 'info', 1500);
+            if (deposit(100000)) showToast('10만원 입금!', '🏦', 'info', 1200);
           }} disabled={cash < 100000} />
           <QuickActionBtn label="출금 10만" onClick={() => {
-            if (withdraw(Math.min(bank.balance, 100000))) showToast('출금 완료!', '💸', 'info', 1500);
+            if (withdraw(100000)) showToast('10만원 출금!', '💸', 'info', 1200);
           }} disabled={bank.balance < 100000} />
+          <QuickActionBtn label="입금 100만" onClick={() => {
+            if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'success', 1200);
+          }} disabled={cash < 1000000} />
+          <QuickActionBtn label="전액 입금" onClick={() => {
+            if (cash > 0 && deposit(cash)) showToast('전액 입금!', '🏦', 'success', 1200);
+          }} disabled={cash <= 0} />
         </div>
       </div>
 

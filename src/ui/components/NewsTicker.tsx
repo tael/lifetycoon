@@ -1,5 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 
+const ECON_TIPS = [
+  '💡 팁: 일찍 시작할수록 복리 효과가 커요!',
+  '💡 팁: 분산 투자 = 달걀을 여러 바구니에!',
+  '💡 팁: 예금은 안전, 주식은 성장 가능성!',
+  '💡 팁: 충동 구매 대신 필요한 것만 사기!',
+  '💡 팁: 수입의 일부를 꼭 저축하자!',
+  '💡 팁: 빚은 적을수록 마음이 편해요!',
+  '💡 팁: 투자는 오래 기다리는 게 중요해요!',
+  '💡 팁: 남들이 무서워할 때가 기회일 수 있어!',
+];
+
 const NEWS_POOL = [
   '📰 떡볶이 가격이 올해도 올랐습니다',
   '📺 펭귄 택배, 북극까지 배달 성공',
@@ -31,8 +42,10 @@ export function NewsTicker({ age }: { age: number }) {
     const intAge = Math.floor(age);
     if (intAge !== prevAge.current && intAge % 3 === 0) {
       prevAge.current = intAge;
-      const idx = Math.floor(Math.random() * NEWS_POOL.length);
-      setText(NEWS_POOL[idx]);
+      // 30% chance of econ tip, 70% news
+      const pool = Math.random() < 0.3 ? ECON_TIPS : NEWS_POOL;
+      const idx = Math.floor(Math.random() * pool.length);
+      setText(pool[idx]);
       const timer = setTimeout(() => setText(''), 4000);
       return () => clearTimeout(timer);
     }
