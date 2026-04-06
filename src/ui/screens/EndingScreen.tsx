@@ -3,6 +3,8 @@ import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
 import { formatWon } from '../../game/domain/asset';
+import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
+import { ConfettiBurst } from '../components/MoneyAnimation';
 import type { Grade } from '../../game/types';
 
 const GRADE_EMOJI: Record<Grade, string> = { S: '👑', A: '🌟', B: '🙂', C: '🌱' };
@@ -19,9 +21,18 @@ export function EndingScreen() {
   const resetAll = useGameStore((s) => s.resetAll);
   const [visibleLines, setVisibleLines] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
+  const [showAchConfetti, setShowAchConfetti] = useState(false);
 
   useEffect(() => {
     if (!ending) return;
+    // Check achievements
+    const { newlyUnlocked } = checkAndSaveAchievements(ending);
+    if (newlyUnlocked.length > 0) {
+      setNewAchievements(newlyUnlocked);
+      setShowAchConfetti(true);
+      setTimeout(() => setShowAchConfetti(false), 3000);
+    }
     const total = ending.epitaph.length;
     let i = 0;
     const timer = setInterval(() => {
@@ -122,6 +133,30 @@ export function EndingScreen() {
         </div>
       </div>
 
+      {/* New Achievements */}
+      {newAchievements.length > 0 && (
+        <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center', border: '2px solid var(--grade-s)' }}>
+          <div style={{ fontWeight: 800, fontSize: 'var(--font-size-lg)', marginBottom: 'var(--sp-sm)' }}>
+            🏆 업적 달성!
+          </div>
+          {newAchievements.map((a) => (
+            <div key={a.id} style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--sp-sm)',
+              padding: '6px 0',
+              borderBottom: '1px solid #f0ebe3',
+            }}>
+              <span style={{ fontSize: '1.8rem' }}>{a.emoji}</span>
+              <div style={{ textAlign: 'left' }}>
+                <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>{a.title}</div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>{a.description}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Missed dreams — replay hook */}
       {ending.dreamsAchieved < ending.totalDreams && (
         <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center' }}>
@@ -153,6 +188,8 @@ export function EndingScreen() {
           🔄 다른 인생 살아보기
         </button>
       </div>
+
+      {showAchConfetti && <ConfettiBurst />}
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }

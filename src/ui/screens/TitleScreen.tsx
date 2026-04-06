@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
+import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
 
 export function TitleScreen() {
   const goTo = useGameStore((s) => s.goTo);
@@ -93,6 +94,34 @@ export function TitleScreen() {
           )}
         </div>
       </div>
+
+      {/* Achievement badge */}
+      {getUnlockedCount() > 0 && (
+        <div className="card" style={{ width: '100%', maxWidth: 360, textAlign: 'center' }}>
+          <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
+            🏆 업적 {getUnlockedCount()}/{getTotalCount()}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
+            {getAllAchievements().map((a) => {
+              const unlocked = loadUnlocked().some((u) => u.id === a.id);
+              return (
+                <span
+                  key={a.id}
+                  title={unlocked ? `${a.title}: ${a.description}` : '???'}
+                  style={{
+                    fontSize: '1.5rem',
+                    opacity: unlocked ? 1 : 0.2,
+                    filter: unlocked ? 'none' : 'grayscale(1)',
+                    cursor: 'default',
+                  }}
+                >
+                  {a.emoji}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {savedExists && (
         <button
