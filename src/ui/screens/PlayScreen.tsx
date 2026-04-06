@@ -142,7 +142,12 @@ export function PlayScreen() {
   const myRank = sortedNpcs.filter((n) => n.currentAssets > totalAssets).length + 1;
 
   return (
-    <div className="app-container flex flex-col gap-sm" style={{ paddingBottom: 80 }}>
+    <div className="app-container flex flex-col gap-sm" style={{
+      paddingBottom: 80,
+      background: ageGradient(Math.floor(character.age)),
+      minHeight: '100dvh',
+      transition: 'background 2s ease',
+    }}>
       {/* News Ticker */}
       <NewsTicker age={character.age} />
 
@@ -654,4 +659,14 @@ function characterSpeech(
   if (c.wisdom > 80) return '많이 배웠다!';
   if (assets > 50000000) return '부자다! 배당금 최고!';
   return '오늘도 파이팅!';
+}
+
+function ageGradient(age: number): string {
+  if (age < 15) return 'linear-gradient(180deg, #fffde7 0%, #fff8e1 100%)'; // 유년: 밝은 노랑
+  if (age < 25) return 'linear-gradient(180deg, #e8f5e9 0%, #f1f8e9 100%)'; // 청년: 상쾌한 초록
+  if (age < 40) return 'linear-gradient(180deg, #e3f2fd 0%, #e8eaf6 100%)'; // 성인: 시원한 파랑
+  if (age < 55) return 'linear-gradient(180deg, #fff3e0 0%, #fbe9e7 100%)'; // 중년: 따뜻한 주황
+  if (age < 70) return 'linear-gradient(180deg, #fce4ec 0%, #f3e5f5 100%)'; // 장년: 부드러운 핑크
+  if (age < 85) return 'linear-gradient(180deg, #ede7f6 0%, #e8eaf6 100%)'; // 노년: 차분한 보라
+  return 'linear-gradient(180deg, #efebe9 0%, #d7ccc8 100%)'; // 말년: 포근한 베이지
 }
