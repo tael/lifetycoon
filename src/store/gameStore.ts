@@ -186,8 +186,12 @@ export const useGameStore = create<GameStoreState>()(
       };
       // 2) Bank interest
       const bank = applyInterestForYears(st.bank, deltaYears);
-      // 3) Salary income + stock dividends
+      // 3) Salary income + stock dividends + pension
       const salaryIncome = st.job ? st.job.salary * 12 * deltaYears : 0;
+      // Pension: 65세+ 시 근무 연수 기반 연금 (연 50만원 × 직업 수 경험)
+      const pensionIncome = intAge >= 65
+        ? Math.round(500000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears)
+        : 0;
       const dividendIncome = st.holdings.reduce((sum, h) => {
         const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
         const divRate = (stockDef as any)?.dividendRate ?? 0;
@@ -202,7 +206,7 @@ export const useGameStore = create<GameStoreState>()(
       // 5) NPC step
       const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc));
       // 6) Dream check
-      const ctxCash = st.cash + salaryIncome + dividendIncome;
+      const ctxCash = st.cash + salaryIncome + dividendIncome + pensionIncome;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,

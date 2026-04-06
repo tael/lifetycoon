@@ -132,7 +132,9 @@ export function PlayScreen() {
   // Yearly income
   const salaryYearly = job ? job.salary * 12 : 0;
   const interestYearly = Math.round(bank.balance * bank.interestRate);
-  const yearlyIncome = salaryYearly + interestYearly + dividendIncome;
+  const intAge = Math.floor(character.age);
+  const pensionYearly = intAge >= 65 ? 500000 : 0;
+  const yearlyIncome = salaryYearly + interestYearly + dividendIncome + pensionYearly;
 
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
@@ -276,7 +278,7 @@ export function PlayScreen() {
         }}>
           📥 연 수입: {formatWon(yearlyIncome)}
           <span className="text-muted" style={{ marginLeft: 8 }}>
-            (월급 {formatWon(job?.salary ? job.salary * 12 : 0)} + 이자 {formatWon(Math.round(bank.balance * bank.interestRate))} + 배당 {formatWon(dividendIncome)})
+            (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''})
           </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
