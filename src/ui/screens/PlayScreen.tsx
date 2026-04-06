@@ -18,6 +18,7 @@ export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
   const [showMilestone, setShowMilestone] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [playTime, setPlayTime] = useState(0);
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
   const phase = useGameStore((s) => s.phase);
@@ -83,6 +84,12 @@ export function PlayScreen() {
   useEffect(() => {
     loopRef.current?.setSpeed(speedMultiplier);
   }, [speedMultiplier]);
+
+  // Play timer
+  useEffect(() => {
+    const t = setInterval(() => setPlayTime((p) => p + 1), 1000);
+    return () => clearInterval(t);
+  }, []);
 
   // Milestone + toast triggers
   useEffect(() => {
@@ -167,9 +174,14 @@ export function PlayScreen() {
       {/* Age Timeline */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
-          <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
-            {formatAge(character.age)}
-          </span>
+          <div>
+            <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
+              {formatAge(character.age)}
+            </span>
+            <span className="text-muted" style={{ fontSize: '0.6rem', marginLeft: 6 }}>
+              ⏱{Math.floor(playTime / 60)}:{(playTime % 60).toString().padStart(2, '0')}
+            </span>
+          </div>
           <SpeedControl current={speedMultiplier} onChange={setSpeed} />
         </div>
         <div className="progress-bar">
