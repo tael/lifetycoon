@@ -7,7 +7,8 @@
     "drift": 0.08,
     "volatility": 0.35,
     "iconEmoji": "🌶️",
-    "flavorText": "매콤달콤 제국의 꿈"
+    "flavorText": "매콤달콤 제국의 꿈",
+    "dividendRate": 0.02
   },
   {
     "ticker": "RAIN",
@@ -17,7 +18,8 @@
     "drift": 0.12,
     "volatility": 0.25,
     "iconEmoji": "🌈",
-    "flavorText": "색색깔 기술의 힘"
+    "flavorText": "색색깔 기술의 힘",
+    "dividendRate": 0.01
   },
   {
     "ticker": "PENG",
@@ -27,7 +29,8 @@
     "drift": 0.06,
     "volatility": 0.18,
     "iconEmoji": "🐧",
-    "flavorText": "얼음길도 배달!"
+    "flavorText": "얼음길도 배달!",
+    "dividendRate": 0.03
   },
   {
     "ticker": "TOFU",
@@ -37,7 +40,8 @@
     "drift": 0.04,
     "volatility": 0.12,
     "iconEmoji": "🍱",
-    "flavorText": "하얗고 부드러운 왕국"
+    "flavorText": "하얗고 부드러운 왕국",
+    "dividendRate": 0.04
   },
   {
     "ticker": "ROCK",
@@ -47,7 +51,8 @@
     "drift": 0.15,
     "volatility": 0.45,
     "iconEmoji": "🚀",
-    "flavorText": "김밥이 우주로 갑니다"
+    "flavorText": "김밥이 우주로 갑니다",
+    "dividendRate": 0.0
   },
   {
     "ticker": "CATB",
@@ -55,9 +60,10 @@
     "sector": "금융",
     "basePrice": 7800,
     "drift": 0.05,
-    "volatility": 0.10,
+    "volatility": 0.1,
     "iconEmoji": "🐱",
-    "flavorText": "냥냥 저축왕"
+    "flavorText": "냥냥 저축왕",
+    "dividendRate": 0.05
   },
   {
     "ticker": "META",
@@ -67,17 +73,19 @@
     "drift": 0.18,
     "volatility": 0.55,
     "iconEmoji": "🌌",
-    "flavorText": "꿈속의 우주여행"
+    "flavorText": "꿈속의 우주여행",
+    "dividendRate": 0.0
   },
   {
     "ticker": "LEGC",
     "name": "레전드 치킨",
     "sector": "식품",
     "basePrice": 4200,
-    "drift": 0.10,
+    "drift": 0.1,
     "volatility": 0.22,
     "iconEmoji": "🍗",
-    "flavorText": "바삭한 전설"
+    "flavorText": "바삭한 전설",
+    "dividendRate": 0.025
   },
   {
     "ticker": "BORA",
@@ -87,7 +95,8 @@
     "drift": 0.09,
     "volatility": 0.28,
     "iconEmoji": "💜",
-    "flavorText": "반짝이는 아름다움"
+    "flavorText": "반짝이는 아름다움",
+    "dividendRate": 0.015
   },
   {
     "ticker": "DOGE",
@@ -97,6 +106,7 @@
     "drift": 0.07,
     "volatility": 0.15,
     "iconEmoji": "🐕",
-    "flavorText": "멍멍이 행복"
+    "flavorText": "멍멍이 행복",
+    "dividendRate": 0.03
   }
 ]

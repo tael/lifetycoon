@@ -116,8 +116,14 @@ export function PlayScreen() {
   const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
   const totalAssets = cash + bank.balance + stocksValue;
 
-  // Stock portfolio return
+  // Stock portfolio return + dividends
   const totalCost = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
+  const dividendIncome = holdings.reduce((sum, h) => {
+    const def = STOCKS.find((s) => s.ticker === h.ticker);
+    const divRate = (def as any)?.dividendRate ?? 0;
+    const price = prices[h.ticker] ?? 0;
+    return sum + Math.round(price * h.shares * divRate);
+  }, 0);
   const stockReturnPct = totalCost > 0
     ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%`
     : undefined;
@@ -248,7 +254,14 @@ export function PlayScreen() {
 
       {/* Stock Board */}
       <div className="card">
-        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)' }}>📈 주식</div>
+        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
+          <span style={{ fontWeight: 700 }}>📈 주식</span>
+          {dividendIncome > 0 && (
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)' }}>
+              연 배당 +{formatWon(dividendIncome)}
+            </span>
+          )}
+        </div>
         {STOCKS.slice(0, 8).map((s: StockDef) => {
           const price = prices[s.ticker] ?? s.basePrice;
           const holding = holdings.find((h) => h.ticker === s.ticker);

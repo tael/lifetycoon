@@ -177,8 +177,14 @@ export const useGameStore = create<GameStoreState>()(
       const character = { ...st.character, age: intAge };
       // 2) Bank interest
       const bank = applyInterestForYears(st.bank, deltaYears);
-      // 3) Salary income
+      // 3) Salary income + stock dividends
       const salaryIncome = st.job ? st.job.salary * 12 * deltaYears : 0;
+      const dividendIncome = st.holdings.reduce((sum, h) => {
+        const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
+        const divRate = (stockDef as any)?.dividendRate ?? 0;
+        const price = st.prices[h.ticker] ?? 0;
+        return sum + Math.round(price * h.shares * divRate * deltaYears);
+      }, 0);
       // 4) Stock price drift
       const prices: Record<string, number> = { ...st.prices };
       for (const s of STOCKS) {
@@ -187,7 +193,7 @@ export const useGameStore = create<GameStoreState>()(
       // 5) NPC step
       const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc));
       // 6) Dream check
-      const ctxCash = st.cash + salaryIncome;
+      const ctxCash = st.cash + salaryIncome + dividendIncome;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
