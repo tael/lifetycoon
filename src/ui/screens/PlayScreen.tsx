@@ -119,6 +119,18 @@ export function PlayScreen() {
   const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
   const totalAssets = cash + bank.balance + stocksValue;
 
+  // Previous total for Y-o-Y change
+  const prevTotalRef = useRef(totalAssets);
+  const assetDelta = totalAssets - prevTotalRef.current;
+
+  // Update prev total when age changes
+  useEffect(() => {
+    const intA = Math.floor(character.age);
+    if (intA !== prevAgeRef.current) {
+      prevTotalRef.current = totalAssets;
+    }
+  }, [character.age, totalAssets]);
+
   // Stock portfolio return + dividends
   const totalCost = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
   const dividendIncome = holdings.reduce((sum, h) => {
@@ -267,7 +279,14 @@ export function PlayScreen() {
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>💰 자산</span>
-          <span style={{ fontWeight: 700, color: 'var(--accent)' }}>{formatWon(totalAssets)}</span>
+          <span>
+            <span style={{ fontWeight: 700, color: 'var(--accent)' }}>{formatWon(totalAssets)}</span>
+            {assetDelta !== 0 && (
+              <span style={{ fontSize: 'var(--font-size-xs)', color: assetDelta > 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
+                {assetDelta > 0 ? '▲' : '▼'}{formatWon(Math.abs(assetDelta))}
+              </span>
+            )}
+          </span>
         </div>
         <div className="flex flex-col gap-xs">
           <AssetRow label="현금" value={cash} />
