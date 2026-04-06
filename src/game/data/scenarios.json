@@ -5522,5 +5522,314 @@
       "취미"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_childhood_dream",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 13
+      }
+    ],
+    "ageRange": [
+      10,
+      13
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "장래희망",
+    "text": "선생님이 장래희망을 물어봤어. 뭐라고 쓸까?",
+    "choices": [
+      {
+        "label": "대통령!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "장래희망에 대통령이라고 썼다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "부자!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "과학자!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "유튜버!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.35
+      }
+    ],
+    "tags": [
+      "유년기",
+      "학교"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_lost_wallet",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 15
+      }
+    ],
+    "ageRange": [
+      10,
+      15
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "지갑을 잃어버렸다!",
+    "text": "학교 가는 길에 용돈 지갑을 잃어버렸어!",
+    "choices": [
+      {
+        "label": "울면서 찾으러 간다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지갑을 잃어버려 울었지만 교훈을 얻었다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "다음부터 조심하자!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "유년기",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_90_birthday_letter",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 90
+      }
+    ],
+    "ageRange": [
+      90,
+      91
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "90세 편지",
+    "text": "10살의 나에게 쓴 타임캡슐 답장을 쓸 시간!",
+    "choices": [
+      {
+        "label": "마음을 담아 쓴다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "90세에 10살의 자신에게 답장을 썼다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "이미 충분히 전했어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "노년기",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_95_peaceful",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 92,
+        "max": 98
+      }
+    ],
+    "ageRange": [
+      92,
+      98
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "평화로운 오후",
+    "text": "따뜻한 햇살 아래 정원에서 차를 마시며...",
+    "choices": [
+      {
+        "label": "행복하다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "따뜻한 오후, 정원에서 평화를 느꼈다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "추억을 돌아본다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          }
+        ],
+        "importance": 0.45
+      }
+    ],
+    "tags": [
+      "노년기",
+      "감성"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_coin_flip",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 18
+      }
+    ],
+    "ageRange": [
+      12,
+      18
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "동전 내기",
+    "text": "친구가 동전 던지기 내기를 제안! 1만원 걸래?",
+    "choices": [
+      {
+        "label": "앞면! (50% 확률)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 10000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동전 내기에서 이겨서 신났다",
+            "importance": 0.25
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "도박은 나빠!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "신중함"
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "유년기",
+      "병맛"
+    ],
+    "oneShot": true
   }
 ]
