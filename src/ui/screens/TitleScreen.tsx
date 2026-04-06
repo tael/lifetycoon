@@ -3,6 +3,8 @@ import { useGameStore } from '../../store/gameStore';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
 import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
+import { loadHighScore } from '../../store/highScore';
+import { formatWon } from '../../game/domain/asset';
 
 export function TitleScreen() {
   const goTo = useGameStore((s) => s.goTo);
@@ -94,6 +96,30 @@ export function TitleScreen() {
           )}
         </div>
       </div>
+
+      {/* High Score */}
+      {loadHighScore() && (() => {
+        const hs = loadHighScore()!;
+        return (
+          <div className="card" style={{ width: '100%', maxWidth: 360, textAlign: 'center' }}>
+            <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📊 역대 최고 기록</div>
+            <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 'var(--font-size-sm)' }}>
+              <div>
+                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>{hs.bestGrade}</div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>최고 등급</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>{formatWon(hs.highestAssets)}</div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>최고 자산</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>{hs.totalGames}회</div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>총 플레이</div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Achievement badge */}
       {getUnlockedCount() > 0 && (

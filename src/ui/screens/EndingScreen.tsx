@@ -4,7 +4,9 @@ import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
 import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
+import { updateHighScore } from '../../store/highScore';
 import { ConfettiBurst } from '../components/MoneyAnimation';
+import { showToast } from '../components/Toast';
 import type { Grade } from '../../game/types';
 
 const GRADE_EMOJI: Record<Grade, string> = { S: '👑', A: '🌟', B: '🙂', C: '🌱' };
@@ -26,12 +28,16 @@ export function EndingScreen() {
 
   useEffect(() => {
     if (!ending) return;
-    // Check achievements
+    // Check achievements + high score
     const { newlyUnlocked } = checkAndSaveAchievements(ending);
+    const { isNewRecord } = updateHighScore(ending);
     if (newlyUnlocked.length > 0) {
       setNewAchievements(newlyUnlocked);
       setShowAchConfetti(true);
       setTimeout(() => setShowAchConfetti(false), 3000);
+    }
+    if (isNewRecord) {
+      setTimeout(() => showToast('신기록 달성!', '🏆', 'achievement', 3000), 1500);
     }
     const total = ending.epitaph.length;
     let i = 0;
