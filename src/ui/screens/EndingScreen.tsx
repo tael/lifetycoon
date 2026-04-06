@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useGameStore } from '../../store/gameStore';
+import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
 import { formatWon } from '../../game/domain/asset';
@@ -122,13 +122,35 @@ export function EndingScreen() {
         </div>
       </div>
 
+      {/* Missed dreams — replay hook */}
+      {ending.dreamsAchieved < ending.totalDreams && (
+        <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center' }}>
+          <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
+            💭 이루지 못한 꿈
+          </div>
+          <div className="text-muted" style={{ fontSize: 'var(--font-size-sm)', marginBottom: 'var(--sp-sm)' }}>
+            다음 인생에선 도전해볼까?
+          </div>
+          {DREAMS_MASTER.filter(
+            (d) => !ending.keyMomentsSelected.some((k) => k.text.includes(d.title))
+                   && ending.dreamsAchieved < ending.totalDreams,
+          )
+            .slice(0, 3)
+            .map((d) => (
+              <div key={d.id} style={{ padding: '4px 0', fontSize: 'var(--font-size-sm)', opacity: 0.7 }}>
+                {d.iconEmoji} {d.title} — {d.description}
+              </div>
+            ))}
+        </div>
+      )}
+
       {/* Actions */}
       <div className="flex flex-col gap-sm" style={{ width: '100%', maxWidth: 380 }}>
         <button className="btn btn-primary btn-block" onClick={handleShare}>
           {copied ? '✅ 복사됨!' : '📤 친구에게 공유'}
         </button>
         <button className="btn btn-secondary btn-block" onClick={handleRestart}>
-          🔄 다시 태어나기
+          🔄 다른 인생 살아보기
         </button>
       </div>
 
