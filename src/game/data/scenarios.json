@@ -9183,5 +9183,575 @@
       "취미"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_dduk_tornado2",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "떡볶이사장"
+      },
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      40,
+      80
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "떡볶이 우주진출!",
+    "text": "떡볶이가 우주인 간식으로 채택! NASA에서 주문이!",
+    "choices": [
+      {
+        "label": "우주 떡볶이 개발!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 100000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "addTrait",
+            "trait": "우주떡볶이"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "NASA에 우주 떡볶이를 납품해 세계적 부자가 됐다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      },
+      {
+        "label": "지구에서만 팔래",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 10000000
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "체인",
+      "병맛",
+      "떡볶이"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_time_slip",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      30,
+      70
+    ],
+    "weight": 1,
+    "pausesGame": true,
+    "title": "시간의 틈!",
+    "text": "잠깐 10살로 돌아갔다 왔어! 꿈이었을까...?",
+    "choices": [
+      {
+        "label": "10살 때 나에게 조언",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "시간의 틈에서 어린 자신에게 조언했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "뭐지...? 무시",
+        "effects": [],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "병맛",
+      "히든"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_dduk_stock_splits",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "떡볶이 주식 액면분할!",
+    "text": "떡볶이 제국이 주식을 3배로 쪼갰대!",
+    "choices": [
+      {
+        "label": "기분 좋아! 3배!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "DDUK",
+            "multiplier": 0.33
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "수학적으론 같은데...",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "DDUK",
+            "multiplier": 0.33
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "주식",
+      "병맛",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_cat_president",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      20,
+      70
+    ],
+    "weight": 1,
+    "pausesGame": true,
+    "title": "고양이 대통령?!",
+    "text": "고양이가 대통령 선거에 나왔대! 지지할까?",
+    "choices": [
+      {
+        "label": "한 표!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "CATB",
+            "multiplier": 1.3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "고양이 대통령 후보에게 투표했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "진지하게 좀...",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_alien_friend",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      15,
+      90
+    ],
+    "weight": 1,
+    "pausesGame": true,
+    "title": "외계인 친구?!",
+    "text": "공원에서 이상한 생명체를 만났어. 우정을 나눌까?",
+    "choices": [
+      {
+        "label": "친구가 되자!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "외계인친구"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "외계인과 친구가 되어 우주 비밀을 들었다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "신고한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "병맛",
+      "히든"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_penguin_winter",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      15,
+      60
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "펭귄 택배 겨울 특가",
+    "text": "펭귄 택배가 '겨울엔 무료 배달!'이래. 주가 폭발!",
+    "choices": [
+      {
+        "label": "펭귄 매수!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "PENG",
+            "multiplier": 1.5
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "봄엔 내릴 거야",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "PENG",
+            "multiplier": 1.5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "주식",
+      "병맛",
+      "계절"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_dance_with_npc",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "승부사"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      25,
+      50
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "지윤과 댄스 대결!",
+    "text": "투자 대결 중인 지윤이 '댄스로도 겨루자!'래!",
+    "choices": [
+      {
+        "label": "받아들인다!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지윤과 댄스 대결에서 화려한 승부를 펼쳤다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "투자로만 겨루자",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "체인",
+      "NPC",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_lucky_7",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      15,
+      80
+    ],
+    "weight": 1,
+    "pausesGame": true,
+    "title": "행운의 숫자 7!",
+    "text": "오늘 7시 7분 7초! 소원을 빌면 이루어진대!",
+    "choices": [
+      {
+        "label": "부자가 되게 해주세요",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 7777777
+          },
+          {
+            "kind": "happiness",
+            "delta": 7
+          },
+          {
+            "kind": "keyMoment",
+            "text": "7시 7분 7초에 빈 소원이 이루어졌다?!",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "세계 평화!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 7
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "병맛",
+      "행운"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chicken_vs_dduk",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      20,
+      60
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "치킨 vs 떡볶이 전쟁",
+    "text": "레전드 치킨과 떡볶이 제국이 합병 협상!",
+    "choices": [
+      {
+        "label": "둘 다 매수!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "LEGC",
+            "multiplier": 1.3
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "DDUK",
+            "multiplier": 1.3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "전쟁의 승자를 기다린다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "주식",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_robot_pet",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 85
+      }
+    ],
+    "ageRange": [
+      40,
+      85
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "로봇 반려동물",
+    "text": "진짜 강아지처럼 행동하는 로봇 강아지가 나왔대!",
+    "choices": [
+      {
+        "label": "입양한다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "addTrait",
+            "trait": "로봇펫"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "로봇 강아지를 입양해 가족이 됐다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "진짜가 좋아",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "기술",
+      "병맛"
+    ],
+    "oneShot": true
   }
 ]
