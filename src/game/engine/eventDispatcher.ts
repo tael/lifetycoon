@@ -63,7 +63,7 @@ export function pickEligibleEvent(
 }
 
 // Probability that any event fires this year (for non-specific-age triggers)
+// Tuned so ~0.7 events per year = ~1 event every 1.5 years (~63 events in 90 years)
 export function eventChancePerYear(): number {
-  // Tuned so ~1.5 events per year average
-  return 0.6;
+  return 0.4;
 }
