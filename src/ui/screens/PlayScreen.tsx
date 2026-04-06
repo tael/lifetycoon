@@ -488,9 +488,12 @@ function SpeedControl({ current, onChange }: { current: number; onChange: (s: 0.
 function StatMini({ label, value, emoji, color }: { label: string; value: number; emoji: string; color?: string }) {
   const clr = color ?? 'var(--accent)';
   const pct = Math.min(100, Math.max(0, value));
+  const isLow = value < 30;
   return (
-    <div style={{ textAlign: 'center', flex: 1 }}>
-      <div style={{ fontSize: 'var(--font-size-xs)' }}>{emoji} {Math.round(value)}</div>
+    <div style={{ textAlign: 'center', flex: 1, animation: isLow ? 'statPulse 1s infinite' : 'none' }}>
+      <div style={{ fontSize: 'var(--font-size-xs)', color: isLow ? 'var(--danger)' : 'inherit', fontWeight: isLow ? 700 : 400 }}>
+        {emoji} {Math.round(value)}{isLow ? '⚠️' : ''}
+      </div>
       <div style={{
         height: 5,
         borderRadius: 3,
@@ -501,12 +504,13 @@ function StatMini({ label, value, emoji, color }: { label: string; value: number
         <div style={{
           height: '100%',
           width: `${pct}%`,
-          background: clr,
+          background: isLow ? 'var(--danger)' : clr,
           borderRadius: 3,
           transition: 'width 0.5s ease',
         }} />
       </div>
       <div className="text-muted" style={{ fontSize: '0.55rem', marginTop: 1 }}>{label}</div>
+      <style>{`@keyframes statPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }`}</style>
     </div>
   );
 }
