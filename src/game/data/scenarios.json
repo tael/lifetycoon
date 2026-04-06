@@ -4515,5 +4515,394 @@
       "감성"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_world_tour",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 68,
+        "max": 85
+      }
+    ],
+    "ageRange": [
+      68,
+      85
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "세계 일주",
+    "text": "은퇴 후 세계 일주를 떠나볼까?",
+    "choices": [
+      {
+        "label": "떠난다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -15000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "세계 일주를 떠나 30개국을 방문했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "동네 산책이 최고",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "노년기",
+      "여행"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_wisdom_sharing",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 70,
+        "max": 95
+      }
+    ],
+    "ageRange": [
+      70,
+      95
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "지혜 나누기",
+    "text": "동네 아이들에게 경제 이야기를 해줄까?",
+    "choices": [
+      {
+        "label": "경제 선생님!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동네 아이들에게 경제를 가르쳤다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "조용히 지내고 싶다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "노년기",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_old_stock_check",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 75,
+        "max": 95
+      }
+    ],
+    "ageRange": [
+      75,
+      95
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "오래된 주식 발견",
+    "text": "서랍 속에서 잊고 있던 오래된 주식 증서를 발견!",
+    "choices": [
+      {
+        "label": "확인해본다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "잊고 있던 주식이 큰 돈이 되어있었다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "액자에 넣어 장식",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "노년기",
+      "주식"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_tech_grandpa",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 70,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      70,
+      90
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "스마트폰 배우기",
+    "text": "손주가 스마트폰 사용법을 알려주겠대!",
+    "choices": [
+      {
+        "label": "배워본다!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "IT어르신"
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "전화만 되면 돼",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "노년기",
+      "기술"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_legacy_plan",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 80,
+        "max": 98
+      }
+    ],
+    "ageRange": [
+      80,
+      98
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "유산 계획",
+    "text": "남길 것들을 정리해볼까?",
+    "choices": [
+      {
+        "label": "장학재단 설립",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -20000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "장학재단"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "장학재단을 설립해 미래 세대를 도왔다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "가족에게 상속",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "가족에게 유산을 나누어 주었다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "아직 이르다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "노년기",
+      "인생이벤트"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_bucket_list",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 85,
+        "max": 99
+      }
+    ],
+    "ageRange": [
+      85,
+      99
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "버킷리스트",
+    "text": "아직 못 해본 것이 있어! 마지막으로 하나 해볼까?",
+    "choices": [
+      {
+        "label": "스카이다이빙!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "도전자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "인생 마지막 스카이다이빙을 했다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "바다 앞에서 일출 보기",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "바다에서 일출을 보며 평화를 느꼈다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "이미 충분해",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "노년기",
+      "감성"
+    ],
+    "oneShot": true
   }
 ]
