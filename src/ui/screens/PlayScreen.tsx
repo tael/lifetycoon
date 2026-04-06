@@ -161,6 +161,22 @@ export function PlayScreen() {
 
       {/* Character */}
       <div className="card text-center">
+        {/* Speech bubble */}
+        <div style={{
+          background: '#fff',
+          border: '1px solid #eee',
+          borderRadius: 'var(--radius-md)',
+          padding: '4px 12px',
+          fontSize: 'var(--font-size-xs)',
+          display: 'inline-block',
+          position: 'relative',
+          marginBottom: 4,
+          color: 'var(--text-secondary)',
+          animation: 'fadeIn 0.5s ease-in',
+        }}>
+          {characterSpeech(character, totalAssets, myRank, Math.floor(character.age))}
+          <div style={{ position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)', width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderTop: '6px solid #eee' }} />
+        </div>
         <div style={{ fontSize: '4rem', lineHeight: 1 }}>{emojiFor(character)}</div>
         <div style={{ fontWeight: 700, marginTop: 'var(--sp-xs)' }}>{character.name}</div>
         <div className="flex flex-center gap-md" style={{ marginTop: 'var(--sp-sm)' }}>
@@ -585,4 +601,33 @@ function dreamProgress(
     default:
       return 0;
   }
+}
+
+function characterSpeech(
+  c: { happiness: number; health: number; wisdom: number; age: number },
+  assets: number,
+  rank: number,
+  intAge: number,
+): string {
+  // Context-sensitive one-liner
+  if (c.health < 30) return '몸이 안 좋아... 💊 좀 줘!';
+  if (c.happiness < 25) return '우울해... 🍕 간식 먹고 싶다';
+  if (rank === 1 && assets > 10000000) return '내가 1등이다! 히히 😎';
+  if (rank >= 4) return '다들 나보다 잘하네... 분발하자!';
+  if (intAge === 10) return '인생 시작! 두근두근!';
+  if (intAge < 15) return '학교 끝나면 뭐하지~';
+  if (intAge === 20) return '드디어 20대! 뭐든 할 수 있어!';
+  if (intAge < 25) return '세상 넓다~ 도전해볼까?';
+  if (intAge === 30) return '30대... 벌써? 시간 빠르다!';
+  if (intAge < 40) return '열심히 일하는 중!';
+  if (intAge === 50) return '반쯤 왔네! 아직 갈 길이 멀어';
+  if (intAge < 60) return '경험이 쌓이니 좋다';
+  if (intAge === 65) return '은퇴할 때가 됐나?';
+  if (intAge < 75) return '여유가 좋구만~';
+  if (intAge < 90) return '좋은 인생이었어...';
+  if (intAge >= 95) return '100세까지 가보자!';
+  if (c.happiness > 80) return '행복해! 😊';
+  if (c.wisdom > 80) return '많이 배웠다!';
+  if (assets > 50000000) return '부자다! 배당금 최고!';
+  return '오늘도 파이팅!';
 }
