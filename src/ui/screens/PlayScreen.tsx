@@ -193,10 +193,10 @@ export function PlayScreen() {
         )}
         {/* Tamagotchi care buttons */}
         <div className="flex gap-xs" style={{ marginTop: 'var(--sp-sm)', justifyContent: 'center' }}>
-          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={3} />
-          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={5} />
-          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={3} />
-          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={3} />
+          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} />
+          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} />
+          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} />
+          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} />
         </div>
         {traits.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', marginTop: 'var(--sp-xs)' }}>

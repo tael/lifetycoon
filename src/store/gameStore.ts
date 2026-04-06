@@ -175,13 +175,14 @@ export const useGameStore = create<GameStoreState>()(
     },
     advanceYear(intAge, deltaYears) {
       const st = get();
-      // 1) Age up + natural stat decay (tamagotchi mechanic)
-      const ageDecay = intAge > 60 ? 2 : intAge > 40 ? 1 : 0.5;
+      // 1) Age up + natural stat decay (tamagotchi mechanic, gentle for kids)
+      const happyDecay = intAge > 70 ? 1.2 : intAge > 50 ? 0.8 : 0.4;
+      const healthDecay = intAge > 70 ? 1.0 : intAge > 50 ? 0.5 : 0.15;
       const character = {
         ...st.character,
         age: intAge,
-        happiness: Math.max(0, st.character.happiness - ageDecay * deltaYears),
-        health: Math.max(0, st.character.health - (intAge > 50 ? 1.5 : 0.3) * deltaYears),
+        happiness: Math.max(10, st.character.happiness - happyDecay * deltaYears),
+        health: Math.max(10, st.character.health - healthDecay * deltaYears),
       };
       // 2) Bank interest
       const bank = applyInterestForYears(st.bank, deltaYears);
