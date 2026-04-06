@@ -8584,5 +8584,604 @@
       "교육"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_sports_day",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 14
+      }
+    ],
+    "ageRange": [
+      10,
+      14
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "운동회",
+    "text": "학교 운동회! 무슨 경기에 나갈까?",
+    "choices": [
+      {
+        "label": "달리기",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "운동회 달리기에서 전력으로 뛰었다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "줄다리기",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "응원단",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "유년기",
+      "학교"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_library",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 25
+      }
+    ],
+    "ageRange": [
+      12,
+      25
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "도서관의 보물",
+    "text": "도서관에서 인생을 바꾸는 책을 발견!",
+    "choices": [
+      {
+        "label": "경제학 책",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "독서왕"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "소설책",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "자기계발서",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_delivery_food",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      15,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "배달음식 유혹",
+    "text": "야식 먹을까? 치킨이 부른다...",
+    "choices": [
+      {
+        "label": "치킨 배달!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -25000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "health",
+            "delta": -3
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "참고 운동!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_market_bubble",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      25,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "버블 경고",
+    "text": "전문가가 '지금은 버블이다!'라고 경고해!",
+    "choices": [
+      {
+        "label": "매도하고 현금 확보",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "무시한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "소량만 정리",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "주식",
+      "교육"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_snow_day",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      10,
+      70
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "폭설!",
+    "text": "눈이 엄청 왔어! 하루 쉬자!",
+    "choices": [
+      {
+        "label": "눈사람 만들기",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "따뜻하게 독서",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "계절",
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_tax_return",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      25,
+      65
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "연말정산!",
+    "text": "연말정산 결과가 나왔어!",
+    "choices": [
+      {
+        "label": "환급금 받기!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "추가 납부...",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "경제",
+      "교육"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_graduation",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 18
+      }
+    ],
+    "ageRange": [
+      18,
+      19
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "졸업!",
+    "text": "18살, 졸업식이야! 감동의 순간!",
+    "choices": [
+      {
+        "label": "친구들과 사진",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "졸업식에서 친구들과 마지막 사진을 찍었다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "선생님께 감사 편지",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "유년기",
+      "학교"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_election",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      20,
+      80
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "선거일",
+    "text": "투표하러 갈까?",
+    "choices": [
+      {
+        "label": "소중한 한 표!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          },
+          {
+            "kind": "addTrait",
+            "trait": "시민의식"
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "귀찮아...",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "사회"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_flea_market",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      15,
+      60
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "벼룩시장",
+    "text": "동네 벼룩시장에서 보물을 찾을 수 있을까?",
+    "choices": [
+      {
+        "label": "구경한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "내 물건 판다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 100000
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_chain_music_concert",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "음악가"
+      },
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      18,
+      50
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "첫 공연!",
+    "text": "피아노를 배운 실력으로 소규모 공연을 열어볼까?",
+    "choices": [
+      {
+        "label": "공연 연다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 피아노 공연을 열어 관객을 감동시켰다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "아직 실력이...",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "체인",
+      "취미"
+    ],
+    "oneShot": true
   }
 ]
