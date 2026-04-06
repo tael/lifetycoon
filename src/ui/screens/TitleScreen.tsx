@@ -6,6 +6,19 @@ import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } fro
 import { loadHighScore } from '../../store/highScore';
 import { formatWon } from '../../game/domain/asset';
 
+const QUOTES = [
+  '복리는 세계 8번째 불가사의다 — 아인슈타인',
+  '부자가 되는 비결: 적게 쓰고, 일찍 시작하기',
+  '돈은 좋은 하인이지만 나쁜 주인이다',
+  '투자의 첫 번째 규칙: 돈을 잃지 마라',
+  '시간은 돈보다 귀하다',
+  '오늘의 절약이 내일의 자유다',
+  '행복은 돈으로 살 수 없지만, 돈은 도움이 된다',
+  '실패는 성공의 어머니',
+  '꿈을 크게 가져라, 그리고 행동하라',
+  '인생은 짧다, 떡볶이는 맛있다 🌶️',
+];
+
 export function TitleScreen() {
   const goTo = useGameStore((s) => s.goTo);
   const loadSnapshot = useGameStore((s) => s.loadSnapshot);
@@ -50,6 +63,9 @@ export function TitleScreen() {
         </h1>
         <p className="text-muted" style={{ marginTop: 'var(--sp-xs)' }}>
           10세부터 100세까지, 나의 인생 경영!
+        </p>
+        <p style={{ marginTop: 'var(--sp-sm)', fontSize: 'var(--font-size-xs)', fontStyle: 'italic', color: 'var(--text-muted)' }}>
+          "{QUOTES[Math.floor(Date.now() / 60000) % QUOTES.length]}"
         </p>
       </div>
 
