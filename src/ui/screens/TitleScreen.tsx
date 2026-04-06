@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useGameStore } from '../../store/gameStore';
+import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
 import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
@@ -99,6 +99,19 @@ export function TitleScreen() {
             disabled={!name.trim()}
           >
             🚀 새 인생 시작!
+          </button>
+          <button
+            className="btn btn-secondary btn-block"
+            onClick={() => {
+              const names = ['다솔','하늘','별','은우','지호','서아','도윤','수아','건우','예린'];
+              const rname = names[Math.floor(Math.random() * names.length)];
+              const allIds = DREAMS_MASTER.map(d => d.id);
+              const shuffled = allIds.sort(() => Math.random() - 0.5);
+              const picked = shuffled.slice(0, 2);
+              useGameStore.getState().startNewGame(rname, picked);
+            }}
+          >
+            ⚡ 빠른 시작 (랜덤)
           </button>
           {savedExists && (
             <button className="btn btn-secondary btn-block" onClick={handleContinue}>
