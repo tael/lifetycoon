@@ -6776,5 +6776,619 @@
       "교육"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_savings_goal",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 25
+      }
+    ],
+    "ageRange": [
+      15,
+      25
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "저축 목표",
+    "text": "100만원 모으기 도전! 해볼까?",
+    "choices": [
+      {
+        "label": "도전!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "저축왕"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "귀찮아",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_inflation_news",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "물가 상승!",
+    "text": "라면값이 2배로! 물가가 올랐어!",
+    "choices": [
+      {
+        "label": "더 열심히 투자",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "절약 모드",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 200000
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "경제",
+      "교육"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_robot_delivery",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      30,
+      65
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "로봇 배달부",
+    "text": "펭귄 택배가 로봇 배달을 시작! 배달부 일자리가...",
+    "choices": [
+      {
+        "label": "기술 공부",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "PENG",
+            "multiplier": 1.3
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "전통이 좋아",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "PENG",
+            "multiplier": 1.3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "기술",
+      "주식"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_school_reunion_20",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 30
+      }
+    ],
+    "ageRange": [
+      30,
+      31
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "30대 동창회",
+    "text": "초등학교 동창회에서 20년 만에 친구들을 만났어!",
+    "choices": [
+      {
+        "label": "즐겁게 참석",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "30대 동창회에서 옛 친구들과 추억을 나눴다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "나는 변했어, 안 가",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "중년기",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_dduk_franchise",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 55
+      },
+      {
+        "kind": "cashGte",
+        "value": 20000000
+      }
+    ],
+    "ageRange": [
+      35,
+      55
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "떡볶이 프랜차이즈",
+    "text": "떡볶이 제국 프랜차이즈 가맹 기회! 2천만원 필요!",
+    "choices": [
+      {
+        "label": "가맹한다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -20000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "떡볶이사장"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "떡볶이 제국 프랜차이즈를 열었다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "리스크가 크다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "중년기",
+      "창업",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_dduk_franchise_success",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "떡볶이사장"
+      }
+    ],
+    "ageRange": [
+      37,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "떡볶이 가게 대박!",
+    "text": "내 떡볶이 가게가 맛집 1위! 돈이 쏟아져!",
+    "choices": [
+      {
+        "label": "2호점 오픈",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "떡볶이 2호점까지 열어 대박이 났다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "1호점에 집중",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 15000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "체인",
+      "병맛",
+      "떡볶이"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_mystery_box",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      15,
+      70
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "미스터리 박스!",
+    "text": "길에서 미스터리 박스를 발견! 열어볼까?",
+    "choices": [
+      {
+        "label": "열어본다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "미스터리 박스에서 보물을 발견했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "수상하다, 신고",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "행운",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_diet_challenge",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      25,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "다이어트 도전",
+    "text": "건강을 위해 운동+식단 30일 챌린지!",
+    "choices": [
+      {
+        "label": "도전!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "치킨 한 마리!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": -3
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "건강",
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_kid_allowance",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "기혼"
+      },
+      {
+        "kind": "ageRange",
+        "min": 38,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      38,
+      55
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "아이의 용돈 교육",
+    "text": "아이에게 용돈 관리를 가르칠까?",
+    "choices": [
+      {
+        "label": "용돈 기입장 시작",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아이에게 경제 교육을 시작했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "아직 어리지",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 2
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "가족",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_emergency_fund",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      22,
+      40
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "비상금 만들기",
+    "text": "전문가가 '월급의 6개월치 비상금을 모아라'고 했어!",
+    "choices": [
+      {
+        "label": "비상금 시작",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "비상금마련"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "비상금을 만들기 시작했다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "여유가 없어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "교육",
+      "금융"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_crypto_crash",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "가상화폐 폭락",
+    "text": "가상화폐 시장이 90% 폭락했대! 투자한 사람들이 울고 있어!",
+    "choices": [
+      {
+        "label": "그래서 안 했지",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "싸게 사볼까?",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "가상화폐 폭락장에서 용감하게 샀다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      }
+    ],
+    "tags": [
+      "기술",
+      "위기"
+    ],
+    "oneShot": true
   }
 ]
