@@ -115,6 +115,10 @@ export function PlayScreen() {
   const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
   const totalAssets = cash + bank.balance + stocksValue;
 
+  // NPC ranking
+  const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
+  const myRank = sortedNpcs.filter((n) => n.currentAssets > totalAssets).length + 1;
+
   return (
     <div className="app-container flex flex-col gap-sm" style={{ paddingBottom: 80 }}>
       {/* Age Timeline */}
@@ -167,20 +171,42 @@ export function PlayScreen() {
 
       {/* Dreams */}
       <div className="card">
-        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>🌟 나의 꿈</div>
-        {dreams.map((d) => (
-          <div key={d.id} className="flex gap-sm" style={{ alignItems: 'center', padding: '2px 0' }}>
-            <span>{d.iconEmoji}</span>
-            <span style={{
-              fontSize: 'var(--font-size-sm)',
-              textDecoration: d.achieved ? 'line-through' : 'none',
-              opacity: d.achieved ? 0.6 : 1,
-            }}>
-              {d.title}
-            </span>
-            {d.achieved && <span style={{ marginLeft: 'auto' }}>✅</span>}
-          </div>
-        ))}
+        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
+          <span style={{ fontWeight: 700 }}>🌟 나의 꿈</span>
+          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--accent)' }}>
+            {dreams.filter((d) => d.achieved).length}/{dreams.length}
+          </span>
+        </div>
+        {dreams.map((d) => {
+          const progress = dreamProgress(d, totalAssets, character.happiness, character.age, job);
+          return (
+            <div key={d.id} style={{ padding: '4px 0' }}>
+              <div className="flex gap-sm" style={{ alignItems: 'center' }}>
+                <span>{d.iconEmoji}</span>
+                <span style={{
+                  fontSize: 'var(--font-size-sm)',
+                  flex: 1,
+                  textDecoration: d.achieved ? 'line-through' : 'none',
+                  opacity: d.achieved ? 0.6 : 1,
+                }}>
+                  {d.title}
+                </span>
+                {d.achieved ? (
+                  <span>✅</span>
+                ) : (
+                  <span className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
+                    {Math.round(progress * 100)}%
+                  </span>
+                )}
+              </div>
+              {!d.achieved && (
+                <div style={{ height: 3, borderRadius: 2, background: '#eee', marginTop: 2, marginLeft: 28 }}>
+                  <div style={{ height: '100%', width: `${progress * 100}%`, background: 'var(--accent)', borderRadius: 2, transition: 'width 0.5s' }} />
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Assets */}
@@ -228,28 +254,49 @@ export function PlayScreen() {
         })}
       </div>
 
-      {/* NPCs */}
+      {/* NPCs + Ranking */}
       <div className="card">
-        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)' }}>👥 라이벌</div>
-        {npcs.map((npc) => (
-          <div key={npc.id} className="npc-row">
-            <span style={{ fontSize: '1.5rem' }}>{npc.iconEmoji}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{npc.name}</div>
-              <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-                {npc.status}
-              </div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600 }}>
-                {formatWon(npc.currentAssets)}
-              </div>
-              <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-                {Math.floor(npc.currentAge)}세
-              </div>
-            </div>
+        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
+          <span style={{ fontWeight: 700 }}>👥 라이벌</span>
+          <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: myRank <= 1 ? 'var(--grade-s)' : myRank <= 2 ? 'var(--accent)' : 'var(--text-muted)' }}>
+            내 순위: {myRank}위/{npcs.length + 1}명
+          </span>
+        </div>
+        {/* Player row */}
+        <div className="npc-row" style={{ background: 'var(--accent-light)', borderRadius: 'var(--radius-sm)', padding: '4px 6px', marginBottom: 2 }}>
+          <span style={{ fontSize: '1.2rem', width: 24, textAlign: 'center', fontWeight: 800 }}>
+            {myRank === 1 ? '👑' : `${myRank}`}
+          </span>
+          <span style={{ fontSize: '1.2rem' }}>{emojiFor(character)}</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>{character.name} (나)</div>
           </div>
-        ))}
+          <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', color: 'var(--accent)' }}>
+            {formatWon(totalAssets)}
+          </div>
+        </div>
+        {sortedNpcs.map((npc, i) => {
+          const rank = npc.currentAssets > totalAssets ? i + 1 : i + (myRank <= i + 1 ? 2 : 1);
+          return (
+            <div key={npc.id} className="npc-row">
+              <span style={{ fontSize: '0.7rem', width: 24, textAlign: 'center', color: 'var(--text-muted)' }}>
+                {rank}위
+              </span>
+              <span style={{ fontSize: '1.2rem' }}>{npc.iconEmoji}</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{npc.name}</div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
+                  {npc.status}
+                </div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600 }}>
+                  {formatWon(npc.currentAssets)}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Event Modal */}
@@ -407,4 +454,29 @@ function TradBtn({ label, color, onClick, disabled }: { label: string; color: 'b
       {isBuy ? '▲' : '▼'}{label}
     </button>
   );
+}
+
+function dreamProgress(
+  d: { targetCondition: { kind: string; value?: number; shares?: number; jobId?: string } },
+  totalAssets: number,
+  happiness: number,
+  age: number,
+  job: { id: string } | null,
+): number {
+  const cond = d.targetCondition;
+  switch (cond.kind) {
+    case 'totalAssetsGte':
+    case 'cashGte':
+      return Math.min(1, totalAssets / (cond.value ?? 1));
+    case 'happinessGte':
+      return Math.min(1, happiness / (cond.value ?? 1));
+    case 'ageReached':
+      return Math.min(1, age / (cond.value ?? 100));
+    case 'stockOwnedShares':
+      return 0; // can't compute without holdings here, show 0
+    case 'jobHeld':
+      return job?.id === cond.jobId ? 1 : 0;
+    default:
+      return 0;
+  }
 }
