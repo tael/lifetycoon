@@ -12351,5 +12351,857 @@
       "전설"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_best_friend",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 20
+      }
+    ],
+    "ageRange": [
+      12,
+      20
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "단짝 친구",
+    "text": "절친한 친구가 생겼어! 평생 함께할 것 같아.",
+    "choices": [
+      {
+        "label": "우정 팔찌 교환!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "절친있음"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "평생 함께할 단짝 친구를 만났다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "좋은 사이 유지",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "유년기",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_rainy_investing",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      25,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "빗속의 투자",
+    "text": "비 오는 날, 카페에서 투자 공부를 했어. 뭔가 깨달았다!",
+    "choices": [
+      {
+        "label": "바로 실행!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빗속 카페에서 투자의 깨달음을 얻었다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "메모만 해둔다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "감성",
+      "주식"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_talent_show",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 35
+      }
+    ],
+    "ageRange": [
+      15,
+      35
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "재능 발견!",
+    "text": "우연히 발견한 재능! 무엇을 할까?",
+    "choices": [
+      {
+        "label": "그림 그리기",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "화가"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "글쓰기",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "작가"
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "숨겨둔다",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "도전",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_writer_book",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "작가"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "소설 출판!",
+    "text": "써온 소설이 완성됐어. 출판사에서 연락이!",
+    "choices": [
+      {
+        "label": "출판한다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 8000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 소설을 출판해 작가로 데뷔했다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "조금 더 다듬자",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "체인",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_painter_exhibit",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "화가"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      25,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "개인 전시회!",
+    "text": "갤러리에서 전시회를 열자고 제안이 왔어!",
+    "choices": [
+      {
+        "label": "전시 연다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "개인 전시회를 열어 예술가로 인정받았다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "아직 준비 안 됐어",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "체인",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_hiking_club",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 75
+      }
+    ],
+    "ageRange": [
+      30,
+      75
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "등산 동호회",
+    "text": "등산 동호회에 가입할까?",
+    "choices": [
+      {
+        "label": "가입!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "등산러"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "혼자 산책이 좋아",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "건강",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_smart_home",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 70
+      },
+      {
+        "kind": "cashGte",
+        "value": 10000000
+      }
+    ],
+    "ageRange": [
+      35,
+      70
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "스마트홈 설치",
+    "text": "집을 스마트홈으로 업그레이드할까? 편하긴 한데...",
+    "choices": [
+      {
+        "label": "설치한다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "스마트홈"
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "필요 없어",
+        "effects": [],
+        "importance": 0.05
+      }
+    ],
+    "tags": [
+      "기술",
+      "소비"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_bestfriend_business",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "절친있음"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      25,
+      45
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "절친과 동업!",
+    "text": "단짝 친구가 같이 사업하자고 해!",
+    "choices": [
+      {
+        "label": "해보자!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "공동창업"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "절친과 함께 사업을 시작했다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "우정이 깨질까봐",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "체인",
+      "관계",
+      "창업"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_bestfriend_success",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "공동창업"
+      }
+    ],
+    "ageRange": [
+      28,
+      55
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "동업 대성공!",
+    "text": "절친과 함께한 사업이 대박!",
+    "choices": [
+      {
+        "label": "50:50 나눈다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 25000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "절친과 사업 성공으로 둘 다 부자가 됐다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      }
+    ],
+    "tags": [
+      "체인",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_secondhand",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      18,
+      45
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "중고 거래",
+    "text": "당근마켓에서 좋은 물건을 발견! 사볼까?",
+    "choices": [
+      {
+        "label": "득템!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -50000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "새 거 사자",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "일상",
+      "소비"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_investment_book",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "독서왕"
+      },
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      18,
+      40
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "투자 바이블 발견",
+    "text": "독서 습관 덕분에 전설적인 투자 책을 발견!",
+    "choices": [
+      {
+        "label": "정독한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "투자고수"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "전설적인 투자 책을 읽고 투자 철학이 바뀌었다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": [
+      "체인",
+      "교육",
+      "주식"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_sunset_beach",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      20,
+      90
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "해변의 석양",
+    "text": "해질녘 바닷가에서 혼자 앉아 생각에 잠겼어.",
+    "choices": [
+      {
+        "label": "평화롭다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "해변에서 석양을 보며 마음의 평화를 찾았다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "사진 찍기",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "감성"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_food_truck",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      25,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "푸드트럭 도전",
+    "text": "직접 요리한 음식으로 푸드트럭을 운영해볼까?",
+    "choices": [
+      {
+        "label": "시작!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "푸드트럭"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "푸드트럭을 시작해 길거리 음식 사장이 됐다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "리스크가 크다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "창업",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_night_sky",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 75
+      }
+    ],
+    "ageRange": [
+      75,
+      76
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "75세의 밤하늘",
+    "text": "75년간의 인생... 별들이 나를 비추고 있어.",
+    "choices": [
+      {
+        "label": "감사기도",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "75세 밤하늘 아래서 살아온 날들에 감사했다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "조용히 미소",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "노년기",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_mystery_inheritance",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      40,
+      70
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "미스터리 유산",
+    "text": "한 번도 만난 적 없는 먼 친척이 유산을 남겼대!",
+    "choices": [
+      {
+        "label": "받는다 (3천만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "미지의 친척에게서 뜻밖의 유산을 받았다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "기부한다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "행운"
+    ],
+    "oneShot": true
   }
 ]
