@@ -12087,5 +12087,269 @@
       "노년기"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_legend_all_stocks",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 200000000
+      }
+    ],
+    "ageRange": [
+      30,
+      90
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "🌟 주식왕의 탄생",
+    "text": "모든 종목을 소유한 당신... 경제 전문 채널에서 인터뷰 요청!",
+    "choices": [
+      {
+        "label": "방송 출연!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 50000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 25
+          },
+          {
+            "kind": "addTrait",
+            "trait": "주식왕"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "TV에 주식왕으로 출연해 전국적으로 유명해졌다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      }
+    ],
+    "tags": [
+      "히든",
+      "전설"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_legend_perfect_life",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 50000000
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "기혼"
+      }
+    ],
+    "ageRange": [
+      45,
+      70
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "🏆 올해의 가족상",
+    "text": "행복한 가정 + 성공한 커리어로 올해의 가족상 후보!",
+    "choices": [
+      {
+        "label": "수상!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "올해의 가족상을 수상해 감동의 눈물을 흘렸다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      }
+    ],
+    "tags": [
+      "히든",
+      "전설"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_legend_triple_chain",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "코딩마스터"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "인플루언서"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "발명가"
+      }
+    ],
+    "ageRange": [
+      30,
+      60
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "💫 테크 아이콘",
+    "text": "코딩+SNS+발명 능력을 합쳐 테크계의 전설이 됐어!",
+    "choices": [
+      {
+        "label": "세상을 바꾼다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 30
+          },
+          {
+            "kind": "addTrait",
+            "trait": "테크아이콘"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "코딩+SNS+발명의 삼위일체로 테크 아이콘이 됐다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      }
+    ],
+    "tags": [
+      "히든",
+      "전설",
+      "체인"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_legend_kindness_chain",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "기부왕"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "봉사왕"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "의리맨"
+      }
+    ],
+    "ageRange": [
+      40,
+      90
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "💖 한국의 간디",
+    "text": "나눔의 삶이 전국에 알려져 '한국의 간디'로 불리게 됐어!",
+    "choices": [
+      {
+        "label": "겸손하게 수락",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 30
+          },
+          {
+            "kind": "addTrait",
+            "trait": "한국의간디"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "나눔과 봉사의 삶으로 '한국의 간디'가 됐다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      }
+    ],
+    "tags": [
+      "히든",
+      "전설",
+      "체인"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_legend_100_happy",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 85,
+        "max": 99
+      }
+    ],
+    "ageRange": [
+      85,
+      99
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "✨ 완벽한 순간",
+    "text": "지금 이 순간, 인생의 모든 것이 완벽하게 느껴져.",
+    "choices": [
+      {
+        "label": "감사합니다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "인생의 어느 순간, 모든 것이 완벽했다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      },
+      {
+        "label": "더 좋은 날이 올 거야",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ],
+        "importance": 0.8
+      }
+    ],
+    "tags": [
+      "감성",
+      "전설"
+    ],
+    "oneShot": true
   }
 ]
