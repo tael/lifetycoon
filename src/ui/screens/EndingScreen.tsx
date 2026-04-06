@@ -285,6 +285,11 @@ export function EndingScreen() {
         </p>
       </div>
 
+      {/* Seed display */}
+      <div className="text-muted text-center" style={{ fontSize: '0.6rem' }}>
+        🎲 시드: {useGameStore.getState().seeds.master}
+      </div>
+
       {/* Actions */}
       <div className="flex flex-col gap-sm" style={{ width: '100%', maxWidth: 380 }}>
         <button className="btn btn-primary btn-block" onClick={handleShare}>
