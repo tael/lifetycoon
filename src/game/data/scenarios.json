@@ -13203,5 +13203,290 @@
       "행운"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_golden_wedding",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "기혼"
+      },
+      {
+        "kind": "ageRange",
+        "min": 78,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      78,
+      90
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "금혼식!",
+    "text": "결혼 50주년! 금혼식을 할까?",
+    "choices": [
+      {
+        "label": "성대하게!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "keyMoment",
+            "text": "금혼식을 열어 50년의 사랑을 축하했다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "둘이 조용히",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          }
+        ],
+        "importance": 0.7
+      }
+    ],
+    "tags": [
+      "노년기",
+      "가족",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_centenarian_secret",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 92,
+        "max": 99
+      }
+    ],
+    "ageRange": [
+      92,
+      99
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "장수의 비결",
+    "text": "기자가 장수 비결을 물어봤어!",
+    "choices": [
+      {
+        "label": "'매일 웃는 거예요'",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "장수의 비결은 매일 웃는 것이라고 전했다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "'떡볶이요'",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "장수의 비결이 떡볶이라고 해서 화제가 됐다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      }
+    ],
+    "tags": [
+      "노년기",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_old_letters",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 80,
+        "max": 95
+      }
+    ],
+    "ageRange": [
+      80,
+      95
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "오래된 편지",
+    "text": "서랍에서 젊을 때 쓴 편지를 발견했어.",
+    "choices": [
+      {
+        "label": "읽어본다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "젊은 시절의 편지를 읽으며 추억에 잠겼다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "소중히 보관",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "노년기",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_last_investment",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 85,
+        "max": 98
+      }
+    ],
+    "ageRange": [
+      85,
+      98
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "마지막 투자",
+    "text": "마지막으로 주식을 한 번 더 살까?",
+    "choices": [
+      {
+        "label": "떡볶이 제국 영원히!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "마지막으로 떡볶이 제국 주식을 샀다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "이제는 쉴 때",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "노년기",
+      "주식"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_farm_festival",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "은퇴농부"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "도시농부"
+      }
+    ],
+    "ageRange": [
+      60,
+      90
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "농부 축제!",
+    "text": "도시+시골 농부 경험으로 농업 축제를 주최!",
+    "choices": [
+      {
+        "label": "축제 연다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "농부 축제를 열어 마을 전체가 즐거웠다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      }
+    ],
+    "tags": [
+      "체인",
+      "노년기"
+    ],
+    "oneShot": true
   }
 ]
