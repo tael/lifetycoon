@@ -10,6 +10,7 @@ import { EventModal } from './EventModal';
 import { showToast } from '../components/Toast';
 import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
+import { NewsTicker } from '../components/NewsTicker';
 import type { StockDef } from '../../game/types';
 
 export function PlayScreen() {
@@ -121,6 +122,9 @@ export function PlayScreen() {
 
   return (
     <div className="app-container flex flex-col gap-sm" style={{ paddingBottom: 80 }}>
+      {/* News Ticker */}
+      <NewsTicker age={character.age} />
+
       {/* Age Timeline */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
