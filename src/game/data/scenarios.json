@@ -3293,5 +3293,899 @@
       "행운"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_time_capsule",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 15
+      }
+    ],
+    "ageRange": [
+      15,
+      16
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "타임캡슐",
+    "text": "10살 때 묻은 타임캡슐을 열었어! 안에 뭘 넣었더라?",
+    "choices": [
+      {
+        "label": "500원짜리 동전이 있었다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "타임캡슐에서 500원짜리를 찾아 감동했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "미래의 나에게 쓴 편지",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "10살의 자신이 쓴 편지를 읽고 울었다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      }
+    ],
+    "tags": [
+      "유년기",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_cat_cafe",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      15,
+      50
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "고양이 카페",
+    "text": "길 가다 고양이 카페를 발견! 고양이가 나를 쳐다봐...",
+    "choices": [
+      {
+        "label": "들어가서 3시간 놀기",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -15000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "고양이 은행 주식 사야지",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "CATB",
+            "multiplier": 1.1
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_tofu_revolution",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      25,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "두부 혁명",
+    "text": "두부공주가 '다이아몬드 두부'를 발명! 두부가 보석이 됐다!",
+    "choices": [
+      {
+        "label": "두부 사재기!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "TOFU",
+            "multiplier": 2.5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "다이아몬드 두부 파동에 올인했다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "두부가 보석이라니 말이 되나",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "TOFU",
+            "multiplier": 2.5
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "주식",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_dog_sitter",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "반려인"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      25,
+      70
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "반려동물 유튜브",
+    "text": "우리 강아지/고양이로 유튜브를 해볼까?",
+    "choices": [
+      {
+        "label": "시작해본다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "반려동물 유튜브가 소소한 인기를 얻었다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "사생활이 중요",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "반려",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_metaverse_bug",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "메타우주 버그",
+    "text": "메타우주여행 VR에서 버그 발견! 가상 세계에 갇힐 뻔!",
+    "choices": [
+      {
+        "label": "버그 신고하고 보상 받기",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "VR 버그를 발견해 거액의 포상금을 받았다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "무시하고 탈출",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -3
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "기술",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_rain_stock",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "무지개 전자의 비밀",
+    "text": "무지개 전자가 시간여행 기기를 개발 중이라는 소문!",
+    "choices": [
+      {
+        "label": "진짜면 대박! 올인",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.4
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "루머는 루머일 뿐",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.4
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "주식",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_cooking_contest",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      20,
+      60
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "요리 대회",
+    "text": "전국 요리 대회에 참가 기회! 우승하면 상금 300만원!",
+    "choices": [
+      {
+        "label": "도전!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "요리 대회에서 우승해 상금을 받았다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "나는 요리 재능 없어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "도전",
+      "이벤트"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_bora_trend",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "보라보라 대유행",
+    "text": "보라보라 화장품이 SNS에서 대폭발! 전세계가 보라색!",
+    "choices": [
+      {
+        "label": "보라보라 주식 매수!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "BORA",
+            "multiplier": 1.7
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "유행은 금방 끝나",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "BORA",
+            "multiplier": 1.7
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "주식",
+      "뷰티"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_earthquake_joke",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      30,
+      80
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "지진... 아니 옆집 공사",
+    "text": "땅이 흔들렸다! 알고 보니 옆집 공사 소리였어.",
+    "choices": [
+      {
+        "label": "지진보험 들기",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "옆집에 항의!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": -3
+          },
+          {
+            "kind": "happiness",
+            "delta": 4
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "그냥 웃어넘기기",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_dogesitter",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 55
+      }
+    ],
+    "ageRange": [
+      20,
+      55
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "댕댕이 사료 대란",
+    "text": "댕댕이 사료가 전 세계적으로 품절! 주가 폭등!",
+    "choices": [
+      {
+        "label": "댕댕이 주식 긴급 매수",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "DOGE",
+            "multiplier": 1.9
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "내 강아지 사료는 확보",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -50000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "DOGE",
+            "multiplier": 1.9
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "주식",
+      "반려"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_gold_nugget",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      40,
+      90
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "뒷마당에서 금덩이!",
+    "text": "정원 가꾸다가 금덩이를 발견했어! (진짜?)",
+    "choices": [
+      {
+        "label": "감정 받으러 간다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 8000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "뒷마당에서 진짜 금덩이를 발견했다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "가짜겠지, 버린다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -5
+          },
+          {
+            "kind": "happiness",
+            "delta": -10
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "행운",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_reunion",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      40,
+      70
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "동창회",
+    "text": "초등학교 동창회 초대가 왔어!",
+    "choices": [
+      {
+        "label": "가서 추억 나누기",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동창회에서 옛 친구들을 만나 감동했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "나는 지금이 더 좋아",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "관계",
+      "중년기"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_nft_craze",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      18,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "NFT 열풍",
+    "text": "그림 하나가 10억에 팔렸대! 나도 NFT 만들어볼까?",
+    "choices": [
+      {
+        "label": "NFT 만들어 팔기",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "NFT를 만들어 100만원에 팔았다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "그건 거품이야",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "NFT가 뭐야?",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "기술",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_moonlight_run",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      20,
+      40
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "한강 야간 러닝",
+    "text": "친구가 한강 야간 러닝을 제안했어!",
+    "choices": [
+      {
+        "label": "달려!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한강에서 밤새 달리며 인생을 생각했다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "집에서 넷플릭스",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "health",
+            "delta": -2
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "건강",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_robot_future",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 55,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      55,
+      90
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "AI 로봇 도우미",
+    "text": "AI 로봇 도우미를 살 수 있대! 500만원!",
+    "choices": [
+      {
+        "label": "미래에 투자!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "AI친구"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "AI 로봇과 함께 살기 시작했다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "사람이 더 좋아",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "노년기",
+      "기술"
+    ],
+    "oneShot": true
   }
 ]
