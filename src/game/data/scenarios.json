@@ -6539,5 +6539,242 @@
       "히든"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_npc_minsu_loan",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 5000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      25,
+      50
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "민수의 부탁",
+    "text": "라이벌 민수가 '100만원만 빌려줘...'라고 했어.",
+    "choices": [
+      {
+        "label": "빌려준다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "의리맨"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "민수에게 100만원을 빌려줬다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "미안, 안 돼",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "NPC",
+      "관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_npc_jiyun_bet",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 45
+      }
+    ],
+    "ageRange": [
+      20,
+      45
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "지윤의 도전장",
+    "text": "공격적 투자가 지윤이 '누가 더 많이 버나 내기할래?'라고 했어!",
+    "choices": [
+      {
+        "label": "좋아! 받아들인다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "승부사"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지윤과 투자 대결을 시작했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "내 페이스대로 갈래",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "NPC",
+      "경쟁"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_npc_lucky_tip",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "럭키의 꿀팁",
+    "text": "행운의 아이콘 럭키가 '이 종목 대박 날 거야!'라고 귀띔!",
+    "choices": [
+      {
+        "label": "럭키를 믿는다!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "CATB",
+            "multiplier": 1.5
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "운에 의존하면 안 돼",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "CATB",
+            "multiplier": 1.5
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "NPC",
+      "주식"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_npc_seoyeon_study",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 40
+      }
+    ],
+    "ageRange": [
+      15,
+      40
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "서연의 스터디 모임",
+    "text": "학구파 서연이 '경제 스터디 같이 할래?'라고 했어!",
+    "choices": [
+      {
+        "label": "같이 공부!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서연과 경제 스터디를 시작해 실력이 늘었다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "혼자 하는 게 편해",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "NPC",
+      "교육"
+    ],
+    "oneShot": true
   }
 ]
