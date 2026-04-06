@@ -1,21 +1,40 @@
+import { useEffect, useRef } from 'react';
 import type { EconomicEvent, EventEffect } from '../../game/types';
 import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
 
+function vibrate() {
+  try { navigator?.vibrate?.(50); } catch { /* ignore */ }
+}
+
 export function EventModal({ event }: { event: EconomicEvent }) {
   const chooseOption = useGameStore((s) => s.chooseOption);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    vibrate();
+    modalRef.current?.focus();
+    const handler = (e: KeyboardEvent) => {
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= event.choices.length) {
+        handleChoice(num - 1);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [event]);
 
   const handleChoice = (index: number) => {
     const choice = event.choices[index];
     chooseOption(index);
-    // Show outcome toast
+    vibrate();
     const hints = effectHints(choice.effects);
     if (hints) showToast(hints, '📋', 'info', 2500);
   };
 
   return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label={event.title}>
-      <div className="modal-content">
+    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label={event.title} ref={modalRef} tabIndex={-1}>
+      <div className="modal-content" style={{ animation: 'modalPop 0.25s ease-out' }}>
         <div className="text-center" style={{ marginBottom: 'var(--sp-lg)' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 'var(--sp-sm)' }}>📢</div>
           <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 700 }}>
@@ -49,7 +68,10 @@ export function EventModal({ event }: { event: EconomicEvent }) {
               }}
               onClick={() => handleChoice(i)}
             >
-              <span style={{ fontWeight: 600 }}>{choice.label}</span>
+              <span style={{ fontWeight: 600 }}>
+                <span style={{ opacity: 0.4, fontSize: '0.7rem', marginRight: 4 }}>{i + 1}.</span>
+                {choice.label}
+              </span>
               <span style={{ fontSize: '0.7rem', opacity: 0.6, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {effectIcons(choice.effects)}
               </span>

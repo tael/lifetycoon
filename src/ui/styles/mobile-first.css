@@ -174,7 +174,14 @@
 .npc-row:last-child { border-bottom: none; }
 
 /* Grade colors */
+/* Grade colors */
 .grade-S { color: var(--grade-s); }
 .grade-A { color: var(--grade-a); }
 .grade-B { color: var(--grade-b); }
 .grade-C { color: var(--grade-c); }
+
+/* Modal animation */
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
