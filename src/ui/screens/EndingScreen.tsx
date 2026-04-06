@@ -5,6 +5,7 @@ import { clearSave } from '../../store/persistence';
 import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
 import { updateHighScore } from '../../store/highScore';
+import { generateLifeSummary } from '../../game/domain/lifeSummary';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { AssetChart } from '../components/AssetChart';
 import { showToast } from '../components/Toast';
@@ -91,8 +92,15 @@ export function EndingScreen() {
         }}>
           {ending.grade}등급
         </div>
-        <div style={{ fontSize: 'var(--font-size-sm)', opacity: 0.8, marginBottom: 'var(--sp-lg)' }}>
+        <div style={{ fontSize: 'var(--font-size-sm)', opacity: 0.8, marginBottom: 4 }}>
           {GRADE_LABEL[ending.grade]}
+        </div>
+        <div style={{ fontSize: 'var(--font-size-xs)', opacity: 0.7, marginBottom: 'var(--sp-lg)', fontStyle: 'italic' }}>
+          "{generateLifeSummary(
+            characterName, ending.grade, ending.finalAssets, ending.finalHappiness,
+            ending.dreamsAchieved, ending.totalDreams,
+            useGameStore.getState().traits, ending.keyMomentsSelected,
+          )}"
         </div>
 
         {/* Epitaph */}
