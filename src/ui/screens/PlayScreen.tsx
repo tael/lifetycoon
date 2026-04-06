@@ -350,7 +350,7 @@ export function PlayScreen() {
             </button>
           </div>
         </div>
-        {STOCKS.slice(0, 8).map((s: StockDef) => {
+        {STOCKS.map((s: StockDef) => {
           const price = prices[s.ticker] ?? s.basePrice;
           const holding = holdings.find((h) => h.ticker === s.ticker);
           return (
@@ -553,8 +553,11 @@ function StockRow({
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {stock.name}
+          <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginLeft: 3, fontWeight: 400 }}>
+            {stock.sector}
+          </span>
           {(stock as any).dividendRate > 0 && (
-            <span style={{ fontSize: '0.6rem', color: 'var(--success)', marginLeft: 4, fontWeight: 400 }}>
+            <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
               배당{((stock as any).dividendRate * 100).toFixed(0)}%
             </span>
           )}
