@@ -29,6 +29,7 @@ export function PlayScreen() {
   const job = useGameStore((s) => s.job);
   const dreams = useGameStore((s) => s.dreams);
   const traits = useGameStore((s) => s.traits);
+  const keyMoments = useGameStore((s) => s.keyMoments);
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
   const advanceYear = useGameStore((s) => s.advanceYear);
@@ -376,6 +377,23 @@ export function PlayScreen() {
           );
         })}
       </div>
+
+      {/* Life Diary */}
+      {keyMoments.length > 0 && (
+        <div className="card">
+          <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📖 인생 일기</div>
+          {[...keyMoments].reverse().slice(0, 5).map((m, i) => (
+            <div key={i} style={{ fontSize: 'var(--font-size-xs)', padding: '2px 0', color: 'var(--text-secondary)', borderBottom: '1px solid #f5f0e8' }}>
+              <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{Math.floor(m.age)}세</span> {m.text}
+            </div>
+          ))}
+          {keyMoments.length > 5 && (
+            <div className="text-muted" style={{ fontSize: '0.6rem', marginTop: 2 }}>
+              ...외 {keyMoments.length - 5}개의 순간
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Event Modal */}
       {phase.kind === 'paused' && <EventModal event={phase.event} />}
