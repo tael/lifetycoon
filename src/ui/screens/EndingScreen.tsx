@@ -5,7 +5,7 @@ import { clearSave } from '../../store/persistence';
 import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
 import { updateHighScore } from '../../store/highScore';
-import { generateLifeSummary } from '../../game/domain/lifeSummary';
+import { generateLifeSummary, generateLifeTitle } from '../../game/domain/lifeSummary';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { AssetChart } from '../components/AssetChart';
 import { showToast } from '../components/Toast';
@@ -84,6 +84,12 @@ export function EndingScreen() {
         {/* Grade crown */}
         <div style={{ fontSize: '3rem', marginBottom: 'var(--sp-sm)' }}>
           {GRADE_EMOJI[ending.grade]}
+        </div>
+        <div style={{ fontSize: 'var(--font-size-sm)', opacity: 0.9, marginBottom: 4 }}>
+          {generateLifeTitle(
+            useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,
+            ending.dreamsAchieved, ending.totalDreams,
+          )}
         </div>
         <div className={`grade-${ending.grade}`} style={{
           fontSize: 'var(--font-size-2xl)',
