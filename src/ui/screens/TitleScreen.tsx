@@ -23,7 +23,15 @@ export function TitleScreen() {
   const goTo = useGameStore((s) => s.goTo);
   const loadSnapshot = useGameStore((s) => s.loadSnapshot);
   const [name, setName] = useState('');
+  const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
   const savedExists = hasSave();
+
+  const toggleDark = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.dataset.theme = next ? 'dark' : '';
+    try { localStorage.setItem('lifetycoon-kids:theme', next ? 'dark' : 'light'); } catch {}
+  };
 
   const handleNew = () => {
     if (!name.trim()) return;
@@ -178,15 +186,23 @@ export function TitleScreen() {
         </div>
       )}
 
-      {savedExists && (
+      <div className="flex gap-md" style={{ alignItems: 'center' }}>
         <button
-          className="text-muted"
-          style={{ fontSize: 'var(--font-size-xs)', textDecoration: 'underline' }}
-          onClick={() => { clearSave(); window.location.reload(); }}
+          onClick={toggleDark}
+          style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
         >
-          저장 데이터 삭제
+          {dark ? '☀️ 라이트' : '🌙 다크'}
         </button>
-      )}
+        {savedExists && (
+          <button
+            className="text-muted"
+            style={{ fontSize: 'var(--font-size-xs)', textDecoration: 'underline' }}
+            onClick={() => { clearSave(); window.location.reload(); }}
+          >
+            저장 삭제
+          </button>
+        )}
+      </div>
     </div>
   );
 }
