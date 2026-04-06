@@ -6230,5 +6230,314 @@
       "병맛"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_chain_hater",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "인플루언서"
+      },
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "악성 댓글 사건",
+    "text": "인플루언서가 됐더니 악성 댓글이 쏟아져! 어떡하지?",
+    "choices": [
+      {
+        "label": "당당하게 대응",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "멘탈강철"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "악성 댓글에 당당히 맞섰다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "SNS 쉬기",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "체인",
+      "인플루언서"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_lecture",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "멘탈강철"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "강연 섭외",
+    "text": "극복 경험을 강연해달라는 요청이 왔어!",
+    "choices": [
+      {
+        "label": "강연한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "극복 경험을 강연해 큰 감동을 줬다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "아직 준비 안 됐어",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "체인",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_house_up",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "유주택"
+      },
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      35,
+      70
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "집값 폭등!",
+    "text": "내가 산 집 가격이 2배로 뛰었대! 팔까?",
+    "choices": [
+      {
+        "label": "팔아서 차익 실현!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "집값이 2배 올라서 팔아 대박이 났다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "여기서 계속 살래",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "체인",
+      "부동산"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_ai_rebellion",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "AI친구"
+      },
+      {
+        "kind": "ageRange",
+        "min": 60,
+        "max": 95
+      }
+    ],
+    "ageRange": [
+      60,
+      95
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "AI 로봇 반란?!",
+    "text": "AI 로봇이 갑자기 '나도 월급 줘!'라고 말했어!",
+    "choices": [
+      {
+        "label": "월급 준다 (10만원/월)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "AI 로봇에게 월급을 주기 시작했다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "로봇이 무슨 월급!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "AI 로봇과 월급 문제로 다퉜다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "체인",
+      "병맛",
+      "AI"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_lottery_future",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "시간여행경험"
+      },
+      {
+        "kind": "ageRange",
+        "min": 45,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      45,
+      80
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "미래의 기억",
+    "text": "시간여행 때 본 숫자가 떠올랐어... 복권 번호?!",
+    "choices": [
+      {
+        "label": "복권 산다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 50000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "미래에서 본 번호로 복권 1등에 당첨됐다",
+            "importance": 1.0
+          }
+        ],
+        "importance": 1.0
+      },
+      {
+        "label": "기억이 맞을 리가",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "체인",
+      "병맛",
+      "히든"
+    ],
+    "oneShot": true
   }
 ]
