@@ -7390,5 +7390,633 @@
       "위기"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_new_year",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 99
+      }
+    ],
+    "ageRange": [
+      10,
+      99
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "새해 결심!",
+    "text": "새해가 밝았어! 올해의 결심은?",
+    "choices": [
+      {
+        "label": "저축 챌린지!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "운동 시작!",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 4
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "새로운 도전!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "계절",
+      "일상"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_summer_festival",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 30
+      }
+    ],
+    "ageRange": [
+      10,
+      30
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "여름 축제!",
+    "text": "동네 여름 축제에 갈까?",
+    "choices": [
+      {
+        "label": "신나게 즐긴다!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "여름 축제에서 신나는 하루를 보냈다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "집에서 에어컨",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "계절",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_rich_problem",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 100000000
+      }
+    ],
+    "ageRange": [
+      20,
+      99
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "부자의 고민",
+    "text": "돈이 너무 많아서 오히려 고민이야... 세금? 기부? 투자?",
+    "choices": [
+      {
+        "label": "재단 설립",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -50000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "자선가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "1억을 들여 자선재단을 설립했다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "해외 투자",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "그냥 즐긴다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "히든",
+      "부자"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_poor_kindness",
+    "triggers": [
+      {
+        "kind": "cashLte",
+        "value": 50000
+      },
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      20,
+      70
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "따뜻한 이웃",
+    "text": "돈이 없는데 이웃이 음식을 나눠줬어. 감동...",
+    "choices": [
+      {
+        "label": "고마워요!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "가장 힘들 때 이웃의 따뜻함에 감동했다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "언젠가 갚을게",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "히든",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_blackout",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      15,
+      80
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "대정전!",
+    "text": "도시 전체가 정전! 어둠 속에서 뭘 하지?",
+    "choices": [
+      {
+        "label": "촛불 켜고 가족과 대화",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "바로 잔다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 8
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "핸드폰 배터리 아낌",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_school_principal",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "대졸"
+      },
+      {
+        "kind": "ageRange",
+        "min": 45,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      45,
+      65
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "교장 제안",
+    "text": "대학 때 인연으로 학교 이사장직을 제안받았어!",
+    "choices": [
+      {
+        "label": "수락",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "교육자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "학교 이사장이 되어 교육에 기여했다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "부담스럽다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "체인",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_neighbor_noise",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      20,
+      60
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "층간소음",
+    "text": "윗집에서 쿵쿵쿵! 시끄러워!",
+    "choices": [
+      {
+        "label": "편지로 부탁",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "이어폰 끼기",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -50000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "같이 운동하자고 제안",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "일상",
+      "병맛"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_aurora",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 90
+      }
+    ],
+    "ageRange": [
+      30,
+      90
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "오로라를 보다",
+    "text": "여행 중 밤하늘에 오로라가! 감동적이야!",
+    "choices": [
+      {
+        "label": "사진 찍는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오로라를 보며 인생의 아름다움을 느꼈다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "그냥 바라본다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.55
+      }
+    ],
+    "tags": [
+      "감성",
+      "여행"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_viral_meme",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 13,
+        "max": 35
+      }
+    ],
+    "ageRange": [
+      13,
+      35
+    ],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "밈이 되다!",
+    "text": "내 사진이 인터넷 밈이 됐어! 유명해졌지만...",
+    "choices": [
+      {
+        "label": "즐긴다 ㅋㅋ",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "인터넷 밈이 되어 유명해졌다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "삭제 요청",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "병맛",
+      "기술"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_compound_interest",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 25
+      }
+    ],
+    "ageRange": [
+      15,
+      25
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "복리의 마법!",
+    "text": "선생님이 복리에 대해 알려줬어. '72의 법칙'이래!",
+    "choices": [
+      {
+        "label": "와, 진짜? 당장 저금!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "복리이해"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "복리의 마법을 깨닫고 저축을 시작했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "어렵다...",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "교육",
+      "금융"
+    ],
+    "oneShot": true
   }
 ]
