@@ -63,6 +63,7 @@ export type GameStoreState = {
   seeds: Seeds;
   usedScenarioIds: string[];
   assetHistory: { age: number; value: number }[];
+  autoInvest: boolean;
   ending: Ending | null;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
@@ -124,6 +125,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     seeds: randomSeeds(),
     usedScenarioIds: [],
     assetHistory: [{ age: 10, value: 50000 }],
+    autoInvest: false,
     ending: null,
     speedMultiplier: 1,
     stocksMaster: STOCKS,
@@ -205,8 +207,32 @@ export const useGameStore = create<GameStoreState>()(
       }
       // 5) NPC step
       const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc));
+      // 5b) Auto-invest: 10% of salary into random stocks
+      let autoInvestSpent = 0;
+      let autoHoldings = [...st.holdings];
+      if (st.autoInvest && salaryIncome > 0) {
+        const budget = Math.round(salaryIncome * 0.1);
+        const affordable = STOCKS.filter((s) => prices[s.ticker] <= budget);
+        if (affordable.length > 0) {
+          const pick = affordable[Math.floor(streams.misc() * affordable.length)];
+          const shares = Math.max(1, Math.floor(budget / prices[pick.ticker]));
+          const cost = shares * prices[pick.ticker];
+          autoInvestSpent = cost;
+          const existing = autoHoldings.find((h) => h.ticker === pick.ticker);
+          if (existing) {
+            const total = existing.shares + shares;
+            const avg = Math.round((existing.avgBuyPrice * existing.shares + prices[pick.ticker] * shares) / total);
+            autoHoldings = autoHoldings.map((h) =>
+              h.ticker === pick.ticker ? { ticker: pick.ticker, shares: total, avgBuyPrice: avg } : h,
+            );
+          } else {
+            autoHoldings = [...autoHoldings, { ticker: pick.ticker, shares, avgBuyPrice: prices[pick.ticker] }];
+          }
+        }
+      }
+
       // 6) Dream check
-      const ctxCash = st.cash + salaryIncome + dividendIncome + pensionIncome;
+      const ctxCash = st.cash + salaryIncome + dividendIncome + pensionIncome - autoInvestSpent;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
@@ -290,6 +316,7 @@ export const useGameStore = create<GameStoreState>()(
         character: { ...character, emoji },
         cash: ctxCash,
         bank,
+        holdings: autoHoldings,
         prices,
         npcs,
         dreams,

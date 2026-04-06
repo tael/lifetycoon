@@ -32,6 +32,7 @@ export function PlayScreen() {
   const keyMoments = useGameStore((s) => s.keyMoments);
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
+  const autoInvest = useGameStore((s) => s.autoInvest);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
@@ -307,11 +308,28 @@ export function PlayScreen() {
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>📈 주식</span>
-          {dividendIncome > 0 && (
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)' }}>
-              연 배당 +{formatWon(dividendIncome)}
-            </span>
-          )}
+          <div className="flex gap-sm" style={{ alignItems: 'center' }}>
+            {dividendIncome > 0 && (
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)' }}>
+                배당+{formatWon(dividendIncome)}
+              </span>
+            )}
+            <button
+              onClick={() => useGameStore.setState({ autoInvest: !autoInvest })}
+              style={{
+                fontSize: '0.6rem',
+                padding: '2px 6px',
+                borderRadius: 'var(--radius-full)',
+                background: autoInvest ? 'var(--success)' : '#eee',
+                color: autoInvest ? '#fff' : '#999',
+                fontWeight: 700,
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              {autoInvest ? '🤖 자동ON' : '자동OFF'}
+            </button>
+          </div>
         </div>
         {STOCKS.slice(0, 8).map((s: StockDef) => {
           const price = prices[s.ticker] ?? s.basePrice;
