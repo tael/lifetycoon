@@ -171,7 +171,7 @@ export function EndingScreen() {
             { emoji: '🏷️', label: '획득한 특성', value: `${traitsCount}개` },
             { emoji: '📈', label: '보유 종목', value: `${stockHoldings}개` },
             { emoji: '🏦', label: '예금 잔고', value: formatWon(st.bank.balance) },
-            { emoji: '⭐', label: '인생 최고의 순간', value: bestMoment ? `${Math.floor(bestMoment.age)}세` : '-' },
+            { emoji: '⭐', label: '최고의 순간', value: bestMoment ? `${Math.floor(bestMoment.age)}세` : '-' },
           ];
           return (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
