@@ -139,6 +139,35 @@ export function EndingScreen() {
         </div>
       </div>
 
+      {/* NPC Comparison */}
+      <div className="card" style={{ width: '100%', maxWidth: 380 }}>
+        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
+          👥 라이벌과 비교
+        </div>
+        {(() => {
+          const npcs = useGameStore.getState().npcs;
+          const allPlayers = [
+            { name: `${characterName} (나)`, assets: ending.finalAssets, isMe: true },
+            ...npcs.map((n) => ({ name: n.name, assets: n.currentAssets, isMe: false })),
+          ].sort((a, b) => b.assets - a.assets);
+          return allPlayers.map((p, i) => (
+            <div key={i} style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '4px 0',
+              fontWeight: p.isMe ? 700 : 400,
+              color: p.isMe ? 'var(--accent)' : 'inherit',
+              fontSize: 'var(--font-size-sm)',
+            }}>
+              <span style={{ width: 24 }}>{i === 0 ? '👑' : `${i + 1}위`}</span>
+              <span style={{ flex: 1 }}>{p.name}</span>
+              <span>{formatWon(p.assets)}</span>
+            </div>
+          ));
+        })()}
+      </div>
+
       {/* New Achievements */}
       {newAchievements.length > 0 && (
         <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center', border: '2px solid var(--grade-s)' }}>
