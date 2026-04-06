@@ -153,6 +153,55 @@ export function EndingScreen() {
         <AssetChart data={useGameStore.getState().assetHistory} />
       </div>
 
+      {/* Life Statistics */}
+      <div className="card" style={{ width: '100%', maxWidth: 380 }}>
+        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
+          📋 인생 통계
+        </div>
+        {(() => {
+          const st = useGameStore.getState();
+          const eventsTotal = st.usedScenarioIds.length;
+          const traitsCount = st.traits.length;
+          const stockHoldings = st.holdings.length;
+          const bestMoment = ending.keyMomentsSelected.length > 0
+            ? ending.keyMomentsSelected.reduce((a, b) => a.importance > b.importance ? a : b)
+            : null;
+          const stats = [
+            { emoji: '📌', label: '경험한 이벤트', value: `${eventsTotal}개` },
+            { emoji: '🏷️', label: '획득한 특성', value: `${traitsCount}개` },
+            { emoji: '📈', label: '보유 종목', value: `${stockHoldings}개` },
+            { emoji: '🏦', label: '예금 잔고', value: formatWon(st.bank.balance) },
+            { emoji: '⭐', label: '인생 최고의 순간', value: bestMoment ? `${Math.floor(bestMoment.age)}세` : '-' },
+          ];
+          return (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {stats.map((s, i) => (
+                <div key={i} style={{
+                  background: 'var(--bg-secondary)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '6px 8px',
+                  fontSize: 'var(--font-size-xs)',
+                }}>
+                  <span>{s.emoji} {s.label}</span>
+                  <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginTop: 2 }}>{s.value}</div>
+                </div>
+              ))}
+              {bestMoment && (
+                <div style={{
+                  gridColumn: '1 / -1',
+                  background: 'var(--accent-light)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '6px 8px',
+                  fontSize: 'var(--font-size-xs)',
+                }}>
+                  ⭐ {bestMoment.text}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+      </div>
+
       {/* NPC Comparison */}
       <div className="card" style={{ width: '100%', maxWidth: 380 }}>
         <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
