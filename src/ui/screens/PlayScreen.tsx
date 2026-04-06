@@ -714,6 +714,8 @@ function characterSpeech(
   if (c.happiness > 80) return '행복해! 😊';
   if (c.wisdom > 80) return '많이 배웠다!';
   if (assets > 50000000) return '부자다! 배당금 최고!';
+  if (rank === 2) return '1등 바로 뒤야! 조금만 더!';
+  if (assets < 100000) return '돈이 없다... 알바라도 해야 하나';
   return '오늘도 파이팅!';
 }
 
