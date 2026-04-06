@@ -4187,5 +4187,333 @@
       "기술"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_secret_time_traveler",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "발명가"
+      },
+      {
+        "kind": "ageRange",
+        "min": 40,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      40,
+      70
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "🕰️ 시간여행자의 방문",
+    "text": "미래에서 온 자신이 나타났다! '주식을 팔지 마!'라고 외치고 사라졌어...",
+    "choices": [
+      {
+        "label": "미래의 나를 믿는다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "시간여행경험"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "미래의 자신을 만나 조언을 들었다",
+            "importance": 0.95
+          }
+        ],
+        "importance": 0.95
+      },
+      {
+        "label": "꿈이었나..?",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "히든",
+      "병맛"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_secret_billionaire_party",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 50000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      35,
+      80
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "🎩 부자들의 비밀 파티",
+    "text": "초대장이 왔어. '자산 5천만원 이상만 입장 가능' — 비밀 투자 모임이래!",
+    "choices": [
+      {
+        "label": "참석한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "VIP멤버"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "부자들의 비밀 파티에 초대받았다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "수상하다, 안 간다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "히든",
+      "부자"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_secret_pet_genius",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "반려인"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "봉사왕"
+      }
+    ],
+    "ageRange": [
+      30,
+      80
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "🐾 동물 천재 발견",
+    "text": "우리 반려동물이 천재래! TV에 나가자는 제안이 왔어!",
+    "choices": [
+      {
+        "label": "스타 만들기!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 10000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "반려동물이 TV 스타가 되어 대박이 났다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "조용히 살자",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "히든",
+      "반려"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_secret_broke_wisdom",
+    "triggers": [
+      {
+        "kind": "cashLte",
+        "value": 10000
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      30,
+      60
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "title": "💡 바닥의 깨달음",
+    "text": "돈이 거의 없지만... 뭔가 깨달은 것 같아. 진짜 중요한 게 뭔지.",
+    "choices": [
+      {
+        "label": "새 출발한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "부활자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "바닥에서 깨달음을 얻고 다시 일어섰다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "아직 깨닫지 못했어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "히든",
+      "감성"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_secret_triple_trait",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "기부왕"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "정직함"
+      }
+    ],
+    "ageRange": [
+      40,
+      90
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "🏅 올해의 시민상",
+    "text": "정직하고 나눔을 실천한 공로로 시민상 후보에 올랐어!",
+    "choices": [
+      {
+        "label": "감사히 받는다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "addTrait",
+            "trait": "시민영웅"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "올해의 시민상을 받아 감동의 연설을 했다",
+            "importance": 0.95
+          }
+        ],
+        "importance": 0.95
+      },
+      {
+        "label": "다른 분에게 양보",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": [
+      "히든",
+      "감성"
+    ],
+    "oneShot": true
   }
 ]
