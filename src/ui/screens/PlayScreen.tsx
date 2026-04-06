@@ -11,6 +11,7 @@ import { showToast } from '../components/Toast';
 import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
+import { TutorialOverlay } from '../components/TutorialOverlay';
 import type { StockDef } from '../../game/types';
 
 export function PlayScreen() {
@@ -391,6 +392,9 @@ export function PlayScreen() {
 
       {/* Confetti on dream achieved */}
       {showConfetti && <ConfettiBurst />}
+
+      {/* First-play tutorial */}
+      <TutorialOverlay />
     </div>
   );
 }
