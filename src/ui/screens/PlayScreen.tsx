@@ -128,6 +128,11 @@ export function PlayScreen() {
     ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%`
     : undefined;
 
+  // Yearly income
+  const salaryYearly = job ? job.salary * 12 : 0;
+  const interestYearly = Math.round(bank.balance * bank.interestRate);
+  const yearlyIncome = salaryYearly + interestYearly + dividendIncome;
+
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
   const myRank = sortedNpcs.filter((n) => n.currentAssets > totalAssets).length + 1;
@@ -235,6 +240,20 @@ export function PlayScreen() {
           <AssetRow label="현금" value={cash} />
           <AssetRow label="예금" value={bank.balance} extra={`연 ${(bank.interestRate * 100).toFixed(1)}%`} />
           <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
+        </div>
+        {/* Income summary */}
+        <div style={{
+          marginTop: 'var(--sp-sm)',
+          padding: 'var(--sp-xs) var(--sp-sm)',
+          background: '#f8fff8',
+          borderRadius: 'var(--radius-sm)',
+          fontSize: 'var(--font-size-xs)',
+          color: 'var(--success)',
+        }}>
+          📥 연 수입: {formatWon(yearlyIncome)}
+          <span className="text-muted" style={{ marginLeft: 8 }}>
+            (월급 {formatWon(job?.salary ? job.salary * 12 : 0)} + 이자 {formatWon(Math.round(bank.balance * bank.interestRate))} + 배당 {formatWon(dividendIncome)})
+          </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
           <QuickActionBtn label="입금 10만" onClick={() => {
