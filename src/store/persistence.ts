@@ -20,6 +20,7 @@ export type PersistedSave = {
     | 'npcs'
     | 'keyMoments'
     | 'recentLog'
+    | 'assetHistory'
     | 'seeds'
     | 'usedScenarioIds'
     | 'speedMultiplier'
@@ -45,6 +46,7 @@ export function saveGame(state: GameStoreState): void {
         npcs: state.npcs,
         keyMoments: state.keyMoments,
         recentLog: state.recentLog,
+        assetHistory: state.assetHistory,
         seeds: state.seeds,
         usedScenarioIds: state.usedScenarioIds,
         speedMultiplier: state.speedMultiplier,

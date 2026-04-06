@@ -62,6 +62,7 @@ export type GameStoreState = {
   recentLog: LifeEvent[];
   seeds: Seeds;
   usedScenarioIds: string[];
+  assetHistory: { age: number; value: number }[];
   ending: Ending | null;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
@@ -122,6 +123,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     recentLog: [],
     seeds: randomSeeds(),
     usedScenarioIds: [],
+    assetHistory: [{ age: 10, value: 50000 }],
     ending: null,
     speedMultiplier: 1,
     stocksMaster: STOCKS,
@@ -272,6 +274,13 @@ export const useGameStore = create<GameStoreState>()(
         },
       ].slice(-RECENT_LOG_LIMIT);
 
+      // Track asset history every 5 years
+      const stocksVal = st.holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
+      const totalNow = ctxCash + bank.balance + stocksVal;
+      const assetHistory = intAge % 5 === 0
+        ? [...st.assetHistory, { age: intAge, value: totalNow }]
+        : st.assetHistory;
+
       set({
         character: { ...character, emoji },
         cash: ctxCash,
@@ -281,6 +290,7 @@ export const useGameStore = create<GameStoreState>()(
         dreams,
         keyMoments,
         recentLog,
+        assetHistory,
         phase,
       });
     },

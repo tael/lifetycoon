@@ -6,6 +6,7 @@ import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
 import { updateHighScore } from '../../store/highScore';
 import { ConfettiBurst } from '../components/MoneyAnimation';
+import { AssetChart } from '../components/AssetChart';
 import { showToast } from '../components/Toast';
 import type { Grade } from '../../game/types';
 
@@ -137,6 +138,11 @@ export function EndingScreen() {
             <span className="stat-badge__label" style={{ color: 'rgba(255,255,255,0.7)' }}>행복도</span>
           </div>
         </div>
+      </div>
+
+      {/* Asset Chart */}
+      <div className="card" style={{ width: '100%', maxWidth: 380 }}>
+        <AssetChart data={useGameStore.getState().assetHistory} />
       </div>
 
       {/* NPC Comparison */}
