@@ -12,13 +12,17 @@ import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
+import { PHASE_LABEL } from '../../game/engine/economyCycle';
 import type { StockDef } from '../../game/types';
+import type { EconomyPhase } from '../../game/engine/economyCycle';
 
 export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
   const [showMilestone, setShowMilestone] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [playTime, setPlayTime] = useState(0);
+  const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
+  const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
   const phase = useGameStore((s) => s.phase);
@@ -34,6 +38,7 @@ export function PlayScreen() {
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
   const autoInvest = useGameStore((s) => s.autoInvest);
+  const economyCycle = useGameStore((s) => s.economyCycle);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
@@ -117,6 +122,22 @@ export function PlayScreen() {
     }
   }, [character.age, dreams, phase]);
 
+  // Economy cycle change → NewsTicker alert
+  useEffect(() => {
+    if (!economyCycle) return;
+    const prev = prevCyclePhaseRef.current;
+    if (prev !== null && prev !== economyCycle.phase) {
+      const msg = economyCycle.phase === 'boom'
+        ? '🔥 경제 호황기 돌입! 주가 상승 기대감 고조'
+        : economyCycle.phase === 'recession'
+          ? '🥶 경기 침체 시작. 투자에 신중하세요'
+          : '⚡ 경기가 안정세로 돌아왔습니다';
+      setCycleTickerMsg(msg);
+      setTimeout(() => setCycleTickerMsg(undefined), 5500);
+    }
+    prevCyclePhaseRef.current = economyCycle.phase;
+  }, [economyCycle?.phase]);
+
   const handleMilestoneClose = () => {
     setShowMilestone(null);
     loopRef.current?.resume();
@@ -169,18 +190,38 @@ export function PlayScreen() {
       transition: 'background 2s ease',
     }}>
       {/* News Ticker */}
-      <NewsTicker age={character.age} />
+      <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
 
       {/* Age Timeline */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
               {formatAge(character.age)}
             </span>
-            <span className="text-muted" style={{ fontSize: '0.6rem', marginLeft: 6 }}>
+            <span className="text-muted" style={{ fontSize: '0.6rem' }}>
               ⏱{Math.floor(playTime / 60)}:{(playTime % 60).toString().padStart(2, '0')}
             </span>
+            {economyCycle && (
+              <span style={{
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                padding: '1px 6px',
+                borderRadius: 'var(--radius-full)',
+                background: economyCycle.phase === 'boom'
+                  ? '#fff3e0'
+                  : economyCycle.phase === 'recession'
+                    ? '#e3f2fd'
+                    : '#f3e5f5',
+                color: economyCycle.phase === 'boom'
+                  ? '#e65100'
+                  : economyCycle.phase === 'recession'
+                    ? '#1565c0'
+                    : '#6a1b9a',
+              }}>
+                {PHASE_LABEL[economyCycle.phase]}
+              </span>
+            )}
           </div>
           <SpeedControl current={speedMultiplier} onChange={setSpeed} />
         </div>
@@ -374,7 +415,19 @@ export function PlayScreen() {
             </button>
           </div>
         </div>
-        {STOCKS.map((s: StockDef) => {
+        {[...STOCKS].sort((a, b) => {
+          const priceA = prices[a.ticker] ?? a.basePrice;
+          const priceB = prices[b.ticker] ?? b.basePrice;
+          const sharesA = holdings.find((h) => h.ticker === a.ticker)?.shares ?? 0;
+          const sharesB = holdings.find((h) => h.ticker === b.ticker)?.shares ?? 0;
+          const valueA = priceA * sharesA;
+          const valueB = priceB * sharesB;
+          const hasA = sharesA > 0;
+          const hasB = sharesB > 0;
+          if (hasA !== hasB) return hasA ? -1 : 1;
+          if (hasA && hasB) return valueB - valueA;
+          return priceB - priceA;
+        }).map((s: StockDef) => {
           const price = prices[s.ticker] ?? s.basePrice;
           const holding = holdings.find((h) => h.ticker === s.ticker);
           return (

@@ -53,9 +53,17 @@ const NEWS_POOL = [
   '🎓 경제 교육 의무화 법안 국회 통과',
 ];
 
-export function NewsTicker({ age }: { age: number }) {
+export function NewsTicker({ age, forcedMessage }: { age: number; forcedMessage?: string }) {
   const [text, setText] = useState('');
   const prevAge = useRef(age);
+
+  // Show forced message (e.g. economy cycle change) immediately
+  useEffect(() => {
+    if (!forcedMessage) return;
+    setText(forcedMessage);
+    const timer = setTimeout(() => setText(''), 5000);
+    return () => clearTimeout(timer);
+  }, [forcedMessage]);
 
   useEffect(() => {
     const intAge = Math.floor(age);

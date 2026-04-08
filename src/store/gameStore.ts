@@ -23,6 +23,13 @@ import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
 import { nextPrice } from '../game/domain/stock';
 import { createStreams, randomSeeds, type RngStreams } from '../game/engine/prng';
+import {
+  createEconomyCycle,
+  stepEconomyCycle,
+  PHASE_DRIFT_BONUS,
+  PHASE_INTEREST_BONUS,
+  type EconomyCycle,
+} from '../game/engine/economyCycle';
 import { createNpcFromSeed, stepNpc } from '../game/domain/npc';
 import { buildEnding } from '../game/domain/ending';
 import {
@@ -65,6 +72,8 @@ export type GameStoreState = {
   assetHistory: { age: number; value: number }[];
   autoInvest: boolean;
   ending: Ending | null;
+  lastJobChangeAge: number | null;
+  economyCycle: EconomyCycle;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   // Derived/static
@@ -83,6 +92,7 @@ export type GameStoreState = {
   deposit: (amount: number) => boolean;
   withdraw: (amount: number) => boolean;
   setSpeed: (s: 0.5 | 1 | 2) => void;
+  changeJob: (jobId: string) => { success: boolean; reason?: string };
   endGame: () => void;
   resetAll: () => void;
   loadSnapshot: (s: Partial<GameStoreState>) => void;
@@ -127,6 +137,8 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     assetHistory: [{ age: 10, value: 50000 }],
     autoInvest: false,
     ending: null,
+    lastJobChangeAge: null,
+    economyCycle: createEconomyCycle(() => Math.random()),
     speedMultiplier: 1,
     stocksMaster: STOCKS,
     jobsMaster: JOBS,
@@ -147,6 +159,7 @@ type GameStoreActions = Pick<
   | 'deposit'
   | 'withdraw'
   | 'setSpeed'
+  | 'changeJob'
   | 'endGame'
   | 'resetAll'
   | 'loadSnapshot'
@@ -186,8 +199,19 @@ export const useGameStore = create<GameStoreState>()(
         happiness: Math.max(10, st.character.happiness - happyDecay * deltaYears),
         health: Math.max(10, st.character.health - healthDecay * deltaYears),
       };
-      // 2) Bank interest
-      const bank = applyInterestForYears(st.bank, deltaYears);
+      // 2) Economy cycle step
+      const { cycle: economyCycle, changed: cycleChanged } = stepEconomyCycle(
+        st.economyCycle,
+        deltaYears,
+        streams.misc,
+      );
+      const driftBonus = PHASE_DRIFT_BONUS[economyCycle.phase];
+      const interestBonus = PHASE_INTEREST_BONUS[economyCycle.phase];
+
+      // 2b) Bank interest (with cycle adjustment, floor at 0.5%)
+      const adjustedInterestRate = Math.max(0.005, st.bank.interestRate + interestBonus);
+      const bankForInterest = { ...st.bank, interestRate: adjustedInterestRate };
+      const bank = applyInterestForYears(bankForInterest, deltaYears);
       // 3) Salary income + stock dividends + pension
       const salaryIncome = st.job ? st.job.salary * 12 * deltaYears : 0;
       // Pension: 65세+ 시 근무 연수 기반 연금 (연 50만원 × 직업 수 경험)
@@ -200,10 +224,13 @@ export const useGameStore = create<GameStoreState>()(
         const price = st.prices[h.ticker] ?? 0;
         return sum + Math.round(price * h.shares * divRate * deltaYears);
       }, 0);
-      // 4) Stock price drift
+      // 4) Stock price drift (with economy cycle bonus)
       const prices: Record<string, number> = { ...st.prices };
       for (const s of STOCKS) {
-        prices[s.ticker] = nextPrice(prices[s.ticker], s, streams.stock, deltaYears);
+        const adjustedStock = driftBonus !== 0
+          ? { ...s, drift: s.drift + driftBonus }
+          : s;
+        prices[s.ticker] = nextPrice(prices[s.ticker], adjustedStock, streams.stock, deltaYears);
       }
       // 5) NPC step
       const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc));
@@ -296,8 +323,20 @@ export const useGameStore = create<GameStoreState>()(
       }
 
       // Recent log update
+      const cycleLogEntry = cycleChanged
+        ? [{
+            age: intAge,
+            text: economyCycle.phase === 'boom'
+              ? `📢 경제 호황기 시작! 주가 상승세 기대`
+              : economyCycle.phase === 'recession'
+                ? `📢 경기 침체 시작. 주가 하락 주의`
+                : `📢 경기가 안정세로 접어들었습니다`,
+            timestamp: Date.now(),
+          }]
+        : [];
       const recentLog = [
         ...st.recentLog,
+        ...cycleLogEntry,
         {
           age: intAge,
           text: `${intAge}세: 자산 ${Math.round((ctxCash + bank.balance) / 10000)}만원`,
@@ -324,6 +363,7 @@ export const useGameStore = create<GameStoreState>()(
         recentLog,
         assetHistory,
         phase,
+        economyCycle,
       });
     },
     triggerEvent(ev) {
@@ -424,6 +464,15 @@ export const useGameStore = create<GameStoreState>()(
     },
     setSpeed(s) {
       set({ speedMultiplier: s });
+    },
+    changeJob(jobId) {
+      const st = get();
+      const newJob = JOBS.find((j) => j.id === jobId);
+      if (!newJob) return { success: false, reason: '존재하지 않는 직업' };
+      const intAge = Math.floor(st.character.age);
+      if (intAge < newJob.minAge) return { success: false, reason: `${newJob.minAge}세 이상만 가능` };
+      set({ job: newJob, lastJobChangeAge: intAge });
+      return { success: true };
     },
     endGame() {
       const st = get();
