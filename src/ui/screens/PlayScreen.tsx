@@ -13,7 +13,8 @@ import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { PHASE_LABEL } from '../../game/engine/economyCycle';
-import type { StockDef } from '../../game/types';
+import type { StockDef, RealEstate } from '../../game/types';
+import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
 
 export function PlayScreen() {
@@ -38,6 +39,11 @@ export function PlayScreen() {
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
   const autoInvest = useGameStore((s) => s.autoInvest);
+  const realEstate = useGameStore((s) => s.realEstate);
+  const buyRealEstate = useGameStore((s) => s.buyRealEstate);
+  const sellRealEstate = useGameStore((s) => s.sellRealEstate);
+  const insurance = useGameStore((s) => s.insurance);
+  const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const economyCycle = useGameStore((s) => s.economyCycle);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
@@ -147,7 +153,8 @@ export function PlayScreen() {
 
   const progress = progressFraction(character.age);
   const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-  const totalAssets = cash + bank.balance + stocksValue;
+  const realEstateValue = realEstate.reduce((s, re) => s + re.currentValue, 0);
+  const totalAssets = cash + bank.balance + stocksValue + realEstateValue;
 
   // Previous total for Y-o-Y change
   const prevTotalRef = useRef(totalAssets);
@@ -359,6 +366,9 @@ export function PlayScreen() {
           <AssetRow label="현금" value={cash} />
           <AssetRow label="예금" value={bank.balance} extra={`연 ${(bank.interestRate * 100).toFixed(1)}%`} />
           <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
+          {realEstateValue > 0 && (
+            <AssetRow label="부동산" value={realEstateValue} extra={`${realEstate.length}채`} />
+          )}
           {bank.loanBalance > 0 && (
             <div className="flex flex-between" style={{ alignItems: 'center' }}>
               <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--danger)' }}>대출</span>
@@ -416,6 +426,100 @@ export function PlayScreen() {
           }} disabled={bank.loanBalance < 1000000 || cash < 1000000} />
         </div>
       </div>
+
+      {/* Insurance */}
+      <div className="card">
+        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)' }}>🛡️ 보험</div>
+        <div className="flex flex-col gap-xs">
+          <div className="flex flex-between" style={{ alignItems: 'center' }}>
+            <div>
+              <span style={{ fontSize: 'var(--font-size-sm)' }}>건강보험</span>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 6 }}>
+                연 20만 · 건강 피해 -50%
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                toggleInsurance('health');
+                showToast(
+                  insurance.health ? '건강보험 해지' : '건강보험 가입!',
+                  '🛡️',
+                  insurance.health ? 'warning' : 'success',
+                  1200,
+                );
+              }}
+              style={{
+                padding: '4px 12px',
+                borderRadius: 'var(--radius-sm)',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: 'var(--font-size-xs)',
+                background: insurance.health ? 'var(--success)' : '#ccc',
+                color: '#fff',
+              }}
+            >
+              {insurance.health ? 'ON' : 'OFF'}
+            </button>
+          </div>
+          <div className="flex flex-between" style={{ alignItems: 'center' }}>
+            <div>
+              <span style={{ fontSize: 'var(--font-size-sm)' }}>자산보험</span>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 6 }}>
+                연 30만 · 현금 손실 -30%
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                toggleInsurance('asset');
+                showToast(
+                  insurance.asset ? '자산보험 해지' : '자산보험 가입!',
+                  '🛡️',
+                  insurance.asset ? 'warning' : 'success',
+                  1200,
+                );
+              }}
+              style={{
+                padding: '4px 12px',
+                borderRadius: 'var(--radius-sm)',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: 700,
+                fontSize: 'var(--font-size-xs)',
+                background: insurance.asset ? 'var(--success)' : '#ccc',
+                color: '#fff',
+              }}
+            >
+              {insurance.asset ? 'ON' : 'OFF'}
+            </button>
+          </div>
+        </div>
+        {insurance.premium > 0 && (
+          <div style={{
+            marginTop: 'var(--sp-sm)',
+            padding: 'var(--sp-xs) var(--sp-sm)',
+            background: '#f0fff4',
+            borderRadius: 'var(--radius-sm)',
+            fontSize: 'var(--font-size-xs)',
+            color: 'var(--success)',
+          }}>
+            📋 연 보험료 합계: {(insurance.premium / 10000).toFixed(0)}만원
+          </div>
+        )}
+      </div>
+
+      {/* Real Estate */}
+      <RealEstateCard
+        realEstate={realEstate}
+        cash={cash}
+        onBuy={(id) => {
+          if (buyRealEstate(id)) showToast('부동산 매입!', '🏠', 'success', 1500);
+          else showToast('잔액이 부족해요', '😢', 'danger', 1500);
+        }}
+        onSell={(idx) => {
+          if (sellRealEstate(idx)) showToast('부동산 매각!', '💸', 'success', 1500);
+        }}
+      />
 
       {/* Stock Board */}
       <div className="card">
@@ -762,6 +866,97 @@ function CareBtn({ emoji, label, cost, stat, delta }: {
     </button>
   );
 }
+
+function RealEstateCard({
+  realEstate, cash, onBuy, onSell,
+}: {
+  realEstate: RealEstate[];
+  cash: number;
+  onBuy: (id: string) => void;
+  onSell: (idx: number) => void;
+}) {
+  // First listing not yet owned
+  const ownedIds = new Set(realEstate.map((re) => re.id));
+  const nextListing = REAL_ESTATE_LISTINGS.find((l) => !ownedIds.has(l.id));
+
+  return (
+    <div className="card">
+      <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>🏠 부동산</div>
+      {realEstate.length === 0 && (
+        <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginBottom: 'var(--sp-xs)' }}>
+          보유 부동산 없음
+        </div>
+      )}
+      {realEstate.map((re, i) => {
+        const gain = re.currentValue - re.purchasePrice;
+        return (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', borderBottom: '1px solid #f5f0e8' }}>
+            <span style={{ fontSize: '1.2rem' }}>🏠</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{re.name}</div>
+              <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
+                {formatWon(re.currentValue)}
+                <span style={{ marginLeft: 4, color: gain >= 0 ? 'var(--success)' : 'var(--danger)' }}>
+                  {gain >= 0 ? '+' : ''}{formatWon(gain)}
+                </span>
+                {re.monthlyRent > 0 && (
+                  <span style={{ marginLeft: 4, color: 'var(--success)' }}>
+                    월세+{formatWon(re.monthlyRent)}
+                  </span>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={() => onSell(i)}
+              style={{
+                padding: '2px 8px',
+                borderRadius: 'var(--radius-sm)',
+                background: '#ffebee',
+                color: 'var(--danger)',
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              매각
+            </button>
+          </div>
+        );
+      })}
+      {nextListing && (
+        <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ flex: 1, fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
+            매물: {nextListing.name} ({formatWon(nextListing.price)})
+            {nextListing.monthlyRent > 0 && ` · 월세 ${formatWon(nextListing.monthlyRent)}`}
+          </div>
+          <button
+            onClick={() => onBuy(nextListing.id)}
+            disabled={cash < nextListing.price}
+            style={{
+              padding: '2px 10px',
+              borderRadius: 'var(--radius-sm)',
+              background: cash >= nextListing.price ? '#e8f5e9' : '#eee',
+              color: cash >= nextListing.price ? 'var(--success)' : '#aaa',
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              border: 'none',
+              cursor: cash >= nextListing.price ? 'pointer' : 'default',
+            }}
+          >
+            매입
+          </button>
+        </div>
+      )}
+      {!nextListing && realEstate.length > 0 && (
+        <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginTop: 4 }}>
+          모든 매물 보유 중 🎉
+        </div>
+      )}
+    </div>
+  );
+}
+
 
 function dreamProgress(
   d: { targetCondition: { kind: string; value?: number; shares?: number; jobId?: string } },

@@ -9,14 +9,17 @@ import type {
   EventChoice,
   FriendNPC,
   Holding,
+  Insurance,
   Job,
   KeyMoment,
   LifeEvent,
   Phase,
+  RealEstate,
   ScenarioEvent,
   Seeds,
   StockDef,
 } from '../game/types';
+import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate';
 import { createCharacter, emojiFor } from '../game/domain/character';
 import { createBankAccount, applyInterestForYears, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
@@ -71,6 +74,8 @@ export type GameStoreState = {
   usedScenarioIds: string[];
   assetHistory: { age: number; value: number }[];
   autoInvest: boolean;
+  insurance: Insurance;
+  realEstate: RealEstate[];
   ending: Ending | null;
   lastJobChangeAge: number | null;
   economyCycle: EconomyCycle;
@@ -95,6 +100,9 @@ export type GameStoreState = {
   repayLoan: (amount: number) => boolean;
   setSpeed: (s: 0.5 | 1 | 2) => void;
   changeJob: (jobId: string) => { success: boolean; reason?: string };
+  toggleInsurance: (type: 'health' | 'asset') => void;
+  buyRealEstate: (id: string) => boolean;
+  sellRealEstate: (index: number) => boolean;
   endGame: () => void;
   resetAll: () => void;
   loadSnapshot: (s: Partial<GameStoreState>) => void;
@@ -138,6 +146,8 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     usedScenarioIds: [],
     assetHistory: [{ age: 10, value: 50000 }],
     autoInvest: false,
+    insurance: { health: false, asset: false, premium: 0 },
+    realEstate: [],
     ending: null,
     lastJobChangeAge: null,
     economyCycle: createEconomyCycle(() => Math.random()),
@@ -164,6 +174,9 @@ type GameStoreActions = Pick<
   | 'repayLoan'
   | 'setSpeed'
   | 'changeJob'
+  | 'toggleInsurance'
+  | 'buyRealEstate'
+  | 'sellRealEstate'
   | 'endGame'
   | 'resetAll'
   | 'loadSnapshot'
@@ -264,7 +277,11 @@ export const useGameStore = create<GameStoreState>()(
       }
 
       // 6) Dream check
-      const ctxCash = st.cash + salaryIncome + dividendIncome + pensionIncome - autoInvestSpent;
+      const insuranceCost = Math.round(st.insurance.premium * deltaYears);
+      // Real estate: appreciate values + collect rent
+      const appreciatedRealEstate = st.realEstate.map((re) => appreciateValue(re, deltaYears, streams.misc));
+      const rentalIncome = st.realEstate.reduce((sum, re) => sum + re.monthlyRent * 12 * deltaYears, 0);
+      const ctxCash = st.cash + salaryIncome + dividendIncome + pensionIncome - autoInvestSpent - insuranceCost + Math.round(rentalIncome);
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
@@ -369,6 +386,7 @@ export const useGameStore = create<GameStoreState>()(
         assetHistory,
         phase,
         economyCycle,
+        realEstate: appreciatedRealEstate,
       });
     },
     triggerEvent(ev) {
@@ -380,6 +398,18 @@ export const useGameStore = create<GameStoreState>()(
       const event = st.phase.event;
       const choice: EventChoice | undefined = event.choices[choiceIndex];
       if (!choice) return;
+      // 보험 경감: health 이벤트 -50%, cash 음수 이벤트 -30%
+      const ins = st.insurance;
+      const mitigatedEffects = choice.effects.map((eff) => {
+        if (eff.kind === 'health' && eff.delta < 0 && ins.health) {
+          return { ...eff, delta: Math.round(eff.delta * 0.5) };
+        }
+        if (eff.kind === 'cash' && eff.delta < 0 && ins.asset) {
+          return { ...eff, delta: Math.round(eff.delta * 0.7) };
+        }
+        return eff;
+      });
+      const mitigatedChoice: EventChoice = { ...choice, effects: mitigatedEffects };
       const next = applyChoice(
         {
           character: st.character,
@@ -392,7 +422,7 @@ export const useGameStore = create<GameStoreState>()(
           traits: st.traits,
           keyMoments: st.keyMoments,
         },
-        choice,
+        mitigatedChoice,
         event.triggeredAtAge,
       );
       const newUsed = [...st.usedScenarioIds, event.scenarioId];
@@ -495,12 +525,53 @@ export const useGameStore = create<GameStoreState>()(
       set({ job: newJob, lastJobChangeAge: intAge });
       return { success: true };
     },
+    toggleInsurance(type) {
+      const st = get();
+      const ins = st.insurance;
+      const healthPremium = 200000;
+      const assetPremium = 300000;
+      if (type === 'health') {
+        const newHealth = !ins.health;
+        const newPremium = (newHealth ? healthPremium : 0) + (ins.asset ? assetPremium : 0);
+        set({ insurance: { ...ins, health: newHealth, premium: newPremium } });
+      } else {
+        const newAsset = !ins.asset;
+        const newPremium = (ins.health ? healthPremium : 0) + (newAsset ? assetPremium : 0);
+        set({ insurance: { ...ins, asset: newAsset, premium: newPremium } });
+      }
+    },
+    buyRealEstate(id) {
+      const st = get();
+      const listing = REAL_ESTATE_LISTINGS.find((l) => l.id === id);
+      if (!listing) return false;
+      if (st.cash < listing.price) return false;
+      const newRe: RealEstate = {
+        id: listing.id,
+        name: listing.name,
+        purchasePrice: listing.price,
+        currentValue: listing.price,
+        monthlyRent: listing.monthlyRent,
+        purchasedAtAge: Math.floor(st.character.age),
+      };
+      set({ cash: st.cash - listing.price, realEstate: [...st.realEstate, newRe] });
+      return true;
+    },
+    sellRealEstate(index) {
+      const st = get();
+      const re = st.realEstate[index];
+      if (!re) return false;
+      const proceeds = re.currentValue;
+      const newList = st.realEstate.filter((_, i) => i !== index);
+      set({ cash: st.cash + proceeds, realEstate: newList });
+      return true;
+    },
     endGame() {
       const st = get();
       const totalAssets =
         st.cash +
         st.bank.balance +
-        st.holdings.reduce((sum, h) => sum + (st.prices[h.ticker] ?? 0) * h.shares, 0);
+        st.holdings.reduce((sum, h) => sum + (st.prices[h.ticker] ?? 0) * h.shares, 0) +
+        st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
       const ending = buildEnding(
         st.character.name,
         st.dreams,

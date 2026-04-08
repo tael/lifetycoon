@@ -133,6 +133,12 @@ export type KeyMoment = {
   tag: string; // "유년기" | "청년기" | "장년기" | "노년기" 또는 커스텀
 };
 
+export type Insurance = {
+  health: boolean;   // 건강보험 가입 여부
+  asset: boolean;    // 자산보험 가입 여부
+  premium: number;   // 연간 보험료 합계
+};
+
 export type LifeEvent = {
   age: number;
   text: string;
@@ -165,6 +171,15 @@ export type Ending = {
   finalHappiness: number;
   epitaph: string[]; // 여러 줄 비문
   keyMomentsSelected: KeyMoment[];
+};
+
+export type RealEstate = {
+  id: string;
+  name: string;
+  purchasePrice: number;
+  currentValue: number;
+  monthlyRent: number;  // 월 임대수입 (0이면 자가)
+  purchasedAtAge: number;
 };
 
 export type LifeStageTag = '유년기' | '청년기' | '중년기' | '장년기' | '노년기';

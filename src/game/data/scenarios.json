@@ -14847,7 +14847,10 @@
         "amount": 1000000
       }
     ],
-    "ageRange": [20, 60],
+    "ageRange": [
+      20,
+      60
+    ],
     "weight": 4,
     "pausesGame": true,
     "title": "경제가 좋을 때 올인?",
@@ -14912,7 +14915,11 @@
         "importance": 0.3
       }
     ],
-    "tags": ["경제", "투자", "호황"],
+    "tags": [
+      "경제",
+      "투자",
+      "호황"
+    ],
     "oneShot": false
   },
   {
@@ -14924,7 +14931,10 @@
         "max": 70
       }
     ],
-    "ageRange": [25, 70],
+    "ageRange": [
+      25,
+      70
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "모든 것이 떨어지고 있어!",
@@ -14992,7 +15002,11 @@
         "importance": 0.2
       }
     ],
-    "tags": ["경제", "불황", "위기"],
+    "tags": [
+      "경제",
+      "불황",
+      "위기"
+    ],
     "oneShot": false
   },
   {
@@ -15004,7 +15018,10 @@
         "max": 65
       }
     ],
-    "ageRange": [30, 65],
+    "ageRange": [
+      30,
+      65
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "경제 사이클 예측",
@@ -15058,7 +15075,11 @@
         "importance": 0.15
       }
     ],
-    "tags": ["경제", "투자", "교육"],
+    "tags": [
+      "경제",
+      "투자",
+      "교육"
+    ],
     "oneShot": true
   },
   {
@@ -15069,7 +15090,10 @@
         "amount": 2000000
       }
     ],
-    "ageRange": [25, 70],
+    "ageRange": [
+      25,
+      70
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "인플레이션 방어 전략",
@@ -15132,7 +15156,11 @@
         "importance": 0.25
       }
     ],
-    "tags": ["경제", "투자", "교육"],
+    "tags": [
+      "경제",
+      "투자",
+      "교육"
+    ],
     "oneShot": false
   },
   {
@@ -15144,7 +15172,10 @@
         "max": 65
       }
     ],
-    "ageRange": [22, 65],
+    "ageRange": [
+      22,
+      65
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "금리가 올랐어!",
@@ -15202,7 +15233,10 @@
         "importance": 0.1
       }
     ],
-    "tags": ["경제", "교육"],
+    "tags": [
+      "경제",
+      "교육"
+    ],
     "oneShot": false
   },
   {
@@ -15213,7 +15247,10 @@
         "jobId": "youtuber"
       }
     ],
-    "ageRange": [15, 50],
+    "ageRange": [
+      15,
+      50
+    ],
     "weight": 6,
     "pausesGame": true,
     "title": "구독자 100만 돌파!",
@@ -15280,7 +15317,11 @@
         "importance": 0.6
       }
     ],
-    "tags": ["직업", "유튜버", "성취"],
+    "tags": [
+      "직업",
+      "유튜버",
+      "성취"
+    ],
     "oneShot": true
   },
   {
@@ -15291,7 +15332,10 @@
         "jobId": "scientist"
       }
     ],
-    "ageRange": [25, 65],
+    "ageRange": [
+      25,
+      65
+    ],
     "weight": 6,
     "pausesGame": true,
     "title": "중요한 발견!",
@@ -15344,7 +15388,11 @@
         "importance": 0.8
       }
     ],
-    "tags": ["직업", "과학자", "성취"],
+    "tags": [
+      "직업",
+      "과학자",
+      "성취"
+    ],
     "oneShot": true
   },
   {
@@ -15355,7 +15403,10 @@
         "jobId": "chef"
       }
     ],
-    "ageRange": [22, 60],
+    "ageRange": [
+      22,
+      60
+    ],
     "weight": 6,
     "pausesGame": true,
     "title": "미슐랭 스타 후보!",
@@ -15417,7 +15468,11 @@
         "importance": 0.2
       }
     ],
-    "tags": ["직업", "셰프", "성취"],
+    "tags": [
+      "직업",
+      "셰프",
+      "성취"
+    ],
     "oneShot": true
   },
   {
@@ -15428,7 +15483,10 @@
         "jobId": "athlete"
       }
     ],
-    "ageRange": [16, 35],
+    "ageRange": [
+      16,
+      35
+    ],
     "weight": 6,
     "pausesGame": true,
     "title": "올림픽 출전 기회!",
@@ -15485,7 +15543,11 @@
         "importance": 0.8
       }
     ],
-    "tags": ["직업", "운동선수", "성취"],
+    "tags": [
+      "직업",
+      "운동선수",
+      "성취"
+    ],
     "oneShot": true
   },
   {
@@ -15496,7 +15558,10 @@
         "jobId": "doctor"
       }
     ],
-    "ageRange": [27, 65],
+    "ageRange": [
+      27,
+      65
+    ],
     "weight": 6,
     "pausesGame": true,
     "title": "위기의 순간, 의사가 필요해!",
@@ -15558,7 +15623,11 @@
         "importance": 0.05
       }
     ],
-    "tags": ["직업", "의사", "성취"],
+    "tags": [
+      "직업",
+      "의사",
+      "성취"
+    ],
     "oneShot": true
   },
   {
@@ -15570,7 +15639,10 @@
         "max": 50
       }
     ],
-    "ageRange": [20, 50],
+    "ageRange": [
+      20,
+      50
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "대출로 투자 기회를 잡아?",
@@ -15629,7 +15701,11 @@
         "importance": 0.25
       }
     ],
-    "tags": ["경제", "대출", "투자"],
+    "tags": [
+      "경제",
+      "대출",
+      "투자"
+    ],
     "oneShot": false
   },
   {
@@ -15640,7 +15716,10 @@
         "amount": 500000
       }
     ],
-    "ageRange": [20, 65],
+    "ageRange": [
+      20,
+      65
+    ],
     "weight": 4,
     "pausesGame": true,
     "title": "빚 때문에 힘들어...",
@@ -15710,7 +15789,11 @@
         "importance": 0.45
       }
     ],
-    "tags": ["경제", "대출", "위기"],
+    "tags": [
+      "경제",
+      "대출",
+      "위기"
+    ],
     "oneShot": false
   },
   {
@@ -15721,7 +15804,10 @@
         "amount": 5000000
       }
     ],
-    "ageRange": [25, 60],
+    "ageRange": [
+      25,
+      60
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "드디어 대출 완납!",
@@ -15769,7 +15855,11 @@
         "importance": 0.6
       }
     ],
-    "tags": ["경제", "대출", "성취"],
+    "tags": [
+      "경제",
+      "대출",
+      "성취"
+    ],
     "oneShot": true
   },
   {
@@ -15781,7 +15871,10 @@
         "max": 80
       }
     ],
-    "ageRange": [10, 80],
+    "ageRange": [
+      10,
+      80
+    ],
     "weight": 2,
     "pausesGame": true,
     "title": "떡볶이 박물관 개관!",
@@ -15832,7 +15925,11 @@
         "importance": 0.2
       }
     ],
-    "tags": ["코믹", "일상", "음식"],
+    "tags": [
+      "코믹",
+      "일상",
+      "음식"
+    ],
     "oneShot": true
   },
   {
@@ -15844,7 +15941,10 @@
         "max": 80
       }
     ],
-    "ageRange": [10, 80],
+    "ageRange": [
+      10,
+      80
+    ],
     "weight": 2,
     "pausesGame": true,
     "title": "고양이가 시장이 됐다!",
@@ -15898,7 +15998,10 @@
         "importance": 0.2
       }
     ],
-    "tags": ["코믹", "일상"],
+    "tags": [
+      "코믹",
+      "일상"
+    ],
     "oneShot": true
   },
   {
@@ -15910,7 +16013,10 @@
         "max": 80
       }
     ],
-    "ageRange": [10, 80],
+    "ageRange": [
+      10,
+      80
+    ],
     "weight": 2,
     "pausesGame": true,
     "title": "로켓김밥, 화성 도착!",
@@ -15961,7 +16067,11 @@
         "importance": 0.1
       }
     ],
-    "tags": ["코믹", "주식", "우주"],
+    "tags": [
+      "코믹",
+      "주식",
+      "우주"
+    ],
     "oneShot": true
   },
   {
@@ -15973,7 +16083,10 @@
         "max": 80
       }
     ],
-    "ageRange": [10, 80],
+    "ageRange": [
+      10,
+      80
+    ],
     "weight": 2,
     "pausesGame": true,
     "title": "펭귄 택배 CEO가 진짜 펭귄?!",
@@ -16028,7 +16141,10 @@
         "importance": 0.15
       }
     ],
-    "tags": ["코믹", "일상"],
+    "tags": [
+      "코믹",
+      "일상"
+    ],
     "oneShot": true
   },
   {
@@ -16040,7 +16156,10 @@
         "max": 80
       }
     ],
-    "ageRange": [10, 80],
+    "ageRange": [
+      10,
+      80
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "첫눈이 내려요",
@@ -16099,7 +16218,11 @@
         "importance": 0.5
       }
     ],
-    "tags": ["감성", "계절", "일상"],
+    "tags": [
+      "감성",
+      "계절",
+      "일상"
+    ],
     "oneShot": false
   },
   {
@@ -16111,7 +16234,10 @@
         "max": 80
       }
     ],
-    "ageRange": [20, 80],
+    "ageRange": [
+      20,
+      80
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "라디오에서 옛날 노래가",
@@ -16170,7 +16296,11 @@
         "importance": 0.5
       }
     ],
-    "tags": ["감성", "추억", "일상"],
+    "tags": [
+      "감성",
+      "추억",
+      "일상"
+    ],
     "oneShot": false
   },
   {
@@ -16182,7 +16312,10 @@
         "max": 80
       }
     ],
-    "ageRange": [15, 80],
+    "ageRange": [
+      15,
+      80
+    ],
     "weight": 3,
     "pausesGame": true,
     "title": "감사 편지를 받았어",
@@ -16249,7 +16382,1778 @@
         "importance": 0.55
       }
     ],
-    "tags": ["감성", "인간관계"],
+    "tags": [
+      "감성",
+      "인간관계"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_insurance_save",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "보험가입"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      25,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "보험이 날 살렸어!",
+    "text": "갑자기 큰 사고가 났어! 근데 다행히 예전에 든 보험이 있어. 보험금이 나온대!",
+    "choices": [
+      {
+        "label": "보험금으로 손실 충당한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 8000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "보험 덕분에 큰 위기를 무사히 넘겼다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "보험의 소중함을 주변에 알린다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 8000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          }
+        ],
+        "importance": 0.65
+      }
+    ],
+    "tags": [
+      "체인",
+      "보험",
+      "경제"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_insurance_waste",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "보험가입"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "보험료만 꼬박꼬박 냈는데...",
+    "text": "몇 년 동안 보험료를 냈는데 한 번도 쓴 적이 없어. 친구가 '그냥 해지하는 게 낫지 않냐'고 하네.",
+    "choices": [
+      {
+        "label": "그래도 유지한다. 안전이 우선!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "해지하고 다른 곳에 투자한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          },
+          {
+            "kind": "wisdom",
+            "delta": -3
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "더 좋은 조건으로 갈아탄다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.55
+      }
+    ],
+    "tags": [
+      "보험",
+      "경제",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_health_emergency_insured",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "보험가입"
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 75
+      }
+    ],
+    "ageRange": [
+      30,
+      75
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "건강 위기, 근데 보험이 있어!",
+    "text": "갑자기 몸이 안 좋아서 병원에 갔더니 큰 수술이 필요하대. 치료비가 수천만 원이라 눈앞이 캄캄했는데... 보험이 대부분 커버해줬어!",
+    "choices": [
+      {
+        "label": "수술받고 완전 회복에 집중한다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 30
+          },
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "큰 병을 보험 덕분에 큰 부담 없이 이겨냈다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "회복 후 건강관리 루틴을 만든다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 25
+          },
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          }
+        ],
+        "importance": 0.7
+      }
+    ],
+    "tags": [
+      "보험",
+      "건강",
+      "체인"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_real_estate_crash",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "유주택"
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      30,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "부동산 폭락 뉴스!",
+    "text": "뉴스에서 부동산 폭락 소식이 나왔어. 내 집값이 작년보다 30% 떨어졌대. 어떡하지?",
+    "choices": [
+      {
+        "label": "장기 보유 전략으로 버틴다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -5000000
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "지금 팔고 현금 확보한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -20000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "추가 매수 기회로 본다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "부동산 폭락기에 용기 있게 추가 매수했다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      }
+    ],
+    "tags": [
+      "부동산",
+      "경제",
+      "위기"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_neighbor_renovation",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "유주택"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      25,
+      65
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "옆집 리모델링 효과",
+    "text": "옆집이 고급 리모델링을 했어. 덕분에 우리 동네 이미지가 올라가서 집값도 같이 올랐대!",
+    "choices": [
+      {
+        "label": "나도 일부 리모델링해서 가치를 높인다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "집 리모델링으로 자산 가치를 높였다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "집값 오른 기회에 매도한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 15000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "좋은 이웃에게 감사 인사한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          }
+        ],
+        "importance": 0.45
+      }
+    ],
+    "tags": [
+      "부동산",
+      "경제",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_first_rent_income",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "유주택"
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      30,
+      65
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "첫 임대 수입!",
+    "text": "집을 세 놓고 처음으로 월세가 들어왔어. 아무것도 안 했는데 통장에 돈이 들어오니까 진짜 신기해!",
+    "choices": [
+      {
+        "label": "임대 수입을 재투자한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 800000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "투자고수"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "처음으로 돈이 돈을 버는 경험을 했다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "소소하게 여행 경비로 쓴다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 800000
+          },
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "세입자 관리에 더 신경 쓴다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 800000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": [
+      "부동산",
+      "경제",
+      "성취"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_property_tax",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "유주택"
+      },
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 75
+      }
+    ],
+    "ageRange": [
+      28,
+      75
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "재산세 납부의 날",
+    "text": "재산세 고지서가 왔어. 집이 있다는 증거이기도 하지만... 금액이 생각보다 크네.",
+    "choices": [
+      {
+        "label": "기분 좋게 납부한다. 집 있는 사람의 의무!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "세금 절약 방법을 공부한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          },
+          {
+            "kind": "addTrait",
+            "trait": "세금이해"
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "분할 납부를 신청한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "부동산",
+      "경제",
+      "세금"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_leverage_invest",
+    "triggers": [
+      {
+        "kind": "cashLte",
+        "value": 5000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      25,
+      50
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "대출로 투자 대박?",
+    "text": "돈은 별로 없는데 좋은 투자 기회가 왔어. 친구가 대출받아서 투자하면 크게 벌 수 있다고 하는데... 레버리지 투자, 어떻게 할까?",
+    "choices": [
+      {
+        "label": "대출받아 과감하게 투자한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 15000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "레버리지 투자로 큰 수익을 올렸다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "가진 돈으로만 소액 투자한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "투자 공부를 더 한 뒤 결정한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": [
+      "대출",
+      "투자",
+      "경제"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_debt_freedom",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 20000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      28,
+      60
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "드디어 빚 청산!",
+    "text": "오랫동안 힘들었던 대출을 드디어 다 갚았어! 빚 없는 삶이 이렇게 홀가분할 줄이야. 이제 새 출발이야!",
+    "choices": [
+      {
+        "label": "빚 청산 기념으로 조금 여행 간다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오랜 빚을 청산하고 자유를 맛봤다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "이제부터 저축과 투자에 집중한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "저축왕"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빚을 모두 갚고 본격적인 자산 형성을 시작했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "가족에게 고마움을 전한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.65
+      }
+    ],
+    "tags": [
+      "대출",
+      "경제",
+      "성취"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_credit_score",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "신용등급이 뭔지 알아?",
+    "text": "대출 상담을 받으러 갔더니 신용등급이 중요하다고 해. 평소에 카드 연체 한 번도 없었는데 왜 등급이 낮지?",
+    "choices": [
+      {
+        "label": "신용 관리 방법을 제대로 공부한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "세금이해"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "신용등급 관리의 중요성을 깨달았다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "소액 대출을 활용해 신용을 쌓는다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "그냥 현금만 쓰기로 한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "대출",
+      "경제",
+      "교육"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_retired_farmer_market",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "은퇴농부"
+      },
+      {
+        "kind": "ageRange",
+        "min": 55,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      55,
+      80
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "파머스마켓을 열어볼까?",
+    "text": "은퇴 후 직접 키운 채소들이 쌓여가. 동네 사람들이 맛있다고 난리야. 친구가 '파머스마켓 한번 열어봐'라고 하는데!",
+    "choices": [
+      {
+        "label": "직접 파머스마켓을 개최한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 28
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "꼬마사업가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "직접 키운 작물로 파머스마켓을 열어 동네 명물이 됐다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "이웃과 함께 공동 파머스마켓을 연다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 1500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "SNS로 직거래 판매를 시작한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          }
+        ],
+        "importance": 0.65
+      }
+    ],
+    "tags": [
+      "체인",
+      "은퇴농부",
+      "사업"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_diy_business",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "DIY장인"
+      },
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      20,
+      60
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "핸드메이드 사업 제안",
+    "text": "DIY 작품을 SNS에 올렸더니 '팔면 살게요!'라는 댓글이 폭발했어. 취미가 사업이 될 수 있을까?",
+    "choices": [
+      {
+        "label": "온라인 핸드메이드 샵을 오픈한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "창업"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "DIY 취미를 사업으로 발전시켜 성공했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "공방을 차려 원데이 클래스를 운영한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 28
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "취미로만 유지하고 싶어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "체인",
+      "DIY장인",
+      "사업"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_meditation_guru",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "명상러"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      25,
+      70
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "명상 지도자 제안",
+    "text": "명상을 꾸준히 하다 보니 주변에서 '명상 가르쳐 달라'는 요청이 쏟아져. 나도 이제 명상 지도자가 될 수 있을까?",
+    "choices": [
+      {
+        "label": "명상 지도자 자격증을 취득한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "교육자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "명상 지도자가 되어 많은 이들의 마음을 치유했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "무료 명상 모임을 운영한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "health",
+            "delta": 8
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "명상 앱을 만들어볼까",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          }
+        ],
+        "importance": 0.65
+      }
+    ],
+    "tags": [
+      "체인",
+      "명상러",
+      "성장"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_hiker_mountain",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "등산러"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      25,
+      65
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "히말라야 도전!",
+    "text": "수년간 산을 오르다 보니 어느새 국내 명산은 다 정복했어. 이제 진짜 도전을 해볼까? 히말라야 트레킹 팀이 함께 가자고 해!",
+    "choices": [
+      {
+        "label": "히말라야 트레킹에 도전한다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "도전자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "히말라야 트레킹을 완주하며 자신의 한계를 넘었다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "국내 최고봉 겨울 등반에 도전한다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "산악 가이드를 시작한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 4000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          }
+        ],
+        "importance": 0.7
+      }
+    ],
+    "tags": [
+      "체인",
+      "등산러",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_smarthouse_ai",
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "스마트홈"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "AI친구"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      }
+    ],
+    "ageRange": [
+      25,
+      60
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "title": "스마트시티 자문 요청",
+    "text": "스마트홈과 AI를 완벽하게 활용하는 모습을 본 시청 관계자가 찾아왔어. '스마트시티 프로젝트에 자문을 맡아달라'고 하네!",
+    "choices": [
+      {
+        "label": "스마트시티 자문위원을 수락한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 10000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "addTrait",
+            "trait": "테크아이콘"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "스마트시티 자문위원으로 도시의 미래를 설계하는 데 기여했다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "관련 스타트업을 창업한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "창업"
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "내 경험을 책으로 출판한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "작가"
+          }
+        ],
+        "importance": 0.65
+      }
+    ],
+    "tags": [
+      "체인",
+      "스마트홈",
+      "AI친구",
+      "기술"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_cherry_blossom",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      8,
+      80
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "벚꽃 구경 가자!",
+    "text": "봄이 왔어! 온 동네가 벚꽃으로 분홍빛이야. 친구가 '오늘 벚꽃 구경 가자'고 문자가 왔어.",
+    "choices": [
+      {
+        "label": "당장 나가서 벚꽃 아래를 걷는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "벚꽃 사진을 찍어 추억을 남긴다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "벚꽃 아래서 소풍 도시락을 먹는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "봄 벚꽃 아래서 소중한 사람들과 시간을 보냈다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": [
+      "감성",
+      "일상",
+      "계절"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_handwritten_letter",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      10,
+      80
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "손편지 한 통",
+    "text": "오래된 친구 생각이 났어. 카톡 말고 진짜 손으로 편지를 써보고 싶어. 종이와 펜을 꺼냈어.",
+    "choices": [
+      {
+        "label": "정성껏 손편지를 써서 부친다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "손편지를 써서 보냈고, 받은 친구가 감동했다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "매달 한 명씩 손편지 쓰는 습관을 만든다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "일기 형식으로 나 자신에게 편지 쓴다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          }
+        ],
+        "importance": 0.55
+      }
+    ],
+    "tags": [
+      "감성",
+      "인간관계",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_neighborhood_bbq",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 70
+      }
+    ],
+    "ageRange": [
+      18,
+      70
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "동네 바베큐 파티!",
+    "text": "날씨가 너무 좋아서 옆집 아저씨가 '마당에서 바베큐 파티 하자!'고 했어. 온 동네 사람들이 고기와 음식을 들고 모였어.",
+    "choices": [
+      {
+        "label": "신나게 참여해서 이웃들과 친해진다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "health",
+            "delta": -3
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "내가 특제 소스를 만들어 인기를 끈다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "charisma",
+            "delta": 18
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동네 바베큐 파티에서 내 특제 소스로 스타가 됐다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "다음엔 내가 파티를 주최하겠다고 한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          }
+        ],
+        "importance": 0.55
+      }
+    ],
+    "tags": [
+      "감성",
+      "인간관계",
+      "일상"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_shooting_star",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 5,
+        "max": 80
+      }
+    ],
+    "ageRange": [
+      5,
+      80
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "별똥별이 떨어졌어!",
+    "text": "밤하늘을 보다가 별똥별을 발견했어! 엄청 밝게 빛나다가 사라졌어. 소원을 빌 찰나였는데... 뭘 빌었을까?",
+    "choices": [
+      {
+        "label": "가족 모두 건강하게 해달라고 빈다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "별똥별에 가족의 건강을 빌었다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "내 꿈이 이루어지길 빈다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "아무 생각 없이 그냥 감동만 받는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.45
+      }
+    ],
+    "tags": [
+      "감성",
+      "일상",
+      "힐링"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_coffee_shop_idea",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 65
+      }
+    ],
+    "ageRange": [
+      15,
+      65
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "카페에서 번뜩이는 아이디어!",
+    "text": "카페에서 커피를 마시다가 갑자기 엄청난 아이디어가 떠올랐어! 노트에 미친 듯이 적기 시작했는데... 이게 진짜 될 것 같아!",
+    "choices": [
+      {
+        "label": "바로 사업 계획서를 작성한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "몽상가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "카페에서 떠오른 아이디어로 새 프로젝트를 시작했다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "친구들에게 먼저 피드백을 구한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "일단 작게 테스트해본다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": [
+      "감성",
+      "일상",
+      "아이디어"
+    ],
     "oneShot": true
   }
 ]
