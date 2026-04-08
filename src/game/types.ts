@@ -26,6 +26,7 @@ export type StockDef = {
   basePrice: number;
   drift: number; // 연평균 변동률 (음수도 가능)
   volatility: number; // 0..1
+  dividendRate: number; // 연 배당수익률 (0.05 = 5%)
   iconEmoji: string;
   flavorText: string;
 };

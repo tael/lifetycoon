@@ -142,7 +142,7 @@ export function PlayScreen() {
   const totalCost = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
   const dividendIncome = holdings.reduce((sum, h) => {
     const def = STOCKS.find((s) => s.ticker === h.ticker);
-    const divRate = (def as any)?.dividendRate ?? 0;
+    const divRate = def?.dividendRate ?? 0;
     const price = prices[h.ticker] ?? 0;
     return sum + Math.round(price * h.shares * divRate);
   }, 0);
@@ -580,9 +580,9 @@ function StockRow({
           <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginLeft: 3, fontWeight: 400 }}>
             {stock.sector}
           </span>
-          {(stock as any).dividendRate > 0 && (
+          {stock.dividendRate > 0 && (
             <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
-              배당{((stock as any).dividendRate * 100).toFixed(0)}%
+              배당{(stock.dividendRate * 100).toFixed(0)}%
             </span>
           )}
         </div>

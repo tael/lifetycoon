@@ -23,6 +23,7 @@ export type PersistedSave = {
     | 'assetHistory'
     | 'seeds'
     | 'usedScenarioIds'
+    | 'autoInvest'
     | 'speedMultiplier'
     | 'ending'
   >;
@@ -49,6 +50,7 @@ export function saveGame(state: GameStoreState): void {
         assetHistory: state.assetHistory,
         seeds: state.seeds,
         usedScenarioIds: state.usedScenarioIds,
+        autoInvest: state.autoInvest,
         speedMultiplier: state.speedMultiplier,
         ending: state.ending,
       },

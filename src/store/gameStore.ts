@@ -196,7 +196,7 @@ export const useGameStore = create<GameStoreState>()(
         : 0;
       const dividendIncome = st.holdings.reduce((sum, h) => {
         const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
-        const divRate = (stockDef as any)?.dividendRate ?? 0;
+        const divRate = stockDef?.dividendRate ?? 0;
         const price = st.prices[h.ticker] ?? 0;
         return sum + Math.round(price * h.shares * divRate * deltaYears);
       }, 0);
