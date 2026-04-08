@@ -40,6 +40,8 @@ export type Holding = {
 export type BankAccount = {
   balance: number;
   interestRate: number; // 연 이자율 (0.02 = 2%)
+  loanBalance: number; // 대출 잔액
+  loanInterestRate: number; // 대출 이자율 (기본 0.05 = 5%)
 };
 
 export type Job = {

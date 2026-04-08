@@ -18,7 +18,7 @@ import type {
   StockDef,
 } from '../game/types';
 import { createCharacter, emojiFor } from '../game/domain/character';
-import { createBankAccount, applyInterestForYears } from '../game/domain/bankAccount';
+import { createBankAccount, applyInterestForYears, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
 import { nextPrice } from '../game/domain/stock';
@@ -91,6 +91,8 @@ export type GameStoreState = {
   sell: (ticker: string, shares: number) => boolean;
   deposit: (amount: number) => boolean;
   withdraw: (amount: number) => boolean;
+  takeLoan: (amount: number) => boolean;
+  repayLoan: (amount: number) => boolean;
   setSpeed: (s: 0.5 | 1 | 2) => void;
   changeJob: (jobId: string) => { success: boolean; reason?: string };
   endGame: () => void;
@@ -158,6 +160,8 @@ type GameStoreActions = Pick<
   | 'sell'
   | 'deposit'
   | 'withdraw'
+  | 'takeLoan'
+  | 'repayLoan'
   | 'setSpeed'
   | 'changeJob'
   | 'endGame'
@@ -211,7 +215,8 @@ export const useGameStore = create<GameStoreState>()(
       // 2b) Bank interest (with cycle adjustment, floor at 0.5%)
       const adjustedInterestRate = Math.max(0.005, st.bank.interestRate + interestBonus);
       const bankForInterest = { ...st.bank, interestRate: adjustedInterestRate };
-      const bank = applyInterestForYears(bankForInterest, deltaYears);
+      const bankAfterInterest = applyInterestForYears(bankForInterest, deltaYears);
+      const bank = applyLoanInterest(bankAfterInterest, deltaYears);
       // 3) Salary income + stock dividends + pension
       const salaryIncome = st.job ? st.job.salary * 12 * deltaYears : 0;
       // Pension: 65세+ 시 근무 연수 기반 연금 (연 50만원 × 직업 수 경험)
@@ -460,6 +465,22 @@ export const useGameStore = create<GameStoreState>()(
         cash: st.cash + amount,
         bank: { ...st.bank, balance: st.bank.balance - amount },
       });
+      return true;
+    },
+    takeLoan(amount) {
+      const st = get();
+      const stocksVal = st.holdings.reduce((s, h) => s + (st.prices[h.ticker] ?? 0) * h.shares, 0);
+      const totalAssets = st.cash + st.bank.balance + stocksVal;
+      const result = takeLoan(st.cash, st.bank, amount, totalAssets);
+      if (!result.executed) return false;
+      set({ cash: result.cash, bank: result.bank });
+      return true;
+    },
+    repayLoan(amount) {
+      const st = get();
+      const result = repayLoan(st.cash, st.bank, amount);
+      if (!result.executed) return false;
+      set({ cash: result.cash, bank: result.bank });
       return true;
     },
     setSpeed(s) {

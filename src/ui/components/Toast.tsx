@@ -4,7 +4,7 @@ export type ToastItem = {
   id: number;
   message: string;
   emoji?: string;
-  type: 'success' | 'info' | 'warning' | 'achievement';
+  type: 'success' | 'info' | 'warning' | 'achievement' | 'danger';
   duration?: number;
 };
 
@@ -36,6 +36,7 @@ export function ToastContainer() {
     info: '#42a5f5',
     warning: '#ffb300',
     achievement: 'linear-gradient(135deg, #ffd700, #ff7043)',
+    danger: '#e53935',
   };
 
   return (

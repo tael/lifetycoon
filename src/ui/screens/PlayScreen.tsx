@@ -46,6 +46,8 @@ export function PlayScreen() {
   const sell = useGameStore((s) => s.sell);
   const deposit = useGameStore((s) => s.deposit);
   const withdraw = useGameStore((s) => s.withdraw);
+  const takeLoan = useGameStore((s) => s.takeLoan);
+  const repayLoan = useGameStore((s) => s.repayLoan);
 
   const onIntAgeChange = useCallback(
     (newIntAge: number, deltaYears: number, _elapsedMs: number) => {
@@ -357,6 +359,17 @@ export function PlayScreen() {
           <AssetRow label="현금" value={cash} />
           <AssetRow label="예금" value={bank.balance} extra={`연 ${(bank.interestRate * 100).toFixed(1)}%`} />
           <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
+          {bank.loanBalance > 0 && (
+            <div className="flex flex-between" style={{ alignItems: 'center' }}>
+              <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--danger)' }}>대출</span>
+              <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, color: 'var(--danger)' }}>
+                -{formatWon(bank.loanBalance)}
+                <span style={{ fontWeight: 400, fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>
+                  연 {(bank.loanInterestRate * 100).toFixed(1)}%
+                </span>
+              </span>
+            </div>
+          )}
         </div>
         {/* Income summary */}
         <div style={{
@@ -385,6 +398,22 @@ export function PlayScreen() {
           <QuickActionBtn label="전액 입금" onClick={() => {
             if (cash > 0 && deposit(cash)) showToast('전액 입금!', '🏦', 'success', 1200);
           }} disabled={cash <= 0} />
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 4 }}>
+          <QuickActionBtn label="대출 10만" onClick={() => {
+            if (takeLoan(100000)) showToast('10만원 대출!', '🏧', 'warning', 1500);
+            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+          }} disabled={false} danger />
+          <QuickActionBtn label="상환 10만" onClick={() => {
+            if (repayLoan(100000)) showToast('10만원 상환!', '✅', 'success', 1200);
+          }} disabled={bank.loanBalance < 100000 || cash < 100000} />
+          <QuickActionBtn label="대출 100만" onClick={() => {
+            if (takeLoan(1000000)) showToast('100만원 대출!', '🏧', 'warning', 1500);
+            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+          }} disabled={false} danger />
+          <QuickActionBtn label="상환 100만" onClick={() => {
+            if (repayLoan(1000000)) showToast('100만원 상환!', '✅', 'success', 1200);
+          }} disabled={bank.loanBalance < 1000000 || cash < 1000000} />
         </div>
       </div>
 
@@ -604,11 +633,17 @@ function AssetRow({ label, value, extra }: { label: string; value: number; extra
   );
 }
 
-function QuickActionBtn({ label, onClick, disabled }: { label: string; onClick: () => void; disabled: boolean }) {
+function QuickActionBtn({ label, onClick, disabled, danger }: { label: string; onClick: () => void; disabled: boolean; danger?: boolean }) {
   return (
     <button
       className="btn btn-secondary"
-      style={{ flex: 1, fontSize: 'var(--font-size-sm)', minHeight: 36, opacity: disabled ? 0.4 : 1 }}
+      style={{
+        flex: 1,
+        fontSize: 'var(--font-size-sm)',
+        minHeight: 36,
+        opacity: disabled ? 0.4 : 1,
+        ...(danger ? { color: 'var(--danger)', borderColor: 'var(--danger)' } : {}),
+      }}
       onClick={onClick}
       disabled={disabled}
     >

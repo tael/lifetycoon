@@ -14838,5 +14838,1418 @@
       "감성"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_boom_invest",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "amount": 1000000
+      }
+    ],
+    "ageRange": [20, 60],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "경제가 좋을 때 올인?",
+    "text": "뉴스마다 '역대 최고 호황!'이래. 주변 친구들은 다 투자로 돈 벌었다고 자랑해. 지금이 기회일까, 아니면 거품일까?",
+    "choices": [
+      {
+        "label": "올인! 지금이 찬스야!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.4
+          },
+          {
+            "kind": "stockShock",
+            "ticker": "ROCKET",
+            "multiplier": 1.3
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "호황기에 전 재산을 투자에 쏟아부었다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "절반만 투자, 절반은 안전하게",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.2
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "호황은 언젠간 끝나. 현금 유지",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": ["경제", "투자", "호황"],
+    "oneShot": false
+  },
+  {
+    "id": "s_recession_survive",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 70
+      }
+    ],
+    "ageRange": [25, 70],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "모든 것이 떨어지고 있어!",
+    "text": "갑자기 불황이 닥쳤어. 주식은 폭락, 부동산도 하락, 실업자가 넘쳐. 어떻게 버텨야 할까?",
+    "choices": [
+      {
+        "label": "지출 확 줄이고 현금 확보",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "happiness",
+            "delta": -8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "불황기에 허리띠를 졸라매며 현금을 지켰다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "쌀 때 더 사! 역발상 투자",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 0.7
+          },
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "패닉셀! 손실 전에 팔자",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 0.5
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "happiness",
+            "delta": -20
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": ["경제", "불황", "위기"],
+    "oneShot": false
+  },
+  {
+    "id": "s_cycle_prediction",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 65
+      }
+    ],
+    "ageRange": [30, 65],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "경제 사이클 예측",
+    "text": "경제학 유튜버가 '앞으로 2년 내에 불황 온다'고 분석했어. 근거 있어 보이는데... 믿어야 할까?",
+    "choices": [
+      {
+        "label": "믿는다! 미리 현금화",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 800000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 7
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "반반 대응. 포트폴리오 재조정",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "경제 사이클을 공부하고 현명하게 포트폴리오를 조정했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "예측은 허튼소리. 무시해",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": ["경제", "투자", "교육"],
+    "oneShot": true
+  },
+  {
+    "id": "s_inflation_hedge",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "amount": 2000000
+      }
+    ],
+    "ageRange": [25, 70],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "인플레이션 방어 전략",
+    "text": "물가가 계속 오르고 있어. 가만히 있으면 돈 가치가 줄어들어. 어떻게 지킬까?",
+    "choices": [
+      {
+        "label": "금에 투자! 인플레이션 헤지",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "인플레이션을 대비해 자산을 분산 투자했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "주식 배당주로 현금흐름 확보",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 7
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "그냥 쓰고 즐기자. 한 번 사는 인생",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": ["경제", "투자", "교육"],
+    "oneShot": false
+  },
+  {
+    "id": "s_interest_rate_decision",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 65
+      }
+    ],
+    "ageRange": [22, 65],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "금리가 올랐어!",
+    "text": "중앙은행이 기준금리를 올렸어. 대출 이자도 오르고, 예금 이자도 올랐어. 어떻게 대응할까?",
+    "choices": [
+      {
+        "label": "예금 이자 쏠쏠하네. 예금 늘리자",
+        "effects": [
+          {
+            "kind": "bankInterestChange",
+            "delta": 0.01
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "금리 올랐으니 대출 빨리 갚자",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "금리 인상에 발 빠르게 대출을 상환했다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "금리? 그게 뭔데. 그냥 살자",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": ["경제", "교육"],
+    "oneShot": false
+  },
+  {
+    "id": "s_chain_youtuber_million",
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "youtuber"
+      }
+    ],
+    "ageRange": [15, 50],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "구독자 100만 돌파!",
+    "text": "드디어 구독자 100만을 넘겼어! 실버 버튼이 도착했고, 광고 제안이 쏟아지고 있어. 앞으로 어떻게 할까?",
+    "choices": [
+      {
+        "label": "광고 다 받는다! 돈 버는 게 먼저",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 10000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유튜브 구독자 100만을 달성하며 스타 크리에이터가 됐다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      },
+      {
+        "label": "가치 있는 광고만 선별해서",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "100만 유튜버로서 신뢰를 쌓기 위해 광고를 선별했다",
+            "importance": 0.75
+          }
+        ],
+        "importance": 0.75
+      },
+      {
+        "label": "구독자가 중요해. 퀄리티에 집중",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": ["직업", "유튜버", "성취"],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_scientist_discovery",
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "scientist"
+      }
+    ],
+    "ageRange": [25, 65],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "중요한 발견!",
+    "text": "실험실에서 대단한 걸 발견했어! 이게 맞다면 노벨상도 가능한 수준이야. 어떻게 발표할까?",
+    "choices": [
+      {
+        "label": "즉시 논문 발표! 세상에 알리자",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": 20000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "과학적 대발견을 세상에 공개하며 역사에 이름을 남겼다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "더 검증한 뒤 발표하자. 실수하면 안 돼",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "신중하게 검증을 거친 후 연구 결과를 발표했다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      }
+    ],
+    "tags": ["직업", "과학자", "성취"],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_chef_star",
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "chef"
+      }
+    ],
+    "ageRange": [22, 60],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "미슐랭 스타 후보!",
+    "text": "미슐랭 가이드 심사원이 레스토랑을 방문했어. 모두가 스타를 기대하고 있어. 오늘 요리는?",
+    "choices": [
+      {
+        "label": "내 시그니처 메뉴로 승부!",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "cash",
+            "delta": 15000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "미슐랭 스타를 획득하며 최고의 셰프로 인정받았다",
+            "importance": 0.85
+          }
+        ],
+        "importance": 0.85
+      },
+      {
+        "label": "안전한 클래식 메뉴로",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": 5000000
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "긴장돼서 메뉴를 바꿨어",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": ["직업", "셰프", "성취"],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_athlete_olympics",
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "athlete"
+      }
+    ],
+    "ageRange": [16, 35],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "올림픽 출전 기회!",
+    "text": "국가대표 선발전에서 1위를 했어! 올림픽까지 3개월. 어떻게 준비할까?",
+    "choices": [
+      {
+        "label": "모든 걸 쏟아붓는다! 금메달 목표",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "charisma",
+            "delta": 25
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "올림픽에서 금메달을 따며 국민 영웅이 됐다",
+            "importance": 0.95
+          }
+        ],
+        "importance": 0.95
+      },
+      {
+        "label": "부상 조심하며 컨디션 관리",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "올림픽 메달리스트로서 당당히 무대를 마쳤다",
+            "importance": 0.8
+          }
+        ],
+        "importance": 0.8
+      }
+    ],
+    "tags": ["직업", "운동선수", "성취"],
+    "oneShot": true
+  },
+  {
+    "id": "s_chain_doctor_hero",
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "doctor"
+      }
+    ],
+    "ageRange": [27, 65],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "위기의 순간, 의사가 필요해!",
+    "text": "길을 걷다가 갑자기 쓰러진 사람을 발견했어. 주변 사람들이 당신을 바라봐. 의사잖아!",
+    "choices": [
+      {
+        "label": "즉시 응급처치! 살려야 해",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "길거리에서 쓰러진 사람을 살려냈다. 진짜 영웅이 됐다",
+            "importance": 0.9
+          }
+        ],
+        "importance": 0.9
+      },
+      {
+        "label": "119 신고하고 지시하며 돕는다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "퇴근 후라 모르는 척...",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -20
+          },
+          {
+            "kind": "charisma",
+            "delta": -10
+          }
+        ],
+        "importance": 0.05
+      }
+    ],
+    "tags": ["직업", "의사", "성취"],
+    "oneShot": true
+  },
+  {
+    "id": "s_loan_opportunity",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "ageRange": [20, 50],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "대출로 투자 기회를 잡아?",
+    "text": "좋은 투자 기회가 생겼는데 돈이 부족해. 은행에서 대출받으면 바로 투자할 수 있어. 빌릴까?",
+    "choices": [
+      {
+        "label": "대출받아서 투자! 기회를 놓치면 안 돼",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "RAIN",
+            "multiplier": 1.35
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "대출을 받아 투자에 도전했다. 성공하면 대박, 실패하면 빚더미",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "있는 돈만 투자. 빚은 싫어",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "투자 포기. 기회는 또 온다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": ["경제", "대출", "투자"],
+    "oneShot": false
+  },
+  {
+    "id": "s_debt_crisis",
+    "triggers": [
+      {
+        "kind": "cashLte",
+        "amount": 500000
+      }
+    ],
+    "ageRange": [20, 65],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "빚 때문에 힘들어...",
+    "text": "이자 내기도 빠듯해. 친구한테 빌릴까, 아르바이트를 더 할까, 아니면 과감하게 구조조정?",
+    "choices": [
+      {
+        "label": "친구한테 빌리자. 조금만!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "charisma",
+            "delta": -8
+          },
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빚 위기에 친구에게 손을 벌렸다. 관계가 어색해졌다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "부업 시작! 내 힘으로 갚는다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 800000
+          },
+          {
+            "kind": "health",
+            "delta": -8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "소비 패턴부터 바꾼다. 절약!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": -8
+          },
+          {
+            "kind": "cash",
+            "delta": 300000
+          }
+        ],
+        "importance": 0.45
+      }
+    ],
+    "tags": ["경제", "대출", "위기"],
+    "oneShot": false
+  },
+  {
+    "id": "s_loan_payoff",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "amount": 5000000
+      }
+    ],
+    "ageRange": [25, 60],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "드디어 대출 완납!",
+    "text": "오랫동안 갚아온 대출을 드디어 다 갚았어! 통장에 '대출 잔액 0원' 문자가 왔어. 이 기분!",
+    "choices": [
+      {
+        "label": "자축 파티! 오늘만큼은 펑펑 쓰자",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오랜 빚을 다 갚고 진심으로 자유를 느꼈다",
+            "importance": 0.65
+          }
+        ],
+        "importance": 0.65
+      },
+      {
+        "label": "바로 저축 시작. 앞으로는 빚 없이!",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": 500000
+          }
+        ],
+        "importance": 0.6
+      }
+    ],
+    "tags": ["경제", "대출", "성취"],
+    "oneShot": true
+  },
+  {
+    "id": "s_dduk_museum",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 80
+      }
+    ],
+    "ageRange": [10, 80],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "떡볶이 박물관 개관!",
+    "text": "뉴스속보: 세계 최초 떡볶이 박물관이 개관했대! 입장료는 떡볶이 한 접시. 당연히 가야지?",
+    "choices": [
+      {
+        "label": "당장 달려가! 떡볶이 사랑해",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "cash",
+            "delta": -5000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "세계 최초 떡볶이 박물관에서 행복한 시간을 보냈다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "나중에 가야지. 줄 설 것 같아",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.1
+      },
+      {
+        "label": "투자 가치 있어! 떡볶이 주식 사자",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "DDUK",
+            "multiplier": 1.3
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": ["코믹", "일상", "음식"],
+    "oneShot": true
+  },
+  {
+    "id": "s_cat_mayor",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 80
+      }
+    ],
+    "ageRange": [10, 80],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "고양이가 시장이 됐다!",
+    "text": "충격! 우리 동네 시장 선거에서 고양이 '냥냥이'가 당선됐어. 공약은 '참치캔 무료 배급'이래.",
+    "choices": [
+      {
+        "label": "냥냥이 시장 지지! 완벽한 공약이야",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "고양이 시장 냥냥이를 열렬히 지지했다",
+            "importance": 0.25
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "말이 돼? 말이 안 되잖아",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.15
+      },
+      {
+        "label": "고양이 관련 사업 시작!",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": ["코믹", "일상"],
+    "oneShot": true
+  },
+  {
+    "id": "s_rocket_mars",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 80
+      }
+    ],
+    "ageRange": [10, 80],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "로켓김밥, 화성 도착!",
+    "text": "속보! 로켓김밥 우주선이 화성에 착륙했대. 화성 첫 메뉴는 우주 참치김밥이래. 주식이 폭등 중!",
+    "choices": [
+      {
+        "label": "로켓 주식 지금 당장 매수!",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "ROCKET",
+            "multiplier": 1.6
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "로켓김밥의 화성 착륙 소식에 주식을 샀다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "나도 화성 여행 가고 싶다!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "그래도 지구 김밥이 더 맛있을 듯",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": ["코믹", "주식", "우주"],
+    "oneShot": true
+  },
+  {
+    "id": "s_penguin_ceo",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 80
+      }
+    ],
+    "ageRange": [10, 80],
+    "weight": 2,
+    "pausesGame": true,
+    "title": "펭귄 택배 CEO가 진짜 펭귄?!",
+    "text": "충격 폭로! 펭귄택배 CEO가 진짜 황제펭귄이래. 수트 입고 회의도 하고, 사인도 한대. 주가는?",
+    "choices": [
+      {
+        "label": "펭귄 CEO 최고! 주식 올인",
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "PENGUIN",
+            "multiplier": 1.5
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "우리 회사도 펭귄 고용하고 싶다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "펭귄 CEO 시대를 살고 있다는 게 실감 났다",
+            "importance": 0.2
+          }
+        ],
+        "importance": 0.2
+      },
+      {
+        "label": "뭔가 이상한데... 조작 아냐?",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": ["코믹", "일상"],
+    "oneShot": true
+  },
+  {
+    "id": "s_first_snow",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 80
+      }
+    ],
+    "ageRange": [10, 80],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "첫눈이 내려요",
+    "text": "창밖에 첫눈이 펑펑 내리고 있어. 하얀 눈이 세상을 덮고, 마음이 따뜻해지는 느낌. 오늘 하루, 어떻게 보낼까?",
+    "choices": [
+      {
+        "label": "눈사람 만들러 나가자!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫눈 오는 날 눈사람을 만들며 동심으로 돌아갔다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "따뜻한 코코아 한 잔, 창가에서 구경",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "좋아하는 사람에게 첫눈 연락",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫눈 오는 날, 소중한 사람에게 마음을 전했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": ["감성", "계절", "일상"],
+    "oneShot": false
+  },
+  {
+    "id": "s_old_song",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 80
+      }
+    ],
+    "ageRange": [20, 80],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "라디오에서 옛날 노래가",
+    "text": "라디오를 틀었더니 어릴 때 정말 좋아하던 노래가 흘러나와. 그때 기억이 파도처럼 밀려와. 잠깐 멈추게 돼.",
+    "choices": [
+      {
+        "label": "눈 감고 그때를 느껴",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오래된 노래가 흘러나오는 순간, 잊고 있던 행복을 떠올렸다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "볼륨 높이고 따라 불러!",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "health",
+            "delta": 3
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "그때 그 친구한테 연락해볼까",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오래된 노래를 듣고 오랜 친구와 다시 연결됐다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      }
+    ],
+    "tags": ["감성", "추억", "일상"],
+    "oneShot": false
+  },
+  {
+    "id": "s_gratitude_letter",
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 80
+      }
+    ],
+    "ageRange": [15, 80],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "감사 편지를 받았어",
+    "text": "오랫동안 연락이 없던 사람한테서 편지가 왔어. '그때 네가 해준 말이 내 인생을 바꿨어'라고 써 있어. 눈물이 나려고 해.",
+    "choices": [
+      {
+        "label": "바로 전화해서 고마움 전하자",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 28
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "내가 모르던 사이 누군가의 인생에 좋은 영향을 미쳤다는 걸 알았다",
+            "importance": 0.7
+          }
+        ],
+        "importance": 0.7
+      },
+      {
+        "label": "편지를 간직하며 힘을 얻는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "감사 편지 한 장이 내 마음에 오랫동안 따뜻하게 남았다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "나도 감사한 사람에게 편지 쓰자",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          }
+        ],
+        "importance": 0.55
+      }
+    ],
+    "tags": ["감성", "인간관계"],
+    "oneShot": true
   }
 ]
