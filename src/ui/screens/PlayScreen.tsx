@@ -185,7 +185,9 @@ export function PlayScreen() {
   const interestYearly = Math.round(bank.balance * bank.interestRate);
   const intAge = Math.floor(character.age);
   const pensionYearly = intAge >= 65 ? 500000 : 0;
-  const yearlyIncome = salaryYearly + interestYearly + dividendIncome + pensionYearly;
+  const insuranceYearly = insurance.premium ?? 0;
+  const loanInterestYearly = Math.round(bank.loanBalance * bank.loanInterestRate);
+  const yearlyIncome = salaryYearly + interestYearly + dividendIncome + pensionYearly - insuranceYearly - loanInterestYearly;
 
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
@@ -390,9 +392,9 @@ export function PlayScreen() {
           fontSize: 'var(--font-size-xs)',
           color: 'var(--success)',
         }}>
-          📥 연 수입: {formatWon(yearlyIncome)}
+          📥 연 순수입: {formatWon(yearlyIncome)}
           <span className="text-muted" style={{ marginLeft: 8 }}>
-            (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''})
+            (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
           </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>

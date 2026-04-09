@@ -86,7 +86,7 @@ export type GameStoreState = {
   jobsMaster: Job[];
   scenariosMaster: ScenarioEvent[];
   // Actions
-  startNewGame: (name: string, pickedDreamIds: string[]) => void;
+  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number) => void;
   goTo: (phase: Phase) => void;
   pickDreams: (ids: string[]) => void;
   advanceYear: (intAge: number, deltaYears: number) => void;
@@ -188,8 +188,8 @@ let streams: RngStreams = createStreams(randomSeeds());
 export const useGameStore = create<GameStoreState>()(
   subscribeWithSelector((set, get) => ({
     ...makeInitialState(),
-    startNewGame(name, pickedDreamIds) {
-      const seeds = randomSeeds();
+    startNewGame(name, pickedDreamIds, customSeed?) {
+      const seeds = randomSeeds(customSeed);
       streams = createStreams(seeds);
       set({
         ...makeInitialState(),

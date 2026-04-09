@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
+import { getDailySeed, getDailyDreams, getDailyName } from '../../game/engine/dailySeed';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
 import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
 import { loadHighScore } from '../../store/highScore';
+import { loadGallery } from '../../store/endingGallery';
 import { formatWon } from '../../game/domain/asset';
 
 const QUOTES = [
@@ -121,6 +123,18 @@ export function TitleScreen() {
           >
             ⚡ 빠른 시작 (랜덤)
           </button>
+          <button
+            className="btn btn-secondary btn-block"
+            style={{ borderColor: 'var(--gold, #ffd700)', background: '#fffde7' }}
+            onClick={() => {
+              const seed = getDailySeed();
+              const dreams = getDailyDreams();
+              const dname = getDailyName();
+              useGameStore.getState().startNewGame(dname, dreams, seed);
+            }}
+          >
+            🏅 오늘의 챌린지 ({new Date().getMonth() + 1}/{new Date().getDate()})
+          </button>
           {savedExists && (
             <button className="btn btn-secondary btn-block" onClick={handleContinue}>
               📂 이어하기
@@ -153,6 +167,44 @@ export function TitleScreen() {
                 <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>{hs.totalGames}회</div>
                 <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>총 플레이</div>
               </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Ending Gallery */}
+      {(() => {
+        const gallery = loadGallery();
+        if (gallery.length === 0) return null;
+        const GRADE_EMOJI: Record<string, string> = { S: '👑', A: '🌟', B: '🙂', C: '🌱' };
+        const recent = gallery.slice(0, 5);
+        return (
+          <div className="card" style={{ width: '100%', maxWidth: 360 }}>
+            <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
+              📜 엔딩 갤러리 ({gallery.length}개)
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {recent.map((r, i) => (
+                <div key={i} style={{
+                  background: 'var(--bg-secondary)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '6px 10px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  fontSize: 'var(--font-size-xs)',
+                }}>
+                  <span style={{ fontSize: '1.2rem' }}>{GRADE_EMOJI[r.grade] ?? r.grade}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {r.characterName} · {r.title}
+                    </div>
+                    <div className="text-muted">
+                      {formatWon(r.finalAssets)} · 꿈 {r.dreamsAchieved}/{r.totalDreams}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         );

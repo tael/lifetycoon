@@ -5,6 +5,7 @@ import { clearSave } from '../../store/persistence';
 import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
 import { updateHighScore } from '../../store/highScore';
+import { saveEndingToGallery } from '../../store/endingGallery';
 import { generateLifeSummary, generateLifeTitle } from '../../game/domain/lifeSummary';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { AssetChart } from '../components/AssetChart';
@@ -33,6 +34,11 @@ export function EndingScreen() {
     // Check achievements + high score
     const { newlyUnlocked } = checkAndSaveAchievements(ending);
     const { isNewRecord } = updateHighScore(ending);
+    const title = generateLifeTitle(
+      useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,
+      ending.dreamsAchieved, ending.totalDreams,
+    );
+    saveEndingToGallery(useGameStore.getState().character.name, ending, title);
     if (newlyUnlocked.length > 0) {
       setNewAchievements(newlyUnlocked);
       setShowAchConfetti(true);
