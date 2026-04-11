@@ -147,6 +147,7 @@ describe('scenarios.json validation', () => {
     'happiness', 'health', 'stress',
     'wisdom', 'intelligence', 'charisma', 'independence',
     'addTrait', 'setJob', 'gotoScenario', 'keyMoment', 'bankInterestChange',
+    'halveWealth',
   ]);
 
   it('has no duplicate ids', () => {
