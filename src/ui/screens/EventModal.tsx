@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { EconomicEvent, EventEffect } from '../../game/types';
 import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
+import { sfx } from '../../game/engine/soundFx';
 
 function vibrate() {
   try { navigator?.vibrate?.(50); } catch { /* ignore */ }
@@ -12,6 +13,7 @@ export function EventModal({ event }: { event: EconomicEvent }) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    sfx.event();
     vibrate();
     modalRef.current?.focus();
     const handler = (e: KeyboardEvent) => {

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
+import { sfx } from '../../game/engine/soundFx';
 import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
 import { updateHighScore } from '../../store/highScore';
@@ -31,6 +32,7 @@ export function EndingScreen() {
 
   useEffect(() => {
     if (!ending) return;
+    sfx.ending();
     // Check achievements + high score
     const { newlyUnlocked } = checkAndSaveAchievements(ending);
     const { isNewRecord } = updateHighScore(ending);

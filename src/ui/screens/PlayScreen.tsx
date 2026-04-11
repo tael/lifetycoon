@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { useGameStore, STOCKS } from '../../store/gameStore';
+import { sfx } from '../../game/engine/soundFx';
 import { createGameLoop, type GameLoopHandle } from '../../game/engine/gameLoop';
 import { createVisibilityController } from '../../game/engine/visibility';
 import { saveGame } from '../../store/persistence';
@@ -540,11 +541,11 @@ export function PlayScreen() {
         realEstate={realEstate}
         cash={cash}
         onBuy={(id) => {
-          if (buyRealEstate(id)) showToast('부동산 매입!', '🏠', 'success', 1500);
+          if (buyRealEstate(id)) { sfx.buy(); showToast('부동산 매입!', '🏠', 'success', 1500); }
           else showToast('잔액이 부족해요', '😢', 'danger', 1500);
         }}
         onSell={(idx) => {
-          if (sellRealEstate(idx)) showToast('부동산 매각!', '💸', 'success', 1500);
+          if (sellRealEstate(idx)) { sfx.sell(); showToast('부동산 매각!', '💸', 'success', 1500); }
         }}
       />
 
@@ -597,10 +598,10 @@ export function PlayScreen() {
               price={price}
               holding={holding}
               onBuy={(n) => {
-                if (buy(s.ticker, n)) showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500);
+                if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); }
               }}
               onSell={(n) => {
-                if (sell(s.ticker, n)) showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500);
+                if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); }
               }}
               canBuy={cash >= price}
             />

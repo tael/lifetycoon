@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
+import { sfx } from '../../game/engine/soundFx';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
 import { getDailySeed, getDailyDreams, getDailyName } from '../../game/engine/dailySeed';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
@@ -27,6 +28,7 @@ export function TitleScreen() {
   const loadSnapshot = useGameStore((s) => s.loadSnapshot);
   const [name, setName] = useState('');
   const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
+  const [sound, setSound] = useState(() => sfx.isEnabled());
   const savedExists = hasSave();
 
   const toggleDark = () => {
@@ -282,6 +284,16 @@ export function TitleScreen() {
           style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
         >
           {dark ? '☀️ 라이트' : '🌙 다크'}
+        </button>
+        <button
+          onClick={() => {
+            const next = !sound;
+            setSound(next);
+            sfx.toggle(next);
+          }}
+          style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
+        >
+          {sound ? '🔊' : '🔇'}
         </button>
         {savedExists && (
           <button

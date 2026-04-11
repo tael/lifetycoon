@@ -1,0 +1,11 @@
+{
+  "name": "인생타이쿤",
+  "short_name": "인생타이쿤",
+  "description": "10분 안에 100년을 살아보는 어린이 경제 게임",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#ff7043",
+  "orientation": "portrait",
+  "icons": []
+}
