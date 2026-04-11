@@ -6,6 +6,7 @@ import { loadLegacy, clearLegacy } from '../../store/legacy';
 import { getDailySeed, getDailyDreams, getDailyName } from '../../game/engine/dailySeed';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
 import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
+import { AchievementsModal } from './AchievementsModal';
 import { loadHighScore } from '../../store/highScore';
 import { loadGallery } from '../../store/endingGallery';
 import { formatWon } from '../../game/domain/asset';
@@ -24,12 +25,16 @@ const QUOTES = [
   '인생은 짧다, 떡볶이는 맛있다 🌶️',
 ];
 
+const RANDOM_NAMES = ['다솔','하늘','별','은우','지호','서아','도윤','수아','건우','예린','시우','주아','민준','채원','현우','지아','준호','리아','태준','유나'];
+
 export function TitleScreen() {
   const goTo = useGameStore((s) => s.goTo);
   const loadSnapshot = useGameStore((s) => s.loadSnapshot);
   const [name, setName] = useState('');
+  const [gender, setGender] = useState<'male' | 'female' | 'random'>('random');
   const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
   const [sound, setSound] = useState(() => sfx.isEnabled());
+  const [showAchievements, setShowAchievements] = useState(false);
   const savedExists = hasSave();
   const legacy = loadLegacy();
 
@@ -40,8 +45,17 @@ export function TitleScreen() {
     try { localStorage.setItem('lifetycoon-kids:theme', next ? 'dark' : 'light'); } catch {}
   };
 
+  const handlePickRandomName = () => {
+    const rname = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
+    setName(rname);
+  };
+
   const handleNew = () => {
     if (!name.trim()) return;
+    const resolvedGender: 'male' | 'female' = gender === 'random'
+      ? (Math.random() < 0.5 ? 'male' : 'female')
+      : gender;
+    useGameStore.setState({ pendingGender: resolvedGender });
     useGameStore.getState().character.name = name.trim();
     goTo({ kind: 'dream-pick' });
   };
@@ -79,6 +93,12 @@ export function TitleScreen() {
 
   const shareCodePresent = typeof window !== 'undefined' && window.location.search.includes('s=');
 
+  const genderOptions: { value: 'male' | 'female' | 'random'; label: string }[] = [
+    { value: 'male', label: '남' },
+    { value: 'female', label: '여' },
+    { value: 'random', label: '랜덤' },
+  ];
+
   return (
     <div className="app-container flex flex-col flex-center" style={{ minHeight: '100dvh', gap: 'var(--sp-lg)' }}>
       <div className="text-center">
@@ -98,25 +118,65 @@ export function TitleScreen() {
         <div className="flex flex-col gap-md">
           <div>
             <label style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>이름을 정해줘!</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="예: 다솔이"
-              maxLength={10}
-              style={{
-                width: '100%',
-                padding: 'var(--sp-sm) var(--sp-md)',
-                borderRadius: 'var(--radius-md)',
-                border: '2px solid var(--accent-light)',
-                fontSize: 'var(--font-size-lg)',
-                marginTop: 'var(--sp-xs)',
-                outline: 'none',
-              }}
-              onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-              onBlur={(e) => (e.target.style.borderColor = 'var(--accent-light, #ffe0b2)')}
-              onKeyDown={(e) => { if (e.key === 'Enter') handleNew(); }}
-            />
+            <div style={{ display: 'flex', gap: 6, marginTop: 'var(--sp-xs)' }}>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="예: 다솔이"
+                maxLength={10}
+                style={{
+                  flex: 1,
+                  padding: 'var(--sp-sm) var(--sp-md)',
+                  borderRadius: 'var(--radius-md)',
+                  border: '2px solid var(--accent-light)',
+                  fontSize: 'var(--font-size-lg)',
+                  outline: 'none',
+                }}
+                onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
+                onBlur={(e) => (e.target.style.borderColor = 'var(--accent-light, #ffe0b2)')}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleNew(); }}
+              />
+              <button
+                type="button"
+                onClick={handlePickRandomName}
+                aria-label="랜덤 이름 선택"
+                style={{
+                  padding: '0 12px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '2px solid var(--accent-light)',
+                  background: 'var(--bg-secondary)',
+                  fontSize: '1.3rem',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                }}
+              >
+                🎲
+              </button>
+            </div>
+            {/* 성별 선택 토글 */}
+            <div style={{ display: 'flex', gap: 6, marginTop: 'var(--sp-xs)' }}>
+              {genderOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setGender(opt.value)}
+                  style={{
+                    flex: 1,
+                    padding: '4px 0',
+                    borderRadius: 'var(--radius-md)',
+                    border: `2px solid ${gender === opt.value ? 'var(--accent)' : 'var(--accent-light)'}`,
+                    background: gender === opt.value ? 'var(--accent-light)' : 'var(--bg-secondary)',
+                    fontWeight: gender === opt.value ? 700 : 400,
+                    fontSize: 'var(--font-size-sm)',
+                    cursor: 'pointer',
+                    transition: 'all 0.12s ease',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
           <button
             className="btn btn-primary btn-lg btn-block"
@@ -286,33 +346,43 @@ export function TitleScreen() {
 
       {/* Achievement badge */}
       {getUnlockedCount() > 0 && (
-        <div className="card" style={{ width: '100%', maxWidth: 360, textAlign: 'center' }}>
-          <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
-            🏆 업적 {getUnlockedCount()}/{getTotalCount()}
+        <button
+          className="card"
+          onClick={() => setShowAchievements(true)}
+          aria-label="업적 상세 보기"
+          style={{ width: '100%', maxWidth: 360, textAlign: 'center', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}
+        >
+          <div className="card" style={{ width: '100%', textAlign: 'center' }}>
+            <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
+              🏆 업적 {getUnlockedCount()}/{getTotalCount()}
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
+              {getAllAchievements().map((a) => {
+                const unlocked = loadUnlocked().some((u) => u.id === a.id);
+                return (
+                  <span
+                    key={a.id}
+                    role="img"
+                    aria-label={unlocked ? `업적 달성: ${a.title} — ${a.description}` : `잠긴 업적`}
+                    style={{
+                      fontSize: '1.5rem',
+                      opacity: unlocked ? 1 : 0.2,
+                      filter: unlocked ? 'none' : 'grayscale(1)',
+                    }}
+                  >
+                    {a.emoji}
+                  </span>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: 'var(--sp-xs)', fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+              클릭해서 상세 보기
+            </div>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
-            {getAllAchievements().map((a) => {
-              const unlocked = loadUnlocked().some((u) => u.id === a.id);
-              return (
-                <span
-                  key={a.id}
-                  role="img"
-                  title={unlocked ? `${a.title}: ${a.description}` : '???'}
-                  aria-label={unlocked ? `업적 달성: ${a.title} — ${a.description}` : `잠긴 업적`}
-                  style={{
-                    fontSize: '1.5rem',
-                    opacity: unlocked ? 1 : 0.2,
-                    filter: unlocked ? 'none' : 'grayscale(1)',
-                    cursor: 'default',
-                  }}
-                >
-                  {a.emoji}
-                </span>
-              );
-            })}
-          </div>
-        </div>
+        </button>
       )}
+
+      {showAchievements && <AchievementsModal onClose={() => setShowAchievements(false)} />}
 
       <div className="flex gap-md" style={{ alignItems: 'center' }}>
         <button

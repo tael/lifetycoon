@@ -82,11 +82,15 @@ export type Dream = {
 
 export type EventEffect =
   | { kind: 'cash'; delta: number }
+  | { kind: 'money'; delta: number }         // alias for cash (JSON legacy)
   | { kind: 'stockShock'; ticker: string; multiplier: number }
   | { kind: 'happiness'; delta: number }
   | { kind: 'health'; delta: number }
+  | { kind: 'stress'; delta: number }        // health inverse: stress += X → health -= X
   | { kind: 'wisdom'; delta: number }
+  | { kind: 'intelligence'; delta: number }  // alias for wisdom (JSON legacy)
   | { kind: 'charisma'; delta: number }
+  | { kind: 'independence'; delta: number }  // alias for charisma (JSON legacy)
   | { kind: 'addTrait'; trait: string }
   | { kind: 'setJob'; jobId: string }
   | { kind: 'gotoScenario'; scenarioId: string }

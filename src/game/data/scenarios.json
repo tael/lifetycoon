@@ -17761,7 +17761,7 @@
       }
     ],
     "ageRange": [
-      8,
+      10,
       80
     ],
     "weight": 4,
@@ -18004,7 +18004,7 @@
       }
     ],
     "ageRange": [
-      5,
+      10,
       80
     ],
     "weight": 3,
@@ -21385,7 +21385,7 @@
     "title": "미술 수업",
     "text": "학교 미술 시간에 자유 주제 그림 그리기! 뭘 그릴까?",
     "ageRange": [
-      8,
+      10,
       15
     ],
     "triggers": [
@@ -22924,7 +22924,7 @@
     "title": "형제와의 싸움",
     "text": "오늘 형(언니)이랑 크게 싸웠어. 사소한 것 때문에 시작됐는데 결국 오래된 감정들이 다 터져버렸어.",
     "ageRange": [
-      8,
+      10,
       20
     ],
     "triggers": [
@@ -27165,7 +27165,7 @@
     "title": "떡볶이 올림픽 개최",
     "text": "동네 골목에서 갑자기 '제1회 떡볶이 올림픽'이 열렸어! 매운맛 챔피언십, 가장 길게 늘리기 대회... 출전할 거야?",
     "ageRange": [
-      8,
+      10,
       80
     ],
     "triggers": [
@@ -27333,7 +27333,7 @@
     "title": "내 첫 번째 컴퓨터",
     "text": "드디어 내 방에 컴퓨터가 생겼어! 부모님이 사줬는데, 이걸로 뭘 하면 좋을까?",
     "ageRange": [
-      8,
+      10,
       15
     ],
     "triggers": [
@@ -28807,7 +28807,7 @@
     "title": "에어쇼 관람",
     "text": "인근 공군 기지에서 에어쇼가 열려! 최신 전투기 곡예 비행과 낙하산 공연을 볼 수 있는 특별한 행사야.",
     "ageRange": [
-      8,
+      10,
       80
     ],
     "triggers": [
@@ -28889,7 +28889,7 @@
     "title": "불꽃축제",
     "text": "강변에서 대규모 불꽃축제가 열려! 수십만 명이 모이는 연중 최고의 야외 행사야. 같이 갈 사람 있어?",
     "ageRange": [
-      8,
+      10,
       80
     ],
     "triggers": [
@@ -28963,7 +28963,7 @@
     "title": "겨울 축제",
     "text": "눈 덮인 산간 마을에서 겨울 축제가 열려! 눈조각 전시, 썰매, 빙어 낚시, 온천까지 즐길 수 있어.",
     "ageRange": [
-      8,
+      10,
       75
     ],
     "triggers": [
@@ -29039,6 +29039,4613 @@
           {
             "kind": "wisdom",
             "delta": -3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_europe_backpacking",
+    "title": "유럽 배낭여행",
+    "text": "드디어 꿈에 그리던 유럽 배낭여행! 파리, 로마, 바르셀로나를 돌아다니는 3주 여정이야. 어떻게 여행할까?",
+    "ageRange": [
+      19,
+      35
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 19,
+        "max": 35
+      },
+      {
+        "kind": "cashGte",
+        "amount": 2000000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "여행",
+      "유럽",
+      "배낭여행",
+      "청춘"
+    ],
+    "choices": [
+      {
+        "label": "치밀하게 계획해 효율적으로 관광지를 정복한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "cash",
+            "delta": -2500000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유럽 배낭여행에서 에펠탑 앞에 홀로 서며 세상이 넓음을 깨달았다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "현지인과 어울리며 즉흥 여행을 즐긴다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유럽 배낭여행에서 각국 친구들을 사귀며 평생의 인연을 만들었다",
+            "importance": 0.88
+          }
+        ]
+      },
+      {
+        "label": "물가가 너무 비싸 동유럽 위주로 알뜰하게 다닌다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -1200000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_jeju_monthly",
+    "title": "제주도 한 달 살기",
+    "text": "회사 휴직을 내고 제주도에서 한 달을 살기로 했어! 바다 근처 작은 방을 빌렸는데, 뭘 하며 지낼까?",
+    "ageRange": [
+      25,
+      50
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 50
+      },
+      {
+        "kind": "cashGte",
+        "amount": 1500000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.15
+      }
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "여행",
+      "제주도",
+      "한달살기",
+      "힐링"
+    ],
+    "choices": [
+      {
+        "label": "매일 한라산, 올레길, 오름을 탐방하며 자연을 즐긴다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "health",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -1800000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "제주 한 달 살기에서 자연 속에서 진정한 쉼의 의미를 찾았다",
+            "importance": 0.82
+          }
+        ]
+      },
+      {
+        "label": "카페에서 글 쓰고 그림 그리며 창작 활동에 집중한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "intelligence",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "cash",
+            "delta": -1500000
+          }
+        ]
+      },
+      {
+        "label": "맛집만 돌아다니며 제주 음식을 탐미한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "cash",
+            "delta": -1200000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_cruise_travel",
+    "title": "크루즈 여행",
+    "text": "생애 첫 크루즈 여행! 지중해를 가로지르며 여러 항구에 기항하는 7박 8일 일정이야. 어떻게 즐길까?",
+    "ageRange": [
+      30,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 70
+      },
+      {
+        "kind": "cashGte",
+        "amount": 3000000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.15
+      }
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "여행",
+      "크루즈",
+      "지중해",
+      "호화"
+    ],
+    "choices": [
+      {
+        "label": "기항지마다 부지런히 내려 현지 투어를 즐긴다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -3500000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "크루즈로 지중해를 누비며 로마와 산토리니에서 평생의 추억을 쌓았다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "선내 수영장, 뷔페, 공연을 즐기며 완전히 쉰다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -3000000
+          }
+        ]
+      },
+      {
+        "label": "배 멀미가 심해 대부분 객실에서 쉰다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "cash",
+            "delta": -3000000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_train_journey",
+    "title": "기차 여행",
+    "text": "기차를 타고 전국 일주를 해보기로 했어! 부산, 경주, 전주, 강릉... 레일패스 하나로 어디든 갈 수 있어.",
+    "ageRange": [
+      15,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.18
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "여행",
+      "기차",
+      "국내여행",
+      "감성"
+    ],
+    "choices": [
+      {
+        "label": "창가 자리에서 풍경을 감상하며 일기를 쓴다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "기차 창밖으로 펼쳐지는 한국의 풍경을 보며 마음이 풍요로워졌다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "내리고 싶은 역에서 즉흥적으로 내려 탐험한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          }
+        ]
+      },
+      {
+        "label": "이어폰 끼고 음악 들으며 그냥 목적지만 간다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -150000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_road_trip",
+    "title": "자동차 여행",
+    "text": "친구들과 함께 자동차로 전국 일주를 떠나기로 했어! 차 안에서 노래 부르며 달리는 로드트립, 어떻게 할까?",
+    "ageRange": [
+      20,
+      50
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.18
+      }
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "여행",
+      "자동차",
+      "로드트립",
+      "우정"
+    ],
+    "choices": [
+      {
+        "label": "숨겨진 맛집과 명소를 미리 조사해 완벽한 코스를 짠다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -600000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "친구들과 함께한 자동차 여행에서 평생 웃음거리가 될 추억을 만들었다",
+            "importance": 0.83
+          }
+        ]
+      },
+      {
+        "label": "지도도 없이 그냥 달리며 보이는 곳에 들어간다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -400000
+          }
+        ]
+      },
+      {
+        "label": "운전하다 피곤해서 중간에 포기하고 돌아온다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_cafe_startup",
+    "title": "카페 창업",
+    "text": "오랫동안 꿈꿔온 나만의 카페를 열 기회가 생겼어! 아늑한 동네 카페를 차리고 싶은데, 어떻게 시작할까?",
+    "ageRange": [
+      25,
+      50
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 50
+      },
+      {
+        "kind": "cashGte",
+        "amount": 5000000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.12
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "창업",
+      "카페",
+      "자영업",
+      "도전"
+    ],
+    "choices": [
+      {
+        "label": "충분히 공부하고 바리스타 자격증도 따서 준비한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "나만의 카페를 열어 매일 커피 향기 속에서 꿈을 이루었다",
+            "importance": 0.9
+          }
+        ]
+      },
+      {
+        "label": "프랜차이즈 카페로 리스크를 줄인다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -8000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "independence",
+            "delta": -10
+          }
+        ]
+      },
+      {
+        "label": "준비 부족으로 오픈 6개월 만에 문을 닫는다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -15000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 30
+          },
+          {
+            "kind": "stress",
+            "delta": 30
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_restaurant_startup",
+    "title": "식당 창업",
+    "text": "엄마의 비법 레시피로 한식 식당을 열기로 했어! 맛과 서비스로 승부하는 나만의 식당, 과연 성공할 수 있을까?",
+    "ageRange": [
+      28,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 55
+      },
+      {
+        "kind": "cashGte",
+        "amount": 8000000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.1
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "창업",
+      "식당",
+      "요식업",
+      "도전"
+    ],
+    "choices": [
+      {
+        "label": "상권 분석부터 철저히 하고 소규모로 시작한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -12000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "wisdom",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": -15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한식 식당을 열어 단골손님들의 사랑을 받는 맛집이 되었다",
+            "importance": 0.88
+          }
+        ]
+      },
+      {
+        "label": "SNS 마케팅으로 오픈 초반부터 화제를 만든다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "재료비 절감에만 집중하다 음식 질이 떨어진다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -18000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "stress",
+            "delta": 35
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_it_startup",
+    "title": "IT 스타트업 창업",
+    "text": "획기적인 앱 아이디어가 떠올랐어! 공동창업자를 구해 IT 스타트업을 창업하기로 했는데, 어떻게 접근할까?",
+    "ageRange": [
+      22,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 45
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.12
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "창업",
+      "IT",
+      "스타트업",
+      "혁신"
+    ],
+    "choices": [
+      {
+        "label": "MVP를 빠르게 만들어 시장 반응을 먼저 확인한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "IT 스타트업을 창업해 투자를 유치하고 팀을 이끄는 CEO가 되었다",
+            "importance": 0.92
+          }
+        ]
+      },
+      {
+        "label": "벤처캐피탈 투자를 받아 대규모로 시작한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 20000000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 20
+          },
+          {
+            "kind": "stress",
+            "delta": 25
+          },
+          {
+            "kind": "independence",
+            "delta": -15
+          }
+        ]
+      },
+      {
+        "label": "아이디어 단계에서 경쟁사에 선점당해 포기한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "stress",
+            "delta": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_stationery_startup",
+    "title": "문방구 창업",
+    "text": "어릴 때 추억이 가득한 동네 문방구를 열기로 했어! 아이들이 좋아하는 물건을 팔고 싶은데, 시작해볼까?",
+    "ageRange": [
+      30,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 55
+      },
+      {
+        "kind": "cashGte",
+        "amount": 5000000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.1
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "창업",
+      "문방구",
+      "자영업",
+      "추억"
+    ],
+    "choices": [
+      {
+        "label": "유행하는 캐릭터 상품과 학용품을 잘 구비한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -6000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동네 아이들에게 사랑받는 문방구 사장님이 되었다",
+            "importance": 0.78
+          }
+        ]
+      },
+      {
+        "label": "온라인 판매도 병행해 수익을 다각화한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -4000000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          }
+        ]
+      },
+      {
+        "label": "대형마트와 경쟁에서 밀려 결국 폐업한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -8000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "stress",
+            "delta": 25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_designer_startup",
+    "title": "디자이너 창업",
+    "text": "프리랜서 디자이너로 일하다 드디어 나만의 스튜디오를 열기로 했어! 브랜딩, 패키지, 웹디자인 전문 스튜디오야.",
+    "ageRange": [
+      25,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 45
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.12
+      }
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "창업",
+      "디자인",
+      "스튜디오",
+      "창의"
+    ],
+    "choices": [
+      {
+        "label": "포트폴리오를 다듬어 대기업 클라이언트를 공략한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "keyMoment",
+            "text": "나만의 디자인 스튜디오를 세우고 브랜드를 만드는 일에 삶을 바쳤다",
+            "importance": 0.87
+          }
+        ]
+      },
+      {
+        "label": "소규모 로컬 브랜드들과 협업하며 성장한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          }
+        ]
+      },
+      {
+        "label": "수주 경쟁에서 밀려 다시 취업을 선택한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "stress",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_serious_accident",
+    "title": "큰 사고",
+    "text": "갑자기 큰 교통사고가 났어! 병원에 실려가 수술을 받아야 할 상황이야. 치료비도 많이 들 것 같아.",
+    "ageRange": [
+      18,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.08
+      }
+    ],
+    "weight": 12,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "위기",
+      "사고",
+      "병원",
+      "역경"
+    ],
+    "choices": [
+      {
+        "label": "빠르게 치료받고 재활에 최선을 다한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -20
+          },
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "큰 사고를 겪고 회복하면서 삶의 소중함을 절실히 느꼈다",
+            "importance": 0.9
+          }
+        ]
+      },
+      {
+        "label": "보험을 활용해 최고 의료진에게 치료받는다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          }
+        ]
+      },
+      {
+        "label": "치료를 미루다 후유증이 생긴다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -35
+          },
+          {
+            "kind": "happiness",
+            "delta": -30
+          },
+          {
+            "kind": "stress",
+            "delta": 40
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_severe_illness",
+    "title": "큰 병",
+    "text": "건강검진에서 큰 병이 발견됐어. 당장 치료를 시작해야 한다는 의사의 말에 머릿속이 하얘졌어.",
+    "ageRange": [
+      35,
+      75
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 75
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.1
+      }
+    ],
+    "weight": 12,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "위기",
+      "병",
+      "건강",
+      "역경"
+    ],
+    "choices": [
+      {
+        "label": "병원 치료와 함께 생활습관을 완전히 바꾼다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -15
+          },
+          {
+            "kind": "cash",
+            "delta": -8000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "큰 병을 이겨내며 건강의 소중함과 삶의 의미를 새롭게 깨달았다",
+            "importance": 0.92
+          }
+        ]
+      },
+      {
+        "label": "긍정적인 마음으로 치료에 집중한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          }
+        ]
+      },
+      {
+        "label": "현실을 부정하고 민간요법만 믿는다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -40
+          },
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -35
+          },
+          {
+            "kind": "stress",
+            "delta": 45
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_job_loss",
+    "title": "갑작스러운 실직",
+    "text": "회사가 구조조정을 발표했고 내가 해고 통보를 받았어. 갑자기 일자리를 잃어버린 상황, 어떻게 대처할까?",
+    "ageRange": [
+      25,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      },
+      {
+        "kind": "hasJob",
+        "value": true
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.1
+      }
+    ],
+    "weight": 11,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "위기",
+      "실직",
+      "취업",
+      "역경"
+    ],
+    "choices": [
+      {
+        "label": "퇴직금으로 새로운 기술을 배워 재취업을 준비한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "실직 위기를 기회로 바꿔 더 좋은 직장에 재취업하는 데 성공했다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "인맥을 활용해 빠르게 새 직장을 찾는다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "좌절해 한동안 집에서만 지낸다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -35
+          },
+          {
+            "kind": "health",
+            "delta": -15
+          },
+          {
+            "kind": "stress",
+            "delta": 40
+          },
+          {
+            "kind": "cash",
+            "delta": -3000000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_fraud_victim",
+    "title": "사기 피해",
+    "text": "믿었던 지인이 투자 사기꾼이었어! 큰돈을 날리고 사기 피해자가 됐어. 어떻게 수습할까?",
+    "ageRange": [
+      25,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 65
+      },
+      {
+        "kind": "cashGte",
+        "amount": 5000000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.08
+      }
+    ],
+    "weight": 12,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "위기",
+      "사기",
+      "금전",
+      "역경"
+    ],
+    "choices": [
+      {
+        "label": "경찰에 신고하고 법적으로 대응해 피해를 회복한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 30
+          },
+          {
+            "kind": "stress",
+            "delta": 30
+          },
+          {
+            "kind": "keyMoment",
+            "text": "사기 피해를 당했지만 법적 대응으로 일부 피해를 회복하고 강해졌다",
+            "importance": 0.88
+          }
+        ]
+      },
+      {
+        "label": "피해 경험을 공유해 다른 사람들을 지킨다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          }
+        ]
+      },
+      {
+        "label": "충격에 빠져 아무것도 하지 못한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -40
+          },
+          {
+            "kind": "health",
+            "delta": -20
+          },
+          {
+            "kind": "stress",
+            "delta": 50
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_natural_disaster",
+    "title": "자연재해",
+    "text": "갑작스러운 홍수로 집이 침수됐어! 가족과 중요한 물건을 빨리 대피시켜야 하는 긴박한 상황이야.",
+    "ageRange": [
+      18,
+      75
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 75
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.07
+      }
+    ],
+    "weight": 12,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "위기",
+      "재난",
+      "재해",
+      "역경"
+    ],
+    "choices": [
+      {
+        "label": "가족 안전을 최우선으로 빠르게 대피한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "자연재해 속에서 가족을 지켜낸 경험이 삶의 가장 중요한 것을 알게 했다",
+            "importance": 0.9
+          }
+        ]
+      },
+      {
+        "label": "이웃도 도와 함께 재난을 극복한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          }
+        ]
+      },
+      {
+        "label": "재산을 지키려다 대피가 늦어진다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -25
+          },
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -30
+          },
+          {
+            "kind": "stress",
+            "delta": 40
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_promotion_celebration",
+    "title": "승진 축하",
+    "text": "드디어 팀장으로 승진했어! 동료들이 축하해주고 회사에서 축하 파티도 열어준다고 해. 이 기쁜 날을 어떻게 보낼까?",
+    "ageRange": [
+      28,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 55
+      },
+      {
+        "kind": "hasJob",
+        "value": true
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "축하",
+      "승진",
+      "직장",
+      "성취"
+    ],
+    "choices": [
+      {
+        "label": "팀원들에게 감사하고 앞으로의 리더십을 다짐한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "팀장으로 승진하며 새로운 책임감과 리더로서의 사명을 다짐했다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "가족과 함께 특별한 저녁 식사로 축하한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -300000
+          }
+        ]
+      },
+      {
+        "label": "혼자 조용히 기쁨을 음미한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_wedding_day",
+    "title": "결혼식 날",
+    "text": "드디어 사랑하는 사람과 결혼하는 날이 왔어! 평생 기억에 남을 결혼식, 어떻게 준비하고 싶어?",
+    "ageRange": [
+      22,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 45
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 12,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "축하",
+      "결혼",
+      "사랑",
+      "인생"
+    ],
+    "choices": [
+      {
+        "label": "가족과 친구 모두를 초대해 성대한 결혼식을 올린다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 60
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -15000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "사랑하는 사람과 결혼식을 올리며 새로운 가족을 만들었다",
+            "importance": 0.95
+          }
+        ]
+      },
+      {
+        "label": "가까운 사람만 초대해 소박하지만 진심 가득한 식을 올린다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 55
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "소박하지만 진심 가득한 결혼식으로 새 출발을 했다",
+            "importance": 0.9
+          }
+        ]
+      },
+      {
+        "label": "해외에서 둘만의 웨딩을 즐긴다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "cash",
+            "delta": -8000000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_baby_born",
+    "title": "아이 탄생",
+    "text": "드디어 아이가 태어났어! 분만실에서 아이의 첫 울음소리를 들은 순간, 세상 전체가 달라 보였어.",
+    "ageRange": [
+      25,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 45
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 12,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "축하",
+      "출산",
+      "가족",
+      "인생"
+    ],
+    "choices": [
+      {
+        "label": "육아 공부를 충분히 하고 헌신적인 부모가 된다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 60
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": -15
+          },
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아이가 태어나는 순간 세상에서 가장 소중한 것을 품에 안았다",
+            "importance": 0.98
+          }
+        ]
+      },
+      {
+        "label": "가족과 함께 아이를 키우며 행복한 가정을 만든다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 55
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -3000000
+          }
+        ]
+      },
+      {
+        "label": "육아의 현실에 당황하지만 하루하루 배워간다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "stress",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_graduation_ceremony",
+    "title": "졸업식",
+    "text": "드디어 대학교를 졸업하는 날! 학사모를 쓰고 가족들과 기념사진을 찍으며 새로운 출발을 앞두고 있어.",
+    "ageRange": [
+      21,
+      30
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 21,
+        "max": 30
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "축하",
+      "졸업",
+      "청춘",
+      "성취"
+    ],
+    "choices": [
+      {
+        "label": "가족과 함께 근사한 식사로 졸업을 축하한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "졸업식 날 부모님의 눈물을 보며 지금까지 버텨온 자신이 자랑스러웠다",
+            "importance": 0.87
+          }
+        ]
+      },
+      {
+        "label": "친구들과 밤새 졸업 파티를 즐긴다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "cash",
+            "delta": -300000
+          }
+        ]
+      },
+      {
+        "label": "졸업장을 받자마자 취업 준비에 돌입한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_award_ceremony",
+    "title": "수상 소식",
+    "text": "오랫동안 준비한 대회에서 최우수상을 받았어! 노력이 드디어 결실을 맺은 순간, 어떻게 이 기쁨을 나눌까?",
+    "ageRange": [
+      12,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 12,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.18
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "축하",
+      "수상",
+      "성취",
+      "도전"
+    ],
+    "choices": [
+      {
+        "label": "함께 준비한 팀원들과 기쁨을 나눈다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "최우수상을 수상하며 노력이 결실을 맺는 순간의 짜릿함을 느꼈다",
+            "importance": 0.86
+          }
+        ]
+      },
+      {
+        "label": "이 경험을 발판 삼아 더 큰 도전을 계획한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "intelligence",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          }
+        ]
+      },
+      {
+        "label": "SNS에 올려 많은 사람들과 기쁨을 나눈다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_shopping_spree",
+    "title": "쇼핑 나들이",
+    "text": "오랜만에 쇼핑몰에 왔어! 원하는 물건을 마음껏 살 수 있는 여유가 생겼는데, 어떻게 쇼핑할까?",
+    "ageRange": [
+      15,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 65
+      },
+      {
+        "kind": "cashGte",
+        "amount": 500000
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "쇼핑",
+      "소비",
+      "여가"
+    ],
+    "choices": [
+      {
+        "label": "미리 적어온 리스트대로 필요한 것만 산다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          }
+        ]
+      },
+      {
+        "label": "세일 상품을 발견해 충동구매를 즐긴다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "wisdom",
+            "delta": -5
+          },
+          {
+            "kind": "cash",
+            "delta": -800000
+          }
+        ]
+      },
+      {
+        "label": "구경만 하고 온라인으로 더 저렴하게 산다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 5
+          },
+          {
+            "kind": "cash",
+            "delta": -100000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_romantic_date",
+    "title": "특별한 데이트",
+    "text": "좋아하는 사람과 오늘 특별한 데이트가 있어! 어디서 어떻게 시간을 보낼지 아직 정하지 못했어.",
+    "ageRange": [
+      16,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 16,
+        "max": 55
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "데이트",
+      "연애",
+      "행복"
+    ],
+    "choices": [
+      {
+        "label": "분위기 좋은 레스토랑에서 근사한 저녁을 먹는다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -150000
+          }
+        ]
+      },
+      {
+        "label": "공원 피크닉으로 소박하지만 특별한 추억을 만든다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "cash",
+            "delta": -50000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "공원에서의 피크닉 데이트가 둘만의 특별한 추억이 되었다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "영화 보고 카페에서 이야기하며 평범하게 즐긴다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "cash",
+            "delta": -80000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_family_dinner",
+    "title": "가족 식사",
+    "text": "오랜만에 온 가족이 한 자리에 모였어! 맛있는 음식과 함께 오랜만의 가족 시간, 어떻게 보낼까?",
+    "ageRange": [
+      10,
+      75
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 75
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "가족",
+      "식사",
+      "행복"
+    ],
+    "choices": [
+      {
+        "label": "모두와 진심 어린 대화를 나누며 서로를 이해한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "온 가족이 모인 식사 자리에서 오랫동안 그리워할 따뜻한 시간을 보냈다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "맛있는 음식을 잔뜩 준비해 가족을 대접한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -200000
+          }
+        ]
+      },
+      {
+        "label": "스마트폰만 보다 분위기를 망친다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": -10
+          },
+          {
+            "kind": "wisdom",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_hobby_time",
+    "title": "취미 여가",
+    "text": "오늘은 하루 종일 좋아하는 취미를 즐길 수 있는 자유로운 날이야! 어떤 취미 활동을 즐길까?",
+    "ageRange": [
+      10,
+      75
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 75
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "취미",
+      "여가",
+      "휴식"
+    ],
+    "choices": [
+      {
+        "label": "오랫동안 미뤄온 악기 연습에 온종일 몰입한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "야외 스포츠로 몸도 마음도 상쾌하게 한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "health",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "집에서 영화와 책으로 조용히 충전한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_summer_vacation",
+    "title": "여름 휴가",
+    "text": "드디어 여름 휴가 시즌이야! 며칠간의 휴가를 얻었는데, 이 소중한 시간을 어떻게 보낼까?",
+    "ageRange": [
+      15,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "휴가",
+      "여름",
+      "힐링"
+    ],
+    "choices": [
+      {
+        "label": "바다로 가서 수영과 해수욕을 즐긴다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "health",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -500000
+          }
+        ]
+      },
+      {
+        "label": "집에서 완전히 쉬며 밀린 잠을 자고 게임을 즐긴다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "intelligence",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "휴가 때도 자기계발 강의를 들으며 성장한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": -100000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_alien_encounter",
+    "title": "외계인 조우",
+    "text": "밤하늘에서 UFO가 착륙하더니 외계인이 나타났어! '지구인, 우리와 함께 우주여행을 떠날래?' 라고 묻고 있어.",
+    "ageRange": [
+      8,
+      80
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 80
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.08
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "외계인",
+      "우주",
+      "판타지"
+    ],
+    "choices": [
+      {
+        "label": "망설임 없이 짐도 싸지 않고 UFO에 탑승한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 60
+          },
+          {
+            "kind": "wisdom",
+            "delta": 30
+          },
+          {
+            "kind": "intelligence",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "외계인 친구와 함께 은하계를 여행하며 우주의 신비를 경험했다",
+            "importance": 0.99
+          }
+        ]
+      },
+      {
+        "label": "외계인에게 지구 음식을 대접하며 친해진다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "charisma",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          }
+        ]
+      },
+      {
+        "label": "무서워서 집 안으로 도망쳐 커튼을 친다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_time_travel",
+    "title": "시간 여행",
+    "text": "갑자기 타임머신이 나타났어! 어디로든 갈 수 있다고 해. 과거로 갈까, 미래로 갈까?",
+    "ageRange": [
+      8,
+      80
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 80
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.07
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "시간여행",
+      "판타지",
+      "모험"
+    ],
+    "choices": [
+      {
+        "label": "조선시대로 가서 이순신 장군을 만난다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "intelligence",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "타임머신을 타고 조선시대로 가 이순신 장군과 함께 거북선을 탔다",
+            "importance": 0.97
+          }
+        ]
+      },
+      {
+        "label": "100년 후 미래로 가 첨단 기술을 배워온다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "intelligence",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          }
+        ]
+      },
+      {
+        "label": "어제로 돌아가 복권 번호를 외워온다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 55
+          },
+          {
+            "kind": "cash",
+            "delta": 1000000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": -10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_zombie_apocalypse",
+    "title": "좀비 대재앙",
+    "text": "갑자기 도시에 좀비가 출몰했어! 뉴스에서 긴급 방송이 나오고 창밖으로 이상한 소리가 들려. 어떻게 할까?",
+    "ageRange": [
+      10,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.07
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "좀비",
+      "생존",
+      "모험"
+    ],
+    "choices": [
+      {
+        "label": "이웃들과 협력해 안전한 요새를 구축한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 25
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "좀비 대재앙에서 마을 사람들을 이끌어 영웅이 되었다",
+            "importance": 0.95
+          }
+        ]
+      },
+      {
+        "label": "식량과 물을 최대한 모아 혼자 버틴다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "independence",
+            "delta": 20
+          }
+        ]
+      },
+      {
+        "label": "공황 상태에서 좀비인 줄 알고 이웃을 공격한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -30
+          },
+          {
+            "kind": "charisma",
+            "delta": -20
+          },
+          {
+            "kind": "stress",
+            "delta": 40
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_magic_power",
+    "title": "마법 능력 각성",
+    "text": "어느 날 갑자기 마법 능력이 생겼어! 손에서 불꽃이 나오고, 물체를 움직일 수 있어. 이 능력으로 뭘 할까?",
+    "ageRange": [
+      8,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.07
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "마법",
+      "판타지",
+      "초능력"
+    ],
+    "choices": [
+      {
+        "label": "세상을 위해 마법으로 사람들을 돕는 영웅이 된다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 55
+          },
+          {
+            "kind": "charisma",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "마법 능력으로 수많은 사람들을 구하며 전설적인 영웅이 되었다",
+            "importance": 0.98
+          }
+        ]
+      },
+      {
+        "label": "마법 학교에 입학해 능력을 체계적으로 배운다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "intelligence",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          }
+        ]
+      },
+      {
+        "label": "마법으로 복권에 당첨되어 부자가 된다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "cash",
+            "delta": 500000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": -15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_mythology_quest",
+    "title": "신화 세계로",
+    "text": "잠든 사이 눈을 뜨니 그리스 신화 속 세계야! 제우스가 나타나 특별한 임무를 맡겨주겠다고 해.",
+    "ageRange": [
+      8,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.07
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "신화",
+      "그리스",
+      "판타지"
+    ],
+    "choices": [
+      {
+        "label": "제우스의 임무를 받아 영웅 헤라클레스와 함께 모험을 떠난다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 60
+          },
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "그리스 신화 속 세계에서 영웅들과 함께 불가능한 임무를 완수했다",
+            "importance": 0.97
+          }
+        ]
+      },
+      {
+        "label": "아테나 신에게 지혜를 구해 철학자가 된다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "intelligence",
+            "delta": 35
+          },
+          {
+            "kind": "wisdom",
+            "delta": 30
+          }
+        ]
+      },
+      {
+        "label": "꿈이라고 생각해 그냥 자버린다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_drip_discovery",
+    "title": "DRIP 발견!",
+    "text": "주식 커뮤니티에서 'DRIP'이란 말을 봤어 — 배당금을 자동으로 주식으로 재투자하는 거래! 복리가 저절로 굴러간다는 건데, 진짜일까?",
+    "ageRange": [
+      18,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 55
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "경제",
+      "주식",
+      "복리",
+      "배당"
+    ],
+    "choices": [
+      {
+        "label": "바로 DRIP 설정! 배당은 전부 재투자",
+        "importance": 0.6,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "복리이해"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "DRIP을 설정해 배당금이 자동으로 복리로 불어나게 만들었다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "배당금은 현금으로 받아서 직접 굴린다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": 200000
+          }
+        ]
+      },
+      {
+        "label": "복잡해 보여서 그냥 넘긴다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_compound_magic_10",
+    "title": "복리 10년의 기적",
+    "text": "10년 전에 시작한 적금 통장을 열어봤어. 매달 10만원씩 넣었는데, 이자가 이자를 낳아서 원금보다 훨씬 많아졌어! 복리가 이런 거구나.",
+    "ageRange": [
+      28,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 65
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "복리이해"
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.25
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "경제",
+      "복리",
+      "저축"
+    ],
+    "choices": [
+      {
+        "label": "더 많이 넣자! 금액을 두 배로 늘린다",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "cash",
+            "delta": -2400000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "복리 10년의 기적을 직접 확인하고 투자 금액을 두 배로 늘렸다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "친구에게 복리의 신비를 알려준다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "일단 지금 쓸 돈이 필요해서 일부 인출",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_reinvest_win",
+    "title": "재투자가 승리다",
+    "text": "배당주 포트폴리오가 오늘 배당금을 지급했어. 소액이라 외식비 정도인데... 그냥 쓸까, 아니면 다시 주식을 살까?",
+    "ageRange": [
+      22,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.22
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "경제",
+      "복리",
+      "배당",
+      "주식"
+    ],
+    "choices": [
+      {
+        "label": "전액 재투자! 미래의 나를 위해",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "배당금을 한 푼도 쓰지 않고 재투자하며 복리의 힘을 믿었다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "절반은 재투자, 절반은 보상으로",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": 150000
+          }
+        ]
+      },
+      {
+        "label": "오늘 하루 즐기자, 맛있는 거 먹자",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "cash",
+            "delta": 50000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_chain_lawyer",
+    "title": "변호사의 어려운 케이스",
+    "text": "선생님으로 일하다 법학대학원을 졸업하고 변호사가 됐어! 첫 단독 케이스가 들어왔는데, 억울한 피의자 사건이야. 승소 가능성은 40%지만 진실은 내 편이야.",
+    "ageRange": [
+      28,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "teacher"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "대졸"
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "직업",
+      "변호사",
+      "정의"
+    ],
+    "choices": [
+      {
+        "label": "전력을 다해 변론! 진실을 위해 싸운다",
+        "importance": 0.65,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "setJob",
+            "jobId": "officeworker"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "변호사로서 억울한 피의자를 위해 전력 변론해 무죄를 이끌어냈다",
+            "importance": 0.88
+          }
+        ]
+      },
+      {
+        "label": "합의를 권유한다. 현실적으로 생각해야 해",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ]
+      },
+      {
+        "label": "케이스를 거절하고 쉬운 사건만 맡는다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "wisdom",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_chain_coding_fanclub",
+    "title": "코딩 팬클럽 생김",
+    "text": "유튜브에 올린 코딩 강의 영상에 팬들이 생겼어! '코딩 팬클럽' 오픈 채팅방에 5백 명이 들어왔고, 유료 강의 개설 요청이 쏟아져.",
+    "ageRange": [
+      18,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "officeworker"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "코딩마스터"
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "직업",
+      "코딩",
+      "크리에이터",
+      "교육"
+    ],
+    "choices": [
+      {
+        "label": "유료 강의 플랫폼 개설! 수익화한다",
+        "importance": 0.6,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 8000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "크리에이터"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "코딩 유료 강의를 개설해 첫 달에 800만원 수익을 올렸다",
+            "importance": 0.82
+          }
+        ]
+      },
+      {
+        "label": "무료로 공개! 지식 나눔이 더 중요해",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 25
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "부담스러워서 채팅방 운영을 중단한다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "charisma",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_chain_youtuber_sponsorship",
+    "title": "유튜버 협찬 딜레마",
+    "text": "대형 식품 회사에서 협찬 제안이 왔어! 근데 솔직히 그 제품, 별로 좋아하지 않아. 돈은 3천만원인데... 구독자들은 내 솔직함을 믿고 있거든.",
+    "ageRange": [
+      15,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "youtuber"
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "직업",
+      "유튜버",
+      "윤리",
+      "협찬"
+    ],
+    "choices": [
+      {
+        "label": "솔직하게 거절! 신뢰가 더 중요해",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "거액 협찬을 거절하며 유튜버로서 진정성을 지켰다",
+            "importance": 0.78
+          }
+        ]
+      },
+      {
+        "label": "받되, 솔직히 광고라고 명확히 밝힌다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "그냥 받는다. 돈이 최고야",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000000
+          },
+          {
+            "kind": "charisma",
+            "delta": -20
+          },
+          {
+            "kind": "happiness",
+            "delta": -10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_chain_chef_cookbook",
+    "title": "셰프의 요리책 출판 제안",
+    "text": "레스토랑을 운영하며 쌓은 레시피가 수백 개야. 출판사에서 요리책 출판을 제안했어! 집필에 6개월이 걸리지만 인세 수익과 명성을 얻을 수 있어.",
+    "ageRange": [
+      28,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "chef"
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "직업",
+      "셰프",
+      "출판",
+      "요리"
+    ],
+    "choices": [
+      {
+        "label": "6개월 동안 집필에 전념! 최고의 책을 만든다",
+        "importance": 0.6,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 15000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "intelligence",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "addTrait",
+            "trait": "베스트셀러작가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "셰프로서 요리책을 출판해 베스트셀러가 됐다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "출판사와 공동 집필로 빠르게 낸다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 7000000
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "레스토랑이 바빠서 거절한다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_chain_scientist_nobel",
+    "title": "노벨상 후보 선정!",
+    "text": "노벨위원회에서 연락이 왔어! 수십 년간의 연구가 '인류에 기여한 발견'으로 후보에 올랐대. 수상 여부와 관계없이 세계가 주목하고 있어.",
+    "ageRange": [
+      45,
+      75
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "scientist"
+      },
+      {
+        "kind": "hasTrait",
+        "trait": "발명가"
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "직업",
+      "과학자",
+      "노벨상",
+      "성취"
+    ],
+    "choices": [
+      {
+        "label": "스톡홀름으로! 시상식에 당당히 참석한다",
+        "importance": 0.7,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 30
+          },
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "cash",
+            "delta": 120000000
+          },
+          {
+            "kind": "addTrait",
+            "trait": "노벨상수상자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "노벨상을 수상하며 과학자로서 인생 최고의 순간을 맞이했다",
+            "importance": 0.98
+          }
+        ]
+      },
+      {
+        "label": "수상보다 후속 연구가 더 중요해. 조용히 연구 계속",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "intelligence",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          }
+        ]
+      },
+      {
+        "label": "이 영광을 팀원들과 함께 나눈다",
+        "importance": 0.05,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 25
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "keyMoment",
+            "text": "노벨상 후보로 팀의 연구를 세상에 알렸다",
+            "importance": 0.9
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_school_class_president",
+    "title": "학급 회장 출마!",
+    "text": "선생님이 학급 회장 선거를 발표했어. 친구들이 나보고 나가라고 하는데, 발표도 해야 하고 떨릴 것 같아. 과연 이길 수 있을까?",
+    "ageRange": [
+      8,
+      17
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 17
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.25
+      }
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "학교",
+      "리더십",
+      "어린이"
+    ],
+    "choices": [
+      {
+        "label": "출마해서 공약도 만들고 열심히 선거 운동!",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "리더"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "학급 회장 선거에 출마해 당선됐다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "출마하지만 결과에 연연하지 않는다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "부담스러워서 안 나가기로 한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_school_bullying_intervention",
+    "title": "왕따를 목격했어",
+    "text": "반 친구가 무리에게 따돌림을 당하고 있어. 내가 나서면 나도 표적이 될 수 있어. 근데 그냥 보고 있기도 너무 힘들어.",
+    "ageRange": [
+      8,
+      17
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 17
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "학교",
+      "용기",
+      "도덕",
+      "어린이"
+    ],
+    "choices": [
+      {
+        "label": "친구 편에 서서 함께 맞선다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "용감함"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "왕따 당하는 친구 편에 용감하게 서서 함께 맞섰다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "선생님께 조용히 알린다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ]
+      },
+      {
+        "label": "못 본 척하고 지나친다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -15
+          },
+          {
+            "kind": "wisdom",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_school_homework_forgot",
+    "title": "숙제를 깜빡했어!",
+    "text": "오늘 제출 마감인 수학 숙제를 완전히 잊었어! 선생님이 곧 걷을 것 같아. 어떡하지?",
+    "ageRange": [
+      7,
+      16
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 7,
+        "max": 16
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 10,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "학교",
+      "책임감",
+      "어린이"
+    ],
+    "choices": [
+      {
+        "label": "솔직하게 말하고 내일 제출하겠다고 한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "intelligence",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "쉬는 시간에 후다닥 해치운다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 8
+          },
+          {
+            "kind": "stress",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ]
+      },
+      {
+        "label": "아팠다고 핑계를 댄다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -10
+          },
+          {
+            "kind": "happiness",
+            "delta": -8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_school_field_trip",
+    "title": "수학여행!",
+    "text": "드디어 수학여행! 제주도로 2박 3일이야. 짝꿍이랑 한 방을 쓰는데, 밤새 이야기할 것 같아. 부모님이 용돈을 줬어.",
+    "ageRange": [
+      10,
+      17
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 17
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.28
+      }
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "학교",
+      "여행",
+      "추억",
+      "어린이"
+    ],
+    "choices": [
+      {
+        "label": "친구들과 추억을 가득 만든다! 사진도 찍고",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": -50000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "수학여행에서 평생 잊지 못할 친구들과의 추억을 쌓았다",
+            "importance": 0.82
+          }
+        ]
+      },
+      {
+        "label": "기념품 가게를 꼼꼼히 돌며 선물을 고른다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "cash",
+            "delta": -80000
+          }
+        ]
+      },
+      {
+        "label": "용돈을 아껴서 거의 안 쓴다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_stock_margin_call",
+    "title": "마진콜 공포!",
+    "text": "신용으로 주식을 샀는데 갑자기 폭락! 증권사에서 마진콜 문자가 왔어. 추가 입금 안 하면 강제 청산이래. 손에 땀이 나.",
+    "ageRange": [
+      20,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.18
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "주식",
+      "위기",
+      "경제"
+    ],
+    "choices": [
+      {
+        "label": "빠르게 추가 입금해서 버틴다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "stress",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": -15
+          }
+        ]
+      },
+      {
+        "label": "손절하고 신용 투자는 끝낸다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": -10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "마진콜을 경험하고 신용 투자의 위험성을 뼈저리게 배웠다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "주변에 돈 빌려서 어떻게든 버틴다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -8000000
+          },
+          {
+            "kind": "charisma",
+            "delta": -10
+          },
+          {
+            "kind": "stress",
+            "delta": 30
+          },
+          {
+            "kind": "happiness",
+            "delta": -25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_stock_insider_tip",
+    "title": "내부자 정보 제안",
+    "text": "지인이 귓속말로 말해줬어. '다음 주에 A사 합병 발표가 있을 거야, 지금 사두면 대박!' 주가가 2배는 뛸 것 같은데... 이거 불법 아닌가?",
+    "ageRange": [
+      22,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.15
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "주식",
+      "윤리",
+      "법률",
+      "경제"
+    ],
+    "choices": [
+      {
+        "label": "거절한다. 내부자 거래는 범죄야",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 25
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "정직함"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "내부자 정보를 거절하며 투자 원칙을 지켰고 법적 보호를 받았다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "소액만 해본다. 들키지 않겠지",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": -20
+          },
+          {
+            "kind": "happiness",
+            "delta": -30
+          },
+          {
+            "kind": "stress",
+            "delta": 30
+          },
+          {
+            "kind": "keyMoment",
+            "text": "내부자 정보로 투자했다가 금감원 조사를 받고 큰 벌금을 냈다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "정보는 안 쓰지만 합법적으로 분석해본다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_stock_ipo_chance",
+    "title": "IPO 청약 기회!",
+    "text": "핫한 스타트업이 코스닥 상장한대! 청약 증거금을 내면 공모주를 받을 수 있어. 상장 당일 따상(2배)이 예상된다는 소문이 있어.",
+    "ageRange": [
+      20,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "주식",
+      "IPO",
+      "경제",
+      "투자"
+    ],
+    "choices": [
+      {
+        "label": "전력으로 청약! 증거금 최대로 넣는다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "공모주 청약으로 따상 수익을 맛봤다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "소액으로 경험삼아 참여한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 500000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "거품 같아서 패스한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_stock_dollar_avg",
+    "title": "달러 코스트 평균법",
+    "text": "주식이 계속 오르락내리락해. 한 번에 사야 할지, 나눠서 사야 할지 모르겠어. 친구가 '달러 코스트 평균법'을 가르쳐줬어 — 매달 일정액씩 사는 거래.",
+    "ageRange": [
+      18,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 55
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.22
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "주식",
+      "경제",
+      "투자",
+      "전략"
+    ],
+    "choices": [
+      {
+        "label": "매달 일정액 자동 매수 설정! 감정 없이 투자",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "투자고수"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "달러 코스트 평균법으로 장기 투자 습관을 만들었다",
+            "importance": 0.72
+          }
+        ]
+      },
+      {
+        "label": "지금 싸 보이니까 한꺼번에 산다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ]
+      },
+      {
+        "label": "너무 복잡해. 그냥 예금한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_rocket_kimgab_moon",
+    "title": "로켓김밥 달 착륙!",
+    "text": "로켓김밥 주식회사가 달 착륙에 성공했대! '달에서 먹는 김밥'이라는 광고 문구로 주가가 폭등 중이야. 근데 달에는 공기가 없는데?",
+    "ageRange": [
+      15,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.12
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "코믹",
+      "주식",
+      "우주"
+    ],
+    "choices": [
+      {
+        "label": "로켓김밥 전량 매수! 우주 시대가 열렸다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "로켓김밥 달 착륙 뉴스에 올인해 단타로 수익을 냈다",
+            "importance": 0.55
+          }
+        ]
+      },
+      {
+        "label": "달에 공기가 없는데 어떻게 먹냐? 패스",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "나도 달에서 김밥 먹고 싶다고 SNS에 올린다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_penguin_antarctic",
+    "title": "펭귄 택배 남극점 도달!",
+    "text": "펭귄 택배가 드디어 남극점 배달에 성공! '남극 특급 3일 배송' 서비스를 출시했대. 배달부는 실제 펭귄이래. 투자할까?",
+    "ageRange": [
+      20,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 65
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.12
+      }
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "코믹",
+      "주식"
+    ],
+    "choices": [
+      {
+        "label": "펭귄 택배 주식 올인! 남극 물류 혁명이야",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "PENG",
+            "multiplier": 1.8
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "남극점 배달 성공 뉴스에 펭귄 택배에 투자했다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "실제 펭귄이 배달한다고? 동물 학대 아냐?",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "남극에 배달 받을 사람이 몇 명이나 있어?",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "intelligence",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_dduk_nasa",
+    "title": "떡볶이 NASA 납품!",
+    "text": "국민 떡볶이가 NASA에 우주식량으로 납품된대! 우주인들이 한국 떡볶이에 반했다는 거야. '스페이스 떡볶이' 패키지가 공개됐어.",
+    "ageRange": [
+      15,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.12
+      }
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "코믹",
+      "우주",
+      "식품"
+    ],
+    "choices": [
+      {
+        "label": "스페이스 떡볶이 주식 사러 간다!",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "stockShock",
+            "ticker": "DDUK",
+            "multiplier": 2.0
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "우주 떡볶이 납품 뉴스에 올라타 단타 수익을 냈다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "나도 우주에서 떡볶이 먹고 싶다... 꿈이다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "addTrait",
+            "trait": "우주여행자"
+          }
+        ]
+      },
+      {
+        "label": "우주에서도 매운 거 먹냐며 감탄만 한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "intelligence",
+            "delta": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_cat_stock_manager",
+    "title": "고양이 펀드 매니저",
+    "text": "어느 증권사에서 고양이를 펀드 매니저로 앉혔대! 고양이가 발로 랜덤 종목을 고르는 방식인데, 수익률이 전문가보다 높다는 뉴스야.",
+    "ageRange": [
+      15,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.1
+      }
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "병맛",
+      "코믹",
+      "주식",
+      "동물"
+    ],
+    "choices": [
+      {
+        "label": "고양이 펀드에 가입! 전문가보다 낫잖아",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "keyMoment",
+            "text": "고양이 펀드 매니저의 포트폴리오로 수익을 냈다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "이거 사실 인덱스 펀드가 더 나을 것 같은데",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "귀여운 고양이 사진 보러 증권사 앱 다운로드",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
           }
         ]
       }

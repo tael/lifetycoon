@@ -248,6 +248,18 @@ export function PlayScreen() {
                 {PHASE_LABEL[economyCycle.phase]}
               </span>
             )}
+            {Math.floor(character.age) >= 30 && (
+              <span style={{
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                padding: '1px 6px',
+                borderRadius: 'var(--radius-full)',
+                background: '#e8f5e9',
+                color: '#2e7d32',
+              }}>
+                💹 물가 +{Math.round(2 * (Math.floor(character.age) - 30))}%
+              </span>
+            )}
             {currentSeason && (
               <span style={{
                 fontSize: '0.6rem',

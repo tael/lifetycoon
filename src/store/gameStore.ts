@@ -105,12 +105,13 @@ export type GameStoreState = {
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   activeChallengeId: string | null;
+  pendingGender: 'male' | 'female' | null;
   // Derived/static
   stocksMaster: StockDef[];
   jobsMaster: Job[];
   scenariosMaster: ScenarioEvent[];
   // Actions
-  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number, challengeModifier?: ChallengeMode['modifier'] & { challengeId?: string }, legacyCash?: number, legacyParentName?: string) => void;
+  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number, challengeModifier?: ChallengeMode['modifier'] & { challengeId?: string }, legacyCash?: number, legacyParentName?: string, gender?: 'male' | 'female') => void;
   goTo: (phase: Phase) => void;
   pickDreams: (ids: string[]) => void;
   advanceYear: (intAge: number, deltaYears: number) => void;
@@ -187,6 +188,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     dripEnabled: false,
     speedMultiplier: 1,
     activeChallengeId: null,
+    pendingGender: null,
     stocksMaster: STOCKS,
     jobsMaster: JOBS,
     scenariosMaster: SCENARIOS,
@@ -225,7 +227,7 @@ let streams: RngStreams = createStreams(randomSeeds());
 export const useGameStore = create<GameStoreState>()(
   subscribeWithSelector((set, get) => ({
     ...makeInitialState(),
-    startNewGame(name, pickedDreamIds, customSeed?, challengeModifier?, legacyCash?, legacyParentName?) {
+    startNewGame(name, pickedDreamIds, customSeed?, challengeModifier?, legacyCash?, legacyParentName?, gender?) {
       const seeds = randomSeeds(customSeed);
       streams = createStreams(seeds);
       const base = makeInitialState();
@@ -240,11 +242,11 @@ export const useGameStore = create<GameStoreState>()(
             tag: '유년기',
           }]
         : [];
-      const gender: 'male' | 'female' = Math.random() < 0.5 ? 'male' : 'female';
+      const resolvedGender: 'male' | 'female' = gender ?? get().pendingGender ?? (Math.random() < 0.5 ? 'male' : 'female');
       set({
         ...base,
         seeds,
-        character: createCharacter(name, gender),
+        character: createCharacter(name, resolvedGender),
         dreams: freshDreams(pickedDreamIds),
         phase: { kind: 'playing' },
         cash: startCash,

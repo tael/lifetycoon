@@ -46,6 +46,7 @@ function applyEffect(
 ): EffectContext {
   switch (eff.kind) {
     case 'cash':
+    case 'money':
       return { ...ctx, cash: Math.max(-50000000, ctx.cash + eff.delta) };
     case 'happiness':
       return {
@@ -63,7 +64,16 @@ function applyEffect(
           health: ctx.character.health + eff.delta,
         },
       };
+    case 'stress':
+      return {
+        ...ctx,
+        character: {
+          ...ctx.character,
+          health: ctx.character.health - eff.delta,
+        },
+      };
     case 'wisdom':
+    case 'intelligence':
       return {
         ...ctx,
         character: {
@@ -72,6 +82,7 @@ function applyEffect(
         },
       };
     case 'charisma':
+    case 'independence':
       return {
         ...ctx,
         character: {

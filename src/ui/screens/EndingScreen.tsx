@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
@@ -8,6 +8,7 @@ import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
 import { updateHighScore } from '../../store/highScore';
 import { saveEndingToGallery } from '../../store/endingGallery';
+import { updateGlobalStats } from '../../store/globalStats';
 import { generateLifeSummary, generateLifeTitle } from '../../game/domain/lifeSummary';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { AssetChart } from '../components/AssetChart';
@@ -30,6 +31,7 @@ export function EndingScreen() {
   const [copied, setCopied] = useState(false);
   const [newAchievements, setNewAchievements] = useState<Achievement[]>([]);
   const [showAchConfetti, setShowAchConfetti] = useState(false);
+  const sessionStartRef = useRef<number>(Date.now());
 
   useEffect(() => {
     if (!ending) return;
@@ -37,6 +39,15 @@ export function EndingScreen() {
     // Check achievements + high score
     const { newlyUnlocked } = checkAndSaveAchievements(ending);
     const { isNewRecord } = updateHighScore(ending);
+    // Update global stats
+    const st = useGameStore.getState();
+    updateGlobalStats({
+      finalAssets: ending.finalAssets,
+      dreamsAchieved: ending.dreamsAchieved,
+      jobId: st.job?.id ?? null,
+      holdingTickers: st.holdings.map((h) => h.ticker),
+      sessionDurationMs: Date.now() - sessionStartRef.current,
+    });
     const title = generateLifeTitle(
       useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,
       ending.dreamsAchieved, ending.totalDreams, ending,
