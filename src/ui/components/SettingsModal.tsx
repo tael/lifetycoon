@@ -2,13 +2,24 @@ import { useState } from 'react';
 import { sfx } from '../../game/engine/soundFx';
 import { clearSave, saveGame } from '../../store/persistence';
 import { useGameStore } from '../../store/gameStore';
+import { TUTORIAL_KEY } from './TutorialOverlay';
 
 // localStorage keys
 const KEY_VIBRATION = 'lifetycoon-kids:vibration';
 const KEY_FONT_SIZE = 'lifetycoon-kids:font-size';
 const KEY_STAT_DISPLAY = 'lifetycoon-kids:stat-display';
+export const KEY_SHOW_STAT_HINTS = 'lifetycoon-kids:showStatHints';
 export type StatDisplay = 'number' | 'progress' | 'both';
 export type FontSize = 'small' | 'base' | 'large';
+
+function readShowStatHints(): boolean {
+  try {
+    const v = localStorage.getItem(KEY_SHOW_STAT_HINTS);
+    return v === 'true';
+  } catch {
+    return false;
+  }
+}
 
 function readVibration(): boolean {
   try {
@@ -55,6 +66,7 @@ export function SettingsModal({ onClose }: Props) {
   const [vibration, setVibration] = useState(readVibration);
   const [fontSize, setFontSize] = useState<FontSize>(readFontSize);
   const [statDisplay, setStatDisplay] = useState<StatDisplay>(readStatDisplay);
+  const [showStatHints, setShowStatHints] = useState(readShowStatHints);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -81,6 +93,12 @@ export function SettingsModal({ onClose }: Props) {
   const handleStatDisplay = (mode: StatDisplay) => {
     setStatDisplay(mode);
     try { localStorage.setItem(KEY_STAT_DISPLAY, mode); } catch {}
+  };
+
+  const handleShowStatHints = () => {
+    const next = !showStatHints;
+    setShowStatHints(next);
+    try { localStorage.setItem(KEY_SHOW_STAT_HINTS, String(next)); } catch {}
   };
 
   // Export save data as JSON file
@@ -263,6 +281,24 @@ export function SettingsModal({ onClose }: Props) {
           </div>
         </div>
 
+        {/* Stat hints */}
+        <div style={sectionStyle}>
+          <div style={rowStyle}>
+            <span style={labelStyle}>🔍 스탯 힌트 표시</span>
+            <button
+              style={toggleStyle(showStatHints)}
+              onClick={handleShowStatHints}
+              aria-label={showStatHints ? '스탯 힌트 끄기' : '스탯 힌트 켜기'}
+              aria-pressed={showStatHints}
+            >
+              <span style={knobStyle(showStatHints)} />
+            </button>
+          </div>
+          <div style={{ fontSize: 'var(--font-size-xs, 12px)', color: 'var(--text-muted, #999)', marginTop: 2 }}>
+            이벤트 선택지에 행복·건강·지혜 등 스탯 변화 힌트를 표시해요
+          </div>
+        </div>
+
         {/* Font size */}
         <div style={sectionStyle}>
           <div style={{ ...labelStyle, marginBottom: 8 }}>🎨 글꼴 크기</div>
@@ -295,6 +331,20 @@ export function SettingsModal({ onClose }: Props) {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Tutorial */}
+        <div style={sectionStyle}>
+          <div style={{ ...labelStyle, marginBottom: 8 }}>🎓 튜토리얼</div>
+          <button
+            className="btn btn-secondary btn-block"
+            onClick={() => {
+              try { localStorage.removeItem(TUTORIAL_KEY); } catch {}
+              window.location.reload();
+            }}
+          >
+            🎓 튜토리얼 다시 보기
+          </button>
         </div>
 
         {/* Delete all */}

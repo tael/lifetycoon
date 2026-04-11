@@ -15,6 +15,7 @@ import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
+import { StockDetailModal } from '../components/StockDetailModal';
 import { PHASE_LABEL } from '../../game/engine/economyCycle';
 import { SEASON_EMOJI, SEASON_KO } from '../../game/engine/season';
 import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
@@ -31,6 +32,7 @@ export function PlayScreen() {
   const [lastQuizAge, setLastQuizAge] = useState<number | null>(null);
   const [playTime, setPlayTime] = useState(0);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
+  const [selectedStock, setSelectedStock] = useState<string | null>(null);
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
@@ -699,6 +701,7 @@ export function PlayScreen() {
                 if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); }
               }}
               canBuy={cash >= price}
+              onDetail={() => setSelectedStock(s.ticker)}
             />
           );
         })}
@@ -790,6 +793,29 @@ export function PlayScreen() {
 
       {/* Skill modal */}
       {showSkillModal && <SkillModal onClose={() => setShowSkillModal(false)} />}
+
+      {/* Stock Detail modal */}
+      {selectedStock && (() => {
+        const s = STOCKS.find((st) => st.ticker === selectedStock);
+        if (!s) return null;
+        const p = prices[selectedStock] ?? s.basePrice;
+        const h = holdings.find((hh) => hh.ticker === selectedStock);
+        return (
+          <StockDetailModal
+            stock={s}
+            price={p}
+            holding={h}
+            cash={cash}
+            onBuy={(n) => {
+              if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); }
+            }}
+            onSell={(n) => {
+              if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); }
+            }}
+            onClose={() => setSelectedStock(null)}
+          />
+        );
+      })()}
 
       {/* Stock Quiz modal */}
       {showQuizModal && (
@@ -919,16 +945,24 @@ function QuickActionBtn({ label, onClick, disabled, danger }: { label: string; o
 }
 
 function StockRow({
-  stock, price, holding, onBuy, onSell, canBuy,
+  stock, price, holding, onBuy, onSell, canBuy, onDetail,
 }: {
   stock: StockDef; price: number; holding?: { shares: number; avgBuyPrice: number };
   onBuy: (n: number) => void; onSell: (n: number) => void; canBuy: boolean;
+  onDetail: () => void;
 }) {
   const pnl = holding ? (price - holding.avgBuyPrice) * holding.shares : 0;
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '1px solid #f5f0e8' }}>
       <span style={{ fontSize: '1.2rem', width: 28 }}>{stock.iconEmoji}</span>
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={onDetail}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onDetail(); }}
+        aria-label={`${stock.name} 상세 보기`}
+        style={{ flex: 1, minWidth: 0, cursor: 'pointer' }}
+      >
         <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {stock.name}
           <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginLeft: 3, fontWeight: 400 }}>

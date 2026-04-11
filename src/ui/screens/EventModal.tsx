@@ -3,6 +3,15 @@ import type { EconomicEvent, EventEffect } from '../../game/types';
 import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
 import { sfx } from '../../game/engine/soundFx';
+import { KEY_SHOW_STAT_HINTS } from '../components/SettingsModal';
+
+function readShowStatHints(): boolean {
+  try {
+    return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true';
+  } catch {
+    return false;
+  }
+}
 
 function vibrate() {
   try { navigator?.vibrate?.(50); } catch { /* ignore */ }
@@ -12,6 +21,7 @@ export function EventModal({ event }: { event: EconomicEvent }) {
   const chooseOption = useGameStore((s) => s.chooseOption);
   const modalRef = useRef<HTMLDivElement>(null);
   const firstBtnRef = useRef<HTMLButtonElement>(null);
+  const showHints = readShowStatHints();
 
   useEffect(() => {
     sfx.event();
@@ -79,7 +89,7 @@ export function EventModal({ event }: { event: EconomicEvent }) {
                 {choice.label}
               </span>
               <span style={{ fontSize: '0.7rem', opacity: 0.6, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {effectIcons(choice.effects)}
+                {effectIcons(choice.effects, showHints)}
               </span>
             </button>
           ))}
@@ -89,9 +99,7 @@ export function EventModal({ event }: { event: EconomicEvent }) {
   );
 }
 
-function effectIcons(effects: EventEffect[]): React.ReactNode[] {
-  // 의도적 숨김: happiness/health/wisdom/charisma 등 스탯 변화는 힌트로 주지 않음.
-  // 플레이어가 선택의 결과를 직접 체험하도록 돈·특성·직업 변경 등 "중요 정보"만 노출.
+function effectIcons(effects: EventEffect[], showHints: boolean): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   for (const eff of effects) {
     switch (eff.kind) {
@@ -117,7 +125,19 @@ function effectIcons(effects: EventEffect[]): React.ReactNode[] {
       case 'bankInterestChange':
         nodes.push(<span key={nodes.length}>🏦이자{eff.delta >= 0 ? '+' : ''}{(eff.delta * 100).toFixed(1)}%</span>);
         break;
-      // 그 외(happiness/health/wisdom/charisma/stress/intelligence/independence/keyMoment/gotoScenario) 는 표시하지 않음
+      // 스탯 힌트: showHints=true 일 때만 표시
+      case 'happiness':
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>😊{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        break;
+      case 'health':
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>❤️{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        break;
+      case 'wisdom':
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>📚{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        break;
+      case 'charisma':
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>✨{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        break;
     }
   }
   return nodes;
