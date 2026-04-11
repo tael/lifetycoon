@@ -20,7 +20,9 @@ export function selectKeyMoments(
   const stagesTaken = new Set<string>();
 
   // Stage 1: ensure we have at least one per stage (top importance within each stage)
-  const requiredStages = ['유년기', '청년기', '중년기', '장년기'];
+  // 노년기(75~100)도 포함해야 한다 — 100세까지 가는 게임에서 엔딩 요약에 노년기
+  // 순간이 빠지는 누락 버그 수정. 각 단계에서 가장 중요한 moment를 먼저 픽.
+  const requiredStages = ['유년기', '청년기', '중년기', '장년기', '노년기'];
   for (const stage of requiredStages) {
     const top = sorted.find(
       (m) => stageForAge(m.age) === stage && !result.includes(m),
