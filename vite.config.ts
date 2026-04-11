@@ -13,7 +13,8 @@ function readGitSha(): string {
   }
 }
 
-const APP_VERSION = `${readGitSha()} · ${new Date().toISOString().slice(0, 10)}`;
+// 버전은 git 단축 SHA만 사용 (유니크, 1줄, 날짜 혼재로 인한 혼란 없음).
+const APP_VERSION = readGitSha();
 
 export default defineConfig({
   plugins: [
