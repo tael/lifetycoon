@@ -3,6 +3,7 @@ import { sfx } from '../../game/engine/soundFx';
 import { clearSave, saveGame } from '../../store/persistence';
 import { useGameStore } from '../../store/gameStore';
 import { TUTORIAL_KEY } from './TutorialOverlay';
+import { FeedbackModal } from './FeedbackModal';
 
 // localStorage keys
 const KEY_VIBRATION = 'lifetycoon-kids:vibration';
@@ -82,6 +83,7 @@ export function SettingsModal({ onClose }: Props) {
   const [autoChoice, setAutoChoice] = useState<AutoChoice>(readAutoChoice);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const loadSnapshot = useGameStore((s) => s.loadSnapshot);
 
@@ -378,6 +380,20 @@ export function SettingsModal({ onClose }: Props) {
           </button>
         </div>
 
+        {/* Feedback */}
+        <div style={sectionStyle}>
+          <div style={{ ...labelStyle, marginBottom: 8 }}>💬 피드백</div>
+          <button
+            className="btn btn-secondary btn-block"
+            onClick={() => setShowFeedback(true)}
+          >
+            💬 의견 보내기
+          </button>
+          <div style={{ fontSize: 'var(--font-size-xs, 12px)', color: 'var(--text-muted, #999)', marginTop: 4 }}>
+            버그, 감상, 제안을 익명으로 전달할 수 있어요
+          </div>
+        </div>
+
         {/* Delete all */}
         <div>
           <div style={{ ...labelStyle, marginBottom: 8 }}>🔄 데이터 초기화</div>
@@ -413,6 +429,8 @@ export function SettingsModal({ onClose }: Props) {
           )}
         </div>
       </div>
+
+      {showFeedback && <FeedbackModal onClose={() => setShowFeedback(false)} />}
     </div>
   );
 }
