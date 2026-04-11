@@ -17,6 +17,7 @@ export type Character = {
   charisma: number; // 0..100
   traits: string[]; // 성격 태그 (획득)
   emoji: string; // 현재 기분 이모지
+  gender?: 'male' | 'female';
 };
 
 export type StockDef = {
@@ -187,6 +188,8 @@ export type Ending = {
   finalCharisma: number;
   finalHealth: number;
   traitsCount: number;
+  totalChoicesMade: number;
+  uniqueScenariosEncountered: number;
 };
 
 export type RealEstate = {

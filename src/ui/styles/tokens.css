@@ -1,3 +1,26 @@
+/* 배민(우아한형제들) 무료 한글 폰트 — 어린이 친화 둥근 스타일 */
+@font-face {
+  font-family: 'BMJUA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/BMJUA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/BMDOHYEON.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BMHANNA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/BMHANNA_11yrs_ttf.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Colors — pastel + high contrast friendly */
   --bg-primary: #faf7f2;
@@ -28,7 +51,8 @@
   --sp-2xl: 48px;
 
   /* Typography */
-  --font-main: 'Pretendard Variable', 'Noto Sans KR', -apple-system, sans-serif;
+  --font-main: 'BMJUA', 'BMDOHYEON', 'Pretendard Variable', 'Noto Sans KR', -apple-system, sans-serif;
+  --font-display: 'BMDOHYEON', 'BMJUA', 'Pretendard Variable', -apple-system, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;

@@ -87,6 +87,7 @@ export type GameStoreState = {
   boomTimeBillionaireReached: boolean;
   survivedRecessionWithAssets: boolean;
   unlockedSkills: string[];
+  choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   activeChallengeId: string | null;
@@ -166,6 +167,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     boomTimeBillionaireReached: false,
     survivedRecessionWithAssets: false,
     unlockedSkills: [],
+    choiceHistory: [],
     speedMultiplier: 1,
     activeChallengeId: null,
     stocksMaster: STOCKS,
@@ -220,10 +222,11 @@ export const useGameStore = create<GameStoreState>()(
             tag: '유년기',
           }]
         : [];
+      const gender: 'male' | 'female' = Math.random() < 0.5 ? 'male' : 'female';
       set({
         ...base,
         seeds,
-        character: createCharacter(name),
+        character: createCharacter(name, gender),
         dreams: freshDreams(pickedDreamIds),
         phase: { kind: 'playing' },
         cash: startCash,
@@ -351,7 +354,9 @@ export const useGameStore = create<GameStoreState>()(
       }
       keyMoments = pruneKeyMoments(keyMoments, KEY_MOMENT_LIMIT);
       // 8) Emoji update
-      const emoji = emojiFor({ ...character, happiness: character.happiness });
+      const stocksVal = st.holdings.reduce((s, h) => s + (st.prices[h.ticker] ?? 0) * h.shares, 0);
+      const totalAssetsForEmoji = ctxCash + st.bank.balance + stocksVal + st.realEstate.reduce((s, re) => s + re.currentValue, 0);
+      const emoji = emojiFor({ ...character, happiness: character.happiness }, totalAssetsForEmoji);
 
       // 9) Emit event possibility check
       const dispatchCtx: DispatchContext = {
@@ -418,8 +423,7 @@ export const useGameStore = create<GameStoreState>()(
         },
       ].slice(-RECENT_LOG_LIMIT);
 
-      // Track asset history every 5 years
-      const stocksVal = st.holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
+      // Track asset history every 5 years (stocksVal already computed above for emoji)
       const totalNow = ctxCash + bank.balance + stocksVal;
       const assetHistory = intAge % 5 === 0
         ? [...st.assetHistory, { age: intAge, value: totalNow }]
@@ -486,6 +490,10 @@ export const useGameStore = create<GameStoreState>()(
       );
       const newUsed = [...st.usedScenarioIds, event.scenarioId];
       const newKeyMoments = pruneKeyMoments(next.keyMoments, KEY_MOMENT_LIMIT);
+      const newChoiceHistory = [
+        ...st.choiceHistory,
+        { scenarioId: event.scenarioId, choiceIndex, age: event.triggeredAtAge },
+      ];
       set({
         character: next.character,
         cash: next.cash,
@@ -496,6 +504,7 @@ export const useGameStore = create<GameStoreState>()(
         traits: next.traits,
         keyMoments: newKeyMoments,
         usedScenarioIds: newUsed,
+        choiceHistory: newChoiceHistory,
         phase: { kind: 'playing' },
       });
     },
@@ -642,6 +651,8 @@ export const useGameStore = create<GameStoreState>()(
         finalCharisma: st.character.charisma,
         finalHealth: st.character.health,
         traitsCount: st.traits.length,
+        totalChoicesMade: st.choiceHistory.length,
+        uniqueScenariosEncountered: new Set(st.usedScenarioIds).size,
       };
       const ending = buildEnding(
         st.character.name,

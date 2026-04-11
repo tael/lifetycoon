@@ -106,6 +106,8 @@ export type EndingExtras = {
   finalCharisma: number;
   finalHealth: number;
   traitsCount: number;
+  totalChoicesMade: number;
+  uniqueScenariosEncountered: number;
 };
 
 export function buildEnding(
