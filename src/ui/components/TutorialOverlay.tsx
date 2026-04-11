@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 
 export const TUTORIAL_KEY = 'lifetycoon-kids:tutorialSeen';
+// SettingsModal "튜토리얼 다시 보기" 버튼이 현재 게임을 유지한 채 오버레이만 다시
+// 띄울 수 있게, 커스텀 이벤트로 요청을 전달한다. 기존 구현은 페이지 리로드라서
+// 유저가 타이틀 화면으로 튕겨나가는 문제가 있었음.
+export const TUTORIAL_SHOW_EVENT = 'lifetycoon:show-tutorial';
+export function requestShowTutorial() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent(TUTORIAL_SHOW_EVENT));
+}
 
 export function TutorialOverlay() {
   const [step, setStep] = useState(0);
@@ -11,6 +19,16 @@ export function TutorialOverlay() {
       if (localStorage.getItem(TUTORIAL_KEY)) return;
       setVisible(true);
     } catch { /* ignore */ }
+  }, []);
+
+  // 외부(설정의 "튜토리얼 다시 보기")에서 오는 요청을 듣고 오버레이를 다시 띄운다.
+  useEffect(() => {
+    const handler = () => {
+      setStep(0);
+      setVisible(true);
+    };
+    window.addEventListener(TUTORIAL_SHOW_EVENT, handler);
+    return () => window.removeEventListener(TUTORIAL_SHOW_EVENT, handler);
   }, []);
 
   if (!visible) return null;

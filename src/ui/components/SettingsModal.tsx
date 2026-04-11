@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { sfx } from '../../game/engine/soundFx';
 import { clearSave, saveGame } from '../../store/persistence';
 import { useGameStore } from '../../store/gameStore';
-import { TUTORIAL_KEY } from './TutorialOverlay';
+import { TUTORIAL_KEY, requestShowTutorial } from './TutorialOverlay';
 import { FeedbackModal } from './FeedbackModal';
 
 // localStorage keys
@@ -372,8 +372,10 @@ export function SettingsModal({ onClose }: Props) {
           <button
             className="btn btn-secondary btn-block"
             onClick={() => {
+              // 현재 게임을 유지한 채 오버레이만 다시 띄운다.
               try { localStorage.removeItem(TUTORIAL_KEY); } catch {}
-              window.location.reload();
+              requestShowTutorial();
+              onClose();
             }}
           >
             🎓 튜토리얼 다시 보기

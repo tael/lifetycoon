@@ -103,14 +103,19 @@ export function PlayScreen() {
     };
   }, [onIntAgeChange, onFinished]);
 
-  // Sync pause/resume with phase
+  // Sync pause/resume with phase. 설정 모달이 열려 있을 때도 시간을 멈춘다 —
+  // 유저가 설정을 살피는 동안 나이가 흐르면 억울하게 연차가 날아가는 경험을 막기 위함.
   useEffect(() => {
     const loop = loopRef.current;
     if (!loop) return;
+    if (showSettings) {
+      loop.pause();
+      return;
+    }
     if (phase.kind === 'paused') loop.pause();
     else if (phase.kind === 'playing') loop.resume();
     else if (phase.kind === 'ending') loop.stop();
-  }, [phase]);
+  }, [phase, showSettings]);
 
   // Sync speed
   useEffect(() => {
