@@ -18,13 +18,14 @@ function makeCtx(overrides: Partial<EffectContext> = {}): EffectContext {
   return {
     character: baseCharacter,
     cash: 100000,
-    bank: { balance: 0, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.08 },
+    bank: { balance: 0, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     holdings: [],
     prices: { DDUK: 1000, RAIN: 2000 },
     job: null,
     jobs: [] as Job[],
     traits: [],
     keyMoments: [],
+    realEstate: [],
     warnings: [],
     ...overrides,
   };
@@ -53,13 +54,47 @@ describe('buyStock effect', () => {
     expect(result.cash).toBe(100000 - 10000);
   });
 
-  it('skips and emits warning when cash is insufficient', () => {
-    const ctx = makeCtx({ cash: 5000 });
+  it('forces a loan (10만원 단위 올림) when cash is short but loan limit allows', () => {
+    // cost = 20 * 1000 = 20,000. cash = 5,000. shortfall = 15,000 → loan 100,000.
+    // totalAssets (cash 5k + bank balance 80k) = 85k → maxLoan = 42,500. NOT enough for 100k.
+    // Increase bank balance so limit is enough: bank 400k → totalAssets 405k → maxLoan 202,500.
+    const ctx = makeCtx({
+      cash: 5000,
+      bank: { balance: 400000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
+    });
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
+    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20 });
+    // cash flow: 5000 + 100000 loan - 20000 cost = 85000
+    expect(result.cash).toBe(85000);
+    expect(result.bank.loanBalance).toBe(100000);
+    expect(result.warnings?.length).toBe(1);
+    expect(result.warnings?.[0]).toMatch(/대출.*DDUK 20주/);
+  });
+
+  it('rounds shortfall UP to next 10만원 loan unit', () => {
+    // cost = 1 * 1000 = 1000. cash = 0. shortfall 1000 → loan 100,000 (올림).
+    const ctx = makeCtx({
+      cash: 0,
+      bank: { balance: 500000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
+    });
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 1 }]), 30);
+    expect(result.bank.loanBalance).toBe(100000);
+    expect(result.cash).toBe(99000); // 0 + 100000 loan - 1000 cost
+  });
+
+  it('skips and emits warning when even max loan cannot cover the purchase', () => {
+    // cost = 20 * 1000 = 20,000. cash = 0. bank = 10,000.
+    // totalAssets = 10,000 → maxLoan = 5,000. shortfall 20,000 → loan unit 100,000.
+    // remainingLimit 5,000 < 100,000 → skip.
+    const ctx = makeCtx({
+      cash: 0,
+      bank: { balance: 10000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
+    });
     const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
     expect(result.holdings).toHaveLength(0);
-    expect(result.cash).toBe(5000);
-    expect(result.warnings?.length).toBe(1);
-    expect(result.warnings?.[0]).toContain('DDUK');
+    expect(result.cash).toBe(0);
+    expect(result.bank.loanBalance).toBe(0);
+    expect(result.warnings?.[0]).toContain('한도 부족');
   });
 
   it('buys at pre-shock price when ordered before stockShock', () => {

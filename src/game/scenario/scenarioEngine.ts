@@ -8,6 +8,7 @@ import type {
   Holding,
   Job,
   KeyMoment,
+  RealEstate,
 } from '../types';
 import { clampStats } from '../domain/character';
 import { shockPrice } from '../domain/stock';
@@ -22,11 +23,18 @@ export type EffectContext = {
   jobs: Job[];
   traits: string[];
   keyMoments: KeyMoment[];
+  // buyStock의 강제대출 fallback에서 maxLoan = totalAssets × 0.5 를 계산하는데
+  // 부동산도 totalAssets에 포함되어야 하므로 ctx에 실어 보낸다. 기존 호출자의
+  // 호환을 위해 선택적으로 두고, 없으면 빈 배열로 처리한다.
+  realEstate?: RealEstate[];
   gotoScenarioId?: string;
-  // 경고 누적 버퍼 — applyChoice 이후 호출자가 토스트로 노출한다.
-  // 이벤트 효과(예: buyStock 잔고부족)가 텍스트 기대치와 달라질 때 사용.
+  // 경고/안내 누적 버퍼 — applyChoice 이후 호출자가 토스트로 노출한다.
+  // "잔고 부족으로 강제 대출 500,000원 받고 매수", "보유 부족으로 건너뜀" 등.
   warnings?: string[];
 };
+
+// 이벤트 buyStock의 강제대출 최소 단위 (10만원) — UI의 대출 버튼 단위와 일치.
+const FORCED_LOAN_UNIT = 100_000;
 
 export function applyChoice(
   ctx: EffectContext,
@@ -110,22 +118,45 @@ function applyEffect(
       };
     }
     case 'buyStock': {
-      // 이벤트 선택지로 명시된 실제 주식 매수. 현재가 기준으로 비용을 계산하고
-      // 잔고 부족이면 경고를 남기고 노옵으로 처리한다(텍스트-행동 일치를 보장하되
-      // 게임 오버 방지). 부분 매수는 의도적으로 하지 않는다 — "20주 매수"가 18주가
-      // 되는 쪽이 더 혼란스럽기 때문.
+      // 이벤트 선택지로 명시된 실제 주식 매수. 현재가로 비용을 계산한 뒤,
+      // 잔고가 모자라면 **강제 대출**로 부족분을 메워서 반드시 매수를 성사시킨다
+      // (정책: 텍스트가 "산다"면 무조건 산다. 게임 경제에는 이자 부담으로 반영).
+      //
+      // - 대출 단위: 10만원(UI 대출 버튼과 동일). 부족분을 이 단위로 올림하여 차입.
+      // - 대출 한도: 총자산(cash + bank + stocks + realEstate) × 0.5 - 현 대출잔액.
+      //   이 한도마저 부족하면 매수 자체가 불가능하므로 경고 후 노옵.
       const price = ctx.prices[eff.ticker];
       if (price == null || eff.shares <= 0) return ctx;
       const cost = Math.round(price * eff.shares);
-      if (cost > ctx.cash) {
-        return {
-          ...ctx,
-          warnings: [
-            ...(ctx.warnings ?? []),
-            `잔고가 부족해서 ${eff.ticker} ${eff.shares}주 매수를 건너뛰었어요.`,
-          ],
-        };
+
+      let workingCash = ctx.cash;
+      let workingBank = ctx.bank;
+      let forcedLoan = 0;
+      if (cost > workingCash) {
+        const shortfall = cost - workingCash;
+        const loanAmount = Math.ceil(shortfall / FORCED_LOAN_UNIT) * FORCED_LOAN_UNIT;
+        const stocksVal = ctx.holdings.reduce(
+          (s, h) => s + (ctx.prices[h.ticker] ?? 0) * h.shares,
+          0,
+        );
+        const realEstateVal = (ctx.realEstate ?? []).reduce((s, re) => s + re.currentValue, 0);
+        const totalAssets = workingCash + workingBank.balance + stocksVal + realEstateVal;
+        const maxLoan = Math.floor(totalAssets * 0.5);
+        const remainingLimit = Math.max(0, maxLoan - workingBank.loanBalance);
+        if (loanAmount > remainingLimit) {
+          return {
+            ...ctx,
+            warnings: [
+              ...(ctx.warnings ?? []),
+              `잔고·대출 한도 부족으로 ${eff.ticker} ${eff.shares}주 매수를 건너뛰었어요.`,
+            ],
+          };
+        }
+        workingCash += loanAmount;
+        workingBank = { ...workingBank, loanBalance: workingBank.loanBalance + loanAmount };
+        forcedLoan = loanAmount;
       }
+
       const existing = ctx.holdings.find((h) => h.ticker === eff.ticker);
       let newHoldings: Holding[];
       if (existing) {
@@ -137,9 +168,26 @@ function applyEffect(
           h.ticker === eff.ticker ? { ticker: eff.ticker, shares: total, avgBuyPrice: avg } : h,
         );
       } else {
-        newHoldings = [...ctx.holdings, { ticker: eff.ticker, shares: eff.shares, avgBuyPrice: price }];
+        newHoldings = [
+          ...ctx.holdings,
+          { ticker: eff.ticker, shares: eff.shares, avgBuyPrice: price },
+        ];
       }
-      return { ...ctx, cash: ctx.cash - cost, holdings: newHoldings };
+
+      const newWarnings = forcedLoan > 0
+        ? [
+            ...(ctx.warnings ?? []),
+            `잔고가 부족해서 ${formatForcedLoan(forcedLoan)}원을 대출받아 ${eff.ticker} ${eff.shares}주를 매수했어요.`,
+          ]
+        : ctx.warnings;
+
+      return {
+        ...ctx,
+        cash: workingCash - cost,
+        bank: workingBank,
+        holdings: newHoldings,
+        warnings: newWarnings,
+      };
     }
     case 'sellStock': {
       // 이벤트 선택지로 명시된 실제 주식 매도. 보유 주식이 부족하면 경고를 남기고
@@ -194,6 +242,11 @@ function applyEffect(
         },
       };
   }
+}
+
+function formatForcedLoan(amount: number): string {
+  // 토스트 안내용: "1,500,000" 같은 천단위 표기
+  return amount.toLocaleString('ko-KR');
 }
 
 function stageTagFromAge(age: number): string {

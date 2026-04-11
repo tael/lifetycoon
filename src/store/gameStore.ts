@@ -551,7 +551,9 @@ export const useGameStore = create<GameStoreState>()(
       const event = st.phase.event;
       const choice: EventChoice | undefined = event.choices[choiceIndex];
       if (!choice) return [];
-      // 보험 경감: health 이벤트 -50%, cash 음수 이벤트 -30%
+      // 보험이 피해를 막아줌: 건강 피해는 절반, 현금 손실은 30% 덜 빠지게 한다.
+      // TODO(B2): 라벨은 원래 금액을 보여주는데 실제 차감액은 보험이 먹은 만큼 다름.
+      // EventModal이 이 보정치 기준으로 표시하도록 mitigatedEffects를 노출할 것.
       const ins = st.insurance;
       const mitigatedEffects = choice.effects.map((eff) => {
         if (eff.kind === 'health' && eff.delta < 0 && ins.health) {
@@ -574,6 +576,7 @@ export const useGameStore = create<GameStoreState>()(
           jobs: JOBS,
           traits: st.traits,
           keyMoments: st.keyMoments,
+          realEstate: st.realEstate,
         },
         mitigatedChoice,
         event.triggeredAtAge,
@@ -584,6 +587,9 @@ export const useGameStore = create<GameStoreState>()(
         ...st.choiceHistory,
         { scenarioId: event.scenarioId, choiceIndex, age: event.triggeredAtAge },
       ];
+      // buyStock의 강제대출 경로를 탔다면 hadLoan 플래그도 올려서
+      // "대출을 받았다가 완납" 업적 트래킹과 일관되게 한다.
+      const forcedLoanTaken = next.bank.loanBalance > st.bank.loanBalance;
       set({
         character: next.character,
         cash: next.cash,
@@ -595,6 +601,7 @@ export const useGameStore = create<GameStoreState>()(
         keyMoments: newKeyMoments,
         usedScenarioIds: newUsed,
         choiceHistory: newChoiceHistory,
+        hadLoan: st.hadLoan || forcedLoanTaken,
         phase: { kind: 'playing' },
       });
       return next.warnings ?? [];
