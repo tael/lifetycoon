@@ -32,18 +32,10 @@ export function TitleScreen() {
   const loadSnapshot = useGameStore((s) => s.loadSnapshot);
   const [name, setName] = useState('');
   const [gender, setGender] = useState<'male' | 'female' | 'random'>('random');
-  const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
   const [sound, setSound] = useState(() => sfx.isEnabled());
   const [showAchievements, setShowAchievements] = useState(false);
   const savedExists = hasSave();
   const legacy = loadLegacy();
-
-  const toggleDark = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.dataset.theme = next ? 'dark' : '';
-    try { localStorage.setItem('lifetycoon-kids:theme', next ? 'dark' : 'light'); } catch {}
-  };
 
   const handlePickRandomName = () => {
     const rname = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
@@ -385,14 +377,6 @@ export function TitleScreen() {
       {showAchievements && <AchievementsModal onClose={() => setShowAchievements(false)} />}
 
       <div className="flex gap-md" style={{ alignItems: 'center' }}>
-        <button
-          onClick={toggleDark}
-          aria-label={dark ? '라이트 모드로 전환' : '다크 모드로 전환'}
-          aria-pressed={dark}
-          style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
-        >
-          {dark ? '☀️ 라이트' : '🌙 다크'}
-        </button>
         <button
           onClick={() => {
             const next = !sound;

@@ -465,7 +465,6 @@ C: ratio < 0.33 (또는 totalDreams == 0)
 | `lifetycoon-kids:achievements` | 업적 해금 | `[{ id, unlockedAt }]` |
 | `lifetycoon-kids:achievement-meta` | 메타 | `{ totalGamesPlayed, gradesEarned[] }` |
 | `lifetycoon-kids:highscore` | 최고 기록 | `{ bestGrade, highestAssets, ... }` |
-| `lifetycoon-kids:theme` | 다크모드 | `"dark" \| "light"` |
 | `lifetycoon-kids:tutorial-seen` | 튜토리얼 | `"1"` |
 
 ### 11.2 저장 타이밍
@@ -548,7 +547,6 @@ App
 │   ├── 새 인생 / 빠른 시작 / 이어하기
 │   ├── 하이스코어 카드
 │   ├── 업적 배지 (15개)
-│   └── 다크모드 토글
 ├── DreamPickScreen
 │   └── 꿈 카드 × 8 (최대 3개 선택)
 ├── PlayScreen
@@ -591,15 +589,7 @@ App
 --radius-md: 12px;
 ```
 
-### 15.2 다크 모드 (`[data-theme="dark"]`)
-
-```css
---bg-primary: #1a1a2e;
---bg-card: #0f3460;
---text-primary: #e8e8e8;
-```
-
-### 15.3 나이별 배경 그라데이션
+### 15.2 나이별 배경 그라데이션
 
 | 나이 | 배경 | 의미 |
 |------|------|------|

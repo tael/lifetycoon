@@ -90,25 +90,16 @@ export function EventModal({ event }: { event: EconomicEvent }) {
 }
 
 function effectIcons(effects: EventEffect[]): React.ReactNode[] {
+  // 의도적 숨김: happiness/health/wisdom/charisma 등 스탯 변화는 힌트로 주지 않음.
+  // 플레이어가 선택의 결과를 직접 체험하도록 돈·특성·직업 변경 등 "중요 정보"만 노출.
   const nodes: React.ReactNode[] = [];
   for (const eff of effects) {
     switch (eff.kind) {
       case 'cash':
+      case 'money':
         nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>
           💰{eff.delta >= 0 ? '+' : ''}{compact(eff.delta)}
         </span>);
-        break;
-      case 'happiness':
-        nodes.push(<span key={nodes.length}>{eff.delta >= 0 ? '💛+' : '💛'}{eff.delta}</span>);
-        break;
-      case 'health':
-        nodes.push(<span key={nodes.length}>{eff.delta >= 0 ? '❤️+' : '❤️'}{eff.delta}</span>);
-        break;
-      case 'wisdom':
-        nodes.push(<span key={nodes.length}>{eff.delta >= 0 ? '📘+' : '📘'}{eff.delta}</span>);
-        break;
-      case 'charisma':
-        nodes.push(<span key={nodes.length}>{eff.delta >= 0 ? '✨+' : '✨'}{eff.delta}</span>);
         break;
       case 'addTrait':
         nodes.push(<span key={nodes.length}>🏷️{eff.trait}</span>);
@@ -116,6 +107,17 @@ function effectIcons(effects: EventEffect[]): React.ReactNode[] {
       case 'setJob':
         nodes.push(<span key={nodes.length}>💼전직</span>);
         break;
+      // stockShock: 주식 변동은 중요 정보라 노출 (어느 종목인지까지)
+      case 'stockShock':
+        nodes.push(<span key={nodes.length} style={{ color: eff.multiplier >= 1 ? 'var(--success)' : 'var(--danger)' }}>
+          📈{eff.ticker}
+        </span>);
+        break;
+      // bankInterestChange: 이자율 변경은 중요 정보
+      case 'bankInterestChange':
+        nodes.push(<span key={nodes.length}>🏦이자{eff.delta >= 0 ? '+' : ''}{(eff.delta * 100).toFixed(1)}%</span>);
+        break;
+      // 그 외(happiness/health/wisdom/charisma/stress/intelligence/independence/keyMoment/gotoScenario) 는 표시하지 않음
     }
   }
   return nodes;

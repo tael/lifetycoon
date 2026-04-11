@@ -7,11 +7,6 @@ import { loadScenarios } from './store/gameStore'
 // Preload scenarios chunk in background (non-blocking)
 loadScenarios().catch(() => {});
 
-// Restore theme
-try {
-  const theme = localStorage.getItem('lifetycoon-kids:theme');
-  if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
-} catch { /* ignore */ }
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {

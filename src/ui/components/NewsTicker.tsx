@@ -85,7 +85,7 @@ export function NewsTicker({ age, forcedMessage }: { age: number; forcedMessage?
 
   return (
     <div style={{
-      background: 'var(--bg-dark)',
+      background: '#333',
       color: '#fff',
       fontSize: 'var(--font-size-xs)',
       padding: '4px 12px',

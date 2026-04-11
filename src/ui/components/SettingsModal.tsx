@@ -7,8 +7,6 @@ import { useGameStore } from '../../store/gameStore';
 const KEY_VIBRATION = 'lifetycoon-kids:vibration';
 const KEY_FONT_SIZE = 'lifetycoon-kids:font-size';
 const KEY_STAT_DISPLAY = 'lifetycoon-kids:stat-display';
-const KEY_THEME = 'lifetycoon-kids:theme';
-
 export type StatDisplay = 'number' | 'progress' | 'both';
 export type FontSize = 'small' | 'base' | 'large';
 
@@ -54,7 +52,6 @@ interface Props {
 
 export function SettingsModal({ onClose }: Props) {
   const [sound, setSound] = useState(() => sfx.isEnabled());
-  const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
   const [vibration, setVibration] = useState(readVibration);
   const [fontSize, setFontSize] = useState<FontSize>(readFontSize);
   const [statDisplay, setStatDisplay] = useState<StatDisplay>(readStatDisplay);
@@ -67,13 +64,6 @@ export function SettingsModal({ onClose }: Props) {
     const next = !sound;
     setSound(next);
     sfx.toggle(next);
-  };
-
-  const handleDark = () => {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.dataset.theme = next ? 'dark' : '';
-    try { localStorage.setItem(KEY_THEME, next ? 'dark' : 'light'); } catch {}
   };
 
   const handleVibration = () => {
@@ -244,21 +234,6 @@ export function SettingsModal({ onClose }: Props) {
               aria-pressed={sound}
             >
               <span style={knobStyle(sound)} />
-            </button>
-          </div>
-        </div>
-
-        {/* Dark mode */}
-        <div style={sectionStyle}>
-          <div style={rowStyle}>
-            <span style={labelStyle}>🌙 다크 모드</span>
-            <button
-              style={toggleStyle(dark)}
-              onClick={handleDark}
-              aria-label={dark ? '라이트 모드로 전환' : '다크 모드로 전환'}
-              aria-pressed={dark}
-            >
-              <span style={knobStyle(dark)} />
             </button>
           </div>
         </div>
