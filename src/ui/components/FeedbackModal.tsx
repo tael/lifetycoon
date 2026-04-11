@@ -32,12 +32,12 @@ export function FeedbackModal({ onClose }: Props) {
   const handleSubmit = async () => {
     const trimmed = message.trim();
     if (trimmed.length < 5) {
-      setErrorMsg('5자 이상 입력해주세요.');
+      setErrorMsg('5글자 이상 써줘요.');
       setState('error');
       return;
     }
     if (trimmed.length > 2000) {
-      setErrorMsg('2000자 이하로 입력해주세요.');
+      setErrorMsg('2000글자까지만 쓸 수 있어요.');
       setState('error');
       return;
     }
@@ -73,11 +73,11 @@ export function FeedbackModal({ onClose }: Props) {
         setState('sent');
         setTimeout(() => onClose(), 1800);
       } else {
-        setErrorMsg('전송에 실패했어요. 잠시 후 다시 시도해주세요.');
+        setErrorMsg('보내지 못했어요. 잠깐 있다가 다시 눌러봐요.');
         setState('error');
       }
     } catch {
-      setErrorMsg('네트워크 오류가 발생했어요.');
+      setErrorMsg('인터넷 연결이 안 되는 것 같아요.');
       setState('error');
     }
   };

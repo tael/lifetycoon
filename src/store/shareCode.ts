@@ -49,7 +49,39 @@ export function decodeShareCode(code: string): ShareEnvelope | null {
       console.warn('Share code has unsupported version:', parsed.v);
       return null;
     }
-    return parsed;
+    // 오래된 공유 코드나 스키마 변경 후 생긴 누락 필드로 EndingScreen이 크래시하지 않도록
+    // 필수 배열/수치 필드에 안전한 기본값을 채운다. 실제 렌더링 코드가 참조하는 필드:
+    // epitaph (string[]), keyMomentsSelected (KeyMoment[]), 그리고 achievements 계산에 쓰이는 extras.
+    const raw = parsed.payload.ending as unknown as Record<string, unknown>;
+    const normalizedEnding: Ending = {
+      grade: (raw.grade as Ending['grade']) ?? 'C',
+      dreamsAchieved: (raw.dreamsAchieved as number) ?? 0,
+      totalDreams: (raw.totalDreams as number) ?? 0,
+      finalAssets: (raw.finalAssets as number) ?? 0,
+      finalHappiness: (raw.finalHappiness as number) ?? 0,
+      epitaph: Array.isArray(raw.epitaph) ? (raw.epitaph as string[]) : [],
+      keyMomentsSelected: Array.isArray(raw.keyMomentsSelected)
+        ? (raw.keyMomentsSelected as Ending['keyMomentsSelected'])
+        : [],
+      realEstateCount: (raw.realEstateCount as number) ?? 0,
+      hadLoanAndRepaid: (raw.hadLoanAndRepaid as boolean) ?? false,
+      bothInsurancesHeld: (raw.bothInsurancesHeld as boolean) ?? false,
+      boomTimeBillionaireReached: (raw.boomTimeBillionaireReached as boolean) ?? false,
+      survivedRecessionWithAssets: (raw.survivedRecessionWithAssets as boolean) ?? false,
+      finalWisdom: (raw.finalWisdom as number) ?? 0,
+      finalCharisma: (raw.finalCharisma as number) ?? 0,
+      finalHealth: (raw.finalHealth as number) ?? 0,
+      traitsCount: (raw.traitsCount as number) ?? 0,
+      totalChoicesMade: (raw.totalChoicesMade as number) ?? 0,
+      uniqueScenariosEncountered: (raw.uniqueScenariosEncountered as number) ?? 0,
+    };
+    return {
+      v: parsed.v,
+      payload: {
+        characterName: parsed.payload.characterName ?? '친구',
+        ending: normalizedEnding,
+      },
+    };
   } catch {
     return null;
   }

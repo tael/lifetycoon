@@ -156,7 +156,7 @@ export function SettingsModal({ onClose }: Props) {
           setImportError(null);
           onClose();
         } catch {
-          setImportError('저장 파일을 읽을 수 없어요. 올바른 파일인지 확인해주세요.');
+          setImportError('이 파일은 못 읽겠어요. 맞는 파일인지 한번 봐줘요.');
         }
       };
       reader.readAsText(file);

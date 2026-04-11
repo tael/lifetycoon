@@ -540,9 +540,9 @@ export function PlayScreen() {
               borderRadius: 'var(--radius-sm)',
               fontSize: 'var(--font-size-xs)',
             }}>
-              <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 연 순수입: {formatWon(yearlyIncome)}</span>
+              <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 1년에 버는 돈: {formatWon(yearlyIncome)}</span>
               <span style={{ color: 'var(--text-muted)', marginLeft: 8 }}>
-                (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
+                (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{rentalYearly > 0 ? ` + 임대료 ${formatWon(rentalYearly)}` : ''}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
               </span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
