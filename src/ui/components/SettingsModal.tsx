@@ -9,8 +9,20 @@ const KEY_VIBRATION = 'lifetycoon-kids:vibration';
 const KEY_FONT_SIZE = 'lifetycoon-kids:font-size';
 const KEY_STAT_DISPLAY = 'lifetycoon-kids:stat-display';
 export const KEY_SHOW_STAT_HINTS = 'lifetycoon-kids:showStatHints';
+export const KEY_AUTO_CHOICE = 'lifetycoon-kids:autoChoice';
 export type StatDisplay = 'number' | 'progress' | 'both';
 export type FontSize = 'small' | 'base' | 'large';
+export type AutoChoice = 'off' | 'random' | 'optimal';
+
+export function readAutoChoice(): AutoChoice {
+  try {
+    const v = localStorage.getItem(KEY_AUTO_CHOICE);
+    if (v === 'random' || v === 'optimal') return v;
+    return 'off';
+  } catch {
+    return 'off';
+  }
+}
 
 function readShowStatHints(): boolean {
   try {
@@ -67,6 +79,7 @@ export function SettingsModal({ onClose }: Props) {
   const [fontSize, setFontSize] = useState<FontSize>(readFontSize);
   const [statDisplay, setStatDisplay] = useState<StatDisplay>(readStatDisplay);
   const [showStatHints, setShowStatHints] = useState(readShowStatHints);
+  const [autoChoice, setAutoChoice] = useState<AutoChoice>(readAutoChoice);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -99,6 +112,11 @@ export function SettingsModal({ onClose }: Props) {
     const next = !showStatHints;
     setShowStatHints(next);
     try { localStorage.setItem(KEY_SHOW_STAT_HINTS, String(next)); } catch {}
+  };
+
+  const handleAutoChoice = (mode: AutoChoice) => {
+    setAutoChoice(mode);
+    try { localStorage.setItem(KEY_AUTO_CHOICE, mode); } catch {}
   };
 
   // Export save data as JSON file
@@ -296,6 +314,19 @@ export function SettingsModal({ onClose }: Props) {
           </div>
           <div style={{ fontSize: 'var(--font-size-xs, 12px)', color: 'var(--text-muted, #999)', marginTop: 2 }}>
             이벤트 선택지에 행복·건강·지혜 등 스탯 변화 힌트를 표시해요
+          </div>
+        </div>
+
+        {/* Auto choice */}
+        <div style={sectionStyle}>
+          <div style={{ ...labelStyle, marginBottom: 8 }}>⚡ 이벤트 자동선택</div>
+          <div style={{ display: 'flex', borderRadius: 'var(--radius-md, 8px)', overflow: 'hidden', border: '1px solid var(--border, #e0e0e0)' }}>
+            <button style={{ ...segStyle(autoChoice === 'off'), borderRadius: '8px 0 0 8px' }} onClick={() => handleAutoChoice('off')}>사용 안함</button>
+            <button style={{ ...segStyle(autoChoice === 'random'), borderRadius: 0, borderLeft: '1px solid var(--border, #e0e0e0)', borderRight: '1px solid var(--border, #e0e0e0)' }} onClick={() => handleAutoChoice('random')}>랜덤</button>
+            <button style={{ ...segStyle(autoChoice === 'optimal'), borderRadius: '0 8px 8px 0' }} onClick={() => handleAutoChoice('optimal')}>가장 유리한 것</button>
+          </div>
+          <div style={{ fontSize: 'var(--font-size-xs, 12px)', color: 'var(--text-muted, #999)', marginTop: 4 }}>
+            이벤트 발생 시 자동으로 선택지를 고릅니다
           </div>
         </div>
 

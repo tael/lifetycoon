@@ -1613,10 +1613,10 @@
           {
             "kind": "keyMoment",
             "text": "진짜 우주선을 타고 지구를 내려다봤다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       },
       {
         "label": "나중에 생각해보자",
@@ -1934,7 +1934,7 @@
           {
             "kind": "stockShock",
             "ticker": "ROCK",
-            "multiplier": 2.0
+            "multiplier": 2
           }
         ],
         "importance": 0.4
@@ -1945,7 +1945,7 @@
           {
             "kind": "stockShock",
             "ticker": "ROCK",
-            "multiplier": 2.0
+            "multiplier": 2
           },
           {
             "kind": "wisdom",
@@ -6517,10 +6517,10 @@
           {
             "kind": "keyMoment",
             "text": "미래에서 본 번호로 복권 1등에 당첨됐다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       },
       {
         "label": "기억이 맞을 리가",
@@ -9224,10 +9224,10 @@
           {
             "kind": "keyMoment",
             "text": "NASA에 우주 떡볶이를 납품해 세계적 부자가 됐다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       },
       {
         "label": "지구에서만 팔래",
@@ -12123,10 +12123,10 @@
           {
             "kind": "keyMoment",
             "text": "TV에 주식왕으로 출연해 전국적으로 유명해졌다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       }
     ],
     "tags": [
@@ -12170,10 +12170,10 @@
           {
             "kind": "keyMoment",
             "text": "올해의 가족상을 수상해 감동의 눈물을 흘렸다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       }
     ],
     "tags": [
@@ -12225,10 +12225,10 @@
           {
             "kind": "keyMoment",
             "text": "코딩+SNS+발명의 삼위일체로 테크 아이콘이 됐다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       }
     ],
     "tags": [
@@ -12281,10 +12281,10 @@
           {
             "kind": "keyMoment",
             "text": "나눔과 봉사의 삶으로 '한국의 간디'가 됐다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       }
     ],
     "tags": [
@@ -12326,10 +12326,10 @@
           {
             "kind": "keyMoment",
             "text": "인생의 어느 순간, 모든 것이 완벽했다",
-            "importance": 1.0
+            "importance": 1
           }
         ],
-        "importance": 1.0
+        "importance": 1
       },
       {
         "label": "더 좋은 날이 올 거야",
@@ -31466,7 +31466,7 @@
     "title": "외계인 조우",
     "text": "밤하늘에서 UFO가 착륙하더니 외계인이 나타났어! '지구인, 우리와 함께 우주여행을 떠날래?' 라고 묻고 있어.",
     "ageRange": [
-      8,
+      10,
       80
     ],
     "triggers": [
@@ -31552,7 +31552,7 @@
     "title": "시간 여행",
     "text": "갑자기 타임머신이 나타났어! 어디로든 갈 수 있다고 해. 과거로 갈까, 미래로 갈까?",
     "ageRange": [
-      8,
+      10,
       80
     ],
     "triggers": [
@@ -31740,7 +31740,7 @@
     "title": "마법 능력 각성",
     "text": "어느 날 갑자기 마법 능력이 생겼어! 손에서 불꽃이 나오고, 물체를 움직일 수 있어. 이 능력으로 뭘 할까?",
     "ageRange": [
-      8,
+      10,
       60
     ],
     "triggers": [
@@ -31830,7 +31830,7 @@
     "title": "신화 세계로",
     "text": "잠든 사이 눈을 뜨니 그리스 신화 속 세계야! 제우스가 나타나 특별한 임무를 맡겨주겠다고 해.",
     "ageRange": [
-      8,
+      10,
       70
     ],
     "triggers": [
@@ -32638,7 +32638,7 @@
     "title": "학급 회장 출마!",
     "text": "선생님이 학급 회장 선거를 발표했어. 친구들이 나보고 나가라고 하는데, 발표도 해야 하고 떨릴 것 같아. 과연 이길 수 있을까?",
     "ageRange": [
-      8,
+      10,
       17
     ],
     "triggers": [
@@ -32727,7 +32727,7 @@
     "title": "왕따를 목격했어",
     "text": "반 친구가 무리에게 따돌림을 당하고 있어. 내가 나서면 나도 표적이 될 수 있어. 근데 그냥 보고 있기도 너무 힘들어.",
     "ageRange": [
-      8,
+      10,
       17
     ],
     "triggers": [
@@ -32813,7 +32813,7 @@
     "title": "숙제를 깜빡했어!",
     "text": "오늘 제출 마감인 수학 숙제를 완전히 잊었어! 선생님이 곧 걷을 것 같아. 어떡하지?",
     "ageRange": [
-      7,
+      10,
       16
     ],
     "triggers": [
@@ -33526,7 +33526,7 @@
           {
             "kind": "stockShock",
             "ticker": "DDUK",
-            "multiplier": 2.0
+            "multiplier": 2
           },
           {
             "kind": "happiness",
@@ -36743,7 +36743,7 @@
       }
     ],
     "ageRange": [
-      5,
+      10,
       80
     ],
     "weight": 3,
@@ -36801,7 +36801,7 @@
       }
     ],
     "ageRange": [
-      5,
+      10,
       80
     ],
     "weight": 3,
@@ -36935,5 +36935,1494 @@
       "꿈"
     ],
     "oneShot": false
+  },
+  {
+    "id": "s_budget_plan_minigame",
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 25
+      }
+    ],
+    "ageRange": [
+      25,
+      26
+    ],
+    "weight": 9,
+    "pausesGame": true,
+    "title": "월급날, 예산을 짜보자",
+    "text": "첫 월급이 들어왔다! 월 100만원을 어떻게 쓸지 계획을 세워보자. 어디에 가장 많이 쓸까?",
+    "choices": [
+      {
+        "label": "식비 우선 — 잘 먹고 잘 살자",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 200000
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 월급으로 식비를 넉넉히 잡아 건강하게 생활했다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "저축 우선 — 미래를 위해 모은다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 300000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 월급부터 절반 가까이 저축하는 습관을 들였다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "균형 있게 — 식비·주거·저축·취미 골고루",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 150000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 월급으로 균형 잡힌 예산 계획을 세웠다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "취미 우선 — 지금 이 순간을 즐긴다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 월급을 취미에 아낌없이 썼다. 후회는 없다!",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.3
+      }
+    ],
+    "tags": [
+      "예산",
+      "재테크",
+      "사회초년생"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_ramen_new",
+    "triggers": [],
+    "ageRange": [
+      10,
+      40
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "신상 라면 출시!",
+    "text": "편의점에 한정판 신상 라면이 나왔어! 줄이 엄청 길지만 먹어보고 싶어.",
+    "choices": [
+      {
+        "label": "줄 서서 사먹는다 (−3천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한정판 신상 라면을 먹으러 줄을 섰다",
+            "importance": 0.25
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "다음에 사먹자며 지나친다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "라면 레시피를 연구해 집에서 만들어본다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "신상 라면을 따라 집에서 나만의 레시피를 만들었다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "음식",
+      "라면",
+      "트렌드"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_dduk_spicy_challenge",
+    "triggers": [],
+    "ageRange": [
+      12,
+      35
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "떡볶이 매운맛 챌린지",
+    "text": "SNS에서 불닭 떡볶이 챌린지가 유행이야! 도전해볼까?",
+    "choices": [
+      {
+        "label": "영상 찍으며 도전한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "불닭 떡볶이 챌린지 영상을 올렸다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "구경만 한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "덜 매운 버전을 직접 만든다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 3
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "음식",
+      "떡볶이",
+      "SNS",
+      "챌린지"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_chicken_coupon",
+    "triggers": [],
+    "ageRange": [
+      15,
+      50
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "title": "치킨 쿠폰 이벤트",
+    "text": "앱에서 치킨 50% 할인 쿠폰이 왔어! 유효기간이 오늘까지야.",
+    "choices": [
+      {
+        "label": "오늘 바로 시킨다 (−9천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -9000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "친구와 나눠 먹으려고 같이 시킨다 (−9천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -9000
+          },
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "치킨 쿠폰으로 친구들과 파티를 열었다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "쿠폰을 아껴두다 만료시킨다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -2
+          },
+          {
+            "kind": "happiness",
+            "delta": -4
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "음식",
+      "치킨",
+      "쿠폰",
+      "할인"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_pizza_coupon",
+    "triggers": [],
+    "ageRange": [
+      15,
+      50
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "피자 반값 이벤트",
+    "text": "피자 가게 앱에서 반값 쿠폰을 뿌리고 있어! 라지 피자가 1만 5천원이야.",
+    "choices": [
+      {
+        "label": "혼자 다 먹는다 (−15,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -15000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "health",
+            "delta": -3
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "가족과 나눠 먹는다 (−15,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -15000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "keyMoment",
+            "text": "반값 피자로 가족과 즐거운 저녁을 보냈다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "귀찮아서 그냥 넘긴다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -1
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "음식",
+      "피자",
+      "쿠폰",
+      "할인"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_hanbok_day",
+    "triggers": [],
+    "ageRange": [
+      10,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "한복 체험의 날",
+    "text": "학교/지역 행사에서 한복 무료 체험 이벤트를 한다고 해. 입어볼까?",
+    "choices": [
+      {
+        "label": "한복을 빌려 입고 사진을 찍는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 14
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한복을 입고 멋진 사진을 남겼다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "한복의 역사를 공부한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "별로 관심 없어서 그냥 간다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "패션",
+      "한복",
+      "문화",
+      "전통"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_sneakers_limited",
+    "triggers": [],
+    "ageRange": [
+      13,
+      40
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "한정판 운동화 발매",
+    "text": "유명 브랜드 한정판 운동화 응모 결과가 나왔어! 당첨됐지만 가격이 15만원이야.",
+    "choices": [
+      {
+        "label": "당장 구매한다 (−150,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -150000
+          },
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한정판 운동화를 득템했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "리셀로 팔아 차익을 남긴다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 50000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한정판 운동화를 리셀해 수익을 냈다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "포기한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.25
+      }
+    ],
+    "tags": [
+      "패션",
+      "운동화",
+      "한정판",
+      "리셀"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_fashion_week",
+    "triggers": [],
+    "ageRange": [
+      18,
+      45
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "패션위크 초대장",
+    "text": "서울 패션위크 초대장이 왔어! 드레스코드는 세미포멀이야.",
+    "choices": [
+      {
+        "label": "새 옷을 사서 참석한다 (−80,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -80000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서울 패션위크에 참석해 트렌드를 경험했다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "있는 옷으로 코디해서 간다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "intelligence",
+            "delta": 4
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "귀찮아서 안 간다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -6
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "패션",
+      "패션위크",
+      "문화",
+      "네트워킹"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_jeju_trip",
+    "triggers": [],
+    "ageRange": [
+      15,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "제주도 여행 계획",
+    "text": "가족이 제주도 여행을 제안했어! 항공권과 숙박비로 30만원이 필요해.",
+    "choices": [
+      {
+        "label": "신나게 참가한다 (−300,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "제주도 여행에서 한라산과 바다를 만끽했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "비용이 아까워 혼자 집에 있는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 2
+          }
+        ],
+        "importance": 0.25
+      },
+      {
+        "label": "여행 계획을 직접 짜서 더 저렴하게 간다 (−200,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 28
+          },
+          {
+            "kind": "intelligence",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "직접 짠 알뜰 제주도 여행을 성공시켰다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "여행",
+      "제주도",
+      "가족",
+      "휴가"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_busan_trip",
+    "triggers": [],
+    "ageRange": [
+      15,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "부산 해운대 여행",
+    "text": "친구들이 부산 해운대로 여름 여행을 가자고 해! 1박 2일에 20만원 정도야.",
+    "choices": [
+      {
+        "label": "함께 간다 (−200,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 28
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "해운대 해수욕장에서 친구들과 여름을 불태웠다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "돈이 없어서 다음에 가기로 한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "저렴한 기차로 당일치기로 간다 (−80,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -80000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "여행",
+      "부산",
+      "해운대",
+      "여름",
+      "친구"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_backpacking",
+    "triggers": [],
+    "ageRange": [
+      20,
+      35
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "배낭여행 도전",
+    "text": "대학 방학을 이용해 동남아 배낭여행을 떠날 기회가 생겼어! 50만원이 필요해.",
+    "choices": [
+      {
+        "label": "배낭 하나 들고 바로 떠난다 (−500,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "independence",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동남아 배낭여행으로 세상을 넓혔다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "안전이 걱정돼 패키지 여행을 선택한다 (−800,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -800000
+          },
+          {
+            "kind": "happiness",
+            "delta": 25
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "돈을 더 모은 다음에 가기로 한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "여행",
+      "배낭여행",
+      "청년",
+      "도전"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_telescope_buy",
+    "triggers": [],
+    "ageRange": [
+      10,
+      50
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "망원경 구매 고민",
+    "text": "천문대 견학 후 별이 너무 예뻐서 망원경이 갖고 싶어. 10만원짜리가 눈에 띄어.",
+    "choices": [
+      {
+        "label": "바로 구매한다 (−100,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "intelligence",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "망원경으로 처음 달 분화구를 봤다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "도서관에서 천문학 책을 빌려 공부한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "천문 동호회에 가입해 공동 망원경을 사용한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "과학",
+      "천문학",
+      "망원경",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_lab_discovery",
+    "triggers": [],
+    "ageRange": [
+      15,
+      45
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "실험실에서 발견!",
+    "text": "학교 실험 중 우연히 신기한 반응을 발견했어. 선생님이 주목할만한 연구라고 해.",
+    "choices": [
+      {
+        "label": "계속 연구해 보고서를 제출한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "우연한 실험 발견을 체계적으로 연구해냈다",
+            "importance": 0.5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "과학자 기질"
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "선생님께 즉시 알린다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 6
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "실험실 발견을 선생님과 함께 분석했다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "우연이라며 기록만 한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "과학",
+      "실험",
+      "발견",
+      "과학자"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_space_show",
+    "triggers": [],
+    "ageRange": [
+      10,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "우주쇼 관람",
+    "text": "과학관에서 특별 우주쇼가 열려! 블랙홀과 빅뱅을 체험할 수 있대. 입장료 8천원.",
+    "choices": [
+      {
+        "label": "관람하러 간다 (−8천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -8000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "intelligence",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "우주쇼에서 우주의 신비에 감탄했다",
+            "importance": 0.35
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "유튜브로 관련 영상을 찾아본다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 4
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "우주쇼 후 천문학 동아리에 가입한다 (−8천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -8000
+          },
+          {
+            "kind": "happiness",
+            "delta": 22
+          },
+          {
+            "kind": "intelligence",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "과학",
+      "우주",
+      "전시",
+      "체험"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_time_capsule_dig",
+    "triggers": [],
+    "ageRange": [
+      20,
+      80
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "타임캡슐 발굴!",
+    "text": "10년 전 학교 운동장에 묻어둔 타임캡슐을 오늘 파낸대. 그때의 나는 뭘 넣었을까?",
+    "choices": [
+      {
+        "label": "현장에 직접 가서 열어본다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "타임캡슐에서 10년 전 나의 꿈 편지를 꺼냈다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.55
+      },
+      {
+        "label": "내용을 사진으로 받아 추억에 잠긴다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "새 타임캡슐도 함께 묻는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "미래의 나에게 두 번째 타임캡슐 편지를 남겼다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "과학",
+      "추억",
+      "타임캡슐",
+      "성찰"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_dog_adopt",
+    "triggers": [],
+    "ageRange": [
+      15,
+      55
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "강아지 입양",
+    "text": "유기견 보호소에서 귀여운 강아지가 새 가족을 기다리고 있어. 입양할까?",
+    "choices": [
+      {
+        "label": "입양해서 키운다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "independence",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유기견을 입양해 진심 어린 가족이 됐다",
+            "importance": 0.55
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "봉사활동으로 보호소를 돕는다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "아직 책임감이 없어 포기한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": -4
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "반려동물",
+      "강아지",
+      "입양",
+      "책임"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_cat_adopt",
+    "triggers": [],
+    "ageRange": [
+      15,
+      55
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "고양이 입양",
+    "text": "동네 길고양이가 새끼를 낳았어. 한 마리를 입양해달라는 연락이 왔어.",
+    "choices": [
+      {
+        "label": "입양해 집에서 키운다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 28
+          },
+          {
+            "kind": "stress",
+            "delta": -10
+          },
+          {
+            "kind": "independence",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아기 고양이를 입양해 집사가 됐다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "입양 가정을 대신 찾아준다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "알레르기가 있어 포기한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "반려동물",
+      "고양이",
+      "입양"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_pet_loss",
+    "triggers": [],
+    "ageRange": [
+      10,
+      70
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "반려동물과의 이별",
+    "text": "오랫동안 함께한 반려동물이 무지개다리를 건넜어. 슬픔이 밀려온다.",
+    "choices": [
+      {
+        "label": "함께한 추억을 앨범으로 만든다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "사랑하는 반려동물을 그리며 추억 앨범을 만들었다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "슬픔을 나누며 가족과 대화한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "새 반려동물 입양을 바로 고민한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": -3
+          }
+        ],
+        "importance": 0.15
+      }
+    ],
+    "tags": [
+      "반려동물",
+      "이별",
+      "감성",
+      "성장"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_pension_plan_upgrade",
+    "triggers": [],
+    "ageRange": [
+      30,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "연금 플랜 업그레이드",
+    "text": "은행에서 연금 납입액을 늘리면 노후 수령액이 크게 증가한다고 안내해줬어.",
+    "choices": [
+      {
+        "label": "월 20만원 추가 납입한다 (−200,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "연금 납입액을 늘려 노후를 더 든든히 준비했다",
+            "importance": 0.45
+          }
+        ],
+        "importance": 0.45
+      },
+      {
+        "label": "현재 납입액을 유지한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 2
+          }
+        ],
+        "importance": 0.35
+      },
+      {
+        "label": "연금 대신 다른 투자로 돌린다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 4
+          },
+          {
+            "kind": "wisdom",
+            "delta": -2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "금융교육",
+      "연금",
+      "노후",
+      "재테크"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_investment_club",
+    "triggers": [],
+    "ageRange": [
+      20,
+      50
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "투자 동호회 가입",
+    "text": "직장 동료들이 주식·부동산 투자 동호회를 만들었어. 가입비는 월 1만원이야.",
+    "choices": [
+      {
+        "label": "가입해 적극적으로 활동한다 (−10,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 7
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "투자 동호회에서 실전 투자 노하우를 배웠다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "관찰자로 가입만 한다 (−10,000원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 4
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "스스로 공부하는 게 낫다며 거절한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 3
+          },
+          {
+            "kind": "independence",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "금융교육",
+      "투자",
+      "동호회",
+      "주식"
+    ],
+    "oneShot": true
   }
 ]

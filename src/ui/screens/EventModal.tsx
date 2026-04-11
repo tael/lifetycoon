@@ -3,7 +3,7 @@ import type { EconomicEvent, EventEffect } from '../../game/types';
 import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
 import { sfx } from '../../game/engine/soundFx';
-import { KEY_SHOW_STAT_HINTS } from '../components/SettingsModal';
+import { KEY_SHOW_STAT_HINTS, readAutoChoice } from '../components/SettingsModal';
 
 function readShowStatHints(): boolean {
   try {
@@ -11,6 +11,13 @@ function readShowStatHints(): boolean {
   } catch {
     return false;
   }
+}
+
+function cashDelta(effects: EventEffect[]): number {
+  return effects.reduce((sum, eff) => {
+    if (eff.kind === 'cash' || eff.kind === 'money') return sum + eff.delta;
+    return sum;
+  }, 0);
 }
 
 function vibrate() {
@@ -35,7 +42,32 @@ export function EventModal({ event }: { event: EconomicEvent }) {
       }
     };
     window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+
+    // 자동선택
+    const autoMode = readAutoChoice();
+    let autoTimer: ReturnType<typeof setTimeout> | null = null;
+    if (autoMode !== 'off' && event.choices.length > 0) {
+      autoTimer = setTimeout(() => {
+        if (autoMode === 'random') {
+          const idx = Math.floor(Math.random() * event.choices.length);
+          handleChoice(idx);
+        } else {
+          // optimal: cash delta 최대 선택지
+          let bestIdx = 0;
+          let bestDelta = cashDelta(event.choices[0].effects);
+          for (let i = 1; i < event.choices.length; i++) {
+            const delta = cashDelta(event.choices[i].effects);
+            if (delta > bestDelta) { bestDelta = delta; bestIdx = i; }
+          }
+          handleChoice(bestIdx);
+        }
+      }, 100);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handler);
+      if (autoTimer !== null) clearTimeout(autoTimer);
+    };
   }, [event]);
 
   const handleChoice = (index: number) => {

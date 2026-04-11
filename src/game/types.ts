@@ -205,6 +205,16 @@ export type RealEstate = {
   purchasedAtAge: number;
 };
 
+export type Bond = {
+  id: string;
+  name: string;
+  faceValue: number;      // 액면가 (예: 1,000,000)
+  couponRate: number;     // 연 이자율 (예: 0.04 = 4%)
+  maturityYears: number;  // 만기 년수
+  purchasedAtAge: number;
+  matured: boolean;
+};
+
 export type LifeStageTag = '유년기' | '청년기' | '중년기' | '장년기' | '노년기';
 
 export function stageForAge(age: number): LifeStageTag {

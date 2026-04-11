@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type {
   BankAccount,
+  Bond,
   Character,
   Dream,
   EconomicEvent,
@@ -20,6 +21,7 @@ import type {
   StockDef,
 } from '../game/types';
 import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate';
+import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor } from '../game/domain/character';
 import { createBankAccount, applyInterestForYears, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
@@ -91,6 +93,7 @@ export type GameStoreState = {
   autoInvest: boolean;
   insurance: Insurance;
   realEstate: RealEstate[];
+  bonds: Bond[];
   ending: Ending | null;
   lastJobChangeAge: number | null;
   economyCycle: EconomyCycle;
@@ -129,6 +132,7 @@ export type GameStoreState = {
   toggleDrip: () => void;
   buyRealEstate: (id: string) => boolean;
   sellRealEstate: (index: number) => boolean;
+  buyBond: (id: string) => boolean;
   endGame: () => void;
   resetAll: () => void;
   unlockSkill: (skillId: string) => boolean;
@@ -175,6 +179,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     autoInvest: false,
     insurance: { health: false, asset: false, premium: 0 },
     realEstate: [],
+    bonds: [],
     ending: null,
     lastJobChangeAge: null,
     economyCycle: createEconomyCycle(() => Math.random()),
@@ -215,6 +220,7 @@ type GameStoreActions = Pick<
   | 'toggleDrip'
   | 'buyRealEstate'
   | 'sellRealEstate'
+  | 'buyBond'
   | 'endGame'
   | 'resetAll'
   | 'unlockSkill'
@@ -497,14 +503,19 @@ export const useGameStore = create<GameStoreState>()(
         ? [...st.assetHistory, { age: intAge, value: totalNow }]
         : st.assetHistory;
 
+      // Bond coupon + maturity
+      const { bonds: updatedBonds, couponCash, principalCash } = applyBondCoupon(st.bonds, intAge, deltaYears);
+      const bondIncome = couponCash + principalCash;
+      const finalCash = ctxCash + bondIncome;
+
       const stocksValNow = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-      const totalAssetsNow = ctxCash + bank.balance + stocksValNow + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
+      const totalAssetsNow = finalCash + bank.balance + stocksValNow + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
       const newBoomReached = st.boomTimeBillionaireReached || (economyCycle.phase === 'boom' && totalAssetsNow >= 100000000);
       const newSurvivedRecession = st.survivedRecessionWithAssets || (economyCycle.phase === 'recession' && totalAssetsNow >= 10000000);
 
       set({
         character: { ...character, emoji },
-        cash: ctxCash,
+        cash: finalCash,
         bank,
         holdings: autoHoldings,
         prices,
@@ -516,6 +527,7 @@ export const useGameStore = create<GameStoreState>()(
         phase,
         economyCycle,
         realEstate: appreciatedRealEstate,
+        bonds: updatedBonds,
         boomTimeBillionaireReached: newBoomReached,
         survivedRecessionWithAssets: newSurvivedRecession,
         currentSeason: newSeason,
@@ -704,6 +716,23 @@ export const useGameStore = create<GameStoreState>()(
       const proceeds = re.currentValue;
       const newList = st.realEstate.filter((_, i) => i !== index);
       set({ cash: st.cash + proceeds, realEstate: newList });
+      return true;
+    },
+    buyBond(id) {
+      const st = get();
+      const def = BOND_LISTINGS.find((b) => b.id === id);
+      if (!def) return false;
+      if (st.cash < def.faceValue) return false;
+      const newBond: Bond = {
+        id: def.id,
+        name: def.name,
+        faceValue: def.faceValue,
+        couponRate: def.couponRate,
+        maturityYears: def.maturityYears,
+        purchasedAtAge: Math.floor(st.character.age),
+        matured: false,
+      };
+      set({ cash: st.cash - def.faceValue, bonds: [...st.bonds, newBond] });
       return true;
     },
     endGame() {

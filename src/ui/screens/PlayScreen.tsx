@@ -496,10 +496,9 @@ export function PlayScreen() {
           background: '#f8fff8',
           borderRadius: 'var(--radius-sm)',
           fontSize: 'var(--font-size-xs)',
-          color: 'var(--success)',
         }}>
-          📥 연 순수입: {formatWon(yearlyIncome)}
-          <span className="text-muted" style={{ marginLeft: 8 }}>
+          <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 연 순수입: {formatWon(yearlyIncome)}</span>
+          <span style={{ color: 'var(--text-muted)', marginLeft: 8 }}>
             (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
           </span>
         </div>
@@ -637,9 +636,9 @@ export function PlayScreen() {
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>📈 주식</span>
-          <div className="flex gap-sm" style={{ alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             {dividendIncome > 0 && (
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)' }}>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)', fontWeight: 600 }}>
                 배당+{formatWon(dividendIncome)}
               </span>
             )}
@@ -747,8 +746,8 @@ export function PlayScreen() {
         </div>
         {/* Player row */}
         <div className="npc-row" style={{ background: 'var(--accent-light)', borderRadius: 'var(--radius-sm)', padding: '4px 6px', marginBottom: 2 }}>
-          <span style={{ fontSize: '1.2rem', width: 24, textAlign: 'center', fontWeight: 800 }}>
-            {myRank === 1 ? '👑' : `${myRank}`}
+          <span style={{ fontSize: myRank === 1 ? '1.2rem' : 'var(--font-size-xs)', minWidth: 28, textAlign: 'center', fontWeight: 800 }}>
+            {myRank === 1 ? '👑' : `${myRank}위`}
           </span>
           <span style={{ fontSize: '1.2rem' }}>{emojiFor(character)}</span>
           <div style={{ flex: 1 }}>
@@ -790,8 +789,8 @@ export function PlayScreen() {
       {keyMoments.length > 0 && (
         <div className="card">
           <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📖 인생 일기</div>
-          {[...keyMoments].reverse().slice(0, 5).map((m, i) => (
-            <div key={i} style={{ fontSize: 'var(--font-size-xs)', padding: '2px 0', color: 'var(--text-secondary)', borderBottom: '1px solid #f5f0e8' }}>
+          {[...keyMoments].reverse().slice(0, 5).map((m, i, arr) => (
+            <div key={i} style={{ fontSize: 'var(--font-size-xs)', padding: '3px 0', color: 'var(--text-secondary)', borderBottom: i < arr.length - 1 ? '1px solid #f5f0e8' : 'none' }}>
               <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{Math.floor(m.age)}세</span> {m.text}
             </div>
           ))}
