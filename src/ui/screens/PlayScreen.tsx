@@ -327,78 +327,38 @@ export function PlayScreen() {
         </div>
       </div>
 
-      {/* Character — TERTIARY 지표: 컨디션/케어 (크기 유지, 순서 후순위) */}
-      <div className="card text-center" style={{ order: 3 }}>
-        {/* Speech bubble */}
-        <div style={{
-          background: '#fff',
-          border: '1px solid #eee',
-          borderRadius: 'var(--radius-md)',
-          padding: '4px 12px',
-          fontSize: 'var(--font-size-xs)',
-          display: 'inline-block',
-          position: 'relative',
-          marginBottom: 4,
-          color: 'var(--text-secondary)',
-          animation: 'fadeIn 0.5s ease-in',
-        }}>
-          {characterSpeech(character, totalAssets, myRank, Math.floor(character.age))}
-          <div style={{ position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)', width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderTop: '6px solid #eee' }} />
-        </div>
-        <div
-          role="img"
-          aria-label={`${character.name}, ${Math.floor(character.age)}세 캐릭터`}
-          style={{ fontSize: '3rem', lineHeight: 1 }}
-        >{emojiFor(character)}</div>
-        <div style={{ fontWeight: 700, marginTop: 'var(--sp-xs)', fontSize: 'var(--font-size-sm)' }}>{character.name}</div>
-        <div className="flex flex-center gap-md" style={{ marginTop: 'var(--sp-sm)' }}>
-          <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" showHints={showStatHints} />
-          <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" showHints={showStatHints} />
-          <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#42a5f5" showHints={showStatHints} />
-          <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" showHints={showStatHints} />
-        </div>
-        {job && (
-          <div className="text-muted" style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--sp-xs)' }}>
-            {job.iconEmoji} {job.title} (월 {formatWon(job.salary)})
+      {/* Character — TERTIARY: 컴팩트 가로 레이아웃 (공간 절약) */}
+      <div className="card" style={{ order: 3, padding: 'var(--sp-sm) var(--sp-md)' }}>
+        {/* 상단 한 줄: 이모지 | 이름+직업 | 스킬/퀴즈 아이콘 버튼 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-sm)' }}>
+          <div
+            role="img"
+            aria-label={`${character.name}, ${Math.floor(character.age)}세`}
+            style={{ fontSize: '2.2rem', lineHeight: 1, flexShrink: 0 }}
+          >{emojiFor(character)}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {character.name}
+            </div>
+            {job && (
+              <div className="text-muted" style={{ fontSize: '0.68rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {job.iconEmoji} {job.title} · 월 {formatWon(job.salary)}
+              </div>
+            )}
           </div>
-        )}
-        {/* Tamagotchi care buttons */}
-        <div className="flex gap-xs" style={{ marginTop: 'var(--sp-sm)', justifyContent: 'center' }}>
-          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" />
-          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" />
-          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" />
-          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" />
-        </div>
-        {traits.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', marginTop: 'var(--sp-xs)' }}>
-            {traits.map((t) => (
-              <span key={t} style={{
-                background: 'var(--accent-light)',
-                color: 'var(--accent)',
-                padding: '1px 8px',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '0.65rem',
-                fontWeight: 600,
-              }}>#{t}</span>
-            ))}
-          </div>
-        )}
-        <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}>
+          {/* 스킬/퀴즈 아이콘 버튼 (축소) */}
           <button
             onClick={() => setShowSkillModal(true)}
+            title={`스킬 ${unlockedSkills.length > 0 ? `(${unlockedSkills.length})` : ''}`}
+            aria-label="스킬 모달 열기"
             style={{
-              fontSize: 'var(--font-size-xs)',
-              padding: '3px 12px',
-              borderRadius: 'var(--radius-full)',
+              fontSize: '1rem',
+              width: 34, height: 34, borderRadius: '50%',
               border: '1px solid var(--accent)',
               background: unlockedSkills.length > 0 ? 'var(--accent)' : '#fff',
-              color: unlockedSkills.length > 0 ? '#fff' : 'var(--accent)',
-              fontWeight: 700,
-              cursor: 'pointer',
+              cursor: 'pointer', flexShrink: 0,
             }}
-          >
-            🎓 스킬 {unlockedSkills.length > 0 ? `(${unlockedSkills.length})` : ''}
-          </button>
+          >🎓</button>
           {(() => {
             const cooldownYears = 5;
             const canPlay = lastQuizAge === null || (intAge - lastQuizAge) >= cooldownYears;
@@ -407,24 +367,57 @@ export function PlayScreen() {
               <button
                 onClick={() => { if (canPlay) setShowQuizModal(true); }}
                 disabled={!canPlay}
-                title={canPlay ? '주식 차트 퀴즈 도전!' : `${remaining}년 후 다시 도전 가능`}
+                title={canPlay ? '주식 차트 퀴즈' : `${remaining}년 후 도전`}
+                aria-label="주식 퀴즈"
                 style={{
-                  fontSize: 'var(--font-size-xs)',
-                  padding: '3px 12px',
-                  borderRadius: 'var(--radius-full)',
+                  fontSize: '1rem',
+                  width: 34, height: 34, borderRadius: '50%',
                   border: '1px solid #ff8f00',
                   background: canPlay ? '#fff8e1' : '#f5f5f5',
-                  color: canPlay ? '#ff8f00' : '#bbb',
-                  fontWeight: 700,
                   cursor: canPlay ? 'pointer' : 'not-allowed',
-                  opacity: canPlay ? 1 : 0.6,
+                  opacity: canPlay ? 1 : 0.5, flexShrink: 0,
                 }}
-              >
-                🎯 주식 퀴즈 {!canPlay ? `(${remaining}년 후)` : ''}
-              </button>
+              >🎯</button>
             );
           })()}
         </div>
+
+        {/* 스탯 4개 한 줄 (기존 StatMini) */}
+        <div className="flex gap-sm" style={{ marginTop: 'var(--sp-sm)' }}>
+          <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" showHints={showStatHints} />
+          <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" showHints={showStatHints} />
+          <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#42a5f5" showHints={showStatHints} />
+          <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" showHints={showStatHints} />
+        </div>
+
+        {/* 케어 버튼 한 줄 (비용→효과 관계) */}
+        <div style={{ display: 'flex', gap: 4, marginTop: 'var(--sp-sm)' }}>
+          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" />
+          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" />
+          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" />
+          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" />
+        </div>
+
+        {/* 특성 태그 — 공간 절약을 위해 상위 5개만, 나머지는 +N */}
+        {traits.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 'var(--sp-xs)' }}>
+            {traits.slice(0, 5).map((t) => (
+              <span key={t} style={{
+                background: 'var(--accent-light)',
+                color: 'var(--accent)',
+                padding: '1px 6px',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '0.58rem',
+                fontWeight: 600,
+              }}>#{t}</span>
+            ))}
+            {traits.length > 5 && (
+              <span style={{ fontSize: '0.58rem', color: 'var(--text-muted)', padding: '1px 4px' }}>
+                +{traits.length - 5}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Dreams — PRIMARY 지표: 최상단 대형 카드, 관계 시각화 */}
@@ -1303,37 +1296,6 @@ function dreamProgress(
     default:
       return 0;
   }
-}
-
-function characterSpeech(
-  c: { happiness: number; health: number; wisdom: number; age: number },
-  assets: number,
-  rank: number,
-  intAge: number,
-): string {
-  // Context-sensitive one-liner
-  if (c.health < 30) return '몸이 안 좋아... 💊 좀 줘!';
-  if (c.happiness < 25) return '우울해... 🍕 간식 먹고 싶다';
-  if (rank === 1 && assets > 10000000) return '내가 1등이다! 히히 😎';
-  if (rank >= 4) return '다들 나보다 잘하네... 분발하자!';
-  if (intAge === 10) return '인생 시작! 두근두근!';
-  if (intAge < 15) return '학교 끝나면 뭐하지~';
-  if (intAge === 20) return '드디어 20대! 뭐든 할 수 있어!';
-  if (intAge < 25) return '세상 넓다~ 도전해볼까?';
-  if (intAge === 30) return '30대... 벌써? 시간 빠르다!';
-  if (intAge < 40) return '열심히 일하는 중!';
-  if (intAge === 50) return '반쯤 왔네! 아직 갈 길이 멀어';
-  if (intAge < 60) return '경험이 쌓이니 좋다';
-  if (intAge === 65) return '은퇴할 때가 됐나?';
-  if (intAge < 75) return '여유가 좋구만~';
-  if (intAge < 90) return '좋은 인생이었어...';
-  if (intAge >= 95) return '100세까지 가보자!';
-  if (c.happiness > 80) return '행복해! 😊';
-  if (c.wisdom > 80) return '많이 배웠다!';
-  if (assets > 50000000) return '부자다! 배당금 최고!';
-  if (rank === 2) return '1등 바로 뒤야! 조금만 더!';
-  if (assets < 100000) return '돈이 없다... 알바라도 해야 하나';
-  return '오늘도 파이팅!';
 }
 
 function ageGradient(age: number): string {
