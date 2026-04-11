@@ -7,7 +7,7 @@ import { createVisibilityController } from '../../game/engine/visibility';
 import { saveGame } from '../../store/persistence';
 import { formatAge, progressFraction } from '../../game/engine/timeAxis';
 import { formatWon } from '../../game/domain/asset';
-import { emojiFor } from '../../game/domain/character';
+import { emojiFor, computeStatPenalty } from '../../game/domain/character';
 import { EventModal } from './EventModal';
 import { SkillModal } from './SkillModal';
 import { showToast } from '../components/Toast';
@@ -355,6 +355,30 @@ export function PlayScreen() {
           <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#42a5f5" showHints={showStatHints} />
           <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" showHints={showStatHints} />
         </div>
+
+        {/* 컨디션 페널티 배너 — 저스탯(30 미만)일 때만 경제적 불이익을 드라이하게 고지 */}
+        {(() => {
+          const penalty = computeStatPenalty(character);
+          if (penalty.reasons.length === 0) return null;
+          return (
+            <div
+              role="status"
+              style={{
+                marginTop: 'var(--sp-xs)',
+                padding: '4px 8px',
+                background: '#fff5f5',
+                border: '1px solid #ef9a9a',
+                borderRadius: 'var(--radius-sm)',
+                color: 'var(--danger, #c62828)',
+                fontSize: '0.62rem',
+                fontWeight: 600,
+                lineHeight: 1.4,
+              }}
+            >
+              ⚠️ 컨디션 페널티: {penalty.reasons.join(' · ')}
+            </div>
+          );
+        })()}
 
         {/* 케어 버튼 한 줄 (비용→효과 관계) */}
         {/* 시간 비용(timeCostMonths): 간식은 즉석, 건강(운동)은 1개월, 공부는 2개월,
@@ -1248,11 +1272,14 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
       onClick={() => {
         const st = useGameStore.getState();
         if (st.cash < cost) return;
+        // 건강 저하 시 케어 효율 -25% (computeStatPenalty)
+        const penalty = computeStatPenalty(st.character);
+        const effectiveDelta = Math.max(1, Math.round(delta * penalty.careEffMult));
         useGameStore.setState({
           cash: st.cash - cost,
           character: {
             ...st.character,
-            [stat]: Math.min(100, (st.character as any)[stat] + delta),
+            [stat]: Math.min(100, (st.character as any)[stat] + effectiveDelta),
           },
         });
         showToast(`${emoji} ${label}! ${effectEmoji}`, emoji, 'success', 1000);

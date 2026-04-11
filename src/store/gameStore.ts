@@ -23,7 +23,7 @@ import type {
 import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate';
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
-import { createCharacter, emojiFor } from '../game/domain/character';
+import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
 import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
@@ -305,7 +305,12 @@ export const useGameStore = create<GameStoreState>()(
       const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
       // 인플레이션 보정: 30세 이후 매년 2%씩 누적 (명목 월급 상승으로 실질가치 유지)
       const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
-      const salaryIncome = st.job ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus * inflationMultiplier) : 0;
+      // 컨디션 페널티 — 지혜 저하는 연봉에, 건강/매력은 다른 루트에 영향.
+      // 저스탯이면 드라이하게 숫자로 불이익을 준다.
+      const statPenalty = computeStatPenalty(character);
+      const salaryIncome = st.job
+        ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
+        : 0;
       // Pension: 65세+ 시 근무 연수 기반 연금 (연 40만원 × 직업 수 경험)
       const pensionIncome = intAge >= 65
         ? Math.round(400000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears * inflationMultiplier)
@@ -350,11 +355,13 @@ export const useGameStore = create<GameStoreState>()(
           return { ticker: h.ticker, shares: totalShares, avgBuyPrice: newAvg };
         });
       }
-      // 4) Stock price drift (with economy cycle bonus)
+      // 4) Stock price drift (with economy cycle bonus + stat penalty)
+      // 지혜 저하 시 returnMult(-0.02)를 drift에 가산 — "정보력 부족으로 손해".
       const prices: Record<string, number> = { ...st.prices };
+      const driftAdj = driftBonus + statPenalty.returnMult;
       for (const s of STOCKS) {
-        const adjustedStock = driftBonus !== 0
-          ? { ...s, drift: s.drift + driftBonus }
+        const adjustedStock = driftAdj !== 0
+          ? { ...s, drift: s.drift + driftAdj }
           : s;
         prices[s.ticker] = nextPrice(prices[s.ticker], adjustedStock, streams.stock, deltaYears);
       }
