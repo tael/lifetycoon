@@ -2,6 +2,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // 빌드 시점에 git 커밋 SHA와 날짜를 주입한다.
 // CI(Pages 배포)와 로컬 빌드 모두에서 동작하고, git이 없는 환경이면 'dev'로 폴백.
@@ -13,11 +18,22 @@ function readGitSha(): string {
   }
 }
 
-// 버전 포맷: YYYYMMDD.SHA (예: 20260411.67cbff8)
-// - 1줄, 구분자 점(.) 하나라 파싱/표시가 단순
-// - 앞의 날짜로 시간 순서를 한눈에 파악 (SHA만으론 언제 빌드인지 알기 어려움)
-// - SHA로 유니크성 보장
+// package.json의 semver 버전을 읽는다 (예: "0.1.0").
+// "사용자용 릴리즈 번호" 역할. 큰 변화가 있을 때만 수동 bump.
+function readPackageVersion(): string {
+  try {
+    const pkgPath = resolve(__dirname, 'package.json');
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as { version?: string };
+    return typeof pkg.version === 'string' ? pkg.version : '0.0.0';
+  } catch {
+    return '0.0.0';
+  }
+}
+
+// 빌드 식별자: YYYYMMDD.SHA (디버깅·캐시버스팅용, 매 커밋 변경).
 const APP_VERSION = `${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.${readGitSha()}`;
+// 사용자용 릴리즈 번호: package.json semver (릴리즈노트와 매칭되는 값).
+const APP_SEMVER = readPackageVersion();
 
 export default defineConfig({
   plugins: [
@@ -40,6 +56,7 @@ export default defineConfig({
   base: './',
   define: {
     __APP_VERSION__: JSON.stringify(APP_VERSION),
+    __APP_SEMVER__: JSON.stringify(APP_SEMVER),
   },
   build: {
     outDir: 'dist',

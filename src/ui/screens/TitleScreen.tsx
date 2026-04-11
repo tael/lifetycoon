@@ -1,5 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
+import {
+  ReleaseNotesModal,
+  fetchReleases,
+  getLastSeenRelease,
+  getUnseenReleases,
+} from '../components/ReleaseNotesModal';
 import { sfx } from '../../game/engine/soundFx';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
 import { loadLegacy, clearLegacy } from '../../store/legacy';
@@ -37,8 +43,29 @@ export function TitleScreen() {
   const [sound, setSound] = useState(() => sfx.isEnabled());
   const [showAchievements, setShowAchievements] = useState(false);
   const [showGlobalStats, setShowGlobalStats] = useState(false);
+  const [showReleaseNotes, setShowReleaseNotes] = useState(false);
+  const [unseenReleaseCount, setUnseenReleaseCount] = useState(0);
   const savedExists = hasSave();
   const legacy = loadLegacy();
+
+  // 타이틀 진입 시 새 소식 미확인 개수 계산
+  useEffect(() => {
+    let cancelled = false;
+    fetchReleases().then((releases) => {
+      if (cancelled) return;
+      const unseen = getUnseenReleases(releases, getLastSeenRelease());
+      setUnseenReleaseCount(unseen.length);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleOpenReleaseNotes = () => {
+    setShowReleaseNotes(true);
+    // 모달 닫힘 여부와 무관하게 뱃지는 즉시 숨김 (모달 내부에서 lastSeen 저장)
+    setUnseenReleaseCount(0);
+  };
 
   const handlePickRandomName = () => {
     const rname = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
@@ -443,20 +470,49 @@ export function TitleScreen() {
         )}
       </div>
 
-      {/* Version label — 빌드 시점 주입 (git SHA + 날짜) */}
-      <div
+      {/* 새 소식 뱃지 — 미확인 릴리즈 있을 때만 표시 */}
+      {unseenReleaseCount > 0 && (
+        <button
+          onClick={handleOpenReleaseNotes}
+          style={{
+            marginTop: 'var(--sp-md)',
+            background: 'linear-gradient(90deg, #ff9800, #ff7043)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 999,
+            padding: '6px 14px',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(255,112,67,0.35)',
+          }}
+        >
+          📢 새 소식 {unseenReleaseCount}건 보기
+        </button>
+      )}
+
+      {/* Version label — 사용자용 semver + 개발자용 빌드 ID */}
+      <button
+        onClick={handleOpenReleaseNotes}
         style={{
-          marginTop: 'var(--sp-md)',
+          marginTop: 'var(--sp-sm)',
           fontSize: '0.65rem',
           color: 'var(--text-muted)',
-          opacity: 0.55,
+          opacity: 0.6,
           letterSpacing: '0.02em',
           textAlign: 'center',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: '4px 8px',
         }}
-        aria-label={`버전 ${__APP_VERSION__}`}
+        aria-label={`버전 ${__APP_SEMVER__}, 빌드 ${__APP_VERSION__}, 새 소식 보기`}
+        title="새 소식 보기"
       >
-        v{__APP_VERSION__}
-      </div>
+        v{__APP_SEMVER__} · {__APP_VERSION__}
+      </button>
+
+      {showReleaseNotes && <ReleaseNotesModal onClose={() => setShowReleaseNotes(false)} />}
     </div>
   );
 }
