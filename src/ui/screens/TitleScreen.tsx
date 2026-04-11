@@ -442,6 +442,21 @@ export function TitleScreen() {
           </button>
         )}
       </div>
+
+      {/* Version label — 빌드 시점 주입 (git SHA + 날짜) */}
+      <div
+        style={{
+          marginTop: 'var(--sp-md)',
+          fontSize: '0.65rem',
+          color: 'var(--text-muted)',
+          opacity: 0.55,
+          letterSpacing: '0.02em',
+          textAlign: 'center',
+        }}
+        aria-label={`버전 ${__APP_VERSION__}`}
+      >
+        v{__APP_VERSION__}
+      </div>
     </div>
   );
 }
