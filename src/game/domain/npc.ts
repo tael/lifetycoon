@@ -36,10 +36,22 @@ export function createNpcFromSeed(
   };
 }
 
+// 성격별 플레이어 자산 대비 목표 비율
+export const TARGET_MULTIPLIER: Record<FriendNPC['personality'], number> = {
+  conservative: 0.6,  // 보수적: 플레이어의 60%
+  aggressive: 1.15,   // 공격적: 플레이어보다 약간 앞서기도
+  lucky: 0.9,         // 럭키: 플레이어의 90%
+  scholarly: 0.85,    // 학구적: 플레이어의 85%
+};
+
+// 연간 catch-up 강도 (0.1 = 목표와의 차이를 연간 10% 좁힘)
+const CATCH_UP_FACTOR = 0.1;
+
 export function stepNpc(
   npc: FriendNPC,
   newAge: number,
   rng: () => number,
+  playerAssets: number,
 ): FriendNPC {
   const p = PERSONALITY_PARAMS[npc.personality];
   const yearsPassed = newAge - npc.currentAge;
@@ -50,7 +62,14 @@ export function stepNpc(
   const lucky =
     rng() < 0.1 * p.luckFactor ? randFloat(rng, 0.2, 0.8) * yearsPassed : 0;
   const growth = 1 + base + noise + lucky;
-  const newAssets = Math.max(1000, Math.round(npc.currentAssets * growth));
+  let newAssets = Math.max(1000, Math.round(npc.currentAssets * growth));
+
+  // 플레이어 자산 기반 catch-up 보정
+  if (playerAssets > 0) {
+    const targetAssets = playerAssets * TARGET_MULTIPLIER[npc.personality];
+    const deltaToTarget = (targetAssets - newAssets) * CATCH_UP_FACTOR * yearsPassed;
+    newAssets = Math.max(10000, Math.round(newAssets + deltaToTarget));
+  }
   const newJob = pickJob(newAge, npc.personality);
   const newDreams =
     npc.dreamsAchieved +

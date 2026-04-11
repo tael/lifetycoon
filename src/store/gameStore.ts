@@ -314,7 +314,7 @@ export const useGameStore = create<GameStoreState>()(
         return sum + Math.round(price * h.shares * compoundFactor);
       }, 0);
 
-      // DRIP (Dividend Re-Investment Plan) — 자동 배당 재투자
+      // 배당재투자 (DRIP: Dividend Re-Investment Plan) — 자동 배당 재투자
       // dripEnabled 시 배당금을 해당 종목에 즉시 매수 (복리 강화)
       let dripHoldings = [...st.holdings];
       let dripSpent = 0;
@@ -351,8 +351,10 @@ export const useGameStore = create<GameStoreState>()(
           : s;
         prices[s.ticker] = nextPrice(prices[s.ticker], adjustedStock, streams.stock, deltaYears);
       }
-      // 5) NPC step
-      const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc));
+      // 5) NPC step - 플레이어 총자산 기반 catch-up
+      const playerStocksVal = st.holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
+      const playerAssets = st.cash + st.bank.balance + playerStocksVal + st.realEstate.reduce((s, re) => s + re.currentValue, 0) + st.bonds.reduce((s, b) => s + b.faceValue, 0);
+      const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc, playerAssets));
       // 5b) Auto-invest: 10% of salary into random stocks
       let autoInvestSpent = 0;
       let autoHoldings = dripHoldings;

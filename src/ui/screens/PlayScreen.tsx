@@ -663,7 +663,7 @@ export function PlayScreen() {
               onClick={() => useGameStore.getState().toggleDrip()}
               aria-label={dripEnabled ? '배당 재투자 끄기' : '배당 재투자 켜기'}
               aria-pressed={dripEnabled}
-              title="DRIP: 배당금을 해당 종목에 자동 재투자 (복리 효과 극대화)"
+              title="배당재투자 (DRIP): 받은 배당금을 그 주식에 자동으로 다시 투자해요. 복리 효과가 커져요."
               style={{
                 fontSize: '0.6rem',
                 padding: '2px 6px',
@@ -675,7 +675,7 @@ export function PlayScreen() {
                 cursor: 'pointer',
               }}
             >
-              {dripEnabled ? '💎 DRIP' : 'DRIP'}
+              {dripEnabled ? '💎 배당재투자' : '배당재투자'}
             </button>
           </div>
         </div>
