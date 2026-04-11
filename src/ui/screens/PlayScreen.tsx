@@ -48,6 +48,7 @@ export function PlayScreen() {
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
   const autoInvest = useGameStore((s) => s.autoInvest);
+  const dripEnabled = useGameStore((s) => s.dripEnabled);
   const realEstate = useGameStore((s) => s.realEstate);
   const buyRealEstate = useGameStore((s) => s.buyRealEstate);
   const sellRealEstate = useGameStore((s) => s.sellRealEstate);
@@ -637,6 +638,24 @@ export function PlayScreen() {
               }}
             >
               {autoInvest ? '🤖 자동ON' : '자동OFF'}
+            </button>
+            <button
+              onClick={() => useGameStore.getState().toggleDrip()}
+              aria-label={dripEnabled ? '배당 재투자 끄기' : '배당 재투자 켜기'}
+              aria-pressed={dripEnabled}
+              title="DRIP: 배당금을 해당 종목에 자동 재투자 (복리 효과 극대화)"
+              style={{
+                fontSize: '0.6rem',
+                padding: '2px 6px',
+                borderRadius: 'var(--radius-full)',
+                background: dripEnabled ? 'var(--accent)' : '#eee',
+                color: dripEnabled ? '#fff' : '#999',
+                fontWeight: 700,
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              {dripEnabled ? '💎 DRIP' : 'DRIP'}
             </button>
           </div>
         </div>

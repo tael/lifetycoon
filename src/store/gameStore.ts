@@ -676,6 +676,9 @@ export const useGameStore = create<GameStoreState>()(
         set({ insurance: { ...ins, asset: newAsset, premium: newPremium } });
       }
     },
+    toggleDrip() {
+      set({ dripEnabled: !get().dripEnabled });
+    },
     buyRealEstate(id) {
       const st = get();
       const listing = REAL_ESTATE_LISTINGS.find((l) => l.id === id);
