@@ -17,7 +17,6 @@ import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { StockDetailModal } from '../components/StockDetailModal';
 import { PHASE_LABEL, getEffectiveInterestRate } from '../../game/engine/economyCycle';
-import { SEASON_EMOJI, SEASON_KO } from '../../game/engine/season';
 import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
 import type { StockDef, RealEstate } from '../../game/types';
 import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
@@ -32,10 +31,10 @@ export function PlayScreen() {
   const [showSkillModal, setShowSkillModal] = useState(false);
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [lastQuizAge, setLastQuizAge] = useState<number | null>(null);
-  const [playTime, setPlayTime] = useState(0);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
   const [stockSectorFilter, setStockSectorFilter] = useState<string>('all');
+  const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
   const stockSectors = ['all', ...Array.from(new Set(STOCKS.map((s) => s.sector).filter(Boolean)))];
   const [showStatHints] = useState<boolean>(() => {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
@@ -64,7 +63,6 @@ export function PlayScreen() {
   const insurance = useGameStore((s) => s.insurance);
   const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const economyCycle = useGameStore((s) => s.economyCycle);
-  const currentSeason = useGameStore((s) => s.currentSeason);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
@@ -117,12 +115,6 @@ export function PlayScreen() {
   useEffect(() => {
     loopRef.current?.setSpeed(speedMultiplier);
   }, [speedMultiplier]);
-
-  // Play timer
-  useEffect(() => {
-    const t = setInterval(() => setPlayTime((p) => p + 1), 1000);
-    return () => clearInterval(t);
-  }, []);
 
   // Milestone + toast triggers
   useEffect(() => {
@@ -227,25 +219,20 @@ export function PlayScreen() {
 
   return (
     <div className="app-container flex flex-col gap-sm" style={{
-      paddingBottom: 80,
+      paddingBottom: 96,
       background: ageGradient(Math.floor(character.age)),
       minHeight: '100dvh',
       transition: 'background 2s ease',
     }}>
-      {/* News Ticker — 맨 위 고정 (order -1) */}
-      <div style={{ order: -1 }}>
-        <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
-      </div>
+      {/* News Ticker */}
+      <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
 
-      {/* Age Timeline — 헤더 (order 0) */}
-      <div className="card" style={{ order: 0 }}>
+      {/* Age Timeline header */}
+      <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
               {formatAge(character.age)}
-            </span>
-            <span className="text-muted" style={{ fontSize: '0.6rem' }}>
-              ⏱{Math.floor(playTime / 60)}:{(playTime % 60).toString().padStart(2, '0')}
             </span>
             {economyCycle && (
               <span style={{
@@ -265,42 +252,6 @@ export function PlayScreen() {
                     : '#6a1b9a',
               }}>
                 {PHASE_LABEL[economyCycle.phase]}
-              </span>
-            )}
-            {Math.floor(character.age) >= 30 && (
-              <span style={{
-                fontSize: '0.6rem',
-                fontWeight: 700,
-                padding: '1px 6px',
-                borderRadius: 'var(--radius-full)',
-                background: '#e8f5e9',
-                color: '#2e7d32',
-              }}>
-                💹 물가 +{Math.round(2 * (Math.floor(character.age) - 30))}%
-              </span>
-            )}
-            {currentSeason && (
-              <span style={{
-                fontSize: '0.6rem',
-                fontWeight: 700,
-                padding: '1px 6px',
-                borderRadius: 'var(--radius-full)',
-                background: currentSeason === 'spring'
-                  ? '#fce4ec'
-                  : currentSeason === 'summer'
-                    ? '#fff9c4'
-                    : currentSeason === 'autumn'
-                      ? '#fff3e0'
-                      : '#e3f2fd',
-                color: currentSeason === 'spring'
-                  ? '#c2185b'
-                  : currentSeason === 'summer'
-                    ? '#f57f17'
-                    : currentSeason === 'autumn'
-                      ? '#e65100'
-                      : '#1565c0',
-              }}>
-                {SEASON_EMOJI[currentSeason]} {SEASON_KO[currentSeason]}
               </span>
             )}
           </div>
@@ -327,8 +278,9 @@ export function PlayScreen() {
         </div>
       </div>
 
-      {/* Character — TERTIARY: 컴팩트 가로 레이아웃 (공간 절약) */}
-      <div className="card" style={{ order: 3, padding: 'var(--sp-sm) var(--sp-md)' }}>
+      {/* Character — TERTIARY: 홈 탭에서만 (시각 순서는 꿈→자산→캐릭터) */}
+      {tab === 'home' && (
+      <div className="card" style={{ padding: 'var(--sp-sm) var(--sp-md)', order: 3 }}>
         {/* 상단 한 줄: 이모지 | 이름+직업 | 스킬/퀴즈 아이콘 버튼 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-sm)' }}>
           <div
@@ -419,10 +371,11 @@ export function PlayScreen() {
           </div>
         )}
       </div>
+      )}
 
-      {/* Dreams — PRIMARY 지표: 최상단 대형 카드, 관계 시각화 */}
+      {/* Dreams — PRIMARY 지표: 홈 탭에서만, 최상단 */}
+      {tab === 'home' && (
       <div className="card" style={{
-        order: 1,
         border: '2px solid var(--accent)',
         background: 'linear-gradient(135deg, #fff8e1 0%, #fff 40%)',
         padding: 'var(--sp-md)',
@@ -513,9 +466,11 @@ export function PlayScreen() {
           );
         })}
       </div>
+      )}
 
-      {/* Assets — SECONDARY 지표: 꿈 달성을 위한 보조 나침반 */}
-      <div className="card" style={{ order: 2 }}>
+      {/* Assets — SECONDARY: 홈 탭에선 요약, 은행 탭에선 풀버전 */}
+      {(tab === 'home' || tab === 'bank') && (
+      <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>💰 자산</span>
           <span>
@@ -546,52 +501,83 @@ export function PlayScreen() {
             </div>
           )}
         </div>
-        {/* Income summary */}
-        <div style={{
-          marginTop: 'var(--sp-sm)',
-          padding: 'var(--sp-xs) var(--sp-sm)',
-          background: '#f8fff8',
-          borderRadius: 'var(--radius-sm)',
-          fontSize: 'var(--font-size-xs)',
-        }}>
-          <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 연 순수입: {formatWon(yearlyIncome)}</span>
-          <span style={{ color: 'var(--text-muted)', marginLeft: 8 }}>
-            (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
-          </span>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
-          <QuickActionBtn label="입금 10만" onClick={() => {
-            if (deposit(100000)) showToast('10만원 입금!', '🏦', 'info', 1200);
-          }} disabled={cash < 100000} />
-          <QuickActionBtn label="출금 10만" onClick={() => {
-            if (withdraw(100000)) showToast('10만원 출금!', '💸', 'info', 1200);
-          }} disabled={bank.balance < 100000} />
-          <QuickActionBtn label="입금 100만" onClick={() => {
-            if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'success', 1200);
-          }} disabled={cash < 1000000} />
-          <QuickActionBtn label="전액 입금" onClick={() => {
-            if (cash > 0 && deposit(cash)) showToast('전액 입금!', '🏦', 'success', 1200);
-          }} disabled={cash <= 0} />
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 4 }}>
-          <QuickActionBtn label="대출 10만" onClick={() => {
-            if (takeLoan(100000)) showToast('10만원 대출!', '🏧', 'warning', 1500);
-            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-          }} disabled={false} danger />
-          <QuickActionBtn label="상환 10만" onClick={() => {
-            if (repayLoan(100000)) showToast('10만원 상환!', '✅', 'success', 1200);
-          }} disabled={bank.loanBalance < 100000 || cash < 100000} />
-          <QuickActionBtn label="대출 100만" onClick={() => {
-            if (takeLoan(1000000)) showToast('100만원 대출!', '🏧', 'warning', 1500);
-            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-          }} disabled={false} danger />
-          <QuickActionBtn label="상환 100만" onClick={() => {
-            if (repayLoan(1000000)) showToast('100만원 상환!', '✅', 'success', 1200);
-          }} disabled={bank.loanBalance < 1000000 || cash < 1000000} />
-        </div>
+        {/* 홈 탭: 다음 꿈 목표선 오버레이 (축1 관계 시각화) */}
+        {tab === 'home' && (() => {
+          const nextMoneyDream = dreams.find((d) => !d.achieved && (d.targetCondition.kind === 'totalAssetsGte' || d.targetCondition.kind === 'cashGte'));
+          if (!nextMoneyDream) return null;
+          const cond = nextMoneyDream.targetCondition;
+          const target = (cond.kind === 'totalAssetsGte' || cond.kind === 'cashGte') ? cond.value : 0;
+          const haveNow = cond.kind === 'cashGte' ? cash : totalAssets;
+          const pct = Math.min(100, Math.round((haveNow / Math.max(1, target)) * 100));
+          return (
+            <div style={{ marginTop: 'var(--sp-sm)' }}>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 4 }}>
+                {nextMoneyDream.iconEmoji} {nextMoneyDream.title}까지 {pct}%
+              </div>
+              <div style={{ height: 8, borderRadius: 4, background: '#f0e8d0', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%',
+                  width: `${pct}%`,
+                  background: pct >= 80 ? 'var(--success)' : 'var(--accent)',
+                  borderRadius: 4,
+                  transition: 'width 0.5s',
+                }} />
+              </div>
+            </div>
+          );
+        })()}
+        {/* 은행 탭: 상세 수입 분해 + 입출금/대출 버튼 */}
+        {tab === 'bank' && (
+          <>
+            <div style={{
+              marginTop: 'var(--sp-sm)',
+              padding: 'var(--sp-xs) var(--sp-sm)',
+              background: '#f8fff8',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: 'var(--font-size-xs)',
+            }}>
+              <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 연 순수입: {formatWon(yearlyIncome)}</span>
+              <span style={{ color: 'var(--text-muted)', marginLeft: 8 }}>
+                (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
+              </span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
+              <QuickActionBtn label="입금 10만" onClick={() => {
+                if (deposit(100000)) showToast('10만원 입금!', '🏦', 'info', 1200);
+              }} disabled={cash < 100000} />
+              <QuickActionBtn label="출금 10만" onClick={() => {
+                if (withdraw(100000)) showToast('10만원 출금!', '💸', 'info', 1200);
+              }} disabled={bank.balance < 100000} />
+              <QuickActionBtn label="입금 100만" onClick={() => {
+                if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'success', 1200);
+              }} disabled={cash < 1000000} />
+              <QuickActionBtn label="전액 입금" onClick={() => {
+                if (cash > 0 && deposit(cash)) showToast('전액 입금!', '🏦', 'success', 1200);
+              }} disabled={cash <= 0} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 4 }}>
+              <QuickActionBtn label="대출 10만" onClick={() => {
+                if (takeLoan(100000)) showToast('10만원 대출!', '🏧', 'warning', 1500);
+                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+              }} disabled={false} danger />
+              <QuickActionBtn label="상환 10만" onClick={() => {
+                if (repayLoan(100000)) showToast('10만원 상환!', '✅', 'success', 1200);
+              }} disabled={bank.loanBalance < 100000 || cash < 100000} />
+              <QuickActionBtn label="대출 100만" onClick={() => {
+                if (takeLoan(1000000)) showToast('100만원 대출!', '🏧', 'warning', 1500);
+                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+              }} disabled={false} danger />
+              <QuickActionBtn label="상환 100만" onClick={() => {
+                if (repayLoan(1000000)) showToast('100만원 상환!', '✅', 'success', 1200);
+              }} disabled={bank.loanBalance < 1000000 || cash < 1000000} />
+            </div>
+          </>
+        )}
       </div>
+      )}
 
-      {/* Insurance */}
+      {/* Insurance — 은행 탭 */}
+      {tab === 'bank' && (
       <div className="card">
         <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)' }}>🛡️ 보험</div>
         <div className="flex flex-col gap-xs">
@@ -675,8 +661,10 @@ export function PlayScreen() {
           </div>
         )}
       </div>
+      )}
 
-      {/* Real Estate */}
+      {/* Real Estate — 투자 탭 */}
+      {tab === 'invest' && (
       <RealEstateCard
         realEstate={realEstate}
         cash={cash}
@@ -688,9 +676,11 @@ export function PlayScreen() {
           if (sellRealEstate(idx)) { sfx.sell(); showToast('부동산 매각!', '💸', 'success', 1500); }
         }}
       />
+      )}
 
-      {/* Stock Board */}
-      <div className="card" style={{ order: 4 }}>
+      {/* Stock Board — 투자 탭 */}
+      {tab === 'invest' && (
+      <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>📈 주식</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -792,9 +782,11 @@ export function PlayScreen() {
           );
         })}
       </div>
+      )}
 
-      {/* NPCs + Ranking */}
-      <div className="card" style={{ order: 5 }}>
+      {/* NPCs + Ranking — 친구 탭 */}
+      {tab === 'friends' && (
+      <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>👥 라이벌</span>
           <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: myRank <= 1 ? 'var(--grade-s)' : myRank <= 2 ? 'var(--accent)' : 'var(--text-muted)' }}>
@@ -841,10 +833,11 @@ export function PlayScreen() {
           );
         })}
       </div>
+      )}
 
-      {/* Life Diary */}
-      {keyMoments.length > 0 && (
-        <div className="card" style={{ order: 6 }}>
+      {/* Life Diary — 친구 탭 */}
+      {tab === 'friends' && keyMoments.length > 0 && (
+        <div className="card">
           <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📖 인생 일기</div>
           {[...keyMoments].reverse().slice(0, 5).map((m, i, arr) => (
             <div key={i} style={{ fontSize: 'var(--font-size-xs)', padding: '3px 0', color: 'var(--text-secondary)', borderBottom: i < arr.length - 1 ? '1px solid #f5f0e8' : 'none' }}>
@@ -932,6 +925,69 @@ export function PlayScreen() {
 
       {/* First-play tutorial */}
       <TutorialOverlay />
+
+      {/* Bottom Tab Bar (fixed) */}
+      <TabBar tab={tab} onChange={setTab} />
+    </div>
+  );
+}
+
+function TabBar({ tab, onChange }: {
+  tab: 'home' | 'invest' | 'bank' | 'friends';
+  onChange: (t: 'home' | 'invest' | 'bank' | 'friends') => void;
+}) {
+  const items: { key: 'home' | 'invest' | 'bank' | 'friends'; emoji: string; label: string }[] = [
+    { key: 'home', emoji: '🏠', label: '홈' },
+    { key: 'invest', emoji: '📈', label: '투자' },
+    { key: 'bank', emoji: '🏦', label: '은행' },
+    { key: 'friends', emoji: '👥', label: '친구' },
+  ];
+  return (
+    <div
+      role="tablist"
+      aria-label="메인 메뉴"
+      style={{
+        position: 'fixed',
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        background: '#fff',
+        borderTop: '1px solid #eee',
+        boxShadow: '0 -2px 8px rgba(0,0,0,0.06)',
+        zIndex: 50,
+        paddingBottom: 'env(safe-area-inset-bottom, 0)',
+      }}
+    >
+      {items.map((it) => {
+        const active = tab === it.key;
+        return (
+          <button
+            key={it.key}
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(it.key)}
+            style={{
+              flex: 1,
+              minHeight: 56,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 2,
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              color: active ? 'var(--accent)' : 'var(--text-muted)',
+              fontWeight: active ? 800 : 500,
+              borderTop: active ? '3px solid var(--accent)' : '3px solid transparent',
+            }}
+          >
+            <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>{it.emoji}</span>
+            <span style={{ fontSize: '0.65rem' }}>{it.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }
