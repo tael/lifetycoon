@@ -4,7 +4,7 @@ import { CashflowPanel } from '../components/CashflowPanel';
 import { computeCashflow } from '../../game/domain/cashflow';
 import { sfx } from '../../game/engine/soundFx';
 import { createGameLoop, type GameLoopHandle } from '../../game/engine/gameLoop';
-import { MS_PER_YEAR } from '../../game/engine/timeAxis';
+import { monthsToMs } from '../../game/engine/timeAxis';
 import { createVisibilityController } from '../../game/engine/visibility';
 import { saveGame } from '../../store/persistence';
 import { formatAge, progressFraction } from '../../game/engine/timeAxis';
@@ -1307,7 +1307,7 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
         showToast(`${emoji} ${label}! ${effectEmoji}`, emoji, 'success', 1000);
         // 시간 비용 소모 — 기회비용 교육
         if (timeCostMonths > 0 && loopRef?.current) {
-          loopRef.current.addElapsedMs((MS_PER_YEAR / 12) * timeCostMonths);
+          loopRef.current.addElapsedMs(monthsToMs(timeCostMonths));
         }
       }}
       disabled={disabled}

@@ -4,7 +4,7 @@ import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
 import { sfx } from '../../game/engine/soundFx';
 import { KEY_SHOW_STAT_HINTS, readAutoChoice } from '../components/SettingsModal';
-import { MS_PER_YEAR } from '../../game/engine/timeAxis';
+import { monthsToMs } from '../../game/engine/timeAxis';
 import type { GameLoopHandle } from '../../game/engine/gameLoop';
 
 function readShowStatHints(): boolean {
@@ -88,8 +88,7 @@ export function EventModal({
     warnings.forEach((w, i) => showToast(w, '⚠️', 'info', 3200 + i * 300));
     // 시간 비용이 있으면 실제 나이 진행에 반영 — "시간은 1급 자원".
     if (timeCostMonths > 0 && loopRef?.current) {
-      const addMs = (MS_PER_YEAR / 12) * timeCostMonths;
-      loopRef.current.addElapsedMs(addMs);
+      loopRef.current.addElapsedMs(monthsToMs(timeCostMonths));
     }
   };
 

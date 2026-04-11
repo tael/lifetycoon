@@ -2,8 +2,18 @@
 // Base: 1 year = 6700ms. Speed multiplier scales delta ingest.
 
 export const MS_PER_YEAR = 6700;
+export const MS_PER_MONTH = MS_PER_YEAR / 12;
 export const START_AGE = 10;
 export const END_AGE = 100;
+
+/**
+ * 시간 비용(개월)을 elapsedMs로 변환한다. 음수는 0으로 절단해서
+ * "과거로 되돌리는" 케이스를 차단한다(히스토리/연금 등 누적 상태가 꼬임).
+ */
+export function monthsToMs(months: number): number {
+  if (!Number.isFinite(months) || months <= 0) return 0;
+  return MS_PER_MONTH * months;
+}
 
 export function elapsedMsToAge(elapsedMs: number): number {
   return START_AGE + elapsedMs / MS_PER_YEAR;
