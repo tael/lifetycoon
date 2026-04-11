@@ -95,7 +95,7 @@ export type GameStoreState = {
   jobsMaster: Job[];
   scenariosMaster: ScenarioEvent[];
   // Actions
-  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number, challengeModifier?: ChallengeMode['modifier'] & { challengeId?: string }) => void;
+  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number, challengeModifier?: ChallengeMode['modifier'] & { challengeId?: string }, legacyCash?: number, legacyParentName?: string) => void;
   goTo: (phase: Phase) => void;
   pickDreams: (ids: string[]) => void;
   advanceYear: (intAge: number, deltaYears: number) => void;
@@ -205,13 +205,21 @@ let streams: RngStreams = createStreams(randomSeeds());
 export const useGameStore = create<GameStoreState>()(
   subscribeWithSelector((set, get) => ({
     ...makeInitialState(),
-    startNewGame(name, pickedDreamIds, customSeed?, challengeModifier?) {
+    startNewGame(name, pickedDreamIds, customSeed?, challengeModifier?, legacyCash?, legacyParentName?) {
       const seeds = randomSeeds(customSeed);
       streams = createStreams(seeds);
       const base = makeInitialState();
-      const startCash = challengeModifier?.startCash ?? base.cash;
+      const startCash = (challengeModifier?.startCash ?? base.cash) + (legacyCash ?? 0);
       const speedMultiplier = challengeModifier?.speedLock ?? base.speedMultiplier;
       const activeChallengeId = challengeModifier?.challengeId ?? null;
+      const legacyMoment: KeyMoment[] = legacyCash && legacyCash > 0 && legacyParentName
+        ? [{
+            age: 10,
+            importance: 0.9,
+            text: `부모 ${legacyParentName}의 유산 ${legacyCash.toLocaleString()}원을 물려받았다`,
+            tag: '유년기',
+          }]
+        : [];
       set({
         ...base,
         seeds,
@@ -222,6 +230,7 @@ export const useGameStore = create<GameStoreState>()(
         assetHistory: [{ age: 10, value: startCash }],
         speedMultiplier,
         activeChallengeId,
+        keyMoments: legacyMoment,
       });
     },
     goTo(phase) {

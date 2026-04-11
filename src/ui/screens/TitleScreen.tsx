@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { sfx } from '../../game/engine/soundFx';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
+import { loadLegacy, clearLegacy } from '../../store/legacy';
 import { getDailySeed, getDailyDreams, getDailyName } from '../../game/engine/dailySeed';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
 import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
@@ -30,6 +31,7 @@ export function TitleScreen() {
   const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
   const [sound, setSound] = useState(() => sfx.isEnabled());
   const savedExists = hasSave();
+  const legacy = loadLegacy();
 
   const toggleDark = () => {
     const next = !dark;
@@ -42,6 +44,16 @@ export function TitleScreen() {
     if (!name.trim()) return;
     useGameStore.getState().character.name = name.trim();
     goTo({ kind: 'dream-pick' });
+  };
+
+  const handleLegacyStart = () => {
+    if (!legacy) return;
+    const childName = `${legacy.parentName} 2세`;
+    const allIds = DREAMS_MASTER.map((d) => d.id);
+    const shuffled = allIds.sort(() => Math.random() - 0.5);
+    const picked = shuffled.slice(0, 2);
+    clearLegacy();
+    useGameStore.getState().startNewGame(childName, picked, undefined, undefined, legacy.inheritance, legacy.parentName);
   };
 
   const handleContinue = () => {
@@ -175,6 +187,24 @@ export function TitleScreen() {
               ))}
             </div>
           </div>
+          {legacy && (
+            <div style={{
+              background: 'linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%)',
+              borderRadius: 'var(--radius-md)',
+              padding: 'var(--sp-md)',
+              border: '2px solid #ffb300',
+            }}>
+              <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginBottom: 4 }}>
+                👶 부모 유산
+              </div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 'var(--sp-sm)' }}>
+                {legacy.parentName} / {legacy.parentGrade}등급 / {formatWon(legacy.inheritance)}
+              </div>
+              <button className="btn btn-primary btn-block" onClick={handleLegacyStart}>
+                🎭 유산 이어받기 시작
+              </button>
+            </div>
+          )}
           {savedExists && (
             <button className="btn btn-secondary btn-block" onClick={handleContinue}>
               📂 이어하기

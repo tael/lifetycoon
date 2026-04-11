@@ -14,6 +14,7 @@ import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
+import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { PHASE_LABEL } from '../../game/engine/economyCycle';
 import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
 import type { StockDef, RealEstate } from '../../game/types';
@@ -25,6 +26,8 @@ export function PlayScreen() {
   const [showMilestone, setShowMilestone] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSkillModal, setShowSkillModal] = useState(false);
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [lastQuizAge, setLastQuizAge] = useState<number | null>(null);
   const [playTime, setPlayTime] = useState(0);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
@@ -318,7 +321,7 @@ export function PlayScreen() {
             ))}
           </div>
         )}
-        <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}>
           <button
             onClick={() => setShowSkillModal(true)}
             style={{
@@ -334,6 +337,31 @@ export function PlayScreen() {
           >
             🎓 스킬 {unlockedSkills.length > 0 ? `(${unlockedSkills.length})` : ''}
           </button>
+          {(() => {
+            const cooldownYears = 5;
+            const canPlay = lastQuizAge === null || (intAge - lastQuizAge) >= cooldownYears;
+            const remaining = lastQuizAge !== null ? cooldownYears - (intAge - lastQuizAge) : 0;
+            return (
+              <button
+                onClick={() => { if (canPlay) setShowQuizModal(true); }}
+                disabled={!canPlay}
+                title={canPlay ? '주식 차트 퀴즈 도전!' : `${remaining}년 후 다시 도전 가능`}
+                style={{
+                  fontSize: 'var(--font-size-xs)',
+                  padding: '3px 12px',
+                  borderRadius: 'var(--radius-full)',
+                  border: '1px solid #ff8f00',
+                  background: canPlay ? '#fff8e1' : '#f5f5f5',
+                  color: canPlay ? '#ff8f00' : '#bbb',
+                  fontWeight: 700,
+                  cursor: canPlay ? 'pointer' : 'not-allowed',
+                  opacity: canPlay ? 1 : 0.6,
+                }}
+              >
+                🎯 주식 퀴즈 {!canPlay ? `(${remaining}년 후)` : ''}
+              </button>
+            );
+          })()}
         </div>
       </div>
 
@@ -695,6 +723,33 @@ export function PlayScreen() {
 
       {/* Skill modal */}
       {showSkillModal && <SkillModal onClose={() => setShowSkillModal(false)} />}
+
+      {/* Stock Quiz modal */}
+      {showQuizModal && (
+        <StockQuizMiniGame
+          seed={Math.floor(character.age) * 31 + (character.wisdom | 0)}
+          onClose={(result) => {
+            setShowQuizModal(false);
+            if (result !== null) {
+              setLastQuizAge(Math.floor(character.age));
+              const wisdomGain = result.correct ? 5 : 2;
+              const cashGain = result.correct ? 100000 : 0;
+              useGameStore.setState((s) => ({
+                character: {
+                  ...s.character,
+                  wisdom: Math.min(100, s.character.wisdom + wisdomGain),
+                },
+                cash: s.cash + cashGain,
+              }));
+              if (result.correct) {
+                showToast('주식 퀴즈 정답! 지혜+5, +10만원', '🎯', 'achievement', 3000);
+              } else {
+                showToast('아쉽지만 실패! 지혜+2 (교훈)', '📘', 'info', 2500);
+              }
+            }
+          }}
+        />
+      )}
 
       {/* First-play tutorial */}
       <TutorialOverlay />

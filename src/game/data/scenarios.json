@@ -22317,5 +22317,1798 @@
         ]
       }
     ]
+  },
+  {
+    "id": "s_inheritance_pressure",
+    "title": "유산을 어떻게 쓸까",
+    "text": "부모님이 남겨주신 유산이 있어. 큰돈인데, 어떻게 써야 할지 고민이 돼.",
+    "ageRange": [
+      30,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 10000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "유산",
+      "가족",
+      "경제"
+    ],
+    "choices": [
+      {
+        "label": "투자해서 더 불린다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 5000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "부모님의 유산을 투자로 불려 미래를 준비했다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "가족 여행에 쓴다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유산으로 가족 여행을 떠나 소중한 추억을 만들었다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "그냥 저축해둔다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_family_legacy",
+    "title": "가문의 전통",
+    "text": "할아버지 때부터 이어온 가문의 전통이 있어. 요즘 시대에 맞지 않는 것 같기도 하고, 지켜야 할 것 같기도 해.",
+    "ageRange": [
+      25,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.25
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "가족",
+      "전통",
+      "가치관"
+    ],
+    "choices": [
+      {
+        "label": "전통을 지키며 이어간다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "전통주의자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "가문의 전통을 지켜 후손에게 이어주기로 했다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "시대에 맞게 변형한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "전통을 현대에 맞게 새롭게 해석했다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "내 세대에서 마무리한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "stress",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_parents_memory",
+    "title": "부모님의 추억",
+    "text": "오래된 앨범을 정리하다 부모님의 젊은 시절 사진을 발견했어. 그때 부모님도 나처럼 청춘이었겠지.",
+    "ageRange": [
+      35,
+      80
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 80
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "감성",
+      "가족",
+      "추억"
+    ],
+    "choices": [
+      {
+        "label": "앨범을 정성껏 정리해 보관한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "부모님의 추억이 담긴 앨범을 정성스럽게 정리했다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "형제자매에게 사진을 나눠준다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "부모님의 사진을 나누며 가족이 더 가까워졌다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "혼자 오랫동안 들여다본다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_short_selling",
+    "title": "공매도 이야기",
+    "text": "증권 뉴스에서 공매도 얘기가 나왔어. '주가가 내려가야 돈을 버는 방법'이라는데, 어떻게 생각해?",
+    "ageRange": [
+      18,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "주식",
+      "투자",
+      "경제교육"
+    ],
+    "choices": [
+      {
+        "label": "공부해서 전략적으로 활용해본다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "공매도를 이해하고 시장을 더 넓게 바라보게 됐다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "위험하니 일반 투자만 한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "리스크 관리를 위해 안전한 투자 원칙을 세웠다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "무조건 따라서 공매도를 해본다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1500000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "stress",
+            "delta": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_portfolio_balance",
+    "title": "포트폴리오 점검",
+    "text": "올해도 절반이 지났어. 투자 전문가가 포트폴리오를 점검하라고 조언했어. 내 자산 배분이 너무 한쪽으로 쏠린 것 같아.",
+    "ageRange": [
+      25,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 5000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 65
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "주식",
+      "투자",
+      "자산관리"
+    ],
+    "choices": [
+      {
+        "label": "전문가에게 맡겨 리밸런싱한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -500000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "포트폴리오를 리밸런싱해 안정적인 투자 구조를 갖췄다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "직접 공부해서 조정한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "스스로 포트폴리오를 조정하며 투자 실력을 키웠다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "그냥 내버려둔다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "stress",
+            "delta": 8
+          },
+          {
+            "kind": "cash",
+            "delta": -1000000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_long_term_invest",
+    "title": "10년 투자의 결실",
+    "text": "10년 전에 사뒀던 주식이 크게 올랐어! 팔까, 아니면 더 오를 때를 기다릴까?",
+    "ageRange": [
+      35,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 10000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 35,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.25
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "주식",
+      "장기투자",
+      "경제교육"
+    ],
+    "choices": [
+      {
+        "label": "절반은 팔고 절반은 유지한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 8000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "10년 장기투자의 결실을 현명하게 실현했다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "전부 팔아 현금화한다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 15000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "10년 인내의 투자가 큰 수익으로 돌아왔다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "더 오를 것 같아 계속 보유한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "stress",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_market_timing",
+    "title": "시장 타이밍의 함정",
+    "text": "전문가들이 '지금이 매수 타이밍'이라고 외치고 있어. 하지만 예전에도 그랬다가 손해 본 기억이 있어.",
+    "ageRange": [
+      20,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 65
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "주식",
+      "투자",
+      "경제교육"
+    ],
+    "choices": [
+      {
+        "label": "전문가 말을 믿고 투자한다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "stress",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "나만의 원칙대로 꾸준히 적립한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "cash",
+            "delta": 1500000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "흔들리지 않고 원칙 투자를 이어가 수익을 냈다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "일단 관망하며 기다린다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_sibling_fight",
+    "title": "형제와의 싸움",
+    "text": "오늘 형(언니)이랑 크게 싸웠어. 사소한 것 때문에 시작됐는데 결국 오래된 감정들이 다 터져버렸어.",
+    "ageRange": [
+      8,
+      20
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 8,
+        "max": 20
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.4
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "가족",
+      "관계",
+      "유년기"
+    ],
+    "choices": [
+      {
+        "label": "먼저 사과하러 간다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "형제와 화해하며 관계의 소중함을 배웠다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "시간이 해결해줄 거라 기다린다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": 10
+          }
+        ]
+      },
+      {
+        "label": "부모님께 이른다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "stress",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_first_crush_confession",
+    "title": "첫사랑에게 고백",
+    "text": "오랫동안 마음속으로만 좋아했던 사람이 있어. 용기 내서 고백할까, 아니면 그냥 친구로 지낼까?",
+    "ageRange": [
+      16,
+      25
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 16,
+        "max": 25
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.45
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "로맨스",
+      "청춘",
+      "관계"
+    ],
+    "choices": [
+      {
+        "label": "편지를 써서 고백한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "연인"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫사랑에게 용기 있게 고백해 사귀게 됐다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "직접 만나서 솔직하게 말한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫사랑에게 직접 마음을 전했다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "그냥 친구로 지내기로 한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_wedding_proposal",
+    "title": "프로포즈",
+    "text": "이 사람이랑 평생을 함께하고 싶어. 프로포즈를 어떻게 할까?",
+    "ageRange": [
+      24,
+      40
+    ],
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "연인"
+      },
+      {
+        "kind": "ageRange",
+        "min": 24,
+        "max": 40
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.5
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "로맨스",
+      "결혼",
+      "관계"
+    ],
+    "choices": [
+      {
+        "label": "깜짝 이벤트를 준비한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "기혼"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "완벽한 프로포즈로 사랑하는 사람에게 청혼했다",
+            "importance": 0.95
+          }
+        ]
+      },
+      {
+        "label": "조용히 둘만의 자리에서 말한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "기혼"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "둘만의 소중한 순간 프로포즈에 성공했다",
+            "importance": 0.9
+          }
+        ]
+      },
+      {
+        "label": "아직 타이밍이 아닌 것 같아 미룬다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "stress",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_anniversary_gift",
+    "title": "결혼기념일 선물",
+    "text": "결혼기념일이 다가왔어. 파트너를 위해 특별한 선물을 준비하고 싶은데, 뭐가 좋을까?",
+    "ageRange": [
+      28,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "hasTrait",
+        "trait": "기혼"
+      },
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 70
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.4
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "결혼",
+      "관계",
+      "감성"
+    ],
+    "choices": [
+      {
+        "label": "여행을 계획한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "결혼기념일 여행으로 둘만의 소중한 추억을 만들었다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "직접 만든 선물을 준다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "손수 만든 선물로 파트너의 마음을 감동시켰다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "깜빡했지만 꽃이라도 사간다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "stress",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_overtime_crisis",
+    "title": "야근 지옥",
+    "text": "이번 달 내내 야근이야. 몸도 지치고 가족과 보내는 시간도 없어. 어떻게 해야 할까?",
+    "ageRange": [
+      25,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "officeworker"
+      },
+      {
+        "kind": "ageRange",
+        "min": 25,
+        "max": 55
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.45
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "직장",
+      "워라밸",
+      "스트레스"
+    ],
+    "choices": [
+      {
+        "label": "상사에게 솔직하게 얘기한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "stress",
+            "delta": -15
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "야근 문제를 상사와 솔직하게 이야기하고 해결책을 찾았다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "묵묵히 버티며 성과를 낸다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 2000000
+          },
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "stress",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "야근을 버티며 프로젝트를 완수했다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "이직을 알아본다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "stress",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_boss_appreciation",
+    "title": "상사의 칭찬",
+    "text": "오늘 회의에서 팀장님이 내 프레젠테이션을 극찬했어. 다음 프로젝트 리더를 맡겨보겠다고 하셨어!",
+    "ageRange": [
+      24,
+      50
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "officeworker"
+      },
+      {
+        "kind": "ageRange",
+        "min": 24,
+        "max": 50
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "직장",
+      "성취",
+      "커리어"
+    ],
+    "choices": [
+      {
+        "label": "감사히 받아들이고 더 노력한다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "cash",
+            "delta": 1000000
+          },
+          {
+            "kind": "keyMoment",
+            "text": "상사의 인정을 발판 삼아 더 큰 성과를 냈다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "팀원들 덕분이라며 공을 나눈다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "성과를 팀원들과 나누며 진정한 리더십을 보였다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "겸손하게 흘려듣는다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_workplace_romance",
+    "title": "직장 내 로맨스",
+    "text": "같은 부서 동료가 요즘 유독 신경을 많이 써줘. 혹시 나를 좋아하는 건 아닐까?",
+    "ageRange": [
+      23,
+      40
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "jobId": "officeworker"
+      },
+      {
+        "kind": "ageRange",
+        "min": 23,
+        "max": 40
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "직장",
+      "로맨스",
+      "관계"
+    ],
+    "choices": [
+      {
+        "label": "관심을 표현하며 가까워진다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "연인"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "직장 동료와 사랑에 빠졌다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "프로답게 선을 유지한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "직장 내 관계를 프로답게 관리했다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "다른 부서로 이동 신청을 한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "stress",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_backpack_trip",
+    "title": "배낭여행 떠나기",
+    "text": "오랫동안 꿈꿔왔던 배낭여행! 직장도 잠시 쉬고 넓은 세상을 보고 싶어. 어디로 갈까?",
+    "ageRange": [
+      18,
+      35
+    ],
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 3000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 35
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "여행",
+      "모험",
+      "성장"
+    ],
+    "choices": [
+      {
+        "label": "유럽 한 달 배낭여행을 간다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "addTrait",
+            "trait": "여행가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유럽 배낭여행으로 넓은 세상을 경험했다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "동남아 저가 여행을 떠난다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "동남아 배낭여행으로 자유로운 삶을 경험했다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "계획만 세우고 다음으로 미룬다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "stress",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_scuba_diving",
+    "title": "스쿠버다이빙 도전",
+    "text": "휴양지에 왔더니 스쿠버다이빙 체험 부스가 보여. 바닷속 세계를 탐험해볼까?",
+    "ageRange": [
+      15,
+      55
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 55
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "여행",
+      "모험",
+      "스포츠"
+    ],
+    "choices": [
+      {
+        "label": "도전해서 자격증까지 딴다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -800000
+          },
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "health",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "스쿠버다이버"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "스쿠버다이빙 자격증을 따고 바닷속 세계를 탐험했다",
+            "importance": 0.75
+          }
+        ]
+      },
+      {
+        "label": "체험 코스만 참여한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -200000
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "스쿠버다이빙으로 바닷속의 신비로운 세계를 맛봤다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "무서워서 구경만 한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_safari_africa",
+    "title": "아프리카 사파리",
+    "text": "버킷리스트 중 하나였던 아프리카 사파리 투어! 기회가 왔는데, 비용이 꽤 들어.",
+    "ageRange": [
+      30,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "value": 15000000
+      },
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 65
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "여행",
+      "모험",
+      "버킷리스트"
+    ],
+    "choices": [
+      {
+        "label": "프리미엄 투어로 떠난다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 45
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "세계여행자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아프리카 사파리에서 야생동물과 교감하는 일생의 경험을 했다",
+            "importance": 0.9
+          }
+        ]
+      },
+      {
+        "label": "저렴한 패키지 투어를 선택한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아프리카 사파리를 경험하며 자연의 위대함을 느꼈다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "다음에 더 여유가 생기면 가기로 한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_meeting_nomad",
+    "title": "유목민과의 만남",
+    "text": "여행 중 전통 유목민 마을에 초대받았어. 현대 문명과 다른 삶의 방식이 신선하게 느껴져.",
+    "ageRange": [
+      18,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 60
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.2
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "여행",
+      "문화",
+      "성찰"
+    ],
+    "choices": [
+      {
+        "label": "며칠간 함께 생활해본다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 30
+          },
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "세계여행자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유목민과 함께 생활하며 삶의 본질을 되돌아봤다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "하루 방문하고 선물을 교환한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유목민 마을 방문으로 다른 문화를 경험했다",
+            "importance": 0.7
+          }
+        ]
+      },
+      {
+        "label": "멀리서 사진만 찍는다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_old_friend_funeral",
+    "title": "친구의 마지막 인사",
+    "text": "오랜 친구의 부고를 받았어. 멀리 살아서 자주 못 봤는데... 마지막 인사를 해야 할 것 같아.",
+    "ageRange": [
+      50,
+      80
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 50,
+        "max": 80
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.3
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "감성",
+      "인생",
+      "죽음"
+    ],
+    "choices": [
+      {
+        "label": "먼 길이라도 직접 조문을 간다",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오랜 친구의 마지막 길을 함께하며 삶의 소중함을 느꼈다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "유족에게 위로 연락을 한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ]
+      },
+      {
+        "label": "혼자 조용히 추억을 떠올린다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": -8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_grandchild_first_word",
+    "title": "손주의 첫 마디",
+    "text": "손주가 처음으로 '할아버지(할머니)!'라고 불렀어. 이 순간을 위해 살아온 것 같아.",
+    "ageRange": [
+      55,
+      80
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 55,
+        "max": 80
+      },
+      {
+        "kind": "randomChance",
+        "probability": 0.35
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "감성",
+      "가족",
+      "노년"
+    ],
+    "choices": [
+      {
+        "label": "눈물을 흘리며 꼭 안아준다",
+        "importance": 0.55,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 50
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "손주의 첫 말을 들으며 인생 최고의 행복을 느꼈다",
+            "importance": 0.95
+          }
+        ]
+      },
+      {
+        "label": "사진과 동영상으로 기록한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 40
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "손주의 첫 마디를 영상으로 남겼다",
+            "importance": 0.85
+          }
+        ]
+      },
+      {
+        "label": "가족 단체 채팅방에 알린다",
+        "importance": 0.1,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 35
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          }
+        ]
+      }
+    ]
   }
 ]

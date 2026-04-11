@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
+import { saveLegacy, calcInheritance } from '../../store/legacy';
 import { sfx } from '../../game/engine/soundFx';
 import { formatWon } from '../../game/domain/asset';
 import { checkAndSaveAchievements, type Achievement } from '../../game/domain/achievements';
@@ -71,6 +72,25 @@ export function EndingScreen() {
   };
 
   const handleRestart = () => {
+    clearSave();
+    resetAll();
+  };
+
+  const handleLegacy = () => {
+    const st = useGameStore.getState();
+    const totalAssets =
+      st.cash +
+      st.bank.balance +
+      st.holdings.reduce((sum, h) => sum + (st.prices[h.ticker] ?? 0) * h.shares, 0) +
+      st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
+    const inheritance = calcInheritance(totalAssets);
+    saveLegacy({
+      parentName: st.character.name,
+      parentGrade: ending!.grade,
+      inheritance,
+      parentTraits: st.traits,
+      parentAge: Math.floor(st.character.age),
+    });
     clearSave();
     resetAll();
   };
@@ -309,6 +329,25 @@ export function EndingScreen() {
         <button className="btn btn-primary btn-block" onClick={handleShare}>
           {copied ? '✅ 복사됨!' : '📤 친구에게 공유'}
         </button>
+        {(() => {
+          const st = useGameStore.getState();
+          const totalAssets =
+            st.cash +
+            st.bank.balance +
+            st.holdings.reduce((sum, h) => sum + (st.prices[h.ticker] ?? 0) * h.shares, 0) +
+            st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
+          const inheritance = calcInheritance(totalAssets);
+          return (
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 4 }}>
+                자녀가 {formatWon(inheritance)}을 상속받습니다
+              </div>
+              <button className="btn btn-secondary btn-block" onClick={handleLegacy}>
+                👶 자녀가 이어받기
+              </button>
+            </div>
+          );
+        })()}
         <button className="btn btn-secondary btn-block" onClick={handleRestart}>
           🔄 다른 인생 살아보기
         </button>
