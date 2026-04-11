@@ -1,5 +1,7 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { useGameStore, STOCKS } from '../../store/gameStore';
+import { CashflowPanel } from '../components/CashflowPanel';
+import { computeCashflow } from '../../game/domain/cashflow';
 import { sfx } from '../../game/engine/soundFx';
 import { createGameLoop, type GameLoopHandle } from '../../game/engine/gameLoop';
 import { MS_PER_YEAR } from '../../game/engine/timeAxis';
@@ -19,7 +21,6 @@ import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { StockDetailModal } from '../components/StockDetailModal';
 import { PHASE_LABEL, getEffectiveInterestRate } from '../../game/engine/economyCycle';
-import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
 import type { StockDef, RealEstate } from '../../game/types';
 import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
@@ -61,6 +62,7 @@ export function PlayScreen() {
   const autoInvest = useGameStore((s) => s.autoInvest);
   const dripEnabled = useGameStore((s) => s.dripEnabled);
   const realEstate = useGameStore((s) => s.realEstate);
+  const bonds = useGameStore((s) => s.bonds);
   const buyRealEstate = useGameStore((s) => s.buyRealEstate);
   const sellRealEstate = useGameStore((s) => s.sellRealEstate);
   const insurance = useGameStore((s) => s.insurance);
@@ -200,9 +202,8 @@ export function PlayScreen() {
     ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%`
     : undefined;
 
-  // Yearly income
-  const salaryYearly = job ? job.salary * 12 : 0;
   // 화면 표시용 유효 이자율 — tick 계산과 동일한 base + phase + skill 보너스를 반영한다.
+  // 자산 카드 "예금 연 X%" extra 라벨과 cashflow 계산에 공통 사용.
   const effectiveInterestRate = economyCycle
     ? getEffectiveInterestRate(
         bank.interestRate,
@@ -210,19 +211,45 @@ export function PlayScreen() {
         unlockedSkills.includes('finance_101'),
       )
     : bank.interestRate;
-  const interestYearly = Math.round(bank.balance * effectiveInterestRate);
   const intAge = Math.floor(character.age);
-  const pensionYearly = intAge >= 65 ? 500000 : 0;
-  const insuranceYearly = insurance.premium ?? 0;
-  const loanInterestYearly = Math.round(bank.loanBalance * bank.loanInterestRate);
-  // 임대수익 — gameStore.advanceYear는 이미 포함하지만 UI 연 순수입 계산식에서 누락돼
-  // 있어 상가 보유 플레이어의 임대료가 "유령" 상태였음. 버그 수정.
-  const rentalYearly = realEstate.reduce((s, re) => s + re.monthlyRent * 12, 0);
-  const grossYearlyIncome = salaryYearly + interestYearly + dividendIncome + rentalYearly + pensionYearly;
-  const incomeTaxYearly = calculateIncomeTax(grossYearlyIncome);
-  const propertyTaxYearly = calculatePropertyTax(realEstateValue);
-  const totalTaxYearly = incomeTaxYearly + propertyTaxYearly;
-  const yearlyIncome = grossYearlyIncome - insuranceYearly - loanInterestYearly - totalTaxYearly;
+
+  // 캐시플로 분해 — 도메인 함수로 단일화. v0.2.0 가시화.
+  // 메모이제이션은 관련 의존성만 재계산 시 새 객체를 만든다. 과도한 최적화는 피한다.
+  const cashflow = useMemo(
+    () => computeCashflow({
+      age: character.age,
+      job,
+      bank,
+      effectiveInterestRate,
+      holdings,
+      prices,
+      stocks: STOCKS,
+      realEstate,
+      bonds,
+      insurance,
+    }),
+    [character.age, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance],
+  );
+
+  // 재정 자유 트레이트 부여 — cashflow.financiallyFree 가 true 가 되는 순간 1회 토스트 + traits append.
+  // 엔딩 보너스/등급 로직은 이번 사이클 제외 (플랜 문서의 범위 방어).
+  const prevFreeRef = useRef(false);
+  useEffect(() => {
+    if (!cashflow.financiallyFree) {
+      prevFreeRef.current = false;
+      return;
+    }
+    if (prevFreeRef.current) return;
+    prevFreeRef.current = true;
+    if (traits.includes('재정 자유')) return;
+    useGameStore.setState((s) => ({ traits: [...s.traits, '재정 자유'] }));
+    showToast(
+      '재정 자유 상태에 도달했습니다. 자동수입이 월 지출을 넘었습니다.',
+      '💎',
+      'achievement',
+      4000,
+    );
+  }, [cashflow.financiallyFree, traits]);
 
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
@@ -508,6 +535,9 @@ export function PlayScreen() {
       </div>
       )}
 
+      {/* Cashflow Panel — 은행 탭 최상단. 올해 수입·지출 분해 + 자동수입 비율 */}
+      {tab === 'bank' && <CashflowPanel data={cashflow} />}
+
       {/* Assets — SECONDARY: 홈 탭에선 요약, 은행 탭에선 풀버전 */}
       {(tab === 'home' || tab === 'bank') && (
       <div className="card">
@@ -541,6 +571,30 @@ export function PlayScreen() {
             </div>
           )}
         </div>
+        {/* 홈 탭: 캐시플로 한 줄 요약 — 연 순현금흐름과 자동수입만 드라이하게 */}
+        {tab === 'home' && (() => {
+          const netPositive = cashflow.netCashflow >= 0;
+          return (
+            <div
+              style={{
+                marginTop: 'var(--sp-xs)',
+                display: 'flex',
+                gap: 10,
+                flexWrap: 'wrap',
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 700,
+              }}
+            >
+              <span style={{ color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
+                💰 올해 {netPositive ? '+' : '-'}{formatWon(Math.abs(cashflow.netCashflow))}
+              </span>
+              <span style={{ color: 'var(--text-muted)' }}>·</span>
+              <span style={{ color: 'var(--accent)' }}>
+                💎 자동수입 {formatWon(cashflow.passiveIncome)}
+              </span>
+            </div>
+          );
+        })()}
         {/* 홈 탭: 다음 꿈 목표선 오버레이 (축1 관계 시각화) */}
         {tab === 'home' && (() => {
           const nextMoneyDream = dreams.find((d) => !d.achieved && (d.targetCondition.kind === 'totalAssetsGte' || d.targetCondition.kind === 'cashGte'));
@@ -566,41 +620,9 @@ export function PlayScreen() {
             </div>
           );
         })()}
-        {/* 은행 탭: 상세 수입 분해 + 입출금/대출 버튼 */}
+        {/* 은행 탭: 입출금/대출 버튼 — 캐시플로 분해는 카드 상단 별도 패널로 분리. */}
         {tab === 'bank' && (
           <>
-            <div style={{
-              marginTop: 'var(--sp-sm)',
-              padding: 'var(--sp-xs) var(--sp-sm)',
-              background: '#f8fff8',
-              borderRadius: 'var(--radius-sm)',
-              fontSize: 'var(--font-size-xs)',
-            }}>
-              <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 1년에 버는 돈: {formatWon(yearlyIncome)}</span>
-              <span style={{ color: 'var(--text-muted)', marginLeft: 8 }}>
-                (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{rentalYearly > 0 ? ` + 임대료 ${formatWon(rentalYearly)}` : ''}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''})
-              </span>
-              {loanInterestYearly > 0 && (() => {
-                // 이자 지출을 전체 지출 대비 비중과 함께 붉은색으로 강조.
-                // 빚이 얼마나 수입을 좀먹는지 드라이하게 팩트로 보여준다.
-                const totalOutflow = totalTaxYearly + insuranceYearly + loanInterestYearly;
-                const pct = totalOutflow > 0
-                  ? Math.round((loanInterestYearly / totalOutflow) * 100)
-                  : 0;
-                return (
-                  <div style={{
-                    marginTop: 4,
-                    color: 'var(--danger, #c62828)',
-                    fontWeight: 700,
-                  }}>
-                    💸 이자 지출: -{formatWon(loanInterestYearly)}
-                    <span style={{ fontWeight: 500, marginLeft: 6, opacity: 0.85 }}>
-                      (전체 지출의 {pct}%)
-                    </span>
-                  </div>
-                );
-              })()}
-            </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
               <QuickActionBtn label="입금 10만" onClick={() => {
                 if (deposit(100000)) showToast('10만원 입금!', '🏦', 'info', 1200);
