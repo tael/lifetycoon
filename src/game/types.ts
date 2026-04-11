@@ -99,7 +99,10 @@ export type EventEffect =
   | { kind: 'setJob'; jobId: string }
   | { kind: 'gotoScenario'; scenarioId: string }
   | { kind: 'keyMoment'; text: string; importance: number }
-  | { kind: 'bankInterestChange'; delta: number };
+  | { kind: 'bankInterestChange'; delta: number }
+  // 전설 "회상의 댓가" 전용: cash/bank/주식평가액/부동산평가액을 모두 0.5배로.
+  // MVP 단순화 — 실제 과거 분기 소급 재계산은 구현하지 않는다.
+  | { kind: 'halveWealth' };
 
 export type EventChoice = {
   label: string;

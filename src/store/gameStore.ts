@@ -609,6 +609,8 @@ export const useGameStore = create<GameStoreState>()(
         usedScenarioIds: newUsed,
         choiceHistory: newChoiceHistory,
         hadLoan: st.hadLoan || forcedLoanTaken,
+        // realEstate는 halveWealth 같은 effect에서만 변경된다. 아닌 경우 원본 유지.
+        realEstate: next.realEstate ?? st.realEstate,
         phase: { kind: 'playing' },
       });
       return {

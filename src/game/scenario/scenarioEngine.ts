@@ -241,6 +241,25 @@ function applyEffect(
           interestRate: Math.min(0.30, Math.max(0, ctx.bank.interestRate + eff.delta)),
         },
       };
+    case 'halveWealth': {
+      // 전설 시나리오 "회상의 댓가" 전용: 현금·예금·주식보유수·부동산가치를 모두 절반으로.
+      // 주식은 평가액이 절반이 되도록 shares를 반으로 줄인다(정수 내림).
+      // 대출 잔액은 건드리지 않는다 — 불공평을 넘어 게임오버 트랩이 될 수 있어서다.
+      const halvedHoldings: Holding[] = ctx.holdings
+        .map((h) => ({ ...h, shares: Math.floor(h.shares / 2) }))
+        .filter((h) => h.shares > 0);
+      const halvedRealEstate: RealEstate[] = (ctx.realEstate ?? []).map((re) => ({
+        ...re,
+        currentValue: Math.floor(re.currentValue / 2),
+      }));
+      return {
+        ...ctx,
+        cash: Math.floor(ctx.cash / 2),
+        bank: { ...ctx.bank, balance: Math.floor(ctx.bank.balance / 2) },
+        holdings: halvedHoldings,
+        realEstate: halvedRealEstate,
+      };
+    }
   }
 }
 
