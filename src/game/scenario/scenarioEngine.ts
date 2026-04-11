@@ -177,7 +177,7 @@ function applyEffect(
       const newWarnings = forcedLoan > 0
         ? [
             ...(ctx.warnings ?? []),
-            `잔고가 부족해서 ${formatForcedLoan(forcedLoan)}원을 대출받아 ${eff.ticker} ${eff.shares}주를 매수했어요.`,
+            `⚠️ 잔고가 부족해 ${formatForcedLoan(forcedLoan)}원을 대출받아 ${eff.ticker} ${eff.shares}주를 매수했습니다. 이자 부담이 시작됩니다.`,
           ]
         : ctx.warnings;
 

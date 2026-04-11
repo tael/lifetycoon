@@ -13,6 +13,7 @@ import { showToast } from '../components/Toast';
 import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
+import { DebtBadge } from '../components/DebtBadge';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { StockDetailModal } from '../components/StockDetailModal';
@@ -235,6 +236,9 @@ export function PlayScreen() {
     }}>
       {/* News Ticker */}
       <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
+
+      {/* 부채 뱃지 — 대출 잔액이 있을 때만 HUD 상단에 노출 (부채 고통 가시화) */}
+      <DebtBadge />
 
       {/* Age Timeline header */}
       <div className="card">
@@ -547,8 +551,28 @@ export function PlayScreen() {
             }}>
               <span style={{ color: 'var(--success)', fontWeight: 700 }}>📥 1년에 버는 돈: {formatWon(yearlyIncome)}</span>
               <span style={{ color: 'var(--text-muted)', marginLeft: 8 }}>
-                (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{rentalYearly > 0 ? ` + 임대료 ${formatWon(rentalYearly)}` : ''}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
+                (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{rentalYearly > 0 ? ` + 임대료 ${formatWon(rentalYearly)}` : ''}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''})
               </span>
+              {loanInterestYearly > 0 && (() => {
+                // 이자 지출을 전체 지출 대비 비중과 함께 붉은색으로 강조.
+                // 빚이 얼마나 수입을 좀먹는지 드라이하게 팩트로 보여준다.
+                const totalOutflow = totalTaxYearly + insuranceYearly + loanInterestYearly;
+                const pct = totalOutflow > 0
+                  ? Math.round((loanInterestYearly / totalOutflow) * 100)
+                  : 0;
+                return (
+                  <div style={{
+                    marginTop: 4,
+                    color: 'var(--danger, #c62828)',
+                    fontWeight: 700,
+                  }}>
+                    💸 이자 지출: -{formatWon(loanInterestYearly)}
+                    <span style={{ fontWeight: 500, marginLeft: 6, opacity: 0.85 }}>
+                      (전체 지출의 {pct}%)
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
               <QuickActionBtn label="입금 10만" onClick={() => {
