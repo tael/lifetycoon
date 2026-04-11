@@ -24,7 +24,7 @@ import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor } from '../game/domain/character';
-import { createBankAccount, applyInterestForYears, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
+import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
 import { nextPrice } from '../game/domain/stock';
@@ -33,7 +33,7 @@ import {
   createEconomyCycle,
   stepEconomyCycle,
   PHASE_DRIFT_BONUS,
-  PHASE_INTEREST_BONUS,
+  getEffectiveInterestRate,
   type EconomyCycle,
 } from '../game/engine/economyCycle';
 import { createNpcFromSeed, stepNpc } from '../game/domain/npc';
@@ -286,13 +286,20 @@ export const useGameStore = create<GameStoreState>()(
         streams.misc,
       );
       const driftBonus = PHASE_DRIFT_BONUS[economyCycle.phase];
-      const interestBonus = PHASE_INTEREST_BONUS[economyCycle.phase];
 
-      // 2b) Bank interest (with cycle adjustment, floor at 0.5%)
-      const skillInterestBonus = st.unlockedSkills.includes('finance_101') ? 0.01 : 0;
-      const adjustedInterestRate = Math.max(0.005, st.bank.interestRate + interestBonus + skillInterestBonus);
-      const bankForInterest = { ...st.bank, interestRate: adjustedInterestRate };
-      const bankAfterInterest = applyInterestForYears(bankForInterest, deltaYears);
+      // 2b) Bank interest — 이번 틱에 실제 적용되는 유효 이자율을 매 틱 재계산한다.
+      // base rate(st.bank.interestRate)는 영구 상태이고, phase/skill 보너스는 일회성이다.
+      // 예전 버그: 보너스를 bank.interestRate에 써서 저장 → 매 틱 누적 → 폭주.
+      const effectiveInterestRate = getEffectiveInterestRate(
+        st.bank.interestRate,
+        economyCycle.phase,
+        st.unlockedSkills.includes('finance_101'),
+      );
+      const interestedBalance = st.bank.balance > 0
+        ? Math.round(st.bank.balance * Math.pow(1 + effectiveInterestRate, deltaYears))
+        : st.bank.balance;
+      // base rate는 유지, balance만 갱신 (보너스 누적 방지)
+      const bankAfterInterest = { ...st.bank, balance: interestedBalance };
       const bank = applyLoanInterest(bankAfterInterest, deltaYears);
       // 3) Salary income + stock dividends + pension
       const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;

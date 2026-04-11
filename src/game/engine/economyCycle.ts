@@ -22,6 +22,24 @@ export const PHASE_INTEREST_BONUS: Record<EconomyPhase, number> = {
   recession: -0.01,
 };
 
+/** 은행 이자율 하드 캡. 교육 게임이므로 비현실적 폭주를 방지한다. */
+export const MAX_INTEREST_RATE = 0.30;
+/** 은행 이자율 하한. 경기침체 + 기타 마이너스 보너스가 쌓여도 음수가 되지 않도록. */
+export const MIN_INTEREST_RATE = 0.005;
+
+/**
+ * base rate(영구 저장)에 phase/skill 보너스(일회성)를 얹은 "이번 틱에 실제로 적용되는 이자율"을 반환.
+ * 이 함수의 결과는 상태에 저장하면 안 된다. 저장하면 다음 틱에 보너스가 중복 누적된다.
+ */
+export function getEffectiveInterestRate(
+  baseRate: number,
+  phase: EconomyPhase,
+  hasFinanceSkill: boolean,
+): number {
+  const raw = baseRate + PHASE_INTEREST_BONUS[phase] + (hasFinanceSkill ? 0.01 : 0);
+  return Math.min(MAX_INTEREST_RATE, Math.max(MIN_INTEREST_RATE, raw));
+}
+
 const PHASE_SEQUENCE: EconomyPhase[] = ['normal', 'boom', 'normal', 'recession'];
 
 export function createEconomyCycle(rng: () => number): EconomyCycle {

@@ -16,7 +16,7 @@ import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { StockDetailModal } from '../components/StockDetailModal';
-import { PHASE_LABEL } from '../../game/engine/economyCycle';
+import { PHASE_LABEL, getEffectiveInterestRate } from '../../game/engine/economyCycle';
 import { SEASON_EMOJI, SEASON_KO } from '../../game/engine/season';
 import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
 import type { StockDef, RealEstate } from '../../game/types';
@@ -202,7 +202,15 @@ export function PlayScreen() {
 
   // Yearly income
   const salaryYearly = job ? job.salary * 12 : 0;
-  const interestYearly = Math.round(bank.balance * bank.interestRate);
+  // 화면 표시용 유효 이자율 — tick 계산과 동일한 base + phase + skill 보너스를 반영한다.
+  const effectiveInterestRate = economyCycle
+    ? getEffectiveInterestRate(
+        bank.interestRate,
+        economyCycle.phase,
+        unlockedSkills.includes('finance_101'),
+      )
+    : bank.interestRate;
+  const interestYearly = Math.round(bank.balance * effectiveInterestRate);
   const intAge = Math.floor(character.age);
   const pensionYearly = intAge >= 65 ? 500000 : 0;
   const insuranceYearly = insurance.premium ?? 0;
@@ -224,11 +232,13 @@ export function PlayScreen() {
       minHeight: '100dvh',
       transition: 'background 2s ease',
     }}>
-      {/* News Ticker */}
-      <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
+      {/* News Ticker — 맨 위 고정 (order -1) */}
+      <div style={{ order: -1 }}>
+        <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
+      </div>
 
-      {/* Age Timeline */}
-      <div className="card">
+      {/* Age Timeline — 헤더 (order 0) */}
+      <div className="card" style={{ order: 0 }}>
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
@@ -317,8 +327,8 @@ export function PlayScreen() {
         </div>
       </div>
 
-      {/* Character */}
-      <div className="card text-center">
+      {/* Character — TERTIARY 지표: 컨디션/케어 (크기 유지, 순서 후순위) */}
+      <div className="card text-center" style={{ order: 3 }}>
         {/* Speech bubble */}
         <div style={{
           background: '#fff',
@@ -338,9 +348,9 @@ export function PlayScreen() {
         <div
           role="img"
           aria-label={`${character.name}, ${Math.floor(character.age)}세 캐릭터`}
-          style={{ fontSize: '4rem', lineHeight: 1 }}
+          style={{ fontSize: '3rem', lineHeight: 1 }}
         >{emojiFor(character)}</div>
-        <div style={{ fontWeight: 700, marginTop: 'var(--sp-xs)' }}>{character.name}</div>
+        <div style={{ fontWeight: 700, marginTop: 'var(--sp-xs)', fontSize: 'var(--font-size-sm)' }}>{character.name}</div>
         <div className="flex flex-center gap-md" style={{ marginTop: 'var(--sp-sm)' }}>
           <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" showHints={showStatHints} />
           <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" showHints={showStatHints} />
@@ -354,10 +364,10 @@ export function PlayScreen() {
         )}
         {/* Tamagotchi care buttons */}
         <div className="flex gap-xs" style={{ marginTop: 'var(--sp-sm)', justifyContent: 'center' }}>
-          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} />
-          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} />
-          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} />
-          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} />
+          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" />
+          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" />
+          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" />
+          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" />
         </div>
         {traits.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center', marginTop: 'var(--sp-xs)' }}>
@@ -417,39 +427,93 @@ export function PlayScreen() {
         </div>
       </div>
 
-      {/* Dreams */}
-      <div className="card">
-        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
-          <span style={{ fontWeight: 700 }}>🌟 나의 꿈</span>
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--accent)' }}>
-            {dreams.filter((d) => d.achieved).length}/{dreams.length}
+      {/* Dreams — PRIMARY 지표: 최상단 대형 카드, 관계 시각화 */}
+      <div className="card" style={{
+        order: 1,
+        border: '2px solid var(--accent)',
+        background: 'linear-gradient(135deg, #fff8e1 0%, #fff 40%)',
+        padding: 'var(--sp-md)',
+      }}>
+        <div className="flex flex-between" style={{ alignItems: 'baseline', marginBottom: 'var(--sp-sm)' }}>
+          <span style={{ fontWeight: 800, fontSize: 'var(--font-size-base)' }}>🌟 나의 꿈</span>
+          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--accent)', fontWeight: 700 }}>
+            {dreams.filter((d) => d.achieved).length} / {dreams.length} 달성
           </span>
         </div>
         {dreams.map((d) => {
           const progress = dreamProgress(d, totalAssets, character.happiness, character.age, job);
+          const pct = Math.round(progress * 100);
+          // 꿈과 돈의 관계: totalAssetsGte/cashGte 꿈이면 "앞으로 얼마 더"
+          const cond = d.targetCondition;
+          let relationText = '';
+          if (!d.achieved) {
+            if (cond.kind === 'totalAssetsGte') {
+              const need = Math.max(0, cond.value - totalAssets);
+              relationText = need > 0 ? `앞으로 ${formatWon(need)} 더` : '곧 달성!';
+            } else if (cond.kind === 'cashGte') {
+              const need = Math.max(0, cond.value - cash);
+              relationText = need > 0 ? `현금 ${formatWon(need)} 더` : '곧 달성!';
+            } else if (cond.kind === 'ageReached') {
+              const yearsLeft = Math.max(0, cond.value - Math.floor(character.age));
+              relationText = yearsLeft > 0 ? `${yearsLeft}년 후 달성` : '곧 달성!';
+            } else if (cond.kind === 'happinessGte') {
+              relationText = `😊 행복도 키우기`;
+            } else if (cond.kind === 'wisdomGte') {
+              relationText = `📘 지혜 키우기`;
+            } else if (cond.kind === 'charismaGte') {
+              relationText = `✨ 매력 키우기`;
+            } else if (cond.kind === 'stockOwnedShares') {
+              relationText = `📈 ${cond.ticker} 주식 사기`;
+            } else if (cond.kind === 'jobHeld') {
+              relationText = `💼 직업 바꾸기`;
+            } else if (cond.kind === 'hasTrait' || cond.kind === 'hasTraitAny') {
+              relationText = `🏷️ 특성 획득하기`;
+            } else if (cond.kind === 'realEstateCountGte') {
+              relationText = `🏠 부동산 ${cond.value}개 사기`;
+            }
+          }
           return (
-            <div key={d.id} style={{ padding: '4px 0' }}>
+            <div key={d.id} style={{ padding: '8px 0', borderTop: '1px dashed #f0e8d0' }}>
               <div className="flex gap-sm" style={{ alignItems: 'center' }}>
-                <span>{d.iconEmoji}</span>
-                <span style={{
-                  fontSize: 'var(--font-size-sm)',
-                  flex: 1,
-                  textDecoration: d.achieved ? 'line-through' : 'none',
-                  opacity: d.achieved ? 0.6 : 1,
-                }}>
-                  {d.title}
-                </span>
+                <span style={{ fontSize: '1.5rem', width: 28 }}>{d.iconEmoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{
+                    fontWeight: 700,
+                    fontSize: 'var(--font-size-sm)',
+                    textDecoration: d.achieved ? 'line-through' : 'none',
+                    opacity: d.achieved ? 0.5 : 1,
+                  }}>
+                    {d.title}
+                  </div>
+                  {!d.achieved && relationText && (
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 1 }}>
+                      → {relationText}
+                    </div>
+                  )}
+                </div>
                 {d.achieved ? (
-                  <span>✅</span>
+                  <span style={{ fontSize: '1.2rem' }}>✅</span>
                 ) : (
-                  <span className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-                    {Math.round(progress * 100)}%
+                  <span style={{
+                    fontSize: 'var(--font-size-sm)',
+                    fontWeight: 700,
+                    color: pct >= 80 ? 'var(--success)' : pct >= 40 ? 'var(--accent)' : 'var(--text-muted)',
+                    minWidth: 36,
+                    textAlign: 'right',
+                  }}>
+                    {pct}%
                   </span>
                 )}
               </div>
               {!d.achieved && (
-                <div style={{ height: 3, borderRadius: 2, background: '#eee', marginTop: 2, marginLeft: 28 }}>
-                  <div style={{ height: '100%', width: `${progress * 100}%`, background: 'var(--accent)', borderRadius: 2, transition: 'width 0.5s' }} />
+                <div style={{ height: 6, borderRadius: 3, background: '#f0e8d0', marginTop: 6, marginLeft: 36, overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%',
+                    width: `${pct}%`,
+                    background: pct >= 80 ? 'var(--success)' : 'var(--accent)',
+                    borderRadius: 3,
+                    transition: 'width 0.5s',
+                  }} />
                 </div>
               )}
             </div>
@@ -457,8 +521,8 @@ export function PlayScreen() {
         })}
       </div>
 
-      {/* Assets */}
-      <div className="card">
+      {/* Assets — SECONDARY 지표: 꿈 달성을 위한 보조 나침반 */}
+      <div className="card" style={{ order: 2 }}>
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>💰 자산</span>
           <span>
@@ -472,7 +536,7 @@ export function PlayScreen() {
         </div>
         <div className="flex flex-col gap-xs">
           <AssetRow label="현금" value={cash} />
-          <AssetRow label="예금" value={bank.balance} extra={`연 ${(bank.interestRate * 100).toFixed(1)}%`} />
+          <AssetRow label="예금" value={bank.balance} extra={`연 ${(effectiveInterestRate * 100).toFixed(1)}%`} />
           <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
           {realEstateValue > 0 && (
             <AssetRow label="부동산" value={realEstateValue} extra={`${realEstate.length}채`} />
@@ -633,7 +697,7 @@ export function PlayScreen() {
       />
 
       {/* Stock Board */}
-      <div className="card">
+      <div className="card" style={{ order: 4 }}>
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>📈 주식</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -737,7 +801,7 @@ export function PlayScreen() {
       </div>
 
       {/* NPCs + Ranking */}
-      <div className="card">
+      <div className="card" style={{ order: 5 }}>
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>👥 라이벌</span>
           <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: myRank <= 1 ? 'var(--grade-s)' : myRank <= 2 ? 'var(--accent)' : 'var(--text-muted)' }}>
@@ -787,7 +851,7 @@ export function PlayScreen() {
 
       {/* Life Diary */}
       {keyMoments.length > 0 && (
-        <div className="card">
+        <div className="card" style={{ order: 6 }}>
           <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📖 인생 일기</div>
           {[...keyMoments].reverse().slice(0, 5).map((m, i, arr) => (
             <div key={i} style={{ fontSize: 'var(--font-size-xs)', padding: '3px 0', color: 'var(--text-secondary)', borderBottom: i < arr.length - 1 ? '1px solid #f5f0e8' : 'none' }}>
@@ -1065,12 +1129,19 @@ function TradBtn({ label, color, onClick, disabled, stockName }: { label: string
   );
 }
 
-function CareBtn({ emoji, label, cost, stat, delta }: {
-  emoji: string; label: string; cost: number; stat: string; delta: number;
+function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel }: {
+  emoji: string;
+  label: string;
+  cost: number;
+  stat: string;
+  delta: number;
+  effectEmoji: string;
+  effectLabel: string;
 }) {
   const cash = useGameStore((s) => s.cash);
   const character = useGameStore((s) => s.character);
   const disabled = cash < cost || (character as any)[stat] >= 95;
+  const maxed = (character as any)[stat] >= 95;
   return (
     <button
       onClick={() => {
@@ -1083,27 +1154,35 @@ function CareBtn({ emoji, label, cost, stat, delta }: {
             [stat]: Math.min(100, (st.character as any)[stat] + delta),
           },
         });
-        showToast(`${emoji} ${label}! +${delta}`, emoji, 'success', 1000);
+        showToast(`${emoji} ${label}! ${effectEmoji}`, emoji, 'success', 1000);
       }}
       disabled={disabled}
-      aria-label={`${label} ${formatWon(cost)}`}
+      aria-label={`${label}, ${formatWon(cost)}원 써서 ${effectLabel} 올리기`}
+      title={maxed ? `${effectLabel}이 이미 충분해요` : `${formatWon(cost)}원 → ${effectLabel} ↑`}
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '4px 8px',
+        padding: '6px 4px',
         borderRadius: 'var(--radius-md)',
         background: disabled ? '#f5f5f5' : 'var(--bg-secondary)',
         border: '1px solid #eee',
-        fontSize: '0.65rem',
-        opacity: disabled ? 0.4 : 1,
+        fontSize: '0.6rem',
+        opacity: disabled ? 0.5 : 1,
         cursor: disabled ? 'default' : 'pointer',
-        minWidth: 48,
+        minWidth: 56,
+        lineHeight: 1.2,
       }}
     >
-      <span style={{ fontSize: '1.2rem' }} aria-hidden="true">{emoji}</span>
-      <span>{label}</span>
-      <span className="text-muted" style={{ fontSize: '0.55rem' }}>{formatWon(cost)}</span>
+      <span style={{ fontSize: '1.1rem' }} aria-hidden="true">{emoji}</span>
+      <span style={{ fontWeight: 700, marginTop: 2 }}>{label}</span>
+      {/* 비용 → 효과 관계 명시 (어린이 기회비용 교육의 핵심) */}
+      <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: 2 }}>
+        {formatWon(cost)}원
+      </span>
+      <span style={{ fontSize: '0.55rem', color: 'var(--accent)', fontWeight: 700 }}>
+        → {effectEmoji} ↑
+      </span>
     </button>
   );
 }

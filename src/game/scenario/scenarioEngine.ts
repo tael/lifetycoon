@@ -124,7 +124,11 @@ function applyEffect(
     case 'bankInterestChange':
       return {
         ...ctx,
-        bank: { ...ctx.bank, interestRate: Math.max(0, ctx.bank.interestRate + eff.delta) },
+        bank: {
+          ...ctx.bank,
+          // 시나리오 기반 base rate 변경. 누적 상한 30% 하드캡으로 폭주 방지.
+          interestRate: Math.min(0.30, Math.max(0, ctx.bank.interestRate + eff.delta)),
+        },
       };
   }
 }
