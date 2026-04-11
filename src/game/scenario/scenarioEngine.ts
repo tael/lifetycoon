@@ -36,6 +36,11 @@ export type EffectContext = {
 // 이벤트 buyStock의 강제대출 최소 단위 (10만원) — UI의 대출 버튼 단위와 일치.
 const FORCED_LOAN_UNIT = 100_000;
 
+// cash 필드의 하한선. 현금은 음수 상태를 허용하지만 "파산 수렁"으로 무제한
+// 내려가지 않도록 -5,000만원에서 막는다. 이 한도를 넘는 손실은 effect가 조용히
+// 절단돼서 플레이어가 영영 회복 불가능한 상태에 빠지는 걸 방지한다.
+const CASH_FLOOR = -50_000_000;
+
 export function applyChoice(
   ctx: EffectContext,
   choice: EventChoice,
@@ -62,7 +67,7 @@ function applyEffect(
   switch (eff.kind) {
     case 'cash':
     case 'money':
-      return { ...ctx, cash: Math.max(-50000000, ctx.cash + eff.delta) };
+      return { ...ctx, cash: Math.max(CASH_FLOOR, ctx.cash + eff.delta) };
     case 'happiness':
       return {
         ...ctx,
@@ -245,6 +250,8 @@ function applyEffect(
       // 전설 시나리오 "회상의 댓가" 전용: 현금·예금·주식보유수·부동산가치를 모두 절반으로.
       // 주식은 평가액이 절반이 되도록 shares를 반으로 줄인다(정수 내림).
       // 대출 잔액은 건드리지 않는다 — 불공평을 넘어 게임오버 트랩이 될 수 있어서다.
+      // 채권도 EffectContext에 포함되지 않아 건드리지 않는다. 이는 의도된 누락이며,
+      // "대출·채권은 되돌림의 대상이 아닌 시간성 계약"이라는 정책으로 해석한다.
       const halvedHoldings: Holding[] = ctx.holdings
         .map((h) => ({ ...h, shares: Math.floor(h.shares / 2) }))
         .filter((h) => h.shares > 0);
@@ -259,6 +266,12 @@ function applyEffect(
         holdings: halvedHoldings,
         realEstate: halvedRealEstate,
       };
+    }
+    default: {
+      // Exhaustiveness guard — 새 EventEffect kind가 추가될 때 이 줄에서 타입
+      // 에러가 나도록 해서 누락된 케이스를 빌드 타임에 잡는다.
+      const _exhaustive: never = eff;
+      return ctx;
     }
   }
 }
