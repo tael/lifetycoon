@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { useGameStore, STOCKS } from '../../store/gameStore';
 import { sfx } from '../../game/engine/soundFx';
 import { createGameLoop, type GameLoopHandle } from '../../game/engine/gameLoop';
+import { MS_PER_YEAR } from '../../game/engine/timeAxis';
 import { createVisibilityController } from '../../game/engine/visibility';
 import { saveGame } from '../../store/persistence';
 import { formatAge, progressFraction } from '../../game/engine/timeAxis';
@@ -356,11 +357,13 @@ export function PlayScreen() {
         </div>
 
         {/* 케어 버튼 한 줄 (비용→효과 관계) */}
+        {/* 시간 비용(timeCostMonths): 간식은 즉석, 건강(운동)은 1개월, 공부는 2개월,
+            노래(여가)는 1개월. "공부엔 시간이 많이 든다"는 기회비용 교육 의도. */}
         <div style={{ display: 'flex', gap: 4, marginTop: 'var(--sp-sm)' }}>
-          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" />
-          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" />
-          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" />
-          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" />
+          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" timeCostMonths={0} loopRef={loopRef} />
+          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" timeCostMonths={1} loopRef={loopRef} />
+          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" timeCostMonths={2} loopRef={loopRef} />
+          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" timeCostMonths={1} loopRef={loopRef} />
         </div>
 
         {/* 특성 태그 — 공간 절약을 위해 상위 5개만, 나머지는 +N */}
@@ -886,7 +889,7 @@ export function PlayScreen() {
       )}
 
       {/* Event Modal */}
-      {phase.kind === 'paused' && <EventModal event={phase.event} />}
+      {phase.kind === 'paused' && <EventModal event={phase.event} loopRef={loopRef} />}
 
       {/* Milestone Popup */}
       {showMilestone && (
@@ -1225,7 +1228,7 @@ function TradBtn({ label, color, onClick, disabled, stockName }: { label: string
   );
 }
 
-function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel }: {
+function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, timeCostMonths = 0, loopRef }: {
   emoji: string;
   label: string;
   cost: number;
@@ -1233,6 +1236,8 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel }: 
   delta: number;
   effectEmoji: string;
   effectLabel: string;
+  timeCostMonths?: number;
+  loopRef?: React.RefObject<GameLoopHandle | null>;
 }) {
   const cash = useGameStore((s) => s.cash);
   const character = useGameStore((s) => s.character);
@@ -1251,10 +1256,14 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel }: 
           },
         });
         showToast(`${emoji} ${label}! ${effectEmoji}`, emoji, 'success', 1000);
+        // 시간 비용 소모 — 기회비용 교육
+        if (timeCostMonths > 0 && loopRef?.current) {
+          loopRef.current.addElapsedMs((MS_PER_YEAR / 12) * timeCostMonths);
+        }
       }}
       disabled={disabled}
-      aria-label={`${label}, ${formatWon(cost)}원 써서 ${effectLabel} 올리기`}
-      title={maxed ? `${effectLabel}이 이미 충분해요` : `${formatWon(cost)}원 → ${effectLabel} ↑`}
+      aria-label={`${label}, ${formatWon(cost)}원${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} 써서 ${effectLabel} 올리기`}
+      title={maxed ? `${effectLabel}이 이미 충분해요` : `${formatWon(cost)}원${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} → ${effectLabel} ↑`}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -1272,9 +1281,9 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel }: 
     >
       <span style={{ fontSize: '1.1rem' }} aria-hidden="true">{emoji}</span>
       <span style={{ fontWeight: 700, marginTop: 2 }}>{label}</span>
-      {/* 비용 → 효과 관계 명시 (어린이 기회비용 교육의 핵심) */}
+      {/* 비용 → 효과 관계 명시 (기회비용 교육의 핵심) */}
       <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: 2 }}>
-        {formatWon(cost)}원
+        {formatWon(cost)}원{timeCostMonths > 0 && ` · ${timeCostMonths}개월`}
       </span>
       <span style={{ fontSize: '0.55rem', color: 'var(--accent)', fontWeight: 700 }}>
         → {effectEmoji} ↑

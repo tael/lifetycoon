@@ -119,7 +119,7 @@ export type GameStoreState = {
   pickDreams: (ids: string[]) => void;
   advanceYear: (intAge: number, deltaYears: number) => void;
   triggerEvent: (ev: EconomicEvent) => void;
-  chooseOption: (choiceIndex: number) => string[];
+  chooseOption: (choiceIndex: number) => { warnings: string[]; timeCostMonths: number };
   buy: (ticker: string, shares: number) => boolean;
   sell: (ticker: string, shares: number) => boolean;
   deposit: (amount: number) => boolean;
@@ -547,10 +547,10 @@ export const useGameStore = create<GameStoreState>()(
     },
     chooseOption(choiceIndex) {
       const st = get();
-      if (st.phase.kind !== 'paused') return [];
+      if (st.phase.kind !== 'paused') return { warnings: [], timeCostMonths: 0 };
       const event = st.phase.event;
       const choice: EventChoice | undefined = event.choices[choiceIndex];
-      if (!choice) return [];
+      if (!choice) return { warnings: [], timeCostMonths: 0 };
       // 보험이 피해를 막아줌: 건강 피해는 절반, 현금 손실은 30% 덜 빠지게 한다.
       // TODO(B2): 라벨은 원래 금액을 보여주는데 실제 차감액은 보험이 먹은 만큼 다름.
       // EventModal이 이 보정치 기준으로 표시하도록 mitigatedEffects를 노출할 것.
@@ -604,7 +604,10 @@ export const useGameStore = create<GameStoreState>()(
         hadLoan: st.hadLoan || forcedLoanTaken,
         phase: { kind: 'playing' },
       });
-      return next.warnings ?? [];
+      return {
+        warnings: next.warnings ?? [],
+        timeCostMonths: choice.timeCostMonths ?? 0,
+      };
     },
     buy(ticker, shares) {
       const st = get();

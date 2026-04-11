@@ -106,6 +106,10 @@ export type EventChoice = {
   effects: EventEffect[];
   importance: number; // 0..1 → keyMoment 중요도 가중치
   flavorText?: string;
+  // 이 선택지가 실제로 "인생의 시간"을 얼마나 잡아먹는지.
+  // undefined/0이면 시간 소모 없음 (기본). 설정 시 나이가 해당 개월 수만큼 앞당겨진다.
+  // "시간은 1급 자원" — 현실적 기회비용 교육을 위해 도입.
+  timeCostMonths?: number;
 };
 
 export type TriggerKind =

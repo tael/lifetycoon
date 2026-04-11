@@ -4,6 +4,8 @@ import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
 import { sfx } from '../../game/engine/soundFx';
 import { KEY_SHOW_STAT_HINTS, readAutoChoice } from '../components/SettingsModal';
+import { MS_PER_YEAR } from '../../game/engine/timeAxis';
+import type { GameLoopHandle } from '../../game/engine/gameLoop';
 
 function readShowStatHints(): boolean {
   try {
@@ -24,7 +26,13 @@ function vibrate() {
   try { navigator?.vibrate?.(50); } catch { /* ignore */ }
 }
 
-export function EventModal({ event }: { event: EconomicEvent }) {
+export function EventModal({
+  event,
+  loopRef,
+}: {
+  event: EconomicEvent;
+  loopRef?: React.RefObject<GameLoopHandle | null>;
+}) {
   const chooseOption = useGameStore((s) => s.chooseOption);
   const modalRef = useRef<HTMLDivElement>(null);
   const firstBtnRef = useRef<HTMLButtonElement>(null);
@@ -72,12 +80,17 @@ export function EventModal({ event }: { event: EconomicEvent }) {
 
   const handleChoice = (index: number) => {
     const choice = event.choices[index];
-    const warnings = chooseOption(index);
+    const { warnings, timeCostMonths } = chooseOption(index);
     vibrate();
     const hints = effectHints(choice.effects);
     if (hints) showToast(hints, '📋', 'info', 2500);
     // buyStock/sellStock 실패 등 이벤트 효과 경고를 사용자에게 전달
     warnings.forEach((w, i) => showToast(w, '⚠️', 'info', 3200 + i * 300));
+    // 시간 비용이 있으면 실제 나이 진행에 반영 — "시간은 1급 자원".
+    if (timeCostMonths > 0 && loopRef?.current) {
+      const addMs = (MS_PER_YEAR / 12) * timeCostMonths;
+      loopRef.current.addElapsedMs(addMs);
+    }
   };
 
   return (
@@ -123,6 +136,11 @@ export function EventModal({ event }: { event: EconomicEvent }) {
                 {choice.label}
               </span>
               <span style={{ fontSize: '0.7rem', opacity: 0.6, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {choice.timeCostMonths != null && choice.timeCostMonths > 0 && (
+                  <span style={{ color: '#6a1b9a', fontWeight: 700 }}>
+                    ⏳{choice.timeCostMonths}개월
+                  </span>
+                )}
                 {effectIcons(choice.effects, showHints)}
               </span>
             </button>
