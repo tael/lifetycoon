@@ -35500,5 +35500,1440 @@
         ]
       }
     ]
+  },
+  {
+    "id": "s_morning_run",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.04
+      }
+    ],
+    "ageRange": [
+      15,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "아침 달리기 습관",
+    "text": "새벽 6시, 알람이 울렸어. 오늘부터 아침 달리기를 시작해볼까?",
+    "choices": [
+      {
+        "label": "운동화 신고 바로 나간다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "stress",
+            "delta": -8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아침 달리기 습관을 시작해 건강을 챙겼다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "30분만 더 자고 내일부터",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 2
+          },
+          {
+            "kind": "health",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "실내 스트레칭만 한다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": -4
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "건강",
+      "습관",
+      "운동"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_meditation_retreat",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.025
+      }
+    ],
+    "ageRange": [
+      20,
+      65
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "명상 수련회 참가",
+    "text": "친구가 1박 2일 명상 수련회 티켓을 건네줬어. 참가비는 8만원이야.",
+    "choices": [
+      {
+        "label": "참가한다 (−8만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -80000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "stress",
+            "delta": -15
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "명상 수련회에서 내면의 평화를 경험했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "비용이 아까워 거절한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          },
+          {
+            "kind": "wisdom",
+            "delta": -2
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "건강",
+      "명상",
+      "웰빙"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_vaccine_time",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.035
+      }
+    ],
+    "ageRange": [
+      10,
+      70
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "예방접종의 날",
+    "text": "보건소에서 무료 독감 예방접종 문자가 왔어. 어떻게 할까?",
+    "choices": [
+      {
+        "label": "오늘 바로 접종받는다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "예방접종으로 건강을 미리 지켰다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "귀찮아서 그냥 넘긴다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -5
+          },
+          {
+            "kind": "wisdom",
+            "delta": -2
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "건강",
+      "예방",
+      "의료"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_sleep_study",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.02
+      }
+    ],
+    "ageRange": [
+      20,
+      70
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "수면 장애 진단",
+    "text": "요즘 밤마다 잠을 못 자. 수면 클리닉에서 정밀 검사를 권유했어. 검사비는 15만원이야.",
+    "choices": [
+      {
+        "label": "검사를 받는다 (−15만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -150000
+          },
+          {
+            "kind": "health",
+            "delta": 15
+          },
+          {
+            "kind": "stress",
+            "delta": -12
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "수면 장애를 진단받고 치료를 시작해 삶의 질이 올랐다",
+            "importance": 0.6
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "그냥 참고 산다",
+        "effects": [
+          {
+            "kind": "health",
+            "delta": -10
+          },
+          {
+            "kind": "stress",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "수면제를 처방받는다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": -5
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "건강",
+      "수면",
+      "의료"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_solar_panel",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "amount": 5000000
+      }
+    ],
+    "ageRange": [
+      25,
+      65
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "태양광 패널 설치",
+    "text": "정부 보조금 지원 소식이 들렸어. 300만원을 들여 태양광 패널을 설치하면 전기료를 아낄 수 있대.",
+    "choices": [
+      {
+        "label": "설치한다 (−300만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -3000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 7
+          },
+          {
+            "kind": "keyMoment",
+            "text": "태양광 패널을 설치해 친환경 생활을 시작했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "비용 부담으로 포기한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -2
+          },
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "더 알아보고 나중에 결정한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "환경",
+      "태양광",
+      "친환경",
+      "에너지"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_zero_waste",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.03
+      }
+    ],
+    "ageRange": [
+      15,
+      60
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "제로 웨이스트 도전",
+    "text": "SNS에서 제로 웨이스트 챌린지를 발견했어. 한 달간 쓰레기 줄이기에 도전해볼까?",
+    "choices": [
+      {
+        "label": "적극 참여한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "제로 웨이스트 챌린지를 완수해 환경 의식이 높아졌다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "일부만 실천한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "불편해서 포기한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "환경",
+      "제로웨이스트",
+      "도전",
+      "친환경"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_ev_car",
+    "triggers": [
+      {
+        "kind": "cashGte",
+        "amount": 30000000
+      }
+    ],
+    "ageRange": [
+      25,
+      65
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "전기차 구매",
+    "text": "자동차를 바꿀 때가 됐어. 전기차는 보조금 포함 2,800만원, 일반 차는 2,200만원이야.",
+    "choices": [
+      {
+        "label": "전기차로 결정한다 (−2,800만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -28000000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "전기차를 선택해 환경을 생각하는 소비를 실천했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "일반 차를 산다 (−2,200만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -22000000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "대중교통을 계속 이용한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "환경",
+      "전기차",
+      "소비",
+      "자동차"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_apartment_council",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.02
+      }
+    ],
+    "ageRange": [
+      30,
+      70
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "아파트 대표 출마",
+    "text": "아파트 동대표 선거가 열렸어. 주민들이 나에게 출마해달라고 부탁했어.",
+    "choices": [
+      {
+        "label": "출마해서 적극 활동한다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "아파트 동대표로 선출돼 지역사회에 기여했다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "바빠서 정중히 거절한다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": -2
+          },
+          {
+            "kind": "stress",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "추천만 하고 지원한다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "커뮤니티",
+      "지역사회",
+      "리더십"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_community_garden_plant",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.035
+      }
+    ],
+    "ageRange": [
+      10,
+      70
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "공동 정원 참여",
+    "text": "동네 공터에 주민 공동 정원이 생겼어. 텃밭 한 칸을 분양받을 수 있대.",
+    "choices": [
+      {
+        "label": "텃밭을 가꾼다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "health",
+            "delta": 5
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "공동 정원에서 직접 채소를 길러 이웃과 나눴다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "구경만 한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "관심 없다",
+        "effects": [],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "커뮤니티",
+      "환경",
+      "텃밭",
+      "이웃"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_local_election",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.025
+      }
+    ],
+    "ageRange": [
+      18,
+      80
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "지방선거 참여",
+    "text": "오늘은 지방선거일이야. 투표소가 집 근처에 있어.",
+    "choices": [
+      {
+        "label": "투표하러 간다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 4
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지방선거에 참여해 민주주의를 실천했다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "바빠서 기권한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -3
+          },
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "커뮤니티",
+      "민주주의",
+      "사회참여"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_coupon_deal",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.05
+      }
+    ],
+    "ageRange": [
+      10,
+      80
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "쿠폰 발견",
+    "text": "앱에서 오늘 하루만 쓸 수 있는 50% 할인 쿠폰을 발견했어!",
+    "choices": [
+      {
+        "label": "필요한 물건에 바로 쓴다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 30000
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "wisdom",
+            "delta": 3
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "충동구매에 써버린다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -20000
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          },
+          {
+            "kind": "wisdom",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "그냥 무시한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "소비",
+      "쿠폰",
+      "스마트소비"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_group_buy",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.04
+      }
+    ],
+    "ageRange": [
+      15,
+      70
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "공동구매 기회",
+    "text": "이웃들이 식자재 공동구매를 제안했어. 개인 구매보다 30% 저렴하게 살 수 있대.",
+    "choices": [
+      {
+        "label": "참여한다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 50000
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "번거로워서 혼자 산다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -20000
+          },
+          {
+            "kind": "charisma",
+            "delta": -2
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "소비",
+      "공동구매",
+      "스마트소비",
+      "이웃"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_secondhand_selling",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.045
+      }
+    ],
+    "ageRange": [
+      12,
+      70
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "title": "중고 판매 성공",
+    "text": "집에 안 쓰는 물건들이 쌓였어. 중고 거래 앱에 올려볼까?",
+    "choices": [
+      {
+        "label": "사진 찍어 바로 올린다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 80000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "keyMoment",
+            "text": "중고 거래로 안 쓰는 물건을 팔아 용돈을 벌었다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "귀찮아서 그냥 버린다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": -3
+          },
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "필요한 사람에게 그냥 준다",
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "소비",
+      "중고거래",
+      "스마트소비"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_museum_visit",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.04
+      }
+    ],
+    "ageRange": [
+      10,
+      80
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "박물관 방문",
+    "text": "국립박물관에서 특별 전시가 열리고 있어. 입장료는 1만원이야.",
+    "choices": [
+      {
+        "label": "전시를 꼼꼼히 본다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 6
+          },
+          {
+            "kind": "happiness",
+            "delta": 7
+          },
+          {
+            "kind": "keyMoment",
+            "text": "박물관 특별 전시에서 역사의 숨결을 느꼈다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "빠르게 훑고 나온다",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -10000
+          },
+          {
+            "kind": "intelligence",
+            "delta": 3
+          },
+          {
+            "kind": "happiness",
+            "delta": 3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "무료 온라인 전시를 본다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": 2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "문화",
+      "박물관",
+      "예술",
+      "교육"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_concert_streaming",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.04
+      }
+    ],
+    "ageRange": [
+      10,
+      70
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "title": "온라인 콘서트",
+    "text": "좋아하는 가수의 온라인 콘서트가 열렸어. 티켓은 2만원이야.",
+    "choices": [
+      {
+        "label": "티켓을 사서 본다 (−2만원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -20000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "stress",
+            "delta": -10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "온라인 콘서트에서 좋아하는 음악을 마음껏 즐겼다",
+            "importance": 0.3
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "무료 클립만 본다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "관심 없다",
+        "effects": [],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "문화",
+      "음악",
+      "콘서트",
+      "예술"
+    ],
+    "oneShot": false
+  },
+  {
+    "id": "s_korean_history_class",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.03
+      }
+    ],
+    "ageRange": [
+      12,
+      70
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "한국사 수업",
+    "text": "도서관에서 무료 한국사 강좌를 개설했어. 매주 토요일 2시간씩 진행돼.",
+    "choices": [
+      {
+        "label": "등록해서 끝까지 듣는다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "한국사 강좌를 수료해 역사적 식견을 넓혔다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "몇 번 듣다 그만둔다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 4
+          },
+          {
+            "kind": "wisdom",
+            "delta": 2
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "책으로 혼자 공부한다",
+        "effects": [
+          {
+            "kind": "intelligence",
+            "delta": 6
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "문화",
+      "역사",
+      "교육",
+      "한국사"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_calligraphy",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.03
+      }
+    ],
+    "ageRange": [
+      10,
+      80
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "서예 배우기",
+    "text": "문화센터에서 서예 강좌 홍보물을 봤어. 월 3만원으로 배울 수 있대.",
+    "choices": [
+      {
+        "label": "등록해서 배운다 (−3만원/월)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -30000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서예를 배워 마음의 안정과 집중력을 키웠다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.5
+      },
+      {
+        "label": "유튜브로 독학한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          },
+          {
+            "kind": "happiness",
+            "delta": 4
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "관심은 있지만 포기한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -2
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "문화",
+      "예술",
+      "서예",
+      "취미"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_four_leaf_clover",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.015
+      }
+    ],
+    "ageRange": [
+      5,
+      80
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "네잎클로버 발견",
+    "text": "공원 잔디밭에서 네잎클로버를 발견했어! 행운이 찾아올 것 같아.",
+    "choices": [
+      {
+        "label": "소중히 책에 끼워둔다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 4
+          },
+          {
+            "kind": "keyMoment",
+            "text": "네잎클로버를 발견해 행운을 간직했다",
+            "importance": 0.4
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "친구에게 선물한다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 6
+          }
+        ],
+        "importance": 0.4
+      }
+    ],
+    "tags": [
+      "럭키",
+      "행운",
+      "자연"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_meteor_wish",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.015
+      }
+    ],
+    "ageRange": [
+      5,
+      80
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "title": "유성우 소원",
+    "text": "오늘 밤 유성우가 쏟아진다는 예보가 났어. 소원을 빌 준비가 됐어?",
+    "choices": [
+      {
+        "label": "옥상에 올라가 소원을 빈다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "stress",
+            "delta": -8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "유성우 아래서 소원을 빌며 특별한 밤을 보냈다",
+            "importance": 0.5
+          }
+        ],
+        "importance": 0.6
+      },
+      {
+        "label": "그냥 집에서 잔다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          }
+        ],
+        "importance": 0.3
+      },
+      {
+        "label": "사진만 찍어 SNS에 올린다",
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 6
+          },
+          {
+            "kind": "charisma",
+            "delta": 3
+          }
+        ],
+        "importance": 0.1
+      }
+    ],
+    "tags": [
+      "럭키",
+      "행운",
+      "낭만"
+    ],
+    "oneShot": true
+  },
+  {
+    "id": "s_lottery_dream",
+    "triggers": [
+      {
+        "kind": "randomChance",
+        "p": 0.02
+      }
+    ],
+    "ageRange": [
+      18,
+      80
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "title": "꿈에서 번호가 보였어!",
+    "text": "간밤 꿈에서 로또 번호가 보였어. 1등 당첨금은 20억이래!",
+    "choices": [
+      {
+        "label": "꿈의 번호로 로또를 산다 (−5천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": -2
+          },
+          {
+            "kind": "keyMoment",
+            "text": "꿈의 번호로 로또를 샀다. 당첨은... 다음에",
+            "importance": 0.2
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "미신이라며 무시한다",
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 4
+          }
+        ],
+        "importance": 0.4
+      },
+      {
+        "label": "재미로 한 장만 산다 (−1천원)",
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -1000
+          },
+          {
+            "kind": "happiness",
+            "delta": 6
+          }
+        ],
+        "importance": 0.2
+      }
+    ],
+    "tags": [
+      "럭키",
+      "로또",
+      "꿈"
+    ],
+    "oneShot": false
   }
 ]

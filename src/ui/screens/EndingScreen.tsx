@@ -47,6 +47,10 @@ export function EndingScreen() {
       jobId: st.job?.id ?? null,
       holdingTickers: st.holdings.map((h) => h.ticker),
       sessionDurationMs: Date.now() - sessionStartRef.current,
+      grade: ending.grade,
+      choicesMade: st.choiceHistory.length,
+      moneyEarned: ending.finalAssets,
+      scenariosSeen: st.usedScenarioIds,
     });
     const title = generateLifeTitle(
       useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,

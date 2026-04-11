@@ -22,6 +22,8 @@ import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax'
 import type { StockDef, RealEstate } from '../../game/types';
 import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
+import { KEY_SHOW_STAT_HINTS } from '../components/SettingsModal';
+import { incrementBought, incrementSold } from '../../store/globalStats';
 
 export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
@@ -33,6 +35,11 @@ export function PlayScreen() {
   const [playTime, setPlayTime] = useState(0);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
+  const [stockSectorFilter, setStockSectorFilter] = useState<string>('all');
+  const stockSectors = ['all', ...Array.from(new Set(STOCKS.map((s) => s.sector).filter(Boolean)))];
+  const [showStatHints] = useState<boolean>(() => {
+    try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
+  });
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
@@ -335,10 +342,10 @@ export function PlayScreen() {
         >{emojiFor(character)}</div>
         <div style={{ fontWeight: 700, marginTop: 'var(--sp-xs)' }}>{character.name}</div>
         <div className="flex flex-center gap-md" style={{ marginTop: 'var(--sp-sm)' }}>
-          <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" />
-          <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" />
-          <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#42a5f5" />
-          <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" />
+          <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" showHints={showStatHints} />
+          <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" showHints={showStatHints} />
+          <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#42a5f5" showHints={showStatHints} />
+          <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" showHints={showStatHints} />
         </div>
         {job && (
           <div className="text-muted" style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--sp-xs)' }}>
@@ -673,6 +680,27 @@ export function PlayScreen() {
             </button>
           </div>
         </div>
+        {/* 섹터 필터 탭 */}
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 'var(--sp-sm)' }}>
+          {stockSectors.map((sector) => (
+            <button
+              key={sector}
+              onClick={() => setStockSectorFilter(sector)}
+              style={{
+                fontSize: '0.6rem',
+                padding: '2px 8px',
+                borderRadius: 'var(--radius-full)',
+                border: 'none',
+                cursor: 'pointer',
+                fontWeight: 700,
+                background: stockSectorFilter === sector ? 'var(--accent)' : '#eee',
+                color: stockSectorFilter === sector ? '#fff' : '#666',
+              }}
+            >
+              {sector === 'all' ? '전체' : sector}
+            </button>
+          ))}
+        </div>
         {[...STOCKS].sort((a, b) => {
           const priceA = prices[a.ticker] ?? a.basePrice;
           const priceB = prices[b.ticker] ?? b.basePrice;
@@ -685,7 +713,8 @@ export function PlayScreen() {
           if (hasA !== hasB) return hasA ? -1 : 1;
           if (hasA && hasB) return valueB - valueA;
           return priceB - priceA;
-        }).map((s: StockDef) => {
+        }).filter((s) => stockSectorFilter === 'all' || s.sector === stockSectorFilter)
+        .map((s: StockDef) => {
           const price = prices[s.ticker] ?? s.basePrice;
           const holding = holdings.find((h) => h.ticker === s.ticker);
           return (
@@ -695,12 +724,13 @@ export function PlayScreen() {
               price={price}
               holding={holding}
               onBuy={(n) => {
-                if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); }
+                if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
               }}
               onSell={(n) => {
-                if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); }
+                if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
               }}
               canBuy={cash >= price}
+              cash={cash}
               onDetail={() => setSelectedStock(s.ticker)}
             />
           );
@@ -807,10 +837,10 @@ export function PlayScreen() {
             holding={h}
             cash={cash}
             onBuy={(n) => {
-              if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); }
+              if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
             }}
             onSell={(n) => {
-              if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); }
+              if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
             }}
             onClose={() => setSelectedStock(null)}
           />
@@ -876,14 +906,22 @@ function SpeedControl({ current, onChange }: { current: number; onChange: (s: 0.
   );
 }
 
-function StatMini({ label, value, emoji, color }: { label: string; value: number; emoji: string; color?: string }) {
+function statGrade(value: number): string {
+  if (value >= 80) return '최고';
+  if (value >= 60) return '좋음';
+  if (value >= 40) return '보통';
+  if (value >= 20) return '나쁨';
+  return '위험';
+}
+
+function StatMini({ label, value, emoji, color, showHints }: { label: string; value: number; emoji: string; color?: string; showHints?: boolean }) {
   const clr = color ?? 'var(--accent)';
   const pct = Math.min(100, Math.max(0, value));
   const isLow = value < 30;
   return (
     <div style={{ textAlign: 'center', flex: 1, animation: isLow ? 'statPulse 1s infinite' : 'none' }}>
       <div style={{ fontSize: 'var(--font-size-xs)', color: isLow ? 'var(--danger)' : 'inherit', fontWeight: isLow ? 700 : 400 }}>
-        {emoji} {Math.round(value)}{isLow ? '⚠️' : ''}
+        {emoji} {showHints ? Math.round(value) : statGrade(value)}{isLow ? '⚠️' : ''}
       </div>
       <div
         role="progressbar"
@@ -945,54 +983,58 @@ function QuickActionBtn({ label, onClick, disabled, danger }: { label: string; o
 }
 
 function StockRow({
-  stock, price, holding, onBuy, onSell, canBuy, onDetail,
+  stock, price, holding, onBuy, onSell, canBuy, onDetail, cash,
 }: {
   stock: StockDef; price: number; holding?: { shares: number; avgBuyPrice: number };
   onBuy: (n: number) => void; onSell: (n: number) => void; canBuy: boolean;
-  onDetail: () => void;
+  onDetail: () => void; cash: number;
 }) {
+  const maxBuyable = price > 0 ? Math.floor(cash / price) : 0;
   const pnl = holding ? (price - holding.avgBuyPrice) * holding.shares : 0;
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: '1px solid #f5f0e8' }}>
-      <span style={{ fontSize: '1.2rem', width: 28 }}>{stock.iconEmoji}</span>
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={onDetail}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onDetail(); }}
-        aria-label={`${stock.name} 상세 보기`}
-        style={{ flex: 1, minWidth: 0, cursor: 'pointer' }}
-      >
-        <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {stock.name}
-          <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginLeft: 3, fontWeight: 400 }}>
-            {stock.sector}
-          </span>
-          {stock.dividendRate > 0 && (
-            <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
-              배당{(stock.dividendRate * 100).toFixed(0)}%
+    <div style={{ padding: '6px 0', borderBottom: '1px solid #f5f0e8' }}>
+      {/* 상단: 아이콘 + 종목 정보 */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontSize: '1.2rem', width: 28, flexShrink: 0 }}>{stock.iconEmoji}</span>
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={onDetail}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onDetail(); }}
+          aria-label={`${stock.name} 상세 보기`}
+          style={{ flex: 1, minWidth: 0, cursor: 'pointer' }}
+        >
+          <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {stock.name}
+            <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginLeft: 3, fontWeight: 400 }}>
+              {stock.sector}
             </span>
-          )}
-        </div>
-        <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-          <span style={{ color: price > stock.basePrice ? 'var(--success)' : price < stock.basePrice ? 'var(--danger)' : 'inherit' }}>
-            {price > stock.basePrice ? '▲' : price < stock.basePrice ? '▼' : '─'}{formatWon(price)}
-          </span>
-          {holding && ` · ${holding.shares}주`}
-          {holding && (
-            <span style={{ color: pnl >= 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
-              {pnl >= 0 ? '+' : ''}{formatWon(pnl)}
+            {stock.dividendRate > 0 && (
+              <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
+                배당{(stock.dividendRate * 100).toFixed(0)}%
+              </span>
+            )}
+          </div>
+          <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
+            <span style={{ color: price > stock.basePrice ? 'var(--success)' : price < stock.basePrice ? 'var(--danger)' : 'inherit' }}>
+              {price > stock.basePrice ? '▲' : price < stock.basePrice ? '▼' : '─'}{formatWon(price)}
             </span>
-          )}
+            {holding && ` · ${holding.shares}주`}
+            {holding && (
+              <span style={{ color: pnl >= 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
+                {pnl >= 0 ? '+' : ''}{formatWon(pnl)}
+              </span>
+            )}
+          </div>
         </div>
       </div>
-      <div style={{ display: 'flex', gap: 3 }}>
-        <TradBtn label="1" color="buy" onClick={() => onBuy(1)} disabled={!canBuy} stockName={stock.name} />
-        <TradBtn label="5" color="buy" onClick={() => onBuy(5)} disabled={!canBuy} stockName={stock.name} />
-      </div>
-      <div style={{ display: 'flex', gap: 3 }}>
-        <TradBtn label="1" color="sell" onClick={() => onSell(1)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
-        <TradBtn label="전량" color="sell" onClick={() => onSell(holding?.shares ?? 0)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
+      {/* 하단: 거래 버튼 — 360px에서도 wrapping 가능 */}
+      <div style={{ display: 'flex', gap: 4, marginTop: 4, paddingLeft: 36, flexWrap: 'wrap' }}>
+        <TradBtn label="▲1주" color="buy" onClick={() => onBuy(1)} disabled={!canBuy} stockName={stock.name} />
+        <TradBtn label="▲5주" color="buy" onClick={() => onBuy(5)} disabled={maxBuyable < 5} stockName={stock.name} />
+        <TradBtn label={`▲전량${maxBuyable > 0 ? `(${maxBuyable})` : ''}`} color="buy" onClick={() => maxBuyable > 0 && onBuy(maxBuyable)} disabled={maxBuyable < 1} stockName={stock.name} />
+        <TradBtn label="▼1주" color="sell" onClick={() => onSell(1)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
+        <TradBtn label="▼전량" color="sell" onClick={() => onSell(holding?.shares ?? 0)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
       </div>
     </div>
   );
@@ -1005,20 +1047,21 @@ function TradBtn({ label, color, onClick, disabled, stockName }: { label: string
     <button
       onClick={onClick}
       disabled={disabled}
-      aria-label={isBuy ? `${namePrefix}${label}주 매수` : `${namePrefix}${label} 매도`}
+      aria-label={isBuy ? `${namePrefix}${label} 매수` : `${namePrefix}${label} 매도`}
       style={{
-        padding: '2px 6px',
+        padding: '8px 10px',
         borderRadius: 'var(--radius-sm)',
         background: disabled ? '#eee' : isBuy ? '#e8f5e9' : '#ffebee',
         color: disabled ? '#aaa' : isBuy ? 'var(--success)' : 'var(--danger)',
-        fontSize: '0.65rem',
+        fontSize: '0.7rem',
         fontWeight: 700,
         border: 'none',
         cursor: disabled ? 'default' : 'pointer',
-        minWidth: 28,
+        minHeight: 44,
+        minWidth: 52,
       }}
     >
-      {isBuy ? '▲' : '▼'}{label}
+      {label}
     </button>
   );
 }

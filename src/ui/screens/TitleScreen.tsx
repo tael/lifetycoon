@@ -7,7 +7,9 @@ import { getDailySeed, getDailyDreams, getDailyName } from '../../game/engine/da
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
 import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
 import { AchievementsModal } from './AchievementsModal';
+import { GlobalStatsModal } from './GlobalStatsModal';
 import { loadHighScore } from '../../store/highScore';
+import { loadGlobalStats } from '../../store/globalStats';
 import { loadGallery } from '../../store/endingGallery';
 import { formatWon } from '../../game/domain/asset';
 import { CHALLENGE_MODES } from '../../game/engine/challengeMode';
@@ -34,6 +36,7 @@ export function TitleScreen() {
   const [gender, setGender] = useState<'male' | 'female' | 'random'>('random');
   const [sound, setSound] = useState(() => sfx.isEnabled());
   const [showAchievements, setShowAchievements] = useState(false);
+  const [showGlobalStats, setShowGlobalStats] = useState(false);
   const savedExists = hasSave();
   const legacy = loadLegacy();
 
@@ -294,6 +297,45 @@ export function TitleScreen() {
         );
       })()}
 
+      {/* Global Stats */}
+      {loadGlobalStats() && (
+        <button
+          className="card"
+          onClick={() => setShowGlobalStats(true)}
+          aria-label="전체 통계 보기"
+          style={{ width: '100%', maxWidth: 360, textAlign: 'center', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}
+        >
+          <div className="card" style={{ width: '100%', textAlign: 'center' }}>
+            <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
+              📊 전체 통계
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 'var(--font-size-sm)' }}>
+              <div>
+                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>
+                  {loadGlobalStats()!.totalGamesPlayed ?? loadGlobalStats()!.totalPlays ?? 0}회
+                </div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>총 플레이</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>
+                  {loadGlobalStats()!.totalBought ?? 0}회
+                </div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>총 매수</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>
+                  {(loadGlobalStats()!.totalScenariosSeen ?? []).length}개
+                </div>
+                <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>본 시나리오</div>
+              </div>
+            </div>
+            <div style={{ marginTop: 'var(--sp-xs)', fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+              클릭해서 상세 보기
+            </div>
+          </div>
+        </button>
+      )}
+
       {/* Ending Gallery */}
       {(() => {
         const gallery = loadGallery();
@@ -375,6 +417,7 @@ export function TitleScreen() {
       )}
 
       {showAchievements && <AchievementsModal onClose={() => setShowAchievements(false)} />}
+      {showGlobalStats && <GlobalStatsModal onClose={() => setShowGlobalStats(false)} />}
 
       <div className="flex gap-md" style={{ alignItems: 'center' }}>
         <button
