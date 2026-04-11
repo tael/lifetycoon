@@ -256,28 +256,7 @@ export function PlayScreen() {
               </span>
             )}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <SpeedControl current={speedMultiplier} onChange={setSpeed} />
-            <button
-              onClick={() => setShowSettings(true)}
-              aria-label="설정 열기"
-              style={{
-                background: 'var(--bg-secondary)',
-                border: 'none',
-                borderRadius: 'var(--radius-full)',
-                width: 28,
-                height: 28,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                lineHeight: 1,
-              }}
-            >
-              ⚙️
-            </button>
-          </div>
+          <SpeedControl current={speedMultiplier} onChange={setSpeed} />
         </div>
         <div className="progress-bar" style={{ position: 'relative' }}>
           <div className="progress-bar__fill" style={{ width: `${progress * 100}%` }} />
@@ -949,7 +928,7 @@ export function PlayScreen() {
       <TutorialOverlay />
 
       {/* Bottom Tab Bar (fixed) */}
-      <TabBar tab={tab} onChange={setTab} />
+      <TabBar tab={tab} onChange={setTab} onOpenSettings={() => setShowSettings(true)} />
 
       {/* Settings Modal */}
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
@@ -957,15 +936,21 @@ export function PlayScreen() {
   );
 }
 
-function TabBar({ tab, onChange }: {
-  tab: 'home' | 'invest' | 'bank' | 'friends';
-  onChange: (t: 'home' | 'invest' | 'bank' | 'friends') => void;
+type MainTab = 'home' | 'bank' | 'invest' | 'friends';
+
+function TabBar({ tab, onChange, onOpenSettings }: {
+  tab: MainTab;
+  onChange: (t: MainTab) => void;
+  onOpenSettings: () => void;
 }) {
-  const items: { key: 'home' | 'invest' | 'bank' | 'friends'; emoji: string; label: string }[] = [
+  // 순서: 홈 → 은행 → 투자 → 친구 → 설정. 설정은 콘텐츠 탭이 아니라 모달 진입점이라
+  // aria-selected는 항상 false로 두고 버튼 역할만 한다.
+  const items: { key: MainTab | 'settings'; emoji: string; label: string; isAction?: boolean }[] = [
     { key: 'home', emoji: '🏠', label: '홈' },
-    { key: 'invest', emoji: '📈', label: '투자' },
     { key: 'bank', emoji: '🏦', label: '은행' },
+    { key: 'invest', emoji: '📈', label: '투자' },
     { key: 'friends', emoji: '👥', label: '친구' },
+    { key: 'settings', emoji: '⚙️', label: '설정', isAction: true },
   ];
   return (
     <div
@@ -985,13 +970,18 @@ function TabBar({ tab, onChange }: {
       }}
     >
       {items.map((it) => {
-        const active = tab === it.key;
+        const active = !it.isAction && tab === it.key;
+        const handleClick = () => {
+          if (it.isAction) onOpenSettings();
+          else onChange(it.key as MainTab);
+        };
         return (
           <button
             key={it.key}
-            role="tab"
-            aria-selected={active}
-            onClick={() => onChange(it.key)}
+            role={it.isAction ? 'button' : 'tab'}
+            aria-selected={it.isAction ? undefined : active}
+            aria-label={it.isAction ? '설정 열기' : undefined}
+            onClick={handleClick}
             style={{
               flex: 1,
               minHeight: 64,
