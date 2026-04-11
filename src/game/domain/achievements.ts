@@ -196,6 +196,19 @@ const ACHIEVEMENTS: Achievement[] = [
 const STORAGE_KEY = 'lifetycoon-kids:achievements';
 const META_KEY = 'lifetycoon-kids:achievement-meta';
 
+/**
+ * localStorage 쓰기 전용 안전 래퍼.
+ * 모바일 저장소가 가득 차거나 시크릿 모드 등으로 throw하는 경우에도 앱이
+ * 크래시되지 않도록 조용히 삼킨다(업적 누락은 다음 호출에서 자동 복구됨).
+ */
+function safeSetItem(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // no-op: 저장 실패는 사용자 피드백 없이 넘어간다. 업적 상태는 다음 세이브 시 재시도.
+  }
+}
+
 export function loadUnlocked(): UnlockedAchievement[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -221,7 +234,7 @@ export function checkAndSaveAchievements(ending: Ending): {
   const meta = loadMeta();
   meta.totalGamesPlayed += 1;
   meta.gradesEarned.push(ending.grade);
-  localStorage.setItem(META_KEY, JSON.stringify(meta));
+  safeSetItem(META_KEY, JSON.stringify(meta));
 
   const existing = loadUnlocked();
   const existingIds = new Set(existing.map((u) => u.id));
@@ -235,7 +248,7 @@ export function checkAndSaveAchievements(ending: Ending): {
     }
   }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+  safeSetItem(STORAGE_KEY, JSON.stringify(existing));
   return { newlyUnlocked, allUnlocked: existing };
 }
 
