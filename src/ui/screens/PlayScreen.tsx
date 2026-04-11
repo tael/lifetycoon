@@ -56,6 +56,7 @@ export function PlayScreen() {
   const dreams = useGameStore((s) => s.dreams);
   const traits = useGameStore((s) => s.traits);
   const unlockedSkills = useGameStore((s) => s.unlockedSkills);
+  const usedScenarioIds = useGameStore((s) => s.usedScenarioIds);
   const keyMoments = useGameStore((s) => s.keyMoments);
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
@@ -213,6 +214,15 @@ export function PlayScreen() {
     : bank.interestRate;
   const intAge = Math.floor(character.age);
 
+  // 연금 공식 입력 — gameStore.advanceYear와 동일한 정의로 단일화.
+  const careerCount = useMemo(
+    () => usedScenarioIds.filter(
+      (id) => id.includes('job') || id.includes('career') || id.includes('part_time'),
+    ).length + 1,
+    [usedScenarioIds],
+  );
+  const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
+
   // 캐시플로 분해 — 도메인 함수로 단일화. v0.2.0 가시화.
   // 메모이제이션은 관련 의존성만 재계산 시 새 객체를 만든다. 과도한 최적화는 피한다.
   const cashflow = useMemo(
@@ -227,8 +237,10 @@ export function PlayScreen() {
       realEstate,
       bonds,
       insurance,
+      careerCount,
+      inflationMultiplier,
     }),
-    [character.age, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance],
+    [character.age, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier],
   );
 
   // 재정 자유 트레이트 부여 — cashflow.financiallyFree 가 true 가 되는 순간 1회 토스트 + traits append.

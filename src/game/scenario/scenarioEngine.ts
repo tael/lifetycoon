@@ -2,6 +2,7 @@
 
 import type {
   BankAccount,
+  Bond,
   Character,
   EventChoice,
   EventEffect,
@@ -24,9 +25,10 @@ export type EffectContext = {
   traits: string[];
   keyMoments: KeyMoment[];
   // buyStock의 강제대출 fallback에서 maxLoan = totalAssets × 0.5 를 계산하는데
-  // 부동산도 totalAssets에 포함되어야 하므로 ctx에 실어 보낸다. 기존 호출자의
+  // 부동산/채권도 totalAssets에 포함되어야 하므로 ctx에 실어 보낸다. 기존 호출자의
   // 호환을 위해 선택적으로 두고, 없으면 빈 배열로 처리한다.
   realEstate?: RealEstate[];
+  bonds?: Bond[];
   gotoScenarioId?: string;
   // 경고/안내 누적 버퍼 — applyChoice 이후 호출자가 토스트로 노출한다.
   // "잔고 부족으로 강제 대출 500,000원 받고 매수", "보유 부족으로 건너뜀" 등.
@@ -145,7 +147,8 @@ function applyEffect(
           0,
         );
         const realEstateVal = (ctx.realEstate ?? []).reduce((s, re) => s + re.currentValue, 0);
-        const totalAssets = workingCash + workingBank.balance + stocksVal + realEstateVal;
+        const bondsVal = (ctx.bonds ?? []).reduce((s, b) => s + (b.matured ? 0 : b.faceValue), 0);
+        const totalAssets = workingCash + workingBank.balance + stocksVal + realEstateVal + bondsVal;
         const maxLoan = Math.floor(totalAssets * 0.5);
         const remainingLimit = Math.max(0, maxLoan - workingBank.loanBalance);
         if (loanAmount > remainingLimit) {
@@ -247,11 +250,11 @@ function applyEffect(
         },
       };
     case 'halveWealth': {
-      // 전설 시나리오 "회상의 댓가" 전용: 현금·예금·주식보유수·부동산가치를 모두 절반으로.
-      // 주식은 평가액이 절반이 되도록 shares를 반으로 줄인다(정수 내림).
-      // 대출 잔액은 건드리지 않는다 — 불공평을 넘어 게임오버 트랩이 될 수 있어서다.
-      // 채권도 EffectContext에 포함되지 않아 건드리지 않는다. 이는 의도된 누락이며,
-      // "대출·채권은 되돌림의 대상이 아닌 시간성 계약"이라는 정책으로 해석한다.
+      // 전설 시나리오 "회상의 댓가" 전용: 현재 "세계 전체를 절반으로 되돌린다".
+      // 현금·예금·주식보유수·부동산가치에 더해 대출 잔액까지 절반으로 줄인다.
+      // 초기 구현은 대출을 유지했으나 LTV 50% 이상 플레이어가 순자산 음수 트랩에
+      // 빠지는 버그가 있어 v0.2.0 리뷰에서 바로잡았다 (등가교환 원칙 강화).
+      // 채권은 EffectContext에 포함되지 않아 이번 범위 밖. 별도 사이클에서 고려.
       const halvedHoldings: Holding[] = ctx.holdings
         .map((h) => ({ ...h, shares: Math.floor(h.shares / 2) }))
         .filter((h) => h.shares > 0);
@@ -262,7 +265,11 @@ function applyEffect(
       return {
         ...ctx,
         cash: Math.floor(ctx.cash / 2),
-        bank: { ...ctx.bank, balance: Math.floor(ctx.bank.balance / 2) },
+        bank: {
+          ...ctx.bank,
+          balance: Math.floor(ctx.bank.balance / 2),
+          loanBalance: Math.floor(ctx.bank.loanBalance / 2),
+        },
         holdings: halvedHoldings,
         realEstate: halvedRealEstate,
       };

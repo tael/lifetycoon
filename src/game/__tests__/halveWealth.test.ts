@@ -57,11 +57,13 @@ describe('halveWealth effect ("회상의 댓가")', () => {
     expect(next.realEstate?.[0].currentValue).toBe(5_000_000);
   });
 
-  it('대출 잔액은 절대 건드리지 않는다 (게임오버 트랩 방지)', () => {
+  it('대출 잔액도 절반으로 탕감된다 (v0.2.0 리뷰 이후 정책)', () => {
+    // LTV가 높은 플레이어가 순자산 음수 트랩에 빠지는 버그를 막기 위해
+    // 대출도 같이 절반으로 줄인다. "세계 전체를 반으로 되돌림" 철학.
     const ctx = makeCtx();
     const next = applyChoice(ctx, halveChoice, 60);
-    expect(next.bank.loanBalance).toBe(5_000_000);
-    expect(next.bank.interestRate).toBe(0.03);
+    expect(next.bank.loanBalance).toBe(2_500_000); // 5_000_000 / 2
+    expect(next.bank.interestRate).toBe(0.03); // 이자율 자체는 건드리지 않음
     expect(next.bank.loanInterestRate).toBe(0.05);
   });
 

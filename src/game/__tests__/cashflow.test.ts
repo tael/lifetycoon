@@ -57,12 +57,24 @@ describe('computeCashflow', () => {
     // 면세 구간이라 소득세 0, 재산세/보험/대출이자 모두 0
     expect(r.totalExpense).toBe(0);
     expect(r.netCashflow).toBe(6_000_000);
-    // totalExpense=0 이면 freedomRatio는 0 (나눗셈 방어)
+    // totalExpense=0 이고 passiveIncome=0 이면 freedomRatio도 0
     expect(r.freedomRatio).toBe(0);
     expect(r.financiallyFree).toBe(false);
     expect(r.income).toHaveLength(1);
     expect(r.income[0].label).toBe('월급');
     expect(r.income[0].passive).toBe(false);
+  });
+
+  it('지출 0 + 자동수입 있음 → freedomRatio=1, financiallyFree=true', () => {
+    const r = computeCashflow(baseInput({
+      job: null,
+      bank: { ...baseBank, balance: 10_000_000 }, // 이자 30만
+      effectiveInterestRate: 0.03,
+    }));
+    expect(r.passiveIncome).toBe(300_000);
+    expect(r.totalExpense).toBe(0);
+    expect(r.freedomRatio).toBe(1);
+    expect(r.financiallyFree).toBe(true);
   });
 
   it('이자·배당·임대가 있으면 passiveIncome 에 합산된다', () => {

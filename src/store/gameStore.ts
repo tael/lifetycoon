@@ -24,6 +24,7 @@ import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
+import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
@@ -311,10 +312,11 @@ export const useGameStore = create<GameStoreState>()(
       const salaryIncome = st.job
         ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
         : 0;
-      // Pension: 65세+ 시 근무 연수 기반 연금 (연 40만원 × 직업 수 경험)
-      const pensionIncome = intAge >= 65
-        ? Math.round(400000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears * inflationMultiplier)
-        : 0;
+      // Pension: 65세+ 시 근무 연수 기반 연금 (공식은 domain/pension.ts 참조 — cashflow UI와 동일)
+      const careerCount = st.usedScenarioIds.filter(
+        (id) => id.includes('job') || id.includes('career') || id.includes('part_time'),
+      ).length + 1;
+      const pensionIncome = computePensionYearly(intAge, careerCount, inflationMultiplier, deltaYears);
       // 배당 — 복리 공식 적용: value × ((1+rate)^years - 1)
       // deltaYears=1이면 단리와 동일, 2+ 이면 복리 효과 반영
       const dividendIncome = st.holdings.reduce((sum, h) => {
@@ -398,16 +400,24 @@ export const useGameStore = create<GameStoreState>()(
       // Real estate: appreciate values + collect rent
       const appreciatedRealEstate = st.realEstate.map((re) => appreciateValue(re, deltaYears, streams.misc));
       const rentalIncome = st.realEstate.reduce((sum, re) => sum + re.monthlyRent * 12 * deltaYears, 0);
+      // 채권 쿠폰/원금 상환을 세금 계산 전에 미리 뽑는다. 원금 상환은 과세 대상이
+      // 아니지만 쿠폰은 이자소득이라 과세 대상이다. (v0.2.0 리뷰 반영)
+      const { bonds: updatedBonds, couponCash, principalCash } = applyBondCoupon(st.bonds, intAge, deltaYears);
       // 세금 계산
       const realEstateValueForTax = st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
-      // 누적 N년치 소득. 이름이 "yearly"지만 deltaYears≥2 케이스(시나리오 timeCost
-      // 혹은 배속으로 나이가 점프하는 경우)에서는 multi-year 합산 금액이다.
+      // 현금 유입 기준 누적 소득 (cash 또는 bank로 들어오는 부분 제외).
+      // 월급/배당/연금/임대는 ctxCash에 직접 합산된다.
       const grossPeriodIncome = salaryIncome + dividendIncome + pensionIncome + Math.round(rentalIncome);
+      // 과세 표준은 cash로 들어오는 소득 외에 예금 이자소득과 채권 쿠폰까지 포함한다.
+      // 이자는 bank.balance에 이미 반영돼 있어 cash 흐름에는 더하지 않지만,
+      // 국가가 가져가는 몫(세금)에는 포함돼야 한다.
+      const interestIncome = Math.max(0, interestedBalance - st.bank.balance);
+      const taxableIncome = grossPeriodIncome + interestIncome + couponCash;
       // 누진세 구간이 연 단위로 정의돼 있으므로, period 소득을 연평균화해서
       // 세율을 결정한 뒤 다시 deltaYears로 곱해 N년치 소득세를 계산한다.
       // deltaYears=1일 때는 기존 동작과 동일하다.
-      const avgYearlyGrossIncome = deltaYears > 0 ? grossPeriodIncome / deltaYears : grossPeriodIncome;
-      const incomeTax = Math.round(calculateIncomeTax(avgYearlyGrossIncome) * deltaYears);
+      const avgYearlyTaxable = deltaYears > 0 ? taxableIncome / deltaYears : taxableIncome;
+      const incomeTax = Math.round(calculateIncomeTax(avgYearlyTaxable) * deltaYears);
       const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
       const totalTax = incomeTax + propertyTax;
 
@@ -439,7 +449,11 @@ export const useGameStore = create<GameStoreState>()(
       keyMoments = pruneKeyMoments(keyMoments, KEY_MOMENT_LIMIT);
       // 8) Emoji update
       const stocksVal = st.holdings.reduce((s, h) => s + (st.prices[h.ticker] ?? 0) * h.shares, 0);
-      const totalAssetsForEmoji = ctxCash + st.bank.balance + stocksVal + st.realEstate.reduce((s, re) => s + re.currentValue, 0);
+      const bondsValForEmoji = st.bonds.reduce((s, b) => s + (b.matured ? 0 : b.faceValue), 0);
+      const totalAssetsForEmoji =
+        ctxCash + st.bank.balance + stocksVal +
+        st.realEstate.reduce((s, re) => s + re.currentValue, 0) +
+        bondsValForEmoji;
       const emoji = emojiFor({ ...character, happiness: character.happiness }, totalAssetsForEmoji);
 
       // 9) Emit event possibility check
@@ -525,8 +539,9 @@ export const useGameStore = create<GameStoreState>()(
         ? [...st.assetHistory, { age: intAge, value: totalNow }]
         : st.assetHistory;
 
-      // Bond coupon + maturity
-      const { bonds: updatedBonds, couponCash, principalCash } = applyBondCoupon(st.bonds, intAge, deltaYears);
+      // Bond coupon + maturity — 이미 위에서 applyBondCoupon 호출 결과를 받아뒀다.
+      // 쿠폰은 과세 대상이라 taxableIncome에 포함됐지만 여기서는 실제 cash 유입으로
+      // 한 번만 더한다.
       const bondIncome = couponCash + principalCash;
       const finalCash = ctxCash + bondIncome;
 
@@ -590,6 +605,7 @@ export const useGameStore = create<GameStoreState>()(
           traits: st.traits,
           keyMoments: st.keyMoments,
           realEstate: st.realEstate,
+          bonds: st.bonds,
         },
         mitigatedChoice,
         event.triggeredAtAge,
