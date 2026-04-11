@@ -13,8 +13,11 @@ function readGitSha(): string {
   }
 }
 
-// 버전은 git 단축 SHA만 사용 (유니크, 1줄, 날짜 혼재로 인한 혼란 없음).
-const APP_VERSION = readGitSha();
+// 버전 포맷: YYYYMMDD.SHA (예: 20260411.67cbff8)
+// - 1줄, 구분자 점(.) 하나라 파싱/표시가 단순
+// - 앞의 날짜로 시간 순서를 한눈에 파악 (SHA만으론 언제 빌드인지 알기 어려움)
+// - SHA로 유니크성 보장
+const APP_VERSION = `${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.${readGitSha()}`;
 
 export default defineConfig({
   plugins: [
