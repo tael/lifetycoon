@@ -43,6 +43,24 @@ const FORCED_LOAN_UNIT = 100_000;
 // 절단돼서 플레이어가 영영 회복 불가능한 상태에 빠지는 걸 방지한다.
 const CASH_FLOOR = -50_000_000;
 
+// 캐릭터의 수치형 스탯 필드 4종. applyEffect에서 반복되는 업데이트 패턴을
+// 하나로 모아 단순화하기 위한 좁은 타입.
+type NumericStatKey = 'happiness' | 'health' | 'wisdom' | 'charisma';
+
+function updateCharacterStat(
+  ctx: EffectContext,
+  key: NumericStatKey,
+  delta: number,
+): EffectContext {
+  return {
+    ...ctx,
+    character: {
+      ...ctx.character,
+      [key]: ctx.character[key] + delta,
+    },
+  };
+}
+
 export function applyChoice(
   ctx: EffectContext,
   choice: EventChoice,
@@ -71,47 +89,18 @@ function applyEffect(
     case 'money':
       return { ...ctx, cash: Math.max(CASH_FLOOR, ctx.cash + eff.delta) };
     case 'happiness':
-      return {
-        ...ctx,
-        character: {
-          ...ctx.character,
-          happiness: ctx.character.happiness + eff.delta,
-        },
-      };
+      return updateCharacterStat(ctx, 'happiness', eff.delta);
     case 'health':
-      return {
-        ...ctx,
-        character: {
-          ...ctx.character,
-          health: ctx.character.health + eff.delta,
-        },
-      };
+      return updateCharacterStat(ctx, 'health', eff.delta);
     case 'stress':
-      return {
-        ...ctx,
-        character: {
-          ...ctx.character,
-          health: ctx.character.health - eff.delta,
-        },
-      };
+      // stress += X 는 health -= X 로 해석한다 (주석 원본 유지).
+      return updateCharacterStat(ctx, 'health', -eff.delta);
     case 'wisdom':
     case 'intelligence':
-      return {
-        ...ctx,
-        character: {
-          ...ctx.character,
-          wisdom: ctx.character.wisdom + eff.delta,
-        },
-      };
+      return updateCharacterStat(ctx, 'wisdom', eff.delta);
     case 'charisma':
     case 'independence':
-      return {
-        ...ctx,
-        character: {
-          ...ctx.character,
-          charisma: ctx.character.charisma + eff.delta,
-        },
-      };
+      return updateCharacterStat(ctx, 'charisma', eff.delta);
     case 'addTrait': {
       if (ctx.traits.includes(eff.trait)) return ctx;
       return { ...ctx, traits: [...ctx.traits, eff.trait] };
