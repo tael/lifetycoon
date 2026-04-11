@@ -208,7 +208,10 @@ export function PlayScreen() {
   const pensionYearly = intAge >= 65 ? 500000 : 0;
   const insuranceYearly = insurance.premium ?? 0;
   const loanInterestYearly = Math.round(bank.loanBalance * bank.loanInterestRate);
-  const grossYearlyIncome = salaryYearly + interestYearly + dividendIncome + pensionYearly;
+  // 임대수익 — gameStore.advanceYear는 이미 포함하지만 UI 연 순수입 계산식에서 누락돼
+  // 있어 상가 보유 플레이어의 임대료가 "유령" 상태였음. 버그 수정.
+  const rentalYearly = realEstate.reduce((s, re) => s + re.monthlyRent * 12, 0);
+  const grossYearlyIncome = salaryYearly + interestYearly + dividendIncome + rentalYearly + pensionYearly;
   const incomeTaxYearly = calculateIncomeTax(grossYearlyIncome);
   const propertyTaxYearly = calculatePropertyTax(realEstateValue);
   const totalTaxYearly = incomeTaxYearly + propertyTaxYearly;

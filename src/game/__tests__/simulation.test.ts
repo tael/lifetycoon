@@ -206,7 +206,7 @@ describe('dreams.json validation', () => {
   const VALID_CONDITION_KINDS = new Set<string>([
     'cashGte', 'stockOwnedShares', 'jobHeld', 'ageReached', 'totalAssetsGte',
     'happinessGte', 'wisdomGte', 'charismaGte', 'hasTrait', 'hasTraitAny',
-    'realEstateCountGte', 'ageReachedAndHappinessGte',
+    'realEstateCountGte', 'ageReachedAndHappinessGte', 'totalAssetsGteByAge',
   ]);
 
   it('has no duplicate ids', () => {

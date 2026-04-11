@@ -67,7 +67,9 @@ export type DreamCondition =
   | { kind: 'hasTrait'; trait: string }
   | { kind: 'hasTraitAny'; traits: string[] }
   | { kind: 'realEstateCountGte'; value: number }
-  | { kind: 'ageReachedAndHappinessGte'; age: number; happiness: number };
+  | { kind: 'ageReachedAndHappinessGte'; age: number; happiness: number }
+  // "30대 부자" 같은 기간 제한 목표: byAge 도달 전에 총자산 value 이상 모았는가.
+  | { kind: 'totalAssetsGteByAge'; value: number; byAge: number };
 
 export type Dream = {
   id: string;

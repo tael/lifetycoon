@@ -16,7 +16,7 @@ export function TutorialOverlay() {
   if (!visible) return null;
 
   const steps = [
-    { emoji: '🎮', title: '인생타이쿤에 온 걸 환영해!', text: '10세부터 100세까지 약 10분 동안 인생을 경영해봐!' },
+    { emoji: '🎮', title: '인생타이쿤에 온 걸 환영해!', text: '10세부터 100세까지, 너의 인생을 경영해봐!' },
     { emoji: '🧭', title: '화면 아래 5개 메뉴', text: '🏠홈 · 🏦은행 · 📈투자 · 👥친구 · ⚙️설정 — 화면 맨 아래에서 언제든 이동할 수 있어!' },
     { emoji: '💰', title: '돈을 모아봐!', text: '월급으로 주식을 사고, 예금도 하고, 배당금도 받아봐!' },
     { emoji: '🍕', title: '캐릭터를 돌봐!', text: '간식/건강/공부/노래 버튼으로 스탯을 관리해. 안 하면 떨어져!' },

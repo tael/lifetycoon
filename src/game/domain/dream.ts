@@ -51,6 +51,12 @@ export function evaluateCondition(
       return ctx.realEstate.length >= cond.value;
     case 'ageReachedAndHappinessGte':
       return ctx.character.age >= cond.age && ctx.character.happiness >= cond.happiness;
+    case 'totalAssetsGteByAge': {
+      if (ctx.character.age >= cond.byAge) return false;
+      const total =
+        ctx.cash + ctx.bank.balance + holdingsValue(ctx.holdings, ctx.prices);
+      return total >= cond.value;
+    }
   }
 }
 
