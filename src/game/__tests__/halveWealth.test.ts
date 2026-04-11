@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { applyChoice, type EffectContext } from '../scenario/scenarioEngine';
-import type { Character, EventChoice, Holding, RealEstate } from '../types';
+import type { Character, EventChoice } from '../types';
 
 const baseCharacter: Character = {
   name: '테스트',

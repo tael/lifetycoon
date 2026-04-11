@@ -266,7 +266,8 @@ function applyEffect(
     default: {
       // Exhaustiveness guard — 새 EventEffect kind가 추가될 때 이 줄에서 타입
       // 에러가 나도록 해서 누락된 케이스를 빌드 타임에 잡는다.
-      const _exhaustive: never = eff;
+      // void 로 쓰지 않으면 noUnusedLocals 룰에 걸린다.
+      void (eff satisfies never);
       return ctx;
     }
   }
