@@ -2,7 +2,7 @@
   {
     "id": "student",
     "title": "학생",
-    "salary": 50000,
+    "salary": 30000,
     "minAge": 10,
     "recommendedAssets": 0,
     "iconEmoji": "📚",
@@ -20,7 +20,7 @@
   {
     "id": "officeworker",
     "title": "회사원",
-    "salary": 300000,
+    "salary": 280000,
     "minAge": 22,
     "recommendedAssets": 0,
     "iconEmoji": "💼",
@@ -47,7 +47,7 @@
   {
     "id": "chef",
     "title": "셰프",
-    "salary": 350000,
+    "salary": 330000,
     "minAge": 20,
     "recommendedAssets": 200000,
     "iconEmoji": "👨\u200d🍳",
@@ -56,7 +56,7 @@
   {
     "id": "ceo",
     "title": "사장님",
-    "salary": 800000,
+    "salary": 700000,
     "minAge": 30,
     "recommendedAssets": 10000000,
     "iconEmoji": "👔",
@@ -83,7 +83,7 @@
   {
     "id": "doctor",
     "title": "의사",
-    "salary": 700000,
+    "salary": 650000,
     "minAge": 30,
     "recommendedAssets": 5000000,
     "iconEmoji": "🏥",

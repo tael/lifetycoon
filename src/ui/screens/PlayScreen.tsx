@@ -504,6 +504,8 @@ export function PlayScreen() {
                   1200,
                 );
               }}
+              aria-label={insurance.health ? '건강보험 해지' : '건강보험 가입'}
+              aria-pressed={insurance.health}
               style={{
                 padding: '4px 12px',
                 borderRadius: 'var(--radius-sm)',
@@ -535,6 +537,8 @@ export function PlayScreen() {
                   1200,
                 );
               }}
+              aria-label={insurance.asset ? '자산보험 해지' : '자산보험 가입'}
+              aria-pressed={insurance.asset}
               style={{
                 padding: '4px 12px',
                 borderRadius: 'var(--radius-sm)',
@@ -589,6 +593,8 @@ export function PlayScreen() {
             )}
             <button
               onClick={() => useGameStore.setState({ autoInvest: !autoInvest })}
+              aria-label={autoInvest ? '자동투자 끄기' : '자동투자 켜기'}
+              aria-pressed={autoInvest}
               style={{
                 fontSize: '0.6rem',
                 padding: '2px 6px',
@@ -760,11 +766,13 @@ export function PlayScreen() {
 function SpeedControl({ current, onChange }: { current: number; onChange: (s: 0.5 | 1 | 2) => void }) {
   const speeds: (0.5 | 1 | 2)[] = [0.5, 1, 2];
   return (
-    <div className="flex gap-xs">
+    <div className="flex gap-xs" role="group" aria-label="게임 속도">
       {speeds.map((s) => (
         <button
           key={s}
           onClick={() => onChange(s)}
+          aria-label={`속도 ${s}배`}
+          aria-pressed={current === s}
           style={{
             padding: '2px 8px',
             borderRadius: 'var(--radius-full)',
@@ -790,13 +798,20 @@ function StatMini({ label, value, emoji, color }: { label: string; value: number
       <div style={{ fontSize: 'var(--font-size-xs)', color: isLow ? 'var(--danger)' : 'inherit', fontWeight: isLow ? 700 : 400 }}>
         {emoji} {Math.round(value)}{isLow ? '⚠️' : ''}
       </div>
-      <div style={{
-        height: 5,
-        borderRadius: 3,
-        background: '#eee',
-        marginTop: 2,
-        overflow: 'hidden',
-      }}>
+      <div
+        role="progressbar"
+        aria-label={label}
+        aria-valuenow={Math.round(value)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        style={{
+          height: 5,
+          borderRadius: 3,
+          background: '#eee',
+          marginTop: 2,
+          overflow: 'hidden',
+        }}
+      >
         <div style={{
           height: '100%',
           width: `${pct}%`,
@@ -894,6 +909,7 @@ function TradBtn({ label, color, onClick, disabled }: { label: string; color: 'b
     <button
       onClick={onClick}
       disabled={disabled}
+      aria-label={isBuy ? `${label}주 매수` : `${label} 매도`}
       style={{
         padding: '2px 6px',
         borderRadius: 'var(--radius-sm)',

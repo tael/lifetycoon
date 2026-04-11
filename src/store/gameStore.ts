@@ -47,14 +47,25 @@ import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
 import npcsData from '../game/data/npcs.json';
-import scenariosData from '../game/data/scenarios.json';
 import epitaphTemplates from '../game/data/epitaphTemplates.json';
 
 const STOCKS: StockDef[] = stocksData as StockDef[];
 const JOBS: Job[] = jobsData as Job[];
 const DREAMS_MASTER: Dream[] = dreamsData as Dream[];
 const NPCS_RAW = npcsData as { id: string; name: string; personality: FriendNPC['personality']; iconEmoji: string }[];
-const SCENARIOS: ScenarioEvent[] = scenariosData as ScenarioEvent[];
+
+// scenarios.json lazy load — populated before first game start
+let SCENARIOS: ScenarioEvent[] = [];
+let _scenariosLoaded = false;
+
+export async function loadScenarios(): Promise<void> {
+  if (_scenariosLoaded) return;
+  const mod = await import('../game/data/scenarios.json');
+  SCENARIOS = mod.default as ScenarioEvent[];
+  _scenariosLoaded = true;
+  // sync scenariosMaster into store if already initialised
+  useGameStore.setState({ scenariosMaster: SCENARIOS });
+}
 
 const KEY_MOMENT_LIMIT = 30;
 const RECENT_LOG_LIMIT = 100;
@@ -270,10 +281,12 @@ export const useGameStore = create<GameStoreState>()(
       const bank = applyLoanInterest(bankAfterInterest, deltaYears);
       // 3) Salary income + stock dividends + pension
       const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
-      const salaryIncome = st.job ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus) : 0;
-      // Pension: 65세+ 시 근무 연수 기반 연금 (연 50만원 × 직업 수 경험)
+      // 인플레이션 보정: 30세 이후 매년 2%씩 누적 (명목 월급 상승으로 실질가치 유지)
+      const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
+      const salaryIncome = st.job ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus * inflationMultiplier) : 0;
+      // Pension: 65세+ 시 근무 연수 기반 연금 (연 40만원 × 직업 수 경험)
       const pensionIncome = intAge >= 65
-        ? Math.round(500000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears)
+        ? Math.round(400000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears * inflationMultiplier)
         : 0;
       const dividendIncome = st.holdings.reduce((sum, h) => {
         const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
@@ -705,4 +718,5 @@ function stageTag(age: number): string {
   return '노년기';
 }
 
-export { STOCKS, JOBS, DREAMS_MASTER, SCENARIOS };
+export { STOCKS, JOBS, DREAMS_MASTER };
+export function getSCENARIOS(): ScenarioEvent[] { return SCENARIOS; }

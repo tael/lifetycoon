@@ -11,11 +11,13 @@ function vibrate() {
 export function EventModal({ event }: { event: EconomicEvent }) {
   const chooseOption = useGameStore((s) => s.chooseOption);
   const modalRef = useRef<HTMLDivElement>(null);
+  const firstBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     sfx.event();
     vibrate();
-    modalRef.current?.focus();
+    // 첫 번째 선택지 버튼으로 포커스 이동, 없으면 모달 컨테이너로
+    (firstBtnRef.current ?? modalRef.current)?.focus();
     const handler = (e: KeyboardEvent) => {
       const num = parseInt(e.key);
       if (num >= 1 && num <= event.choices.length) {
@@ -58,7 +60,9 @@ export function EventModal({ event }: { event: EconomicEvent }) {
           {event.choices.map((choice, i) => (
             <button
               key={i}
+              ref={i === 0 ? firstBtnRef : undefined}
               className="btn btn-secondary btn-block"
+              aria-label={`선택 ${i + 1}: ${choice.label}`}
               style={{
                 textAlign: 'left',
                 padding: 'var(--sp-md)',

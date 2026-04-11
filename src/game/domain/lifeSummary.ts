@@ -1,4 +1,4 @@
-import type { Grade, KeyMoment } from '../types';
+import type { Ending, Grade, KeyMoment } from '../types';
 
 export function generateLifeTitle(
   traits: string[],
@@ -6,25 +6,66 @@ export function generateLifeTitle(
   finalHappiness: number,
   dreamsAchieved: number,
   totalDreams: number,
+  ending?: Ending,
 ): string {
+  const hasTrait = (t: string) => traits.includes(t);
+  const realEstateCount = ending?.realEstateCount ?? 0;
+  const finalWisdom = ending?.finalWisdom ?? 0;
+  const finalCharisma = ending?.finalCharisma ?? 0;
+  const traitsCount = ending?.traitsCount ?? traits.length;
+  const keyMomentsCount = ending?.keyMomentsSelected.length ?? 0;
+  const isRetired = hasTrait('은퇴');
+
   // Priority-based title assignment (RPG style)
-  if (traits.includes('우주떡볶이')) return '🚀 우주 떡볶이 황제';
-  if (traits.includes('시간여행경험') && traits.includes('외계인친구')) return '🌌 차원 여행자';
-  if (traits.includes('글로벌리더')) return '🌍 글로벌 리더';
-  if (traits.includes('IT사업가') || traits.includes('앱개발자')) return '💻 IT 거물';
-  if (traits.includes('떡볶이사장')) return '🌶️ 떡볶이 제국의 왕';
-  if (traits.includes('자선가') || traits.includes('장학재단')) return '🤝 위대한 기부자';
-  if (traits.includes('시민영웅') || traits.includes('동네영웅')) return '🦸 동네의 영웅';
+  if (hasTrait('우주떡볶이')) return '🚀 우주 떡볶이 황제';
+  if (hasTrait('시간여행경험') && hasTrait('외계인친구')) return '🌌 차원 여행자';
+  if (hasTrait('글로벌리더')) return '🌍 글로벌 리더';
+  if (hasTrait('IT사업가') || hasTrait('앱개발자')) return '💻 IT 거물';
+  if (hasTrait('떡볶이사장')) return '🌶️ 떡볶이 제국의 왕';
+  if (hasTrait('자선가') || hasTrait('장학재단')) return '🤝 위대한 기부자';
+  if (hasTrait('시민영웅') || hasTrait('동네영웅')) return '🦸 동네의 영웅';
+
+  // 부동산 왕 - 부동산 3개 이상 보유
+  if (realEstateCount >= 3) return '🏰 부동산 왕';
+
   if (finalAssets >= 1000000000) return '💎 10억 부자';
   if (finalAssets >= 100000000) return '🤑 억만장자';
+
+  // 백수의 왕 - 은퇴 상태 + 자산 5억 이상
+  if (isRetired && finalAssets >= 500000000) return '🦁 백수의 왕';
+
   if (dreamsAchieved === totalDreams && totalDreams >= 3) return '🌈 꿈의 완성자';
-  if (traits.includes('인플루언서')) return '📱 인플루언서';
-  if (traits.includes('음악가')) return '🎵 음악의 달인';
-  if (traits.includes('발명가')) return '🔧 발명왕';
-  if (traits.includes('교육자')) return '🍎 존경받는 스승';
-  if (traits.includes('은퇴농부')) return '🌾 행복한 농부';
+
+  // 극적인 삶 - 중요 순간 8개 + 행복도가 극단적이지 않은(변동 많은) 중간 범위
+  if (keyMomentsCount >= 8 && finalHappiness >= 30 && finalHappiness <= 75) return '🎭 극적인 삶';
+
+  // 파란만장 - 특성 10개 이상
+  if (traitsCount >= 10) return '🌊 파란만장';
+
+  if (hasTrait('인플루언서')) return '📱 인플루언서';
+
+  // 영원한 학습자 - wisdom 95 이상
+  if (finalWisdom >= 95) return '🎓 영원한 학습자';
+
+  // 사교계의 별 - charisma 95 이상
+  if (finalCharisma >= 95) return '💃 사교계의 별';
+
+  // 명상의 현자 - 명상러 특성 + wisdom 80 이상
+  if (hasTrait('명상러') && finalWisdom >= 80) return '🧘 명상의 현자';
+
+  // 창작의 달인 - 작가/화가/음악가 중 2개 이상 보유
+  {
+    const creativeTraits = ['작가', '화가', '음악가'];
+    const creativeCount = creativeTraits.filter((t) => hasTrait(t)).length;
+    if (creativeCount >= 2) return '🎨 창작의 달인';
+  }
+
+  if (hasTrait('음악가')) return '🎵 음악의 달인';
+  if (hasTrait('발명가')) return '🔧 발명왕';
+  if (hasTrait('교육자')) return '🍎 존경받는 스승';
+  if (hasTrait('은퇴농부')) return '🌾 행복한 농부';
   if (finalHappiness >= 95) return '😊 행복 만렙';
-  if (traits.length >= 8) return '🏅 다재다능한 인재';
+  if (traitsCount >= 8) return '🏅 다재다능한 인재';
   if (finalAssets >= 50000000) return '💰 알뜰한 부자';
   if (finalHappiness >= 80) return '☀️ 밝은 인생';
   return '🌱 평범한 시민';

@@ -39,7 +39,7 @@ export function EndingScreen() {
     const { isNewRecord } = updateHighScore(ending);
     const title = generateLifeTitle(
       useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,
-      ending.dreamsAchieved, ending.totalDreams,
+      ending.dreamsAchieved, ending.totalDreams, ending,
     );
     saveEndingToGallery(useGameStore.getState().character.name, ending, title);
     if (newlyUnlocked.length > 0) {
@@ -116,7 +116,7 @@ export function EndingScreen() {
         <div style={{ fontSize: 'var(--font-size-sm)', opacity: 0.9, marginBottom: 4 }}>
           {generateLifeTitle(
             useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,
-            ending.dreamsAchieved, ending.totalDreams,
+            ending.dreamsAchieved, ending.totalDreams, ending,
           )}
         </div>
         <div className={`grade-${ending.grade}`} style={{
