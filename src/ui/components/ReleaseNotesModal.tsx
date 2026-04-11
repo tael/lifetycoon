@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 /**
  * 릴리즈노트 모달.
  *
- * public/releases.json 을 fetch해서 최근 릴리즈를 어린이 친화적 톤으로 보여준다.
+ * public/releases.json 을 fetch해서 최근 릴리즈를 유저 친화적 톤으로 보여준다.
  * localStorage에 "마지막으로 본 릴리즈 버전"을 저장해서, 사용자가 닫으면
  * 같은 버전은 다시 자동으로 뜨지 않는다.
  */
