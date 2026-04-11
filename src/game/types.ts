@@ -84,6 +84,8 @@ export type EventEffect =
   | { kind: 'cash'; delta: number }
   | { kind: 'money'; delta: number }         // alias for cash (JSON legacy)
   | { kind: 'stockShock'; ticker: string; multiplier: number }
+  | { kind: 'buyStock'; ticker: string; shares: number }
+  | { kind: 'sellStock'; ticker: string; shares: number }
   | { kind: 'happiness'; delta: number }
   | { kind: 'health'; delta: number }
   | { kind: 'stress'; delta: number }        // health inverse: stress += X → health -= X

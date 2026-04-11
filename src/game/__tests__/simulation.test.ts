@@ -143,7 +143,7 @@ describe('headless simulation', () => {
 
 describe('scenarios.json validation', () => {
   const VALID_EFFECT_KINDS = new Set<string>([
-    'cash', 'money', 'stockShock',
+    'cash', 'money', 'stockShock', 'buyStock', 'sellStock',
     'happiness', 'health', 'stress',
     'wisdom', 'intelligence', 'charisma', 'independence',
     'addTrait', 'setJob', 'gotoScenario', 'keyMoment', 'bankInterestChange',

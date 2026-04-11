@@ -119,7 +119,7 @@ export type GameStoreState = {
   pickDreams: (ids: string[]) => void;
   advanceYear: (intAge: number, deltaYears: number) => void;
   triggerEvent: (ev: EconomicEvent) => void;
-  chooseOption: (choiceIndex: number) => void;
+  chooseOption: (choiceIndex: number) => string[];
   buy: (ticker: string, shares: number) => boolean;
   sell: (ticker: string, shares: number) => boolean;
   deposit: (amount: number) => boolean;
@@ -547,10 +547,10 @@ export const useGameStore = create<GameStoreState>()(
     },
     chooseOption(choiceIndex) {
       const st = get();
-      if (st.phase.kind !== 'paused') return;
+      if (st.phase.kind !== 'paused') return [];
       const event = st.phase.event;
       const choice: EventChoice | undefined = event.choices[choiceIndex];
-      if (!choice) return;
+      if (!choice) return [];
       // 보험 경감: health 이벤트 -50%, cash 음수 이벤트 -30%
       const ins = st.insurance;
       const mitigatedEffects = choice.effects.map((eff) => {
@@ -597,6 +597,7 @@ export const useGameStore = create<GameStoreState>()(
         choiceHistory: newChoiceHistory,
         phase: { kind: 'playing' },
       });
+      return next.warnings ?? [];
     },
     buy(ticker, shares) {
       const st = get();

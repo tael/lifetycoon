@@ -72,10 +72,12 @@ export function EventModal({ event }: { event: EconomicEvent }) {
 
   const handleChoice = (index: number) => {
     const choice = event.choices[index];
-    chooseOption(index);
+    const warnings = chooseOption(index);
     vibrate();
     const hints = effectHints(choice.effects);
     if (hints) showToast(hints, '📋', 'info', 2500);
+    // buyStock/sellStock 실패 등 이벤트 효과 경고를 사용자에게 전달
+    warnings.forEach((w, i) => showToast(w, '⚠️', 'info', 3200 + i * 300));
   };
 
   return (
