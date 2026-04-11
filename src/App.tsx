@@ -4,6 +4,7 @@ import { DreamPickScreen } from './ui/screens/DreamPickScreen';
 import { PlayScreen } from './ui/screens/PlayScreen';
 import { EndingScreen } from './ui/screens/EndingScreen';
 import { ToastContainer } from './ui/components/Toast';
+import { UpdateBanner } from './ui/components/UpdateBanner';
 import './ui/styles/tokens.css';
 import './ui/styles/mobile-first.css';
 
@@ -34,6 +35,7 @@ export default function App() {
     <>
       {screen}
       <ToastContainer />
+      <UpdateBanner />
     </>
   );
 }

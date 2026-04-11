@@ -16,7 +16,23 @@ function readGitSha(): string {
 const APP_VERSION = `${readGitSha()} · ${new Date().toISOString().slice(0, 10)}`;
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      // 빌드 시 dist/version.json 파일을 생성한다. 클라이언트는 이 파일을
+      // 주기적으로 fetch해서 현재 로드된 __APP_VERSION__과 비교한 뒤
+      // 새 버전이 배포되면 사용자에게 새로고침 안내를 표시한다.
+      name: 'emit-version-json',
+      apply: 'build',
+      generateBundle() {
+        this.emitFile({
+          type: 'asset',
+          fileName: 'version.json',
+          source: JSON.stringify({ version: APP_VERSION }) + '\n',
+        });
+      },
+    },
+  ],
   base: './',
   define: {
     __APP_VERSION__: JSON.stringify(APP_VERSION),
