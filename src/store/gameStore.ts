@@ -36,6 +36,7 @@ import {
 } from '../game/engine/economyCycle';
 import { createNpcFromSeed, stepNpc } from '../game/domain/npc';
 import { buildEnding, type EndingExtras } from '../game/domain/ending';
+import { type Season, seasonFromYearIndex, SEASON_KO, SEASON_EMOJI } from '../game/engine/season';
 import {
   pickEligibleEvent,
   eventChancePerYear,
@@ -99,6 +100,8 @@ export type GameStoreState = {
   survivedRecessionWithAssets: boolean;
   unlockedSkills: string[];
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
+  currentSeason: Season;
+  dripEnabled: boolean;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   activeChallengeId: string | null;
@@ -122,6 +125,7 @@ export type GameStoreState = {
   setSpeed: (s: 0.5 | 1 | 2) => void;
   changeJob: (jobId: string) => { success: boolean; reason?: string };
   toggleInsurance: (type: 'health' | 'asset') => void;
+  toggleDrip: () => void;
   buyRealEstate: (id: string) => boolean;
   sellRealEstate: (index: number) => boolean;
   endGame: () => void;
@@ -179,6 +183,8 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     survivedRecessionWithAssets: false,
     unlockedSkills: [],
     choiceHistory: [],
+    currentSeason: 'spring' as Season,
+    dripEnabled: false,
     speedMultiplier: 1,
     activeChallengeId: null,
     stocksMaster: STOCKS,
@@ -204,6 +210,7 @@ type GameStoreActions = Pick<
   | 'setSpeed'
   | 'changeJob'
   | 'toggleInsurance'
+  | 'toggleDrip'
   | 'buyRealEstate'
   | 'sellRealEstate'
   | 'endGame'
@@ -288,12 +295,46 @@ export const useGameStore = create<GameStoreState>()(
       const pensionIncome = intAge >= 65
         ? Math.round(400000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears * inflationMultiplier)
         : 0;
+      // 배당 — 복리 공식 적용: value × ((1+rate)^years - 1)
+      // deltaYears=1이면 단리와 동일, 2+ 이면 복리 효과 반영
       const dividendIncome = st.holdings.reduce((sum, h) => {
         const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
         const divRate = stockDef?.dividendRate ?? 0;
+        if (divRate <= 0) return sum;
         const price = st.prices[h.ticker] ?? 0;
-        return sum + Math.round(price * h.shares * divRate * deltaYears);
+        const compoundFactor = Math.pow(1 + divRate, deltaYears) - 1;
+        return sum + Math.round(price * h.shares * compoundFactor);
       }, 0);
+
+      // DRIP (Dividend Re-Investment Plan) — 자동 배당 재투자
+      // dripEnabled 시 배당금을 해당 종목에 즉시 매수 (복리 강화)
+      let dripHoldings = [...st.holdings];
+      let dripSpent = 0;
+      if (st.dripEnabled && dividendIncome > 0) {
+        const perStockDividend: Record<string, number> = {};
+        for (const h of st.holdings) {
+          const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
+          const divRate = stockDef?.dividendRate ?? 0;
+          if (divRate <= 0) continue;
+          const price = st.prices[h.ticker] ?? 0;
+          const compoundFactor = Math.pow(1 + divRate, deltaYears) - 1;
+          perStockDividend[h.ticker] = Math.round(price * h.shares * compoundFactor);
+        }
+        dripHoldings = dripHoldings.map((h) => {
+          const div = perStockDividend[h.ticker] ?? 0;
+          const price = st.prices[h.ticker] ?? 0;
+          if (div <= 0 || price <= 0) return h;
+          const additionalShares = Math.floor(div / price);
+          if (additionalShares <= 0) return h;
+          const cost = additionalShares * price;
+          dripSpent += cost;
+          const totalShares = h.shares + additionalShares;
+          const newAvg = Math.round(
+            (h.avgBuyPrice * h.shares + price * additionalShares) / totalShares,
+          );
+          return { ticker: h.ticker, shares: totalShares, avgBuyPrice: newAvg };
+        });
+      }
       // 4) Stock price drift (with economy cycle bonus)
       const prices: Record<string, number> = { ...st.prices };
       for (const s of STOCKS) {
@@ -306,7 +347,7 @@ export const useGameStore = create<GameStoreState>()(
       const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc));
       // 5b) Auto-invest: 10% of salary into random stocks
       let autoInvestSpent = 0;
-      let autoHoldings = [...st.holdings];
+      let autoHoldings = dripHoldings;
       if (st.autoInvest && salaryIncome > 0) {
         const budget = Math.round(salaryIncome * 0.1);
         const affordable = STOCKS.filter((s) => prices[s.ticker] <= budget);
@@ -340,7 +381,7 @@ export const useGameStore = create<GameStoreState>()(
       const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
       const totalTax = incomeTax + propertyTax;
 
-      const ctxCash = st.cash + grossYearlyIncome - autoInvestSpent - insuranceCost - totalTax;
+      const ctxCash = st.cash + grossYearlyIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
@@ -425,10 +466,22 @@ export const useGameStore = create<GameStoreState>()(
             timestamp: Date.now(),
           }]
         : [];
+      // Season update
+      const newSeason = seasonFromYearIndex(intAge - 10);
+      const seasonChanged = newSeason !== st.currentSeason;
+      const seasonLogEntry = seasonChanged
+        ? [{
+            age: intAge,
+            text: `${SEASON_EMOJI[newSeason]} ${SEASON_KO[newSeason]}이 찾아왔어요!`,
+            timestamp: Date.now(),
+          }]
+        : [];
+
       const recentLog = [
         ...st.recentLog,
         ...cycleLogEntry,
         ...taxLogEntry,
+        ...seasonLogEntry,
         {
           age: intAge,
           text: `${intAge}세: 자산 ${Math.round((ctxCash + bank.balance) / 10000)}만원`,
@@ -463,6 +516,7 @@ export const useGameStore = create<GameStoreState>()(
         realEstate: appreciatedRealEstate,
         boomTimeBillionaireReached: newBoomReached,
         survivedRecessionWithAssets: newSurvivedRecession,
+        currentSeason: newSeason,
       });
     },
     triggerEvent(ev) {

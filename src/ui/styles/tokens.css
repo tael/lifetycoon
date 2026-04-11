@@ -129,6 +129,16 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  :root {
+    --accent: #d84315;
+    --text-muted: #333;
+    --text-secondary: #222;
+    --bg-secondary: #f0f0f0;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

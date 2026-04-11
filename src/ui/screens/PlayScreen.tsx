@@ -16,6 +16,7 @@ import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { PHASE_LABEL } from '../../game/engine/economyCycle';
+import { SEASON_EMOJI, SEASON_KO } from '../../game/engine/season';
 import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
 import type { StockDef, RealEstate } from '../../game/types';
 import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
@@ -53,6 +54,7 @@ export function PlayScreen() {
   const insurance = useGameStore((s) => s.insurance);
   const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const economyCycle = useGameStore((s) => s.economyCycle);
+  const currentSeason = useGameStore((s) => s.currentSeason);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
@@ -245,6 +247,30 @@ export function PlayScreen() {
                 {PHASE_LABEL[economyCycle.phase]}
               </span>
             )}
+            {currentSeason && (
+              <span style={{
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                padding: '1px 6px',
+                borderRadius: 'var(--radius-full)',
+                background: currentSeason === 'spring'
+                  ? '#fce4ec'
+                  : currentSeason === 'summer'
+                    ? '#fff9c4'
+                    : currentSeason === 'autumn'
+                      ? '#fff3e0'
+                      : '#e3f2fd',
+                color: currentSeason === 'spring'
+                  ? '#c2185b'
+                  : currentSeason === 'summer'
+                    ? '#f57f17'
+                    : currentSeason === 'autumn'
+                      ? '#e65100'
+                      : '#1565c0',
+              }}>
+                {SEASON_EMOJI[currentSeason]} {SEASON_KO[currentSeason]}
+              </span>
+            )}
           </div>
           <SpeedControl current={speedMultiplier} onChange={setSpeed} />
         </div>
@@ -287,7 +313,11 @@ export function PlayScreen() {
           {characterSpeech(character, totalAssets, myRank, Math.floor(character.age))}
           <div style={{ position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)', width: 0, height: 0, borderLeft: '6px solid transparent', borderRight: '6px solid transparent', borderTop: '6px solid #eee' }} />
         </div>
-        <div style={{ fontSize: '4rem', lineHeight: 1 }}>{emojiFor(character)}</div>
+        <div
+          role="img"
+          aria-label={`${character.name}, ${Math.floor(character.age)}세 캐릭터`}
+          style={{ fontSize: '4rem', lineHeight: 1 }}
+        >{emojiFor(character)}</div>
         <div style={{ fontWeight: 700, marginTop: 'var(--sp-xs)' }}>{character.name}</div>
         <div className="flex flex-center gap-md" style={{ marginTop: 'var(--sp-sm)' }}>
           <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" />
@@ -892,24 +922,25 @@ function StockRow({
         </div>
       </div>
       <div style={{ display: 'flex', gap: 3 }}>
-        <TradBtn label="1" color="buy" onClick={() => onBuy(1)} disabled={!canBuy} />
-        <TradBtn label="5" color="buy" onClick={() => onBuy(5)} disabled={!canBuy} />
+        <TradBtn label="1" color="buy" onClick={() => onBuy(1)} disabled={!canBuy} stockName={stock.name} />
+        <TradBtn label="5" color="buy" onClick={() => onBuy(5)} disabled={!canBuy} stockName={stock.name} />
       </div>
       <div style={{ display: 'flex', gap: 3 }}>
-        <TradBtn label="1" color="sell" onClick={() => onSell(1)} disabled={!holding || holding.shares < 1} />
-        <TradBtn label="전량" color="sell" onClick={() => onSell(holding?.shares ?? 0)} disabled={!holding || holding.shares < 1} />
+        <TradBtn label="1" color="sell" onClick={() => onSell(1)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
+        <TradBtn label="전량" color="sell" onClick={() => onSell(holding?.shares ?? 0)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
       </div>
     </div>
   );
 }
 
-function TradBtn({ label, color, onClick, disabled }: { label: string; color: 'buy' | 'sell'; onClick: () => void; disabled: boolean }) {
+function TradBtn({ label, color, onClick, disabled, stockName }: { label: string; color: 'buy' | 'sell'; onClick: () => void; disabled: boolean; stockName?: string }) {
   const isBuy = color === 'buy';
+  const namePrefix = stockName ? `${stockName} ` : '';
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      aria-label={isBuy ? `${label}주 매수` : `${label} 매도`}
+      aria-label={isBuy ? `${namePrefix}${label}주 매수` : `${namePrefix}${label} 매도`}
       style={{
         padding: '2px 6px',
         borderRadius: 'var(--radius-sm)',
@@ -948,6 +979,7 @@ function CareBtn({ emoji, label, cost, stat, delta }: {
         showToast(`${emoji} ${label}! +${delta}`, emoji, 'success', 1000);
       }}
       disabled={disabled}
+      aria-label={`${label} ${formatWon(cost)}`}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -962,7 +994,7 @@ function CareBtn({ emoji, label, cost, stat, delta }: {
         minWidth: 48,
       }}
     >
-      <span style={{ fontSize: '1.2rem' }}>{emoji}</span>
+      <span style={{ fontSize: '1.2rem' }} aria-hidden="true">{emoji}</span>
       <span>{label}</span>
       <span className="text-muted" style={{ fontSize: '0.55rem' }}>{formatWon(cost)}</span>
     </button>
@@ -1010,6 +1042,7 @@ function RealEstateCard({
             </div>
             <button
               onClick={() => onSell(i)}
+              aria-label={`${re.name} 매각`}
               style={{
                 padding: '2px 8px',
                 borderRadius: 'var(--radius-sm)',
@@ -1035,6 +1068,7 @@ function RealEstateCard({
           <button
             onClick={() => onBuy(nextListing.id)}
             disabled={cash < nextListing.price}
+            aria-label={`${nextListing.name} 매입 ${formatWon(nextListing.price)}`}
             style={{
               padding: '2px 10px',
               borderRadius: 'var(--radius-sm)',

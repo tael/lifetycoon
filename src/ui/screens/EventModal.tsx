@@ -37,11 +37,11 @@ export function EventModal({ event }: { event: EconomicEvent }) {
   };
 
   return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label={event.title} ref={modalRef} tabIndex={-1}>
+    <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="event-modal-title" ref={modalRef} tabIndex={-1}>
       <div className="modal-content" style={{ animation: 'modalPop 0.25s ease-out' }}>
         <div className="text-center" style={{ marginBottom: 'var(--sp-lg)' }}>
           <div style={{ fontSize: '2.5rem', marginBottom: 'var(--sp-sm)' }}>📢</div>
-          <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 700 }}>
+          <h2 id="event-modal-title" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 700 }}>
             {event.title}
           </h2>
           <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: 2 }}>

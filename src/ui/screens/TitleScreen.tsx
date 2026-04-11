@@ -255,15 +255,19 @@ export function TitleScreen() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {recent.map((r, i) => (
-                <div key={i} style={{
-                  background: 'var(--bg-secondary)',
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '6px 10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  fontSize: 'var(--font-size-xs)',
-                }}>
+                <div
+                  key={i}
+                  role="article"
+                  aria-label={`${r.characterName} ${r.grade}등급 엔딩: ${r.title}, 최종자산 ${formatWon(r.finalAssets)}`}
+                  style={{
+                    background: 'var(--bg-secondary)',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: '6px 10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    fontSize: 'var(--font-size-xs)',
+                  }}>
                   <span style={{ fontSize: '1.2rem' }}>{GRADE_EMOJI[r.grade] ?? r.grade}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -292,7 +296,9 @@ export function TitleScreen() {
               return (
                 <span
                   key={a.id}
+                  role="img"
                   title={unlocked ? `${a.title}: ${a.description}` : '???'}
+                  aria-label={unlocked ? `업적 달성: ${a.title} — ${a.description}` : `잠긴 업적`}
                   style={{
                     fontSize: '1.5rem',
                     opacity: unlocked ? 1 : 0.2,
@@ -311,6 +317,8 @@ export function TitleScreen() {
       <div className="flex gap-md" style={{ alignItems: 'center' }}>
         <button
           onClick={toggleDark}
+          aria-label={dark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+          aria-pressed={dark}
           style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
         >
           {dark ? '☀️ 라이트' : '🌙 다크'}
@@ -321,6 +329,8 @@ export function TitleScreen() {
             setSound(next);
             sfx.toggle(next);
           }}
+          aria-label={sound ? '소리 끄기' : '소리 켜기'}
+          aria-pressed={sound}
           style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
         >
           {sound ? '🔊' : '🔇'}
