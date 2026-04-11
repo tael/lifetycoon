@@ -21,7 +21,7 @@ import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax'
 import type { StockDef, RealEstate } from '../../game/types';
 import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
-import { KEY_SHOW_STAT_HINTS } from '../components/SettingsModal';
+import { KEY_SHOW_STAT_HINTS, SettingsModal } from '../components/SettingsModal';
 import { incrementBought, incrementSold } from '../../store/globalStats';
 
 export function PlayScreen() {
@@ -35,6 +35,7 @@ export function PlayScreen() {
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
   const [stockSectorFilter, setStockSectorFilter] = useState<string>('all');
   const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
+  const [showSettings, setShowSettings] = useState(false);
   const stockSectors = ['all', ...Array.from(new Set(STOCKS.map((s) => s.sector).filter(Boolean)))];
   const [showStatHints] = useState<boolean>(() => {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
@@ -255,7 +256,28 @@ export function PlayScreen() {
               </span>
             )}
           </div>
-          <SpeedControl current={speedMultiplier} onChange={setSpeed} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <SpeedControl current={speedMultiplier} onChange={setSpeed} />
+            <button
+              onClick={() => setShowSettings(true)}
+              aria-label="설정 열기"
+              style={{
+                background: 'var(--bg-secondary)',
+                border: 'none',
+                borderRadius: 'var(--radius-full)',
+                width: 28,
+                height: 28,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                lineHeight: 1,
+              }}
+            >
+              ⚙️
+            </button>
+          </div>
         </div>
         <div className="progress-bar" style={{ position: 'relative' }}>
           <div className="progress-bar__fill" style={{ width: `${progress * 100}%` }} />
@@ -928,6 +950,9 @@ export function PlayScreen() {
 
       {/* Bottom Tab Bar (fixed) */}
       <TabBar tab={tab} onChange={setTab} />
+
+      {/* Settings Modal */}
+      {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
     </div>
   );
 }
@@ -969,22 +994,22 @@ function TabBar({ tab, onChange }: {
             onClick={() => onChange(it.key)}
             style={{
               flex: 1,
-              minHeight: 56,
+              minHeight: 64,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 2,
+              gap: 3,
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              color: active ? 'var(--accent)' : 'var(--text-muted)',
-              fontWeight: active ? 800 : 500,
+              color: active ? 'var(--accent)' : 'var(--text-secondary, #555)',
+              fontWeight: active ? 800 : 600,
               borderTop: active ? '3px solid var(--accent)' : '3px solid transparent',
             }}
           >
-            <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>{it.emoji}</span>
-            <span style={{ fontSize: '0.65rem' }}>{it.label}</span>
+            <span style={{ fontSize: '1.55rem', lineHeight: 1 }}>{it.emoji}</span>
+            <span style={{ fontSize: '0.8rem' }}>{it.label}</span>
           </button>
         );
       })}

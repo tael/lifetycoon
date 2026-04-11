@@ -8,6 +8,7 @@ import {
 } from '../components/ReleaseNotesModal';
 import { sfx } from '../../game/engine/soundFx';
 import { hasSave, loadGame, clearSave } from '../../store/persistence';
+import { SettingsModal } from '../components/SettingsModal';
 import { loadLegacy, clearLegacy } from '../../store/legacy';
 import { getDailySeed, getDailyDreams, getDailyName } from '../../game/engine/dailySeed';
 import { extractShareCodeFromUrl, decodeShareCode } from '../../store/shareCode';
@@ -44,6 +45,7 @@ export function TitleScreen() {
   const [showAchievements, setShowAchievements] = useState(false);
   const [showGlobalStats, setShowGlobalStats] = useState(false);
   const [showReleaseNotes, setShowReleaseNotes] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [unseenReleaseCount, setUnseenReleaseCount] = useState(0);
   const savedExists = hasSave();
   const legacy = loadLegacy();
@@ -459,6 +461,13 @@ export function TitleScreen() {
         >
           {sound ? '🔊' : '🔇'}
         </button>
+        <button
+          onClick={() => setShowSettings(true)}
+          aria-label="설정 및 피드백 열기"
+          style={{ fontSize: 'var(--font-size-sm)', padding: '4px 12px', borderRadius: 'var(--radius-full)', background: 'var(--bg-secondary)', border: '1px solid #ddd' }}
+        >
+          ⚙️ 설정
+        </button>
         {savedExists && (
           <button
             className="text-muted"
@@ -513,6 +522,7 @@ export function TitleScreen() {
       </button>
 
       {showReleaseNotes && <ReleaseNotesModal onClose={() => setShowReleaseNotes(false)} />}
+      {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
     </div>
   );
 }
