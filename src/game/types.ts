@@ -177,6 +177,16 @@ export type Ending = {
   finalHappiness: number;
   epitaph: string[]; // 여러 줄 비문
   keyMomentsSelected: KeyMoment[];
+  // Extended fields for achievements
+  realEstateCount: number;
+  hadLoanAndRepaid: boolean;
+  bothInsurancesHeld: boolean;
+  boomTimeBillionaireReached: boolean;
+  survivedRecessionWithAssets: boolean;
+  finalWisdom: number;
+  finalCharisma: number;
+  finalHealth: number;
+  traitsCount: number;
 };
 
 export type RealEstate = {

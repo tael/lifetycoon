@@ -96,6 +96,18 @@ function gradeWord(g: Grade): string {
   }
 }
 
+export type EndingExtras = {
+  realEstateCount: number;
+  hadLoanAndRepaid: boolean;
+  bothInsurancesHeld: boolean;
+  boomTimeBillionaireReached: boolean;
+  survivedRecessionWithAssets: boolean;
+  finalWisdom: number;
+  finalCharisma: number;
+  finalHealth: number;
+  traitsCount: number;
+};
+
 export function buildEnding(
   characterName: string,
   dreams: Dream[],
@@ -104,6 +116,7 @@ export function buildEnding(
   finalHappiness: number,
   epitaphTemplates: { opening: string[]; closing: string[] },
   rng: () => number,
+  extras: EndingExtras,
 ): Ending {
   const achieved = dreams.filter((d) => d.achieved);
   const grade = calculateGrade(achieved.length, dreams.length);
@@ -125,5 +138,6 @@ export function buildEnding(
     finalHappiness,
     epitaph,
     keyMomentsSelected: selected,
+    ...extras,
   };
 }

@@ -7,6 +7,7 @@ import { formatAge, progressFraction } from '../../game/engine/timeAxis';
 import { formatWon } from '../../game/domain/asset';
 import { emojiFor } from '../../game/domain/character';
 import { EventModal } from './EventModal';
+import { SkillModal } from './SkillModal';
 import { showToast } from '../components/Toast';
 import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
@@ -22,6 +23,7 @@ export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
   const [showMilestone, setShowMilestone] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showSkillModal, setShowSkillModal] = useState(false);
   const [playTime, setPlayTime] = useState(0);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
@@ -36,6 +38,7 @@ export function PlayScreen() {
   const job = useGameStore((s) => s.job);
   const dreams = useGameStore((s) => s.dreams);
   const traits = useGameStore((s) => s.traits);
+  const unlockedSkills = useGameStore((s) => s.unlockedSkills);
   const keyMoments = useGameStore((s) => s.keyMoments);
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
@@ -314,6 +317,23 @@ export function PlayScreen() {
             ))}
           </div>
         )}
+        <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', justifyContent: 'center' }}>
+          <button
+            onClick={() => setShowSkillModal(true)}
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              padding: '3px 12px',
+              borderRadius: 'var(--radius-full)',
+              border: '1px solid var(--accent)',
+              background: unlockedSkills.length > 0 ? 'var(--accent)' : '#fff',
+              color: unlockedSkills.length > 0 ? '#fff' : 'var(--accent)',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            🎓 스킬 {unlockedSkills.length > 0 ? `(${unlockedSkills.length})` : ''}
+          </button>
+        </div>
       </div>
 
       {/* Dreams */}
@@ -671,6 +691,9 @@ export function PlayScreen() {
 
       {/* Confetti on dream achieved */}
       {showConfetti && <ConfettiBurst />}
+
+      {/* Skill modal */}
+      {showSkillModal && <SkillModal onClose={() => setShowSkillModal(false)} />}
 
       {/* First-play tutorial */}
       <TutorialOverlay />

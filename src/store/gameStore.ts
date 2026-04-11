@@ -20,6 +20,7 @@ import type {
   StockDef,
 } from '../game/types';
 import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate';
+import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor } from '../game/domain/character';
 import { createBankAccount, applyInterestForYears, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
@@ -34,7 +35,7 @@ import {
   type EconomyCycle,
 } from '../game/engine/economyCycle';
 import { createNpcFromSeed, stepNpc } from '../game/domain/npc';
-import { buildEnding } from '../game/domain/ending';
+import { buildEnding, type EndingExtras } from '../game/domain/ending';
 import {
   pickEligibleEvent,
   eventChancePerYear,
@@ -81,6 +82,11 @@ export type GameStoreState = {
   ending: Ending | null;
   lastJobChangeAge: number | null;
   economyCycle: EconomyCycle;
+  hadLoan: boolean;
+  loanFullyRepaid: boolean;
+  boomTimeBillionaireReached: boolean;
+  survivedRecessionWithAssets: boolean;
+  unlockedSkills: string[];
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   activeChallengeId: string | null;
@@ -108,6 +114,7 @@ export type GameStoreState = {
   sellRealEstate: (index: number) => boolean;
   endGame: () => void;
   resetAll: () => void;
+  unlockSkill: (skillId: string) => boolean;
   loadSnapshot: (s: Partial<GameStoreState>) => void;
 };
 
@@ -154,6 +161,11 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     ending: null,
     lastJobChangeAge: null,
     economyCycle: createEconomyCycle(() => Math.random()),
+    hadLoan: false,
+    loanFullyRepaid: false,
+    boomTimeBillionaireReached: false,
+    survivedRecessionWithAssets: false,
+    unlockedSkills: [],
     speedMultiplier: 1,
     activeChallengeId: null,
     stocksMaster: STOCKS,
@@ -183,6 +195,7 @@ type GameStoreActions = Pick<
   | 'sellRealEstate'
   | 'endGame'
   | 'resetAll'
+  | 'unlockSkill'
   | 'loadSnapshot'
 >;
 
@@ -238,12 +251,14 @@ export const useGameStore = create<GameStoreState>()(
       const interestBonus = PHASE_INTEREST_BONUS[economyCycle.phase];
 
       // 2b) Bank interest (with cycle adjustment, floor at 0.5%)
-      const adjustedInterestRate = Math.max(0.005, st.bank.interestRate + interestBonus);
+      const skillInterestBonus = st.unlockedSkills.includes('finance_101') ? 0.01 : 0;
+      const adjustedInterestRate = Math.max(0.005, st.bank.interestRate + interestBonus + skillInterestBonus);
       const bankForInterest = { ...st.bank, interestRate: adjustedInterestRate };
       const bankAfterInterest = applyInterestForYears(bankForInterest, deltaYears);
       const bank = applyLoanInterest(bankAfterInterest, deltaYears);
       // 3) Salary income + stock dividends + pension
-      const salaryIncome = st.job ? st.job.salary * 12 * deltaYears : 0;
+      const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
+      const salaryIncome = st.job ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus) : 0;
       // Pension: 65세+ 시 근무 연수 기반 연금 (연 50만원 × 직업 수 경험)
       const pensionIncome = intAge >= 65
         ? Math.round(500000 * Math.min(st.usedScenarioIds.filter((id) => id.includes('job') || id.includes('career') || id.includes('part_time')).length + 1, 5) * deltaYears)
@@ -401,6 +416,11 @@ export const useGameStore = create<GameStoreState>()(
         ? [...st.assetHistory, { age: intAge, value: totalNow }]
         : st.assetHistory;
 
+      const stocksValNow = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
+      const totalAssetsNow = ctxCash + bank.balance + stocksValNow + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
+      const newBoomReached = st.boomTimeBillionaireReached || (economyCycle.phase === 'boom' && totalAssetsNow >= 100000000);
+      const newSurvivedRecession = st.survivedRecessionWithAssets || (economyCycle.phase === 'recession' && totalAssetsNow >= 10000000);
+
       set({
         character: { ...character, emoji },
         cash: ctxCash,
@@ -415,6 +435,8 @@ export const useGameStore = create<GameStoreState>()(
         phase,
         economyCycle,
         realEstate: appreciatedRealEstate,
+        boomTimeBillionaireReached: newBoomReached,
+        survivedRecessionWithAssets: newSurvivedRecession,
       });
     },
     triggerEvent(ev) {
@@ -531,14 +553,15 @@ export const useGameStore = create<GameStoreState>()(
       const totalAssets = st.cash + st.bank.balance + stocksVal;
       const result = takeLoan(st.cash, st.bank, amount, totalAssets);
       if (!result.executed) return false;
-      set({ cash: result.cash, bank: result.bank });
+      set({ cash: result.cash, bank: result.bank, hadLoan: true });
       return true;
     },
     repayLoan(amount) {
       const st = get();
       const result = repayLoan(st.cash, st.bank, amount);
       if (!result.executed) return false;
-      set({ cash: result.cash, bank: result.bank });
+      const fullyRepaid = result.bank.loanBalance === 0 && st.hadLoan;
+      set({ cash: result.cash, bank: result.bank, loanFullyRepaid: fullyRepaid || st.loanFullyRepaid });
       return true;
     },
     setSpeed(s) {
@@ -600,6 +623,17 @@ export const useGameStore = create<GameStoreState>()(
         st.bank.balance +
         st.holdings.reduce((sum, h) => sum + (st.prices[h.ticker] ?? 0) * h.shares, 0) +
         st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
+      const extras: EndingExtras = {
+        realEstateCount: st.realEstate.length,
+        hadLoanAndRepaid: st.loanFullyRepaid,
+        bothInsurancesHeld: st.insurance.health && st.insurance.asset,
+        boomTimeBillionaireReached: st.boomTimeBillionaireReached,
+        survivedRecessionWithAssets: st.survivedRecessionWithAssets,
+        finalWisdom: st.character.wisdom,
+        finalCharisma: st.character.charisma,
+        finalHealth: st.character.health,
+        traitsCount: st.traits.length,
+      };
       const ending = buildEnding(
         st.character.name,
         st.dreams,
@@ -608,8 +642,21 @@ export const useGameStore = create<GameStoreState>()(
         st.character.happiness,
         epitaphTemplates as { opening: string[]; closing: string[] },
         streams.misc,
+        extras,
       );
       set({ phase: { kind: 'ending' }, ending });
+    },
+    unlockSkill(skillId) {
+      const st = get();
+      if (st.unlockedSkills.includes(skillId)) return false;
+      const skill = SKILLS.find((s) => s.id === skillId);
+      if (!skill) return false;
+      if (st.character.wisdom < skill.wisdomCost) return false;
+      set({
+        character: { ...st.character, wisdom: st.character.wisdom - skill.wisdomCost },
+        unlockedSkills: [...st.unlockedSkills, skillId],
+      });
+      return true;
     },
     resetAll() {
       streams = createStreams(randomSeeds());

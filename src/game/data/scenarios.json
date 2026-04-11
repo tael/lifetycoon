@@ -18933,5 +18933,1706 @@
       "마무리"
     ],
     "oneShot": true
+  },
+  {
+    "id": "s_first_tax_bill",
+    "title": "첫 세금 고지서",
+    "text": "우편함에 낯선 봉투가 와 있어. 세금 고지서야. 처음 보는 금액에 심장이 쿵 내려앉았어.",
+    "ageRange": [
+      22,
+      30
+    ],
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 22
+      }
+    ],
+    "weight": 8,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "사회초년생",
+      "세금",
+      "현실"
+    ],
+    "choices": [
+      {
+        "label": "일단 내고 공부해야겠다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -150000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫 세금을 내며 사회인이 됐음을 실감했다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "부모님께 도움 요청한다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -150000
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "세금 고지서 앞에서 부모님께 전화를 걸었다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "세금 제도를 철저히 파악한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -150000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "세금박사"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "세금 공부를 시작해 재정 지식이 크게 늘었다",
+            "importance": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_tax_refund",
+    "title": "연말정산 환급",
+    "text": "연말정산을 마쳤더니 예상치 못한 환급금이 들어왔어! 13번째 월급이라고들 하던데.",
+    "ageRange": [
+      23,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "value": true
+      },
+      {
+        "kind": "ageRange",
+        "min": 23,
+        "max": 60
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "직장인",
+      "세금",
+      "재테크"
+    ],
+    "choices": [
+      {
+        "label": "비상금 통장에 넣는다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 300000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "연말정산 환급금을 차곡차곡 모았다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "오랫동안 갖고 싶었던 걸 산다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 50000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "keyMoment",
+            "text": "환급금으로 오래 원하던 것을 마침내 샀다",
+            "importance": 0.35
+          }
+        ]
+      },
+      {
+        "label": "세액공제 공부를 더 한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": 300000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "addTrait",
+            "trait": "절세고수"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "세액공제 전략을 파악해 내년엔 더 많이 돌려받을 준비를 했다",
+            "importance": 0.45
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_npc_minsu_wedding",
+    "title": "민수의 결혼식",
+    "text": "라이벌 민수에게서 청첩장이 왔어. '내 결혼식에 꼭 와줘!' 민수가 먼저 결혼하다니.",
+    "ageRange": [
+      28,
+      40
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 40
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "NPC",
+      "관계",
+      "결혼"
+    ],
+    "choices": [
+      {
+        "label": "진심으로 축하해주러 간다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -100000
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "민수의 결혼식에서 진심 어린 축하를 건넸다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "바쁜 척 불참한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "charisma",
+            "delta": -3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "민수 결혼식에 가지 않은 것이 두고두고 마음에 걸렸다",
+            "importance": 0.3
+          }
+        ]
+      },
+      {
+        "label": "크게 축의금을 내고 자극받는다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -300000
+          },
+          {
+            "kind": "charisma",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "의리맨"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "민수 결혼식에서 나도 열심히 살아야겠다는 의지를 다졌다",
+            "importance": 0.55
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_npc_jiyun_ipo",
+    "title": "지윤 회사 상장 소문",
+    "text": "공격적 투자가 지윤이 귓속말로 '우리 회사 곧 상장해. 스톡옵션 받았어!'라고 했어. 부럽기도 하고 자극도 돼.",
+    "ageRange": [
+      28,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 28,
+        "max": 45
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "NPC",
+      "주식",
+      "커리어"
+    ],
+    "choices": [
+      {
+        "label": "나도 스타트업에 도전해본다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "도전가"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지윤의 상장 소식에 자극받아 스타트업을 알아보기 시작했다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "지윤 회사 상장주를 노린다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 7
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지윤 회사 IPO를 겨냥해 공모주 청약을 준비했다",
+            "importance": 0.45
+          }
+        ]
+      },
+      {
+        "label": "내 길을 묵묵히 걷는다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "남의 성공에 흔들리지 않고 내 페이스를 지켰다",
+            "importance": 0.4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_npc_lucky_share",
+    "title": "럭키의 복권 비법",
+    "text": "행운의 아이콘 럭키가 신이 나서 달려왔어. '이번 주 로또 번호 꿈에서 봤어! 나눠줄게!'",
+    "ageRange": [
+      20,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 70
+      }
+    ],
+    "weight": 3,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "NPC",
+      "복권",
+      "코믹"
+    ],
+    "choices": [
+      {
+        "label": "같이 산다! 반반 내기다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -5000
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "럭키와 함께 로또를 샀다. 기대감만큼은 억만장자였다",
+            "importance": 0.35
+          }
+        ]
+      },
+      {
+        "label": "꿈 번호는 믿을 게 못 돼",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "럭키의 꿈 번호를 정중히 거절했다. 현명한 선택이었다",
+            "importance": 0.3
+          }
+        ]
+      },
+      {
+        "label": "번호는 받되 사지는 않는다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "럭키의 번호를 받아 적었지만 결국 사지 않았다",
+            "importance": 0.25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_npc_seoyeon_lecture",
+    "title": "서연의 투자 강의",
+    "text": "멘토 서연이 초대장을 내밀었어. '다음 주 내 투자 강의 들으러 와. 네 얘기도 좀 하려고.'",
+    "ageRange": [
+      22,
+      50
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 22,
+        "max": 50
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "NPC",
+      "투자",
+      "배움"
+    ],
+    "choices": [
+      {
+        "label": "맨 앞자리에 앉아 열심히 듣는다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "addTrait",
+            "trait": "투자고수"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서연의 강의를 들으며 투자 인사이트를 한껏 흡수했다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "참석하고 질문도 한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서연 강의에서 날카로운 질문으로 주목받았다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "바쁘다고 정중히 거절한다",
+        "importance": 0.15,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서연의 강의 초대를 거절해 두고두고 아쉬웠다",
+            "importance": 0.3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_middle_crisis",
+    "title": "중년의 위기",
+    "text": "어느 날 아침, 거울 앞에서 멍하니 서 있었어. 흰 머리카락 한 올. 나 지금 제대로 살고 있는 걸까?",
+    "ageRange": [
+      42,
+      48
+    ],
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 45
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "중년",
+      "감성",
+      "성찰"
+    ],
+    "choices": [
+      {
+        "label": "새로운 취미를 찾아본다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "45세에 새 취미를 시작하며 제2의 청춘을 열었다",
+            "importance": 0.55
+          }
+        ]
+      },
+      {
+        "label": "지금까지 해온 것에 감사한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "keyMoment",
+            "text": "중년의 위기를 성숙한 감사로 넘겼다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "버킷리스트를 작성한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "버킷리스터"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "45세에 버킷리스트를 쓰며 남은 인생의 지도를 그렸다",
+            "importance": 0.55
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_empty_nest",
+    "title": "빈 둥지 증후군",
+    "text": "막내가 대학교에 들어가며 집을 떠났어. 갑자기 집이 너무 조용해. 이 고요함이 낯설고 쓸쓸해.",
+    "ageRange": [
+      48,
+      58
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 48,
+        "max": 58
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "중년",
+      "가족",
+      "감성"
+    ],
+    "choices": [
+      {
+        "label": "배우자와 둘만의 시간을 즐긴다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빈 둥지에서 배우자와 오붓한 시간을 보내며 새 출발을 했다",
+            "importance": 0.55
+          }
+        ]
+      },
+      {
+        "label": "자원봉사를 시작한다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "봉사자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "자녀가 떠난 빈자리를 봉사 활동으로 채웠다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "새 커리어를 준비한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빈 둥지 증후군을 새 도전의 출발점으로 삼았다",
+            "importance": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_grandpa_wisdom",
+    "title": "할아버지의 지혜",
+    "text": "할아버지가 낚싯대를 챙기며 말씀하셨어. '손자야, 인생에서 제일 중요한 게 뭔지 아냐?'",
+    "ageRange": [
+      13,
+      17
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 13,
+        "max": 17
+      }
+    ],
+    "weight": 6,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "청소년",
+      "가족",
+      "지혜"
+    ],
+    "choices": [
+      {
+        "label": "뭔데요, 할아버지?",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 20
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "할아버지의 인생 지혜를 귀담아 들었다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "돈이요!",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "할아버지께 돈이 최고라고 했다가 잔소리를 들었다",
+            "importance": 0.3
+          }
+        ]
+      },
+      {
+        "label": "건강이요!",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "건강이 최고라는 대답에 할아버지가 크게 웃으셨다",
+            "importance": 0.45
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_school_prank",
+    "title": "학교 장난",
+    "text": "친구가 선생님 의자에 압정을 놓자며 눈을 빛냈어. 재미있겠지만... 어떻게 할까?",
+    "ageRange": [
+      11,
+      15
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 11,
+        "max": 15
+      }
+    ],
+    "weight": 5,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "유년기",
+      "학교",
+      "코믹"
+    ],
+    "choices": [
+      {
+        "label": "말린다. 나쁜 짓이잖아",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "학교 장난을 말리며 올바른 선택을 했다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "같이 한다! 재밌겠는데",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": -5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "장난에 동참했다가 선생님께 크게 혼났다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "몰래 선생님께 일러바친다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "happiness",
+            "delta": -5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "고자질 덕분에 선생님께 칭찬받았지만 친구 사이가 어색해졌다",
+            "importance": 0.35
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_secret_garden",
+    "title": "비밀 정원 발견",
+    "text": "동네 골목 끝에 낡은 문이 있었어. 열었더니 아무도 모르는 작은 정원이 펼쳐졌어. 꽃향기가 가득해.",
+    "ageRange": [
+      10,
+      16
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 16
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "유년기",
+      "감성",
+      "일상"
+    ],
+    "choices": [
+      {
+        "label": "나만의 비밀 장소로 삼는다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "비밀 정원을 나만의 아지트로 삼아 소중한 추억을 쌓았다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "친한 친구에게만 알려준다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "비밀 정원을 친구와 나눠 우정이 더욱 깊어졌다",
+            "importance": 0.55
+          }
+        ]
+      },
+      {
+        "label": "정원을 가꿔보기로 한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "addTrait",
+            "trait": "가드너"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "비밀 정원을 직접 가꾸며 생명을 돌보는 기쁨을 알았다",
+            "importance": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_rainy_cafe",
+    "title": "비 오는 날 카페",
+    "text": "갑작스러운 소나기에 카페로 뛰어 들어왔어. 따뜻한 커피 한 잔, 빗소리, 그리고 여유로운 오후.",
+    "ageRange": [
+      18,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 18,
+        "max": 45
+      }
+    ],
+    "weight": 4,
+    "pausesGame": false,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "감성",
+      "휴식"
+    ],
+    "choices": [
+      {
+        "label": "책을 꺼내 읽는다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -6000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빗소리를 들으며 책 읽는 호사를 누렸다",
+            "importance": 0.45
+          }
+        ]
+      },
+      {
+        "label": "일기를 쓴다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -6000
+          },
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "비 오는 카페에서 일기를 쓰며 마음을 정리했다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "그냥 멍하니 빗소리를 듣는다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -6000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "keyMoment",
+            "text": "빗소리 속에서 아무 생각 없이 쉬는 사치를 부렸다",
+            "importance": 0.4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_puppy_love",
+    "title": "첫사랑의 추억",
+    "text": "좋아하는 아이와 같은 버스를 타게 됐어. 심장이 쿵쾅대고, 뭘 말해야 할지 모르겠어.",
+    "ageRange": [
+      13,
+      17
+    ],
+    "triggers": [
+      {
+        "kind": "specificAge",
+        "age": 15
+      }
+    ],
+    "weight": 7,
+    "pausesGame": true,
+    "oneShot": true,
+    "tags": [
+      "청소년",
+      "감성",
+      "첫사랑"
+    ],
+    "choices": [
+      {
+        "label": "용기 내어 말을 건다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "addTrait",
+            "trait": "용감한심장"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫사랑에게 용기 내어 말을 걸었다. 두근거림이 평생 기억에 남았다",
+            "importance": 0.8
+          }
+        ]
+      },
+      {
+        "label": "눈만 마주치고 내린다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "첫사랑과 눈이 마주쳤지만 아무 말도 못 했다. 아직도 기억난다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "다음을 기약하며 내린다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 5
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "다음 기회를 기다렸지만 그 버스는 다시 오지 않았다",
+            "importance": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_night_shift",
+    "title": "야근 후 야식",
+    "text": "밤 11시, 드디어 야근이 끝났어. 텅 빈 사무실을 나서며 배가 꼬르륵. 뭐 먹을까?",
+    "ageRange": [
+      23,
+      45
+    ],
+    "triggers": [
+      {
+        "kind": "hasJob",
+        "value": true
+      },
+      {
+        "kind": "ageRange",
+        "min": 23,
+        "max": 45
+      }
+    ],
+    "weight": 4,
+    "pausesGame": false,
+    "oneShot": false,
+    "tags": [
+      "직장인",
+      "일상",
+      "야식"
+    ],
+    "choices": [
+      {
+        "label": "편의점 삼각김밥으로 해결한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -2000
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "야근 후 편의점 삼각김밥이 꿀맛이었다",
+            "importance": 0.3
+          }
+        ]
+      },
+      {
+        "label": "24시 국밥집으로 달려간다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -12000
+          },
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "keyMoment",
+            "text": "야근 후 뜨끈한 국밥 한 그릇에 피로가 싹 풀렸다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "그냥 집에 들어가 잔다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "happiness",
+            "delta": -3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "배고픔을 참고 집에 들어가 쓰러져 잤다",
+            "importance": 0.25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_subway_stranger",
+    "title": "지하철에서 만난 사람",
+    "text": "지하철에서 옆자리 노인이 말을 걸어왔어. \"젊은이, 어디까지 가요?\" 묘한 눈빛이었어.",
+    "ageRange": [
+      20,
+      50
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 50
+      }
+    ],
+    "weight": 3,
+    "pausesGame": false,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "인연",
+      "감성"
+    ],
+    "choices": [
+      {
+        "label": "친절하게 대화를 나눈다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "wisdom",
+            "delta": 10
+          },
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "지하철에서 만난 노인과의 대화가 오래 마음에 남았다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "이어폰을 끼고 모른 척한다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": -3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "낯선 이의 말을 외면했다. 나중에 왜 그랬을까 싶었다",
+            "importance": 0.3
+          }
+        ]
+      },
+      {
+        "label": "짧게 답하고 책을 편다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "짧은 인사 후 책을 폈다. 그 노인의 눈빛이 잊히질 않았다",
+            "importance": 0.35
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_bookstore_find",
+    "title": "서점에서 찾은 책",
+    "text": "우연히 들른 서점에서 손이 가는 책 한 권을 발견했어. 제목만 봐도 심장이 뛰었어.",
+    "ageRange": [
+      15,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 60
+      }
+    ],
+    "weight": 4,
+    "pausesGame": false,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "지식",
+      "감성"
+    ],
+    "choices": [
+      {
+        "label": "바로 구매한다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "cash",
+            "delta": -18000
+          },
+          {
+            "kind": "wisdom",
+            "delta": 15
+          },
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "서점에서 발견한 책이 인생을 바꾸는 계기가 됐다",
+            "importance": 0.55
+          }
+        ]
+      },
+      {
+        "label": "도서관에서 빌려 읽는다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "happiness",
+            "delta": 7
+          },
+          {
+            "kind": "keyMoment",
+            "text": "도서관에서 그 책을 빌려 읽었다. 알뜰한 선택이었다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "제목만 적어두고 나중에 산다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "wisdom",
+            "delta": 3
+          },
+          {
+            "kind": "keyMoment",
+            "text": "메모해뒀지만 결국 그 책은 사지 못했다",
+            "importance": 0.25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_park_jogging",
+    "title": "공원 조깅",
+    "text": "이른 아침 공원. 상쾌한 공기, 새 소리, 그리고 뛰어가는 사람들. 오늘 한번 달려볼까?",
+    "ageRange": [
+      20,
+      65
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 20,
+        "max": 65
+      }
+    ],
+    "weight": 4,
+    "pausesGame": false,
+    "oneShot": false,
+    "tags": [
+      "건강",
+      "일상",
+      "자기계발"
+    ],
+    "choices": [
+      {
+        "label": "5km를 목표로 달린다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "러너"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "5km를 완주하며 활기찬 하루의 시작을 열었다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "가볍게 산책만 한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 10
+          },
+          {
+            "kind": "wisdom",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "공원 산책으로 맑은 정신으로 하루를 시작했다",
+            "importance": 0.35
+          }
+        ]
+      },
+      {
+        "label": "벤치에 앉아 사람 구경만 한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "공원 벤치에서 사람들을 구경하며 여유로운 아침을 보냈다",
+            "importance": 0.3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_birthday_surprise_friends",
+    "title": "생일 서프라이즈",
+    "text": "평범한 하루인 줄 알았는데, 친구들이 깜짝 파티를 열어줬어! 케이크 촛불 앞에서 눈물이 핑 돌았어.",
+    "ageRange": [
+      15,
+      60
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 15,
+        "max": 60
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "우정",
+      "감동"
+    ],
+    "choices": [
+      {
+        "label": "감동해서 크게 울어버린다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 25
+          },
+          {
+            "kind": "charisma",
+            "delta": 5
+          },
+          {
+            "kind": "keyMoment",
+            "text": "생일 파티에 감동받아 눈물을 흘렸다. 친구들이 더 소중해졌다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "쿨하게 웃으며 고마워한다",
+        "importance": 0.4,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "생일 서프라이즈에 쿨하게 반응해 더 인기가 올랐다",
+            "importance": 0.55
+          }
+        ]
+      },
+      {
+        "label": "다음엔 내가 더 크게 갚겠다고 다짐한다",
+        "importance": 0.25,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "의리맨"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "받은 감동을 두 배로 돌려주겠다고 마음먹었다",
+            "importance": 0.5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_lost_and_found",
+    "title": "잃어버린 것을 되찾다",
+    "text": "한참 전에 잃어버렸다고 포기했던 소중한 물건을 우연히 다시 찾았어. 믿을 수가 없어!",
+    "ageRange": [
+      10,
+      70
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 10,
+        "max": 70
+      }
+    ],
+    "weight": 3,
+    "pausesGame": false,
+    "oneShot": false,
+    "tags": [
+      "일상",
+      "감성",
+      "행운"
+    ],
+    "choices": [
+      {
+        "label": "너무 기뻐서 하루 종일 기분 좋다",
+        "importance": 0.5,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 20
+          },
+          {
+            "kind": "keyMoment",
+            "text": "잃어버린 물건을 되찾은 날, 세상이 반짝였다",
+            "importance": 0.5
+          }
+        ]
+      },
+      {
+        "label": "앞으로 잘 관리하겠다고 다짐한다",
+        "importance": 0.3,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "잃어버린 물건을 되찾으며 소중한 것을 아끼기로 다짐했다",
+            "importance": 0.4
+          }
+        ]
+      },
+      {
+        "label": "찾아준 사람에게 감사 인사를 전한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 8
+          },
+          {
+            "kind": "keyMoment",
+            "text": "물건을 찾아준 이에게 진심 어린 감사를 전했다",
+            "importance": 0.45
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "s_old_photo",
+    "title": "오래된 사진 발견",
+    "text": "서랍 속에서 빛바랜 사진 한 장을 발견했어. 어린 시절의 나와 지금의 내가 겹쳐 보여.",
+    "ageRange": [
+      30,
+      80
+    ],
+    "triggers": [
+      {
+        "kind": "ageRange",
+        "min": 30,
+        "max": 80
+      }
+    ],
+    "weight": 4,
+    "pausesGame": true,
+    "oneShot": false,
+    "tags": [
+      "감성",
+      "추억",
+      "성찰"
+    ],
+    "choices": [
+      {
+        "label": "한동안 사진을 들여다본다",
+        "importance": 0.45,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 12
+          },
+          {
+            "kind": "wisdom",
+            "delta": 12
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오래된 사진 한 장이 잊고 살았던 감정을 불러일으켰다",
+            "importance": 0.6
+          }
+        ]
+      },
+      {
+        "label": "사진 속 사람에게 연락한다",
+        "importance": 0.35,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 18
+          },
+          {
+            "kind": "charisma",
+            "delta": 10
+          },
+          {
+            "kind": "keyMoment",
+            "text": "오래된 사진을 보고 오랜 친구에게 연락해 반가운 재회를 했다",
+            "importance": 0.65
+          }
+        ]
+      },
+      {
+        "label": "앨범을 만들어 보관한다",
+        "importance": 0.2,
+        "effects": [
+          {
+            "kind": "happiness",
+            "delta": 15
+          },
+          {
+            "kind": "wisdom",
+            "delta": 8
+          },
+          {
+            "kind": "addTrait",
+            "trait": "기억보관자"
+          },
+          {
+            "kind": "keyMoment",
+            "text": "소중한 사진들을 앨범에 정리하며 인생을 돌아봤다",
+            "importance": 0.55
+          }
+        ]
+      }
+    ]
   }
 ]

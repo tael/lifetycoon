@@ -11,6 +11,7 @@ export type Achievement = {
 export type AchievementMeta = {
   totalGamesPlayed: number;
   gradesEarned: Grade[];
+  dailyChallengeCompleted: boolean;
 };
 
 export type UnlockedAchievement = {
@@ -127,6 +128,69 @@ const ACHIEVEMENTS: Achievement[] = [
     emoji: '🍃',
     check: (e) => e.dreamsAchieved === 0 && e.grade === 'C',
   },
+  {
+    id: 'real_estate_mogul',
+    title: '부동산 제왕',
+    description: '부동산을 2개 이상 보유한 채로 엔딩!',
+    emoji: '🏘️',
+    check: (e) => e.realEstateCount >= 2,
+  },
+  {
+    id: 'debt_survivor',
+    title: '빚 탈출',
+    description: '대출을 받았다가 완납하고 엔딩!',
+    emoji: '💪',
+    check: (e) => e.hadLoanAndRepaid,
+  },
+  {
+    id: 'insurance_master',
+    title: '리스크 관리자',
+    description: '건강보험 + 자산보험 모두 가입한 채로 엔딩!',
+    emoji: '🛡️',
+    check: (e) => e.bothInsurancesHeld,
+  },
+  {
+    id: 'daily_champion',
+    title: '일일 챌린지 완주',
+    description: '일일 챌린지를 완료했어!',
+    emoji: '🏅',
+    check: (_e, m) => m.dailyChallengeCompleted,
+  },
+  {
+    id: 'twenty_games',
+    title: '인생 20회차',
+    description: '게임을 20번 완료!',
+    emoji: '🎯',
+    check: (_e, m) => m.totalGamesPlayed >= 20,
+  },
+  {
+    id: 'boom_rich',
+    title: '호황기 부자',
+    description: '호황기에 자산 1억원 달성!',
+    emoji: '📈',
+    check: (e) => e.boomTimeBillionaireReached,
+  },
+  {
+    id: 'recession_survivor',
+    title: '불황 생존자',
+    description: '불황기에도 자산 1000만원 이상 유지!',
+    emoji: '🛟',
+    check: (e) => e.survivedRecessionWithAssets,
+  },
+  {
+    id: 'stat_max',
+    title: '완벽 능력자',
+    description: '지혜·카리스마·건강·행복 모두 80 이상!',
+    emoji: '🌟',
+    check: (e) => e.finalWisdom >= 80 && e.finalCharisma >= 80 && e.finalHealth >= 80 && e.finalHappiness >= 80,
+  },
+  {
+    id: 'chain_master',
+    title: '체인 마스터',
+    description: '특성을 10개 이상 획득!',
+    emoji: '🔗',
+    check: (e) => e.traitsCount >= 10,
+  },
 ];
 
 const STORAGE_KEY = 'lifetycoon-kids:achievements';
@@ -144,9 +208,9 @@ export function loadUnlocked(): UnlockedAchievement[] {
 export function loadMeta(): AchievementMeta {
   try {
     const raw = localStorage.getItem(META_KEY);
-    return raw ? JSON.parse(raw) : { totalGamesPlayed: 0, gradesEarned: [] };
+    return raw ? JSON.parse(raw) : { totalGamesPlayed: 0, gradesEarned: [], dailyChallengeCompleted: false };
   } catch {
-    return { totalGamesPlayed: 0, gradesEarned: [] };
+    return { totalGamesPlayed: 0, gradesEarned: [], dailyChallengeCompleted: false };
   }
 }
 
