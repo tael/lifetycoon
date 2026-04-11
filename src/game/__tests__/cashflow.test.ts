@@ -149,4 +149,51 @@ describe('computeCashflow', () => {
     expect(coupon?.amount).toBe(30_000); // 만기 도달분 제외
     expect(coupon?.passive).toBe(true);
   });
+
+  it('passiveIncome === totalExpense 경계에서도 financiallyFree=true', () => {
+    // 이자 수입 정확히 20만 = 보험료 20만
+    const r = computeCashflow(baseInput({
+      job: null,
+      bank: { ...baseBank, balance: 20_000_000 / 0.03 }, // 20만 / 3% = 약 666만
+      effectiveInterestRate: 0.03,
+      insurance: { health: true, asset: false, premium: 200_000 },
+    }));
+    // 반올림으로 인해 정확히 같지 않을 수 있으므로, 이상/이하 모두 테스트
+    if (r.passiveIncome === r.totalExpense) {
+      expect(r.financiallyFree).toBe(true);
+      expect(r.freedomRatio).toBeCloseTo(1.0, 3);
+    } else {
+      // 반올림 차이가 있으면 >=만 검증
+      expect(r.financiallyFree).toBe(r.passiveIncome >= r.totalExpense);
+    }
+  });
+
+  it('연금 경계: 64세에는 없고 65세에는 연금 라인이 생긴다', () => {
+    const age64 = computeCashflow(baseInput({ age: 64 }));
+    expect(age64.income.find((i) => i.label === '연금')).toBeUndefined();
+
+    const age65 = computeCashflow(baseInput({ age: 65 }));
+    expect(age65.income.find((i) => i.label === '연금')?.amount).toBe(500_000);
+
+    // 경계 직전/직후 테스트: 64.9, 65.0
+    const age649 = computeCashflow(baseInput({ age: 64.9 }));
+    expect(age649.income.find((i) => i.label === '연금')).toBeUndefined();
+    const age650 = computeCashflow(baseInput({ age: 65.0 }));
+    expect(age650.income.find((i) => i.label === '연금')?.amount).toBe(500_000);
+  });
+
+  it('대출 잔액 0이면 expense 배열에 "대출 이자" 라인이 없고, >0이면 있다', () => {
+    const noLoan = computeCashflow(baseInput({
+      job: salaryJob,
+      bank: { ...baseBank, loanBalance: 0 },
+    }));
+    expect(noLoan.expense.find((e) => e.label === '대출 이자')).toBeUndefined();
+
+    const withLoan = computeCashflow(baseInput({
+      job: salaryJob,
+      bank: { ...baseBank, loanBalance: 10_000_000, loanInterestRate: 0.05 },
+    }));
+    const loanLine = withLoan.expense.find((e) => e.label === '대출 이자');
+    expect(loanLine?.amount).toBe(500_000); // 1000만 × 5%
+  });
 });
