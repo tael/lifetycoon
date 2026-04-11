@@ -13,6 +13,7 @@ import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { PHASE_LABEL } from '../../game/engine/economyCycle';
+import { calculateIncomeTax, calculatePropertyTax } from '../../game/engine/tax';
 import type { StockDef, RealEstate } from '../../game/types';
 import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
@@ -187,7 +188,11 @@ export function PlayScreen() {
   const pensionYearly = intAge >= 65 ? 500000 : 0;
   const insuranceYearly = insurance.premium ?? 0;
   const loanInterestYearly = Math.round(bank.loanBalance * bank.loanInterestRate);
-  const yearlyIncome = salaryYearly + interestYearly + dividendIncome + pensionYearly - insuranceYearly - loanInterestYearly;
+  const grossYearlyIncome = salaryYearly + interestYearly + dividendIncome + pensionYearly;
+  const incomeTaxYearly = calculateIncomeTax(grossYearlyIncome);
+  const propertyTaxYearly = calculatePropertyTax(realEstateValue);
+  const totalTaxYearly = incomeTaxYearly + propertyTaxYearly;
+  const yearlyIncome = grossYearlyIncome - insuranceYearly - loanInterestYearly - totalTaxYearly;
 
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);
@@ -394,7 +399,7 @@ export function PlayScreen() {
         }}>
           📥 연 순수입: {formatWon(yearlyIncome)}
           <span className="text-muted" style={{ marginLeft: 8 }}>
-            (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
+            (월급 {formatWon(salaryYearly)} + 이자 {formatWon(interestYearly)} + 배당 {formatWon(dividendIncome)}{pensionYearly > 0 ? ` + 연금 ${formatWon(pensionYearly)}` : ''}{totalTaxYearly > 0 ? ` - 세금 ${formatWon(totalTaxYearly)}` : ''}{insuranceYearly > 0 ? ` - 보험료 ${formatWon(insuranceYearly)}` : ''}{loanInterestYearly > 0 ? ` - 대출이자 ${formatWon(loanInterestYearly)}` : ''})
           </span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>

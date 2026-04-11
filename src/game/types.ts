@@ -60,7 +60,13 @@ export type DreamCondition =
   | { kind: 'jobHeld'; jobId: string }
   | { kind: 'ageReached'; value: number }
   | { kind: 'totalAssetsGte'; value: number }
-  | { kind: 'happinessGte'; value: number };
+  | { kind: 'happinessGte'; value: number }
+  | { kind: 'wisdomGte'; value: number }
+  | { kind: 'charismaGte'; value: number }
+  | { kind: 'hasTrait'; trait: string }
+  | { kind: 'hasTraitAny'; traits: string[] }
+  | { kind: 'realEstateCountGte'; value: number }
+  | { kind: 'ageReachedAndHappinessGte'; age: number; happiness: number };
 
 export type Dream = {
   id: string;

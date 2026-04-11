@@ -5,6 +5,7 @@ import type {
   DreamCondition,
   Holding,
   Job,
+  RealEstate,
 } from '../types';
 import { holdingsValue } from './stock';
 
@@ -17,6 +18,7 @@ export function evaluateCondition(
     holdings: Holding[];
     prices: Record<string, number>;
     job: Job | null;
+    realEstate: RealEstate[];
   },
 ): boolean {
   switch (cond.kind) {
@@ -37,6 +39,18 @@ export function evaluateCondition(
     }
     case 'happinessGte':
       return ctx.character.happiness >= cond.value;
+    case 'wisdomGte':
+      return ctx.character.wisdom >= cond.value;
+    case 'charismaGte':
+      return ctx.character.charisma >= cond.value;
+    case 'hasTrait':
+      return ctx.character.traits.includes(cond.trait);
+    case 'hasTraitAny':
+      return cond.traits.some((t) => ctx.character.traits.includes(t));
+    case 'realEstateCountGte':
+      return ctx.realEstate.length >= cond.value;
+    case 'ageReachedAndHappinessGte':
+      return ctx.character.age >= cond.age && ctx.character.happiness >= cond.happiness;
   }
 }
 

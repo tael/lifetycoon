@@ -70,5 +70,68 @@
     "achieved": false,
     "rewardKeyMoment": "10억의 주인이 되었다",
     "iconEmoji": "🤑"
+  },
+  {
+    "id": "d_travel_world",
+    "title": "세계여행",
+    "description": "세계 곳곳을 누비며 견문 넓히기",
+    "targetCondition": { "kind": "hasTrait", "trait": "여행가" },
+    "achieved": false,
+    "rewardKeyMoment": "드디어 세계 곳곳을 발로 누볐다",
+    "iconEmoji": "🌍"
+  },
+  {
+    "id": "d_own_business",
+    "title": "내 사업 소유",
+    "description": "카페, 떡볶이가게, IT회사, CEO 중 하나 달성",
+    "targetCondition": { "kind": "hasTraitAny", "traits": ["카페사장", "떡볶이사장", "IT사업가", "CEO"] },
+    "achieved": false,
+    "rewardKeyMoment": "드디어 내 이름의 사업체가 생겼다",
+    "iconEmoji": "🏪"
+  },
+  {
+    "id": "d_knowledge_master",
+    "title": "지식의 달인",
+    "description": "지혜 100 달성",
+    "targetCondition": { "kind": "wisdomGte", "value": 100 },
+    "achieved": false,
+    "rewardKeyMoment": "세상 모든 것을 꿰뚫는 지혜를 얻었다",
+    "iconEmoji": "🦉"
+  },
+  {
+    "id": "d_social_butterfly",
+    "title": "인싸 중의 인싸",
+    "description": "카리스마 100 달성",
+    "targetCondition": { "kind": "charismaGte", "value": 100 },
+    "achieved": false,
+    "rewardKeyMoment": "모든 사람이 나를 중심으로 모였다",
+    "iconEmoji": "🦋"
+  },
+  {
+    "id": "d_real_estate_mogul",
+    "title": "부동산 제왕",
+    "description": "부동산 2채 이상 보유",
+    "targetCondition": { "kind": "realEstateCountGte", "value": 2 },
+    "achieved": false,
+    "rewardKeyMoment": "내 이름의 부동산이 두 채 이상이 되었다",
+    "iconEmoji": "🏘️"
+  },
+  {
+    "id": "d_philanthropist",
+    "title": "자선가",
+    "description": "자선가 또는 기부왕 특성 획득",
+    "targetCondition": { "kind": "hasTraitAny", "traits": ["자선가", "기부왕"] },
+    "achieved": false,
+    "rewardKeyMoment": "나의 선행이 많은 사람들을 도왔다",
+    "iconEmoji": "🤝"
+  },
+  {
+    "id": "d_long_life_100",
+    "title": "100세까지 행복하게",
+    "description": "100세 도달 & 행복도 80 이상",
+    "targetCondition": { "kind": "ageReachedAndHappinessGte", "age": 100, "happiness": 80 },
+    "achieved": false,
+    "rewardKeyMoment": "100세 생일에도 환하게 웃을 수 있었다",
+    "iconEmoji": "🎉"
   }
 ]

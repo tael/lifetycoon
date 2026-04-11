@@ -40,6 +40,8 @@ import {
   eventChancePerYear,
   type DispatchContext,
 } from '../game/engine/eventDispatcher';
+import { calculateIncomeTax, calculatePropertyTax } from '../game/engine/tax';
+import type { ChallengeMode } from '../game/engine/challengeMode';
 import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
@@ -81,12 +83,13 @@ export type GameStoreState = {
   economyCycle: EconomyCycle;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
+  activeChallengeId: string | null;
   // Derived/static
   stocksMaster: StockDef[];
   jobsMaster: Job[];
   scenariosMaster: ScenarioEvent[];
   // Actions
-  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number) => void;
+  startNewGame: (name: string, pickedDreamIds: string[], customSeed?: number, challengeModifier?: ChallengeMode['modifier'] & { challengeId?: string }) => void;
   goTo: (phase: Phase) => void;
   pickDreams: (ids: string[]) => void;
   advanceYear: (intAge: number, deltaYears: number) => void;
@@ -152,6 +155,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     lastJobChangeAge: null,
     economyCycle: createEconomyCycle(() => Math.random()),
     speedMultiplier: 1,
+    activeChallengeId: null,
     stocksMaster: STOCKS,
     jobsMaster: JOBS,
     scenariosMaster: SCENARIOS,
@@ -188,15 +192,23 @@ let streams: RngStreams = createStreams(randomSeeds());
 export const useGameStore = create<GameStoreState>()(
   subscribeWithSelector((set, get) => ({
     ...makeInitialState(),
-    startNewGame(name, pickedDreamIds, customSeed?) {
+    startNewGame(name, pickedDreamIds, customSeed?, challengeModifier?) {
       const seeds = randomSeeds(customSeed);
       streams = createStreams(seeds);
+      const base = makeInitialState();
+      const startCash = challengeModifier?.startCash ?? base.cash;
+      const speedMultiplier = challengeModifier?.speedLock ?? base.speedMultiplier;
+      const activeChallengeId = challengeModifier?.challengeId ?? null;
       set({
-        ...makeInitialState(),
+        ...base,
         seeds,
         character: createCharacter(name),
         dreams: freshDreams(pickedDreamIds),
         phase: { kind: 'playing' },
+        cash: startCash,
+        assetHistory: [{ age: 10, value: startCash }],
+        speedMultiplier,
+        activeChallengeId,
       });
     },
     goTo(phase) {
@@ -281,7 +293,14 @@ export const useGameStore = create<GameStoreState>()(
       // Real estate: appreciate values + collect rent
       const appreciatedRealEstate = st.realEstate.map((re) => appreciateValue(re, deltaYears, streams.misc));
       const rentalIncome = st.realEstate.reduce((sum, re) => sum + re.monthlyRent * 12 * deltaYears, 0);
-      const ctxCash = st.cash + salaryIncome + dividendIncome + pensionIncome - autoInvestSpent - insuranceCost + Math.round(rentalIncome);
+      // 세금 계산
+      const realEstateValueForTax = st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
+      const grossYearlyIncome = salaryIncome + dividendIncome + pensionIncome + Math.round(rentalIncome);
+      const incomeTax = Math.round(calculateIncomeTax(grossYearlyIncome) * deltaYears);
+      const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
+      const totalTax = incomeTax + propertyTax;
+
+      const ctxCash = st.cash + grossYearlyIncome - autoInvestSpent - insuranceCost - totalTax;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
@@ -293,6 +312,7 @@ export const useGameStore = create<GameStoreState>()(
             holdings: st.holdings,
             prices,
             job: st.job,
+            realEstate: st.realEstate,
           }),
       );
       // 7) Key moments from newly achieved dreams
@@ -356,9 +376,17 @@ export const useGameStore = create<GameStoreState>()(
             timestamp: Date.now(),
           }]
         : [];
+      const taxLogEntry = (intAge % 5 === 0 && totalTax > 0)
+        ? [{
+            age: intAge,
+            text: `🧾 ${intAge}세 세금: 소득세 ${Math.round(incomeTax / 10000)}만원 + 재산세 ${Math.round(propertyTax / 10000)}만원 = 합계 ${Math.round(totalTax / 10000)}만원 납부`,
+            timestamp: Date.now(),
+          }]
+        : [];
       const recentLog = [
         ...st.recentLog,
         ...cycleLogEntry,
+        ...taxLogEntry,
         {
           age: intAge,
           text: `${intAge}세: 자산 ${Math.round((ctxCash + bank.balance) / 10000)}만원`,

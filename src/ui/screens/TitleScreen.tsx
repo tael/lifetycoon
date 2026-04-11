@@ -7,6 +7,7 @@ import { getUnlockedCount, getTotalCount, getAllAchievements, loadUnlocked } fro
 import { loadHighScore } from '../../store/highScore';
 import { loadGallery } from '../../store/endingGallery';
 import { formatWon } from '../../game/domain/asset';
+import { CHALLENGE_MODES } from '../../game/engine/challengeMode';
 
 const QUOTES = [
   '복리는 세계 8번째 불가사의다 — 아인슈타인',
@@ -135,6 +136,43 @@ export function TitleScreen() {
           >
             🏅 오늘의 챌린지 ({new Date().getMonth() + 1}/{new Date().getDate()})
           </button>
+
+          <div style={{ marginTop: 'var(--sp-sm)' }}>
+            <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginBottom: 'var(--sp-xs)', color: 'var(--text-muted)' }}>
+              🎯 도전 모드
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {CHALLENGE_MODES.map((cm) => (
+                <button
+                  key={cm.id}
+                  onClick={() => {
+                    const names = ['다솔','하늘','별','은우','지호','서아','도윤','수아','건우','예린'];
+                    const rname = names[Math.floor(Math.random() * names.length)];
+                    const allIds = DREAMS_MASTER.map(d => d.id);
+                    const shuffled = allIds.sort(() => Math.random() - 0.5);
+                    const picked = shuffled.slice(0, 2);
+                    useGameStore.getState().startNewGame(rname, picked, undefined, { ...cm.modifier, challengeId: cm.id });
+                  }}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 2,
+                    padding: '8px 10px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1.5px solid var(--accent-light)',
+                    background: 'var(--bg-secondary)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
+                >
+                  <span style={{ fontSize: '1.3rem' }}>{cm.emoji}</span>
+                  <span style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>{cm.name}</span>
+                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', lineHeight: 1.3 }}>{cm.description}</span>
+                </button>
+              ))}
+            </div>
+          </div>
           {savedExists && (
             <button className="btn btn-secondary btn-block" onClick={handleContinue}>
               📂 이어하기
