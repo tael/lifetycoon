@@ -400,12 +400,18 @@ export const useGameStore = create<GameStoreState>()(
       const rentalIncome = st.realEstate.reduce((sum, re) => sum + re.monthlyRent * 12 * deltaYears, 0);
       // 세금 계산
       const realEstateValueForTax = st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
-      const grossYearlyIncome = salaryIncome + dividendIncome + pensionIncome + Math.round(rentalIncome);
-      const incomeTax = Math.round(calculateIncomeTax(grossYearlyIncome) * deltaYears);
+      // 누적 N년치 소득. 이름이 "yearly"지만 deltaYears≥2 케이스(시나리오 timeCost
+      // 혹은 배속으로 나이가 점프하는 경우)에서는 multi-year 합산 금액이다.
+      const grossPeriodIncome = salaryIncome + dividendIncome + pensionIncome + Math.round(rentalIncome);
+      // 누진세 구간이 연 단위로 정의돼 있으므로, period 소득을 연평균화해서
+      // 세율을 결정한 뒤 다시 deltaYears로 곱해 N년치 소득세를 계산한다.
+      // deltaYears=1일 때는 기존 동작과 동일하다.
+      const avgYearlyGrossIncome = deltaYears > 0 ? grossPeriodIncome / deltaYears : grossPeriodIncome;
+      const incomeTax = Math.round(calculateIncomeTax(avgYearlyGrossIncome) * deltaYears);
       const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
       const totalTax = incomeTax + propertyTax;
 
-      const ctxCash = st.cash + grossYearlyIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax;
+      const ctxCash = st.cash + grossPeriodIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
