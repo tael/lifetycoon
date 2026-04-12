@@ -143,7 +143,12 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     : 0;
 
   // --- Income --------------------------------------------------------------
-  const salaryYearly = job ? Math.round(job.salary * ageSalaryMultiplier(intAge, job.id) * 12) : 0;
+  // 성인(19세+) 학생은 용돈 3만이 아니라 아르바이트 월 200만(연 2400만) 적용
+  const ADULT_STUDENT_MONTHLY = 2_000_000;
+  const effectiveSalary = job
+    ? (job.id === 'student' && intAge >= 19 ? ADULT_STUDENT_MONTHLY : job.salary)
+    : 0;
+  const salaryYearly = effectiveSalary > 0 ? Math.round(effectiveSalary * ageSalaryMultiplier(intAge, job!.id) * 12) : 0;
   const interestYearly = bank.balance > 0
     ? Math.round(bank.balance * effectiveInterestRate)
     : 0;
@@ -173,8 +178,9 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   // 부모님 용돈(allowanceYearly) 라인이 아래에서 추가되므로 중복 방지.
   if (salaryYearly > 0 && !(isChildhood && job?.id === 'student')) {
     const isStudent = job?.id === 'student';
-    const label = isStudent ? '용돈' : '월급';
-    const emoji = isStudent ? '👛' : '💼';
+    const isAdultStudent = isStudent && intAge >= 19;
+    const label = isChildhood && isStudent ? '용돈' : isAdultStudent ? '아르바이트' : '월급';
+    const emoji = isAdultStudent ? '🏪' : isStudent ? '👛' : '💼';
     income.push({ label, emoji, amount: salaryYearly, passive: false, incomeType: '(근로소득)' });
   }
   if (interestYearly > 0) income.push({ label: '이자', emoji: '🏦', amount: interestYearly, passive: true, incomeType: '(자산소득)' });

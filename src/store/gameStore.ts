@@ -367,8 +367,13 @@ export const useGameStore = create<GameStoreState>()(
       const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
       const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
       const statPenalty = computeStatPenalty(character);
-      const monthlySalary = st.job
-        ? Math.round(st.job.salary * ageSalaryMultiplier(intAge, st.job.id) * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
+      // 성인(19세+) 학생은 용돈 3만이 아니라 아르바이트 월 200만(연 2400만) 적용
+      const ADULT_STUDENT_MONTHLY = 2_000_000;
+      const effectiveMonthlySalary = st.job
+        ? (st.job.id === 'student' && intAge >= 19 ? ADULT_STUDENT_MONTHLY : st.job.salary)
+        : 0;
+      const monthlySalary = effectiveMonthlySalary > 0
+        ? Math.round(effectiveMonthlySalary * ageSalaryMultiplier(intAge, st.job!.id) * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
         : 0;
       const careerCount = st.usedScenarioIds.filter(
         (id) => id.includes('job') || id.includes('career') || id.includes('part_time'),
