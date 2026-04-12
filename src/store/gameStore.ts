@@ -468,15 +468,18 @@ export const useGameStore = create<GameStoreState>()(
           mLoanBalance += loanInterest;
         }
 
-        // 마이너스통장 이자 (월별 체크)
-        if (mCash < 0) {
-          const overdraftMonthlyRate = st.bank.loanInterestRate / 12;
-          const overdraftInterest = Math.round(Math.abs(mCash) * overdraftMonthlyRate);
+        // 자유입출금통장 이자 (양수: 연 0.1% 가산, 음수: 마이너스통장 이자 차감)
+        if (mCash > 0) {
+          const cashInterest = Math.round(mCash * 0.001 / 12);
+          mCash += cashInterest;
+        } else if (mCash < 0) {
+          const overdraftRate = st.bank.loanInterestRate + 0.01;
+          const overdraftInterest = Math.round(Math.abs(mCash) * overdraftRate / 12);
           mCash = Math.max(mCash - overdraftInterest, CASH_FLOOR);
         }
 
-        // DRIP (월 배당분으로 매수)
-        if (st.dripEnabled && monthlyDividend > 0) {
+        // DRIP (월 배당분으로 매수) — 현금이 0 이하면 스킵
+        if (st.dripEnabled && monthlyDividend > 0 && mCash > 0) {
           for (let hi = 0; hi < mHoldings.length; hi++) {
             const h = mHoldings[hi];
             const stockDef = STOCKS.find((s) => s.ticker === h.ticker);

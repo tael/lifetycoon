@@ -85,7 +85,8 @@ export type CashflowInput = {
    */
   parentalRepaymentBase?: number | null;
   /**
-   * 현재 현금 잔액. 음수이면 마이너스통장 이자 라인을 expense에 추가한다.
+   * 현재 현금 잔액. 양수이면 입출금 이자(연 0.1%) income 라인,
+   * 음수이면 마이너스통장 이자(loanInterestRate + 0.01) expense 라인을 추가한다.
    * 미지정 시 해당 라인은 표시되지 않는다 (구 호출자 호환).
    */
   cash?: number;
@@ -183,13 +184,18 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   if (bondCouponYearly > 0) income.push({ label: '채권 쿠폰', emoji: '💸', amount: bondCouponYearly, passive: true, incomeType: '(자산소득)' });
   // V3-03: 유년기 부모 용돈. passive로 분류하되 sustainablePassive 에서는 제외한다.
   if (allowanceYearly > 0) income.push({ label: '부모님 용돈', emoji: '👛', amount: allowanceYearly, passive: true, incomeType: '(이전소득)' });
+  // 입출금 이자: 현금 양수 시 연 0.1%
+  const cashDepositInterestYearly = cash != null && cash > 0
+    ? Math.round(cash * 0.001)
+    : 0;
+  if (cashDepositInterestYearly > 0) income.push({ label: '입출금 이자', emoji: '💵', amount: cashDepositInterestYearly, passive: true, incomeType: '(자산소득)' });
 
   const totalIncome = income.reduce((s, it) => s + it.amount, 0);
   const activeIncome = income.filter((it) => !it.passive).reduce((s, it) => s + it.amount, 0);
   const passiveIncome = income.filter((it) => it.passive).reduce((s, it) => s + it.amount, 0);
   // "지속 가능한" 패시브 — 부모 용돈/연금은 외부 의존이므로 제외.
   // 자기 자산으로 만든 이자/배당/임대/채권 쿠폰만 인정.
-  const sustainablePassive = interestYearly + dividendYearly + rentalYearly + bondCouponYearly;
+  const sustainablePassive = interestYearly + dividendYearly + rentalYearly + bondCouponYearly + cashDepositInterestYearly;
 
   // --- Expense -------------------------------------------------------------
   const realEstateValue = realEstate.reduce((s, re) => s + re.currentValue, 0);
@@ -219,9 +225,9 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     ? parentalRepaymentForAge(intAge, parentalRepaymentBase ?? 0)
     : 0;
   if (repaymentYearly > 0) expense.push({ label: '부모님 용돈', emoji: '💝', amount: repaymentYearly });
-  // 마이너스통장: 현금이 음수이면 음수 금액 × 대출 이자율만큼 예상 이자 표시.
+  // 마이너스통장: 현금이 음수이면 (loanInterestRate + 0.01) 적용.
   const overdraftInterestYearly = cash != null && cash < 0
-    ? Math.round(Math.abs(cash) * bank.loanInterestRate)
+    ? Math.round(Math.abs(cash) * (bank.loanInterestRate + 0.01))
     : 0;
   if (overdraftInterestYearly > 0) expense.push({ label: '마이너스 이자', emoji: '🔻', amount: overdraftInterestYearly });
 
