@@ -715,40 +715,77 @@ export function PlayScreen() {
           );
         })()}
         {/* 은행 탭: 입출금/대출 버튼 — 캐시플로 분해는 카드 상단 별도 패널로 분리. */}
-        {tab === 'bank' && (
+        {tab === 'bank' && (() => {
+          const loanLimit = Math.max(0, Math.floor(totalAssets * 0.5) - bank.loanBalance);
+          const maxRepay = Math.min(cash, bank.loanBalance);
+          return (
           <>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
-              <QuickActionBtn label="입금 10만" onClick={() => {
-                if (deposit(100000)) showToast('10만원 입금!', '🏦', 'info', 1200);
-              }} disabled={cash < 100000} />
-              <QuickActionBtn label="출금 10만" onClick={() => {
-                if (withdraw(100000)) showToast('10만원 출금!', '💸', 'info', 1200);
-              }} disabled={bank.balance < 100000} />
+            {/* 입금 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
               <QuickActionBtn label="입금 100만" onClick={() => {
-                if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'success', 1200);
+                if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'info', 1200);
               }} disabled={cash < 1000000} />
+              <QuickActionBtn label="입금 500만" onClick={() => {
+                if (deposit(5000000)) showToast('500만원 입금!', '🏦', 'info', 1200);
+              }} disabled={cash < 5000000} />
+              <QuickActionBtn label="입금 1천만" onClick={() => {
+                if (deposit(10000000)) showToast('1,000만원 입금!', '🏦', 'success', 1200);
+              }} disabled={cash < 10000000} />
               <QuickActionBtn label="전액 입금" onClick={() => {
-                if (cash > 0 && deposit(cash)) showToast('전액 입금!', '🏦', 'success', 1200);
+                if (cash > 0 && deposit(cash)) showToast(`${formatWon(cash)} 입금!`, '🏦', 'success', 1200);
               }} disabled={cash <= 0} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, marginTop: 4 }}>
-              <QuickActionBtn label="대출 10만" onClick={() => {
-                if (takeLoan(100000)) showToast('10만원 대출!', '🏧', 'warning', 1500);
-                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-              }} disabled={false} danger />
-              <QuickActionBtn label="상환 10만" onClick={() => {
-                if (repayLoan(100000)) showToast('10만원 상환!', '✅', 'success', 1200);
-              }} disabled={bank.loanBalance < 100000 || cash < 100000} />
+            {/* 출금 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
+              <QuickActionBtn label="출금 100만" onClick={() => {
+                if (withdraw(1000000)) showToast('100만원 출금!', '💸', 'info', 1200);
+              }} disabled={bank.balance < 1000000} />
+              <QuickActionBtn label="출금 500만" onClick={() => {
+                if (withdraw(5000000)) showToast('500만원 출금!', '💸', 'info', 1200);
+              }} disabled={bank.balance < 5000000} />
+              <QuickActionBtn label="출금 1천만" onClick={() => {
+                if (withdraw(10000000)) showToast('1,000만원 출금!', '💸', 'success', 1200);
+              }} disabled={bank.balance < 10000000} />
+              <QuickActionBtn label="전액 출금" onClick={() => {
+                if (bank.balance > 0 && withdraw(bank.balance)) showToast(`${formatWon(bank.balance)} 출금!`, '💸', 'success', 1200);
+              }} disabled={bank.balance <= 0} />
+            </div>
+            {/* 대출/상환 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
               <QuickActionBtn label="대출 100만" onClick={() => {
                 if (takeLoan(1000000)) showToast('100만원 대출!', '🏧', 'warning', 1500);
                 else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-              }} disabled={false} danger />
+              }} disabled={loanLimit < 1000000} danger />
+              <QuickActionBtn label="대출 500만" onClick={() => {
+                if (takeLoan(5000000)) showToast('500만원 대출!', '🏧', 'warning', 1500);
+                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+              }} disabled={loanLimit < 5000000} danger />
+              <QuickActionBtn label="대출 1천만" onClick={() => {
+                if (takeLoan(10000000)) showToast('1,000만원 대출!', '🏧', 'warning', 1500);
+                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+              }} disabled={loanLimit < 10000000} danger />
+              <QuickActionBtn label="한도까지" onClick={() => {
+                if (loanLimit > 0 && takeLoan(loanLimit)) showToast(`${formatWon(loanLimit)} 대출!`, '🏧', 'warning', 1500);
+                else showToast('대출 한도 없음!', '🚫', 'danger', 1500);
+              }} disabled={loanLimit <= 0} danger />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
               <QuickActionBtn label="상환 100만" onClick={() => {
                 if (repayLoan(1000000)) showToast('100만원 상환!', '✅', 'success', 1200);
               }} disabled={bank.loanBalance < 1000000 || cash < 1000000} />
+              <QuickActionBtn label="상환 500만" onClick={() => {
+                if (repayLoan(5000000)) showToast('500만원 상환!', '✅', 'success', 1200);
+              }} disabled={bank.loanBalance < 5000000 || cash < 5000000} />
+              <QuickActionBtn label="상환 1천만" onClick={() => {
+                if (repayLoan(10000000)) showToast('1,000만원 상환!', '✅', 'success', 1200);
+              }} disabled={bank.loanBalance < 10000000 || cash < 10000000} />
+              <QuickActionBtn label="전액 상환" onClick={() => {
+                if (maxRepay > 0 && repayLoan(maxRepay)) showToast(`${formatWon(maxRepay)} 상환!`, '✅', 'success', 1200);
+              }} disabled={maxRepay <= 0} />
             </div>
           </>
-        )}
+          );
+        })()}
       </div>
       )}
 
