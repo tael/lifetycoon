@@ -7,6 +7,7 @@ import {
   type HouseholdClass,
 } from './household';
 import { computeCostOfLiving } from './costOfLiving';
+import { parentalRepaymentForAge } from './parentalRepayment';
 
 export type IncomeItem = {
   label: string;
@@ -70,6 +71,11 @@ export type CashflowInput = {
    * 미지정 시 해당 라인은 표시되지 않는다 (구 호출자 호환).
    */
   householdClass?: HouseholdClass;
+  /**
+   * 부모님 용돈 되돌림 base (v0.3.0 V3-09). gameStore가 20세 첫 틱에 1회
+   * 산정해 저장한 값을 그대로 넘긴다. null/0이면 라인 미표시.
+   */
+  parentalRepaymentBase?: number | null;
 };
 
 /**
@@ -101,6 +107,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     careerCount,
     inflationMultiplier,
     householdClass,
+    parentalRepaymentBase,
   } = input;
 
   const intAge = Math.floor(age);
@@ -178,6 +185,9 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   // V3-08: 직업별 자기계발비 (월 → 연 환산). upkeepCost 미정의 직업은 0.
   const upkeepYearly = job?.upkeepCost ? Math.round(job.upkeepCost * 12) : 0;
   if (upkeepYearly > 0) expense.push({ label: '자기계발비', emoji: '🎓', amount: upkeepYearly });
+  // V3-09: 부모님 용돈 되돌림 (20~60세)
+  const repaymentYearly = parentalRepaymentForAge(intAge, parentalRepaymentBase ?? 0);
+  if (repaymentYearly > 0) expense.push({ label: '부모님 용돈', emoji: '💝', amount: repaymentYearly });
 
   const totalExpense = expense.reduce((s, it) => s + it.amount, 0);
   const netCashflow = totalIncome - totalExpense;

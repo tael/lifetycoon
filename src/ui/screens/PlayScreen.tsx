@@ -67,6 +67,8 @@ export function PlayScreen() {
   const buyRealEstate = useGameStore((s) => s.buyRealEstate);
   const sellRealEstate = useGameStore((s) => s.sellRealEstate);
   const insurance = useGameStore((s) => s.insurance);
+  const parentalRepaymentBase = useGameStore((s) => s.parentalRepaymentBase);
+  const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
   const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const economyCycle = useGameStore((s) => s.economyCycle);
   const advanceYear = useGameStore((s) => s.advanceYear);
@@ -248,8 +250,9 @@ export function PlayScreen() {
       careerCount,
       inflationMultiplier,
       householdClass: character.householdClass,
+      parentalRepaymentBase,
     }),
-    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier],
+    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier, parentalRepaymentBase],
   );
 
   // 재정 자유 트레이트 부여 — cashflow.financiallyFree 가 true 가 되는 순간 1회 토스트 + traits append.

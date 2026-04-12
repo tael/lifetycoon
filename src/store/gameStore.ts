@@ -30,6 +30,11 @@ import {
   pickRandomHouseholdClass,
 } from '../game/domain/household';
 import { computeCostOfLiving } from '../game/domain/costOfLiving';
+import {
+  REPAYMENT_START_AGE,
+  computeParentalRepaymentBase,
+  parentalRepaymentForAge,
+} from '../game/domain/parentalRepayment';
 import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
@@ -461,7 +466,19 @@ export const useGameStore = create<GameStoreState>()(
       const upkeepExpense = st.job?.upkeepCost
         ? Math.round(st.job.upkeepCost * 12 * deltaYears)
         : 0;
-      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense - costOfLivingExpense - upkeepExpense;
+      // V3-09: 부모님 용돈 되돌림. 20세 첫 틱에 base를 1회 산정해 저장하고
+      // 이후엔 그 값을 그대로 사용한다 (인플레 폭주 방지).
+      let parentalRepaymentBase = st.parentalRepaymentBase;
+      if (parentalRepaymentBase == null && intAge >= REPAYMENT_START_AGE) {
+        parentalRepaymentBase = computeParentalRepaymentBase(
+          st.parentalInvestment,
+          inflationMultiplier,
+        );
+      }
+      const repaymentExpense = parentalRepaymentBase != null
+        ? Math.round(parentalRepaymentForAge(intAge, parentalRepaymentBase) * deltaYears)
+        : 0;
+      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense - costOfLivingExpense - upkeepExpense - repaymentExpense;
       // V3-05: 부모가 나에게 준 총액 (학원비 차감 전). 유년기에만 누적.
       const parentalInvestment = st.parentalInvestment + allowanceIncome;
       // V3-11: 납세액 누계.
@@ -614,6 +631,7 @@ export const useGameStore = create<GameStoreState>()(
         currentSeason: newSeason,
         parentalInvestment,
         totalTaxPaid,
+        parentalRepaymentBase,
       });
     },
     triggerEvent(ev) {
