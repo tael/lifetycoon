@@ -82,6 +82,11 @@ export type CashflowInput = {
    * 미지정 시 해당 라인은 표시되지 않는다 (구 호출자 호환).
    */
   cash?: number;
+  /**
+   * V5-02: 학업 종료 나이. 부모 용돈·학원비 수령 기간을 결정한다.
+   * 미지정 시 19 (고졸 기본값) — 기존 동작 완전 호환.
+   */
+  educationEndAge?: number;
 };
 
 /**
@@ -115,13 +120,15 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     householdClass,
     parentalRepaymentBase,
     cash,
+    educationEndAge,
   } = input;
 
   const intAge = Math.floor(age);
-  // 유년기 정의: 10세 이상 19세 미만 (PRD V3-03 범위 [10,18])
-  const isChildhood = intAge >= 10 && intAge < 19;
+  // V5-02: 유년기 정의: 10세 이상 educationEndAge 미만 (기본 19 → 고졸 기준)
+  const _educationEndAge = educationEndAge ?? 19;
+  const isChildhood = intAge >= 10 && intAge < _educationEndAge;
   const allowanceYearly = isChildhood && householdClass
-    ? getYearlyParentalAllowance(householdClass, intAge)
+    ? getYearlyParentalAllowance(householdClass, intAge, _educationEndAge)
     : 0;
   const academyYearly = allowanceYearly > 0
     ? Math.round(allowanceYearly * ACADEMY_RATIO)

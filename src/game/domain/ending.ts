@@ -1,15 +1,30 @@
 import type { Dream, Ending, Grade, KeyMoment } from '../types';
 import { stageForAge } from '../types';
 
-export function calculateGrade(achieved: number, total: number): Grade {
+function downgradeByLevel(grade: Grade, levels: number): Grade {
+  const grades: Grade[] = ['S', 'A', 'B', 'C', 'D', 'F'];
+  const currentIdx = grades.indexOf(grade);
+  const newIdx = Math.min(currentIdx + levels, grades.length - 1);
+  return grades[newIdx];
+}
+
+export function calculateGrade(achieved: number, total: number, crisisTurns?: number): Grade {
   if (total === 0) return 'F';
   const r = achieved / total;
-  if (r >= 0.999) return 'S';
-  if (r >= 0.75) return 'A';
-  if (r >= 0.50) return 'B';
-  if (r >= 0.25) return 'C';
-  if (r > 0) return 'D';
-  return 'F';
+  let grade: Grade;
+  if (r >= 0.999) grade = 'S';
+  else if (r >= 0.75) grade = 'A';
+  else if (r >= 0.50) grade = 'B';
+  else if (r >= 0.25) grade = 'C';
+  else if (r > 0) grade = 'D';
+  else grade = 'F';
+
+  // crisisTurns에 따라 등급 하향 조정
+  const ct = crisisTurns ?? 0;
+  if (ct > 20) grade = downgradeByLevel(grade, 2);
+  else if (ct > 10) grade = downgradeByLevel(grade, 1);
+
+  return grade;
 }
 
 // Select key moments ensuring stage coverage (유년기/청년기/장년기 at least 1 each if available)
@@ -116,6 +131,7 @@ export type EndingExtras = {
   traitsCount: number;
   totalChoicesMade: number;
   uniqueScenariosEncountered: number;
+  crisisTurns: number;
 };
 
 export function buildEnding(
@@ -129,7 +145,7 @@ export function buildEnding(
   extras: EndingExtras,
 ): Ending {
   const achieved = dreams.filter((d) => d.achieved);
-  const grade = calculateGrade(achieved.length, dreams.length);
+  const grade = calculateGrade(achieved.length, dreams.length, extras.crisisTurns);
   const selected = selectKeyMoments(keyMoments, 8);
   const epitaph = buildEpitaph(
     characterName,

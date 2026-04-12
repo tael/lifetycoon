@@ -80,6 +80,7 @@ export function generateLifeSummary(
   totalDreams: number,
   traits: string[],
   _keyMoments: KeyMoment[],
+  crisisTurns?: number,
 ): string {
   const parts: string[] = [];
 
@@ -118,6 +119,11 @@ export function generateLifeSummary(
     parts.push(`${dreamsAchieved}개의 꿈을 이룬 사람.`);
   } else {
     parts.push('꿈은 이루지 못했지만 경험을 쌓은 사람.');
+  }
+
+  // Crisis turns-based flavor
+  if (crisisTurns && crisisTurns > 0) {
+    parts.push(`어려운 시기를 ${crisisTurns}번이나 버텼다.`);
   }
 
   return parts.join(' ');

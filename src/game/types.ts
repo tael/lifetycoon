@@ -224,6 +224,7 @@ export type Ending = {
   traitsCount: number;
   totalChoicesMade: number;
   uniqueScenariosEncountered: number;
+  crisisTurns: number;
 };
 
 export type RealEstate = {

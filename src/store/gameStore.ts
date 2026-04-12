@@ -60,6 +60,7 @@ import {
 import { calculateIncomeTax, calculatePropertyTax } from '../game/engine/tax';
 import type { ChallengeMode } from '../game/engine/challengeMode';
 import { computeCrisisLevel } from '../game/domain/crisisEngine';
+import { forcedLiquidation } from '../game/domain/forcedLiquidation';
 import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
@@ -948,6 +949,7 @@ export const useGameStore = create<GameStoreState>()(
         traitsCount: st.traits.length,
         totalChoicesMade: st.choiceHistory.length,
         uniqueScenariosEncountered: new Set(st.usedScenarioIds).size,
+        crisisTurns: st.crisisTurns,
       };
       const ending = buildEnding(
         st.character.name,

@@ -32,39 +32,44 @@ export const HOUSEHOLD_ALLOWANCE_MONTHLY_BY_AGE: Record<
 };
 
 /**
- * 연령대 구분. 10~12 early, 13~15 mid, 16~18 late.
- * 범위 밖은 0 처리.
+ * 연령대 구분. 10~12 early, 13~15 mid, 16~(educationEndAge-1) late.
+ * educationEndAge 기본값 19 → 16~18 late (기존 동작 호환).
+ * 대학(23)이면 16~22, 대학원(26)이면 16~25까지 late 확장.
+ * 범위 밖은 null 처리.
  */
-export function allowanceBracket(age: number): 'early' | 'mid' | 'late' | null {
+export function allowanceBracket(age: number, educationEndAge = 19): 'early' | 'mid' | 'late' | null {
   const a = Math.floor(age);
+  const lateEnd = educationEndAge - 1;
   if (a >= 10 && a <= 12) return 'early';
   if (a >= 13 && a <= 15) return 'mid';
-  if (a >= 16 && a <= 18) return 'late';
+  if (a >= 16 && a <= lateEnd) return 'late';
   return null;
 }
 
 /**
  * 주어진 연령·형편에 해당하는 월 부모 용돈.
- * 유년기(10~18) 밖이면 0.
+ * 유년기(10~educationEndAge-1) 밖이면 0. educationEndAge 기본값 19.
  */
 export function getMonthlyParentalAllowance(
   cls: HouseholdClass,
   age: number,
+  educationEndAge = 19,
 ): number {
-  const bracket = allowanceBracket(age);
+  const bracket = allowanceBracket(age, educationEndAge);
   if (bracket == null) return 0;
   return HOUSEHOLD_ALLOWANCE_MONTHLY_BY_AGE[cls][bracket];
 }
 
 /**
  * 주어진 연령·형편에 해당하는 연 부모 용돈 (월 × 12).
- * 유년기(10~18) 밖이면 0.
+ * 유년기(10~educationEndAge-1) 밖이면 0. educationEndAge 기본값 19.
  */
 export function getYearlyParentalAllowance(
   cls: HouseholdClass,
   age: number,
+  educationEndAge = 19,
 ): number {
-  return getMonthlyParentalAllowance(cls, age) * 12;
+  return getMonthlyParentalAllowance(cls, age, educationEndAge) * 12;
 }
 
 /** 학원비는 부모 용돈의 65% — 모든 가정·연령에 동일 적용. */

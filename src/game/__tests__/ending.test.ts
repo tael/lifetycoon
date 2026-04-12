@@ -54,6 +54,37 @@ describe('calculateGrade', () => {
     // F: = 0
     expect(calculateGrade(0, 100)).toBe('F');
   });
+
+  it('crisisTurns=0: 기존과 동일', () => {
+    expect(calculateGrade(5, 5, 0)).toBe('S');
+    expect(calculateGrade(4, 5, 0)).toBe('A');
+    expect(calculateGrade(3, 6, 0)).toBe('B');
+  });
+
+  it('crisisTurns>10: 1등급 하향', () => {
+    // 기본이 A → crisisTurns=15 → B
+    expect(calculateGrade(4, 5, 15)).toBe('B');
+    // 기본이 S → crisisTurns=15 → A
+    expect(calculateGrade(5, 5, 15)).toBe('A');
+    // 기본이 B → crisisTurns=15 → C
+    expect(calculateGrade(3, 6, 15)).toBe('C');
+  });
+
+  it('crisisTurns>20: 2등급 하향', () => {
+    // 기본이 A → crisisTurns=25 → C
+    expect(calculateGrade(4, 5, 25)).toBe('C');
+    // 기본이 S → crisisTurns=25 → B
+    expect(calculateGrade(5, 5, 25)).toBe('B');
+    // 기본이 B → crisisTurns=25 → D
+    expect(calculateGrade(3, 6, 25)).toBe('D');
+  });
+
+  it('F 이하로는 내려가지 않음', () => {
+    // 기본이 D → crisisTurns=25 → F
+    expect(calculateGrade(1, 5, 25)).toBe('F');
+    // 기본이 F → crisisTurns=25 → F
+    expect(calculateGrade(0, 5, 25)).toBe('F');
+  });
 });
 
 function mkMoment(age: number, importance: number, text: string): KeyMoment {
