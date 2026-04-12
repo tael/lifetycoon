@@ -684,7 +684,12 @@ export const useGameStore = create<GameStoreState>()(
       const govLoanLogEntry: LifeEvent[] = [];
       let postGovBank = postSaleBank;
       let govLoanRecord: LoanRecord | null = null;
-      if (finalCash < 0) {
+      // 정부 대출은 진짜 바닥일 때만: 현금 음수 + 예금 없음 + 매각 가능 자산 없음
+      const noLiquidAssets =
+        postSaleBank.balance <= 0 &&
+        postSaleHoldings.length === 0 &&
+        postSaleRealEstate.length === 0;
+      if (finalCash < 0 && noLiquidAssets) {
         const deficit = Math.abs(finalCash);
         const LOAN_UNIT = 1_000_000; // 100만원 단위
         const govLoanAmount = Math.ceil(deficit / LOAN_UNIT) * LOAN_UNIT;
