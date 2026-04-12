@@ -478,14 +478,16 @@ export const useGameStore = create<GameStoreState>()(
         : 0;
       // V3-09: 부모님 용돈 되돌림. 20세 첫 틱에 base를 1회 산정해 저장하고
       // 이후엔 그 값을 그대로 사용한다 (인플레 폭주 방지).
+      // 학생(student) 신분이면 성인이어도 되돌림 면제.
+      const isStudent = st.job?.id === 'student';
       let parentalRepaymentBase = st.parentalRepaymentBase;
-      if (parentalRepaymentBase == null && intAge >= REPAYMENT_START_AGE) {
+      if (!isStudent && parentalRepaymentBase == null && intAge >= REPAYMENT_START_AGE) {
         parentalRepaymentBase = computeParentalRepaymentBase(
           st.parentalInvestment,
           inflationMultiplier,
         );
       }
-      const repaymentExpense = parentalRepaymentBase != null
+      const repaymentExpense = !isStudent && parentalRepaymentBase != null
         ? Math.round(parentalRepaymentForAge(intAge, parentalRepaymentBase) * deltaYears)
         : 0;
       const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense - costOfLivingExpense - upkeepExpense - repaymentExpense;

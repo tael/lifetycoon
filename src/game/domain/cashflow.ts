@@ -154,7 +154,12 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   }, 0);
 
   const income: IncomeItem[] = [];
-  if (salaryYearly > 0) income.push({ label: '월급', emoji: '💼', amount: salaryYearly, passive: false });
+  if (salaryYearly > 0) {
+    const isStudent = job?.id === 'student';
+    const label = isStudent ? '용돈' : '월급';
+    const emoji = isStudent ? '👛' : '💼';
+    income.push({ label, emoji, amount: salaryYearly, passive: false });
+  }
   if (interestYearly > 0) income.push({ label: '이자', emoji: '🏦', amount: interestYearly, passive: true });
   if (dividendYearly > 0) income.push({ label: '배당', emoji: '📈', amount: dividendYearly, passive: true });
   if (rentalYearly > 0) income.push({ label: '임대', emoji: '🏘', amount: rentalYearly, passive: true });
@@ -192,8 +197,11 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   // V3-08: 직업별 자기계발비 (월 → 연 환산). upkeepCost 미정의 직업은 0.
   const upkeepYearly = job?.upkeepCost ? Math.round(job.upkeepCost * 12) : 0;
   if (upkeepYearly > 0) expense.push({ label: '자기계발비', emoji: '🎓', amount: upkeepYearly });
-  // V3-09: 부모님 용돈 되돌림 (20~60세)
-  const repaymentYearly = parentalRepaymentForAge(intAge, parentalRepaymentBase ?? 0);
+  // V3-09: 부모님 용돈 되돌림 (20~60세). 학생 신분이면 면제.
+  const isStudent = job?.id === 'student';
+  const repaymentYearly = !isStudent
+    ? parentalRepaymentForAge(intAge, parentalRepaymentBase ?? 0)
+    : 0;
   if (repaymentYearly > 0) expense.push({ label: '부모님 용돈', emoji: '💝', amount: repaymentYearly });
   // 마이너스통장: 현금이 음수이면 음수 금액 × 대출 이자율만큼 예상 이자 표시.
   const overdraftInterestYearly = cash != null && cash < 0
