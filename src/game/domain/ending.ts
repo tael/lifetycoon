@@ -38,7 +38,7 @@ function isAssetMoment(m: KeyMoment): boolean {
 
 /** importance를 자산 여부로 조정한 값 반환 (원본 객체 불변) */
 function effectiveImportance(m: KeyMoment): number {
-  return isAssetMoment(m) ? m.importance - 0.1 : m.importance;
+  return isAssetMoment(m) ? m.importance - 0.3 : m.importance;
 }
 
 /**

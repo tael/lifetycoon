@@ -11,7 +11,7 @@ export function computeCrisisLevel(input: CrisisInput): CrisisLevel {
   const { netCashflow, monthlyExpense, totalAssets, cash } = input;
 
   // red: 현금 마이너스 + 자산 3개월치 미만
-  if (cash < 0 && totalAssets < monthlyExpense * 3) {
+  if (cash < -monthlyExpense && totalAssets < monthlyExpense * 3) {
     return 'red';
   }
 

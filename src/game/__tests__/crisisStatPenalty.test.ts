@@ -80,7 +80,7 @@ describe('위기 스탯 차감 (V5-04)', () => {
       netCashflow: -500_000,
       monthlyExpense: 1_000_000,
       totalAssets: 2_000_000,
-      cash: -100_000,
+      cash: -1_100_000,
     });
     expect(level).toBe('red');
     const result = applyCrisisStatPenalty(BASE_STATS, level, 1);

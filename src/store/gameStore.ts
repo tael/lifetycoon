@@ -363,7 +363,7 @@ export const useGameStore = create<GameStoreState>()(
         economyCycle.phase,
         st.unlockedSkills.includes('finance_101'),
       );
-      const monthlyInterestRate = effectiveInterestRate / 12;
+      const monthlyInterestRate = Math.pow(1 + effectiveInterestRate, 1 / 12) - 1;
       const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
       const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
       const statPenalty = computeStatPenalty(character);

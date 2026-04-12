@@ -47,7 +47,7 @@ describe('computeCrisisLevel', () => {
       netCashflow: -500_000,
       monthlyExpense: 1_000_000,
       totalAssets: 2_999_999,
-      cash: -100_000,
+      cash: -1_100_000,
     };
     expect(computeCrisisLevel(input)).toBe('red');
   });
