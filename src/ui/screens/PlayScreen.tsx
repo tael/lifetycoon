@@ -16,6 +16,7 @@ import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { DebtBadge } from '../components/DebtBadge';
 import { AssetCompositionBar } from '../components/AssetCompositionBar';
+import { AssetChart } from '../components/AssetChart';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { PHASE_LABEL } from '../../game/engine/economyCycle';
@@ -38,6 +39,7 @@ export function PlayScreen() {
   const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
   const [showSettings, setShowSettings] = useState(false);
   const [dreamExpanded, setDreamExpanded] = useState(false);
+  const [chartExpanded, setChartExpanded] = useState(false);
   const [showStatHints] = useState<boolean>(() => {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
   });
@@ -56,6 +58,7 @@ export function PlayScreen() {
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
   const bonds = useGameStore((s) => s.bonds);
+  const assetHistory = useGameStore((s) => s.assetHistory);
   const economyCycle = useGameStore((s) => s.economyCycle);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
@@ -600,6 +603,37 @@ export function PlayScreen() {
                 ]}
                 total={totalAssets}
               />
+              {/* 자산 추이 차트 (접이식) */}
+              <div style={{ marginTop: 'var(--sp-xs)' }}>
+                <button
+                  onClick={() => setChartExpanded((v) => !v)}
+                  style={{
+                    width: '100%',
+                    background: 'none',
+                    border: 'none',
+                    padding: '4px 0',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 4,
+                    fontSize: 'var(--font-size-xs)',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  <span>📊 자산 추이</span>
+                  <span style={{ fontSize: 10 }}>{chartExpanded ? '▲' : '▼'}</span>
+                </button>
+                {chartExpanded && (
+                  assetHistory.length < 2
+                    ? (
+                      <div style={{ textAlign: 'center', fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', padding: '8px 0' }}>
+                        데이터 수집 중...
+                      </div>
+                    )
+                    : <AssetChart data={assetHistory} />
+                )}
+              </div>
             </>
           );
         })()}

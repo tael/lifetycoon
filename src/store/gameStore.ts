@@ -141,6 +141,8 @@ export type GameStoreState = {
   crisisTurns: number;
   /** 대출 이력. 은행 자발적·이벤트 강제·정부 긴급 대출을 모두 기록한다. */
   loanHistory: LoanRecord[];
+  /** 연도별 월 순현금흐름 히스토리. 매년 advanceYear 에서 추가. 최대 90개(10~100세). */
+  cashflowHistory: { age: number; netMonthly: number }[];
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   currentSeason: Season;
   dripEnabled: boolean;
@@ -233,6 +235,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     totalTaxPaid: 0,
     crisisTurns: 0,
     loanHistory: [],
+    cashflowHistory: [],
     choiceHistory: [],
     currentSeason: 'spring' as Season,
     dripEnabled: false,
@@ -730,6 +733,10 @@ export const useGameStore = create<GameStoreState>()(
         ? [...st.assetHistory, { age: intAge, value: totalNow }]
         : st.assetHistory;
 
+      // Track cashflow history every year (up to 90 entries, ages 10-100)
+      const netMonthlyNow = Math.round((grossPeriodIncome - totalExpensesForCrisis) / 12);
+      const cashflowHistory = [...st.cashflowHistory, { age: intAge, netMonthly: netMonthlyNow }].slice(-90);
+
       const stocksValNow = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
       const totalAssetsNow = finalCash + bank.balance + stocksValNow + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
       const newBoomReached = st.boomTimeBillionaireReached || (economyCycle.phase === 'boom' && totalAssetsNow >= 100000000);
@@ -785,6 +792,7 @@ export const useGameStore = create<GameStoreState>()(
         parentalRepaymentBase,
         crisisTurns,
         loanHistory: govLoanRecord ? [...st.loanHistory, govLoanRecord] : st.loanHistory,
+        cashflowHistory,
       });
     },
     triggerEvent(ev) {
