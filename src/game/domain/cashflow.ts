@@ -237,8 +237,25 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     : 0;
   if (overdraftInterestYearly > 0) expense.push({ label: '마이너스 이자', emoji: '🔻', amount: overdraftInterestYearly });
 
-  const totalExpense = expense.reduce((s, it) => s + it.amount, 0);
-  const netCashflow = totalIncome - totalExpense;
+  let totalExpense = expense.reduce((s, it) => s + it.amount, 0);
+  let adjustedTotalIncome = totalIncome;
+
+  // 성인 순현금흐름 마이너스 대응: 생활비 50% 절감 + 강제 부업 연 1200만
+  if (intAge >= 19 && totalIncome - totalExpense < 0) {
+    // 생활비 절감
+    const livingIdx = expense.findIndex(e => e.label === '생활비');
+    if (livingIdx >= 0) {
+      const cut = Math.round(expense[livingIdx].amount * 0.5);
+      expense[livingIdx] = { ...expense[livingIdx], amount: expense[livingIdx].amount - cut };
+      totalExpense -= cut;
+    }
+    // 강제 부업 소득
+    const SIDE_JOB_YEARLY = 12_000_000;
+    income.push({ label: '부업', emoji: '🔧', amount: SIDE_JOB_YEARLY, passive: false, incomeType: '(근로소득)' });
+    adjustedTotalIncome += SIDE_JOB_YEARLY;
+  }
+
+  const netCashflow = adjustedTotalIncome - totalExpense;
 
   // freedomRatio 와 financiallyFree 는 sustainablePassive 기준 (V3-03 결정).
   // 부모 용돈은 잠시 들어왔다 사라지는 외부 자원이라 재정 자유 트레이트의 근거가

@@ -478,6 +478,26 @@ export const useGameStore = create<GameStoreState>()(
         mCash -= monthlyRepayment;
         mTotalExpenses += monthExpense; // 실제 차감된 값으로 누적 (반올림 오차 없음)
 
+        // 성인 순현금흐름 마이너스 대응: 스탯 감소 + 생활비 절감 + 강제 부업
+        const monthlyNetFlow = monthlySalary + monthlyInterest + monthlyDividend + monthlyRental + monthlyPension + monthlyAllowance - monthExpense;
+        if (intAge >= 19 && monthlyNetFlow < 0) {
+          // (1) 행복/건강/매력 중 랜덤 1~2개 감소
+          const rng = streams.misc();
+          if (rng < 0.33) { mCharacter = { ...mCharacter, happiness: Math.max(0, mCharacter.happiness - 1) }; }
+          else if (rng < 0.66) { mCharacter = { ...mCharacter, health: Math.max(0, mCharacter.health - 1) }; }
+          else { mCharacter = { ...mCharacter, charisma: Math.max(0, mCharacter.charisma - 1) }; }
+
+          // (2) 강제 생활비 50% 절감 (차감한 생활비의 절반을 돌려줌)
+          const costRefund = Math.round(monthlyCostOfLiving * 0.5);
+          mCash += costRefund;
+          mTotalExpenses -= costRefund;
+
+          // (3) 강제 부업 소득 월 100만(연 1200만)
+          const SIDE_JOB_MONTHLY = 1_000_000;
+          mCash += SIDE_JOB_MONTHLY;
+          mTotalSalaryIncome += SIDE_JOB_MONTHLY;
+        }
+
         // 대출 이자 (월 복리)
         if (mLoanBalance > 0) {
           const loanMonthlyRate = st.bank.loanInterestRate / 12;
