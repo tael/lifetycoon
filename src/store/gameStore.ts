@@ -39,7 +39,7 @@ import {
   parentalRepaymentForAge,
 } from '../game/domain/parentalRepayment';
 import { computePensionYearly } from '../game/domain/pension';
-import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
+import { createBankAccount, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
 import { nextPrice } from '../game/domain/stock';
@@ -49,6 +49,8 @@ import {
   stepEconomyCycle,
   PHASE_DRIFT_BONUS,
   getEffectiveInterestRate,
+  dynamicListingPrice,
+  dynamicMonthlyRent,
   type EconomyCycle,
 } from '../game/engine/economyCycle';
 import { createNpcFromSeed, stepNpc } from '../game/domain/npc';
@@ -1034,17 +1036,24 @@ export const useGameStore = create<GameStoreState>()(
       const st = get();
       const listing = REAL_ESTATE_LISTINGS.find((l) => l.id === id);
       if (!listing) return { success: false, acquisitionTax: 0 };
+      if (st.realEstate.length >= 10) return { success: false, acquisitionTax: 0 };
+      const intAge = Math.floor(st.character.age);
+      const inflationMult = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
+      const dynPrice = dynamicListingPrice(listing.price, st.economyCycle.phase, inflationMult);
+      const dynRent = listing.monthlyRent > 0
+        ? dynamicMonthlyRent(listing.monthlyRent, st.economyCycle.phase)
+        : 0;
       const isCommercial = listing.id === 'commercial';
       const ownedCountAfter = st.realEstate.length + 1;
-      const acquisitionTax = calculateAcquisitionTax(listing.price, ownedCountAfter, isCommercial);
-      const totalCost = listing.price + acquisitionTax;
+      const acquisitionTax = calculateAcquisitionTax(dynPrice, ownedCountAfter, isCommercial);
+      const totalCost = dynPrice + acquisitionTax;
       if (st.cash < totalCost) return { success: false, acquisitionTax: 0 };
       const newRe: RealEstate = {
         id: listing.id,
         name: listing.name,
-        purchasePrice: listing.price,
-        currentValue: listing.price,
-        monthlyRent: listing.monthlyRent,
+        purchasePrice: dynPrice,
+        currentValue: dynPrice,
+        monthlyRent: dynRent,
         purchasedAtAge: Math.floor(st.character.age),
       };
       set({

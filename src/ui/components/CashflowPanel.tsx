@@ -23,6 +23,7 @@ export function CashflowPanel({ data, age }: Props) {
     passiveIncome,
     freedomRatio,
     financiallyFree,
+    portfolioDividendYield,
   } = data;
 
   // 연 단위 → 월 단위 환산 (UI 표시용)
@@ -85,6 +86,18 @@ export function CashflowPanel({ data, age }: Props) {
               incomeType={it.incomeType}
             />
           ))
+        )}
+        {portfolioDividendYield > 0 && (
+          <div
+            style={{
+              fontSize: '0.62rem',
+              color: 'var(--text-muted)',
+              paddingLeft: 2,
+              marginTop: 1,
+            }}
+          >
+            포트폴리오 배당수익률 {portfolioDividendYield.toFixed(1)}%
+          </div>
         )}
       </Section>
 

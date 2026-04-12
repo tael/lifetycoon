@@ -90,3 +90,39 @@ export const PHASE_LABEL: Record<EconomyPhase, string> = {
   normal: '⚡보통',
   recession: '🥶불황',
 };
+
+/** 경제 사이클 phase별 부동산 가격 배수 */
+export const PHASE_REAL_ESTATE_PRICE_MULT: Record<EconomyPhase, number> = {
+  boom: 1.2,
+  normal: 1.0,
+  recession: 0.8,
+};
+
+/** 경제 사이클 phase별 월세 배수 */
+export const PHASE_REAL_ESTATE_RENT_MULT: Record<EconomyPhase, number> = {
+  boom: 1.1,
+  normal: 1.0,
+  recession: 0.85,
+};
+
+/**
+ * 매물 기준가에 경제 사이클과 인플레이션을 반영한 실제 매매가를 반환.
+ * 결과는 상태에 저장하지 말 것 — 매 렌더/틱마다 기준가로부터 재계산한다.
+ */
+export function dynamicListingPrice(
+  base: number,
+  economyPhase: EconomyPhase,
+  inflationMult: number,
+): number {
+  return Math.round(base * PHASE_REAL_ESTATE_PRICE_MULT[economyPhase] * inflationMult);
+}
+
+/**
+ * 월세 기준가에 경제 사이클을 반영한 실제 월세를 반환.
+ */
+export function dynamicMonthlyRent(
+  base: number,
+  economyPhase: EconomyPhase,
+): number {
+  return Math.round(base * PHASE_REAL_ESTATE_RENT_MULT[economyPhase]);
+}

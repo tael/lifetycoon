@@ -1,31 +1,17 @@
 import { useState } from 'react';
 import { useGameStore } from '../../../store/gameStore';
-import { CashflowPanel } from '../../components/CashflowPanel';
-import { CashflowChart } from '../../components/CashflowChart';
 import { formatWon } from '../../../game/domain/asset';
 import { showToast } from '../../components/Toast';
-import type { CashflowBreakdown } from '../../../game/domain/cashflow';
 
 export function BankTab({
-  cashflow,
   effectiveInterestRate,
   totalAssets,
-  stocksValue,
-  realEstateValue,
-  stockReturnPct,
-  assetDelta,
 }: {
-  cashflow: CashflowBreakdown;
   effectiveInterestRate: number;
   totalAssets: number;
-  stocksValue: number;
-  realEstateValue: number;
-  stockReturnPct: string | undefined;
-  assetDelta: number;
 }) {
   const cash = useGameStore((s) => s.cash);
   const bank = useGameStore((s) => s.bank);
-  const realEstate = useGameStore((s) => s.realEstate);
   const deposit = useGameStore((s) => s.deposit);
   const withdraw = useGameStore((s) => s.withdraw);
   const takeLoan = useGameStore((s) => s.takeLoan);
@@ -34,85 +20,33 @@ export function BankTab({
   const insurance = useGameStore((s) => s.insurance);
   const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
-  const character = useGameStore((s) => s.character);
 
-  const cashflowHistory = useGameStore((s) => s.cashflowHistory);
   const [loanHistoryExpanded, setLoanHistoryExpanded] = useState(false);
-  const [cashflowChartExpanded, setCashflowChartExpanded] = useState(false);
 
   const loanLimit = Math.max(0, Math.floor(totalAssets * 0.5) - bank.loanBalance);
   const maxRepay = Math.min(cash, bank.loanBalance);
 
   return (
     <>
-      {/* Cashflow Panel */}
-      <CashflowPanel data={cashflow} age={character.age} />
-
-      {/* 현금흐름 추이 차트 (접이식) */}
-      <div className="card" style={{ padding: 'var(--sp-sm)' }}>
-        <button
-          onClick={() => setCashflowChartExpanded((v) => !v)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-          }}
-        >
-          <span style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>📈 현금흐름 추이</span>
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
-            {cashflowChartExpanded ? '접기 ▲' : '보기 ▼'}
-          </span>
-        </button>
-        {cashflowChartExpanded && (
-          cashflowHistory.length < 2 ? (
-            <div style={{ marginTop: 'var(--sp-sm)', fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', textAlign: 'center' }}>
-              데이터 수집 중…
-            </div>
-          ) : (
-            <div style={{ marginTop: 'var(--sp-sm)' }}>
-              <CashflowChart data={cashflowHistory} />
-            </div>
-          )
-        )}
-      </div>
-
-      <div
-        style={{
-          marginTop: 4,
-          fontSize: '0.7rem',
-          color: 'var(--text-muted)',
-          textAlign: 'right',
-          padding: '0 4px',
-        }}
-      >
-        지금까지 낸 세금: {formatWon(totalTaxPaid)}
-      </div>
-
-      {/* Assets 상세 */}
+      {/* 은행 잔액 요약 */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}>💰 자산</span>
-          <span>
-            <span style={{ fontWeight: 700, color: 'var(--accent)' }}>{formatWon(totalAssets)}</span>
-            {assetDelta !== 0 && (
-              <span style={{ fontSize: 'var(--font-size-xs)', color: assetDelta > 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
-                {assetDelta > 0 ? '▲' : '▼'}{formatWon(Math.abs(assetDelta))}
-              </span>
-            )}
-          </span>
+          <span style={{ fontWeight: 700 }}>🏦 은행</span>
         </div>
         <div className="flex flex-col gap-xs">
-          <AssetRow label="현금" value={cash} />
-          <AssetRow label="예금" value={bank.balance} extra={`연 ${(effectiveInterestRate * 100).toFixed(1)}%`} />
-          <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
-          {realEstateValue > 0 && (
-            <AssetRow label="부동산" value={realEstateValue} extra={`${realEstate.length}채`} />
-          )}
+          <div className="flex flex-between" style={{ fontSize: 'var(--font-size-sm)', padding: '2px 0' }}>
+            <span className="text-muted">현금</span>
+            <span>{formatWon(cash)}</span>
+          </div>
+          <div className="flex flex-between" style={{ fontSize: 'var(--font-size-sm)', padding: '2px 0' }}>
+            <span className="text-muted">예금</span>
+            <span>
+              {formatWon(bank.balance)}
+              <span className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>
+                (연 {(effectiveInterestRate * 100).toFixed(1)}%)
+              </span>
+            </span>
+          </div>
           <div className="flex flex-between" style={{ alignItems: 'center' }}>
             <span style={{ fontSize: 'var(--font-size-sm)', color: bank.loanBalance > 0 ? 'var(--danger)' : 'var(--text-muted)' }}>
               💳 대출
@@ -126,6 +60,17 @@ export function BankTab({
               )}
             </span>
           </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: 'var(--sp-xs)',
+            fontSize: '0.7rem',
+            color: 'var(--text-muted)',
+            textAlign: 'right',
+          }}
+        >
+          지금까지 낸 세금: {formatWon(totalTaxPaid)}
         </div>
 
         {/* 입금 */}
@@ -310,17 +255,6 @@ export function BankTab({
   );
 }
 
-function AssetRow({ label, value, extra }: { label: string; value: number; extra?: string }) {
-  return (
-    <div className="flex flex-between" style={{ fontSize: 'var(--font-size-sm)', padding: '2px 0' }}>
-      <span className="text-muted">{label}</span>
-      <span>
-        {formatWon(value)}
-        {extra && <span className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>({extra})</span>}
-      </span>
-    </div>
-  );
-}
 
 function QuickActionBtn({ label, onClick, disabled, danger }: { label: string; onClick: () => void; disabled: boolean; danger?: boolean }) {
   return (

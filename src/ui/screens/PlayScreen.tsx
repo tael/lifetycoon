@@ -26,6 +26,7 @@ import { computeCrisisLevel } from '../../game/domain/crisisEngine';
 import { usePlayDerived } from '../hooks/usePlayDerived';
 import { BankTab } from './tabs/BankTab';
 import { InvestTab } from './tabs/InvestTab';
+import { CashflowTab } from './tabs/CashflowTab';
 
 export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
@@ -36,7 +37,7 @@ export function PlayScreen() {
   const [lastQuizAge, setLastQuizAge] = useState<number | null>(null);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
-  const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
+  const [tab, setTab] = useState<'home' | 'cashflow' | 'bank' | 'assets' | 'friends'>('home');
   const [showSettings, setShowSettings] = useState(false);
   const [dreamExpanded, setDreamExpanded] = useState(false);
   const [chartExpanded, setChartExpanded] = useState(false);
@@ -63,13 +64,13 @@ export function PlayScreen() {
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
+  const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
 
   const {
     stocksValue,
     realEstateValue,
     totalAssets,
     dividendIncome,
-    stockReturnPct,
     effectiveInterestRate,
     intAge,
     cashflow,
@@ -544,16 +545,19 @@ export function PlayScreen() {
       </div>
       )}
 
+      {/* Cashflow Tab */}
+      {tab === 'cashflow' && (
+        <CashflowTab
+          cashflow={cashflow}
+          totalTaxPaid={totalTaxPaid}
+        />
+      )}
+
       {/* Bank Tab */}
       {tab === 'bank' && (
         <BankTab
-          cashflow={cashflow}
           effectiveInterestRate={effectiveInterestRate}
           totalAssets={totalAssets}
-          stocksValue={stocksValue}
-          realEstateValue={realEstateValue}
-          stockReturnPct={stockReturnPct}
-          assetDelta={assetDelta}
         />
       )}
 
@@ -665,8 +669,8 @@ export function PlayScreen() {
       </div>
       )}
 
-      {/* Invest Tab */}
-      {tab === 'invest' && (
+      {/* Assets Tab */}
+      {tab === 'assets' && (
         <InvestTab
           dividendIncome={dividendIncome}
           selectedStock={selectedStock}
@@ -794,7 +798,7 @@ export function PlayScreen() {
   );
 }
 
-type MainTab = 'home' | 'bank' | 'invest' | 'friends';
+type MainTab = 'home' | 'cashflow' | 'bank' | 'assets' | 'friends';
 
 function TabBar({ tab, onChange, onOpenSettings }: {
   tab: MainTab;
@@ -803,8 +807,9 @@ function TabBar({ tab, onChange, onOpenSettings }: {
 }) {
   const items: { key: MainTab | 'settings'; emoji: string; label: string; isAction?: boolean }[] = [
     { key: 'home', emoji: '🏠', label: '홈' },
+    { key: 'cashflow', emoji: '💰', label: '현금흐름' },
     { key: 'bank', emoji: '🏦', label: '은행' },
-    { key: 'invest', emoji: '📈', label: '투자' },
+    { key: 'assets', emoji: '📊', label: '자산' },
     { key: 'friends', emoji: '👥', label: '친구' },
     { key: 'settings', emoji: '⚙️', label: '설정', isAction: true },
   ];

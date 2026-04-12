@@ -6,6 +6,8 @@ import { showToast } from '../../components/Toast';
 import { StockDetailModal } from '../../components/StockDetailModal';
 import { incrementBought, incrementSold } from '../../../store/globalStats';
 import { REAL_ESTATE_LISTINGS } from '../../../game/domain/realEstate';
+import { dynamicListingPrice, dynamicMonthlyRent } from '../../../game/engine/economyCycle';
+import type { EconomyPhase } from '../../../game/engine/economyCycle';
 import type { StockDef, RealEstate } from '../../../game/types';
 
 export function InvestTab({
@@ -25,6 +27,11 @@ export function InvestTab({
   const realEstate = useGameStore((s) => s.realEstate);
   const buyRealEstate = useGameStore((s) => s.buyRealEstate);
   const sellRealEstate = useGameStore((s) => s.sellRealEstate);
+  const economyPhase = useGameStore((s) => s.economyCycle.phase) as EconomyPhase;
+  const inflationMult = useGameStore((s) => {
+    const age = Math.floor(s.character.age);
+    return age > 30 ? 1 + 0.02 * (age - 30) : 1;
+  });
   const buy = useGameStore((s) => s.buy);
   const sell = useGameStore((s) => s.sell);
 
@@ -37,6 +44,8 @@ export function InvestTab({
       <RealEstateCard
         realEstate={realEstate}
         cash={cash}
+        economyPhase={economyPhase}
+        inflationMult={inflationMult}
         onBuy={(id) => {
           const result = buyRealEstate(id);
           if (result.success) {
@@ -190,15 +199,23 @@ export function InvestTab({
 }
 
 function RealEstateCard({
-  realEstate, cash, onBuy, onSell,
+  realEstate, cash, economyPhase, inflationMult, onBuy, onSell,
 }: {
   realEstate: RealEstate[];
   cash: number;
+  economyPhase: EconomyPhase;
+  inflationMult: number;
   onBuy: (id: string) => void;
   onSell: (idx: number) => void;
 }) {
   const ownedIds = new Set(realEstate.map((re) => re.id));
   const nextListing = REAL_ESTATE_LISTINGS.find((l) => !ownedIds.has(l.id));
+  const dynPrice = nextListing
+    ? dynamicListingPrice(nextListing.price, economyPhase, inflationMult)
+    : 0;
+  const dynRent = nextListing && nextListing.monthlyRent > 0
+    ? dynamicMonthlyRent(nextListing.monthlyRent, economyPhase)
+    : 0;
 
   return (
     <div className="card">
@@ -249,22 +266,22 @@ function RealEstateCard({
       {nextListing && (
         <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ flex: 1, fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
-            매물: {nextListing.name} ({formatWon(nextListing.price)})
-            {nextListing.monthlyRent > 0 && ` · 월세 ${formatWon(nextListing.monthlyRent)}`}
+            매물: {nextListing.name} ({formatWon(dynPrice)})
+            {dynRent > 0 && ` · 월세 ${formatWon(dynRent)}`}
           </div>
           <button
             onClick={() => onBuy(nextListing.id)}
-            disabled={cash < nextListing.price}
-            aria-label={`${nextListing.name} 매입 ${formatWon(nextListing.price)}`}
+            disabled={cash < dynPrice}
+            aria-label={`${nextListing.name} 매입 ${formatWon(dynPrice)}`}
             style={{
               padding: '2px 10px',
               borderRadius: 'var(--radius-sm)',
-              background: cash >= nextListing.price ? '#e8f5e9' : '#eee',
-              color: cash >= nextListing.price ? 'var(--success)' : '#aaa',
+              background: cash >= dynPrice ? '#e8f5e9' : '#eee',
+              color: cash >= dynPrice ? 'var(--success)' : '#aaa',
               fontSize: '0.65rem',
               fontWeight: 700,
               border: 'none',
-              cursor: cash >= nextListing.price ? 'pointer' : 'default',
+              cursor: cash >= dynPrice ? 'pointer' : 'default',
             }}
           >
             매입

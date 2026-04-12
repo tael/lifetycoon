@@ -47,6 +47,12 @@ export type CashflowBreakdown = {
    * 오인 부여되는 문제 방지).
    */
   sustainablePassive: number;
+  /**
+   * 포트폴리오 전체 배당수익률 (%).
+   * 공식: 총 배당금 / (avgBuyPrice × shares 합) × 100.
+   * 보유 주식이 없거나 총 투자금이 0이면 0.
+   */
+  portfolioDividendYield: number;
 };
 
 export type CashflowInput = {
@@ -230,6 +236,12 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     : sustainablePassive > 0 ? 1 : 0;
   const financiallyFree = sustainablePassive > 0 && sustainablePassive >= totalExpense;
 
+  // 포트폴리오 전체 배당수익률: 총 배당금 / 총 투자금 × 100
+  const totalInvestment = holdings.reduce((sum, h) => sum + h.avgBuyPrice * h.shares, 0);
+  const portfolioDividendYield = totalInvestment > 0
+    ? (dividendYearly / totalInvestment) * 100
+    : 0;
+
   return {
     income,
     expense,
@@ -241,5 +253,6 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     freedomRatio,
     financiallyFree,
     sustainablePassive,
+    portfolioDividendYield,
   };
 }
