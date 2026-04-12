@@ -82,6 +82,7 @@ export function CashflowPanel({ data, age }: Props) {
               amount={`+${formatWon(monthly(it.amount))}`}
               color="var(--success)"
               tag={it.passive ? '자동' : undefined}
+              incomeType={it.incomeType}
             />
           ))
         )}
@@ -240,6 +241,7 @@ function Row(props: {
   amount: string;
   color: string;
   tag?: string;
+  incomeType?: string;
 }) {
   return (
     <div
@@ -252,7 +254,14 @@ function Row(props: {
     >
       <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         <span>{props.emoji}</span>
-        <span>{props.label}</span>
+        <span>
+          {props.label}
+          {props.incomeType && (
+            <span style={{ color: 'var(--text-muted)', marginLeft: 4, fontSize: '0.85em' }}>
+              {props.incomeType}
+            </span>
+          )}
+        </span>
         {props.tag && (
           <span
             style={{

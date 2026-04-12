@@ -15,6 +15,7 @@ export type IncomeItem = {
   emoji: string;
   amount: number;
   passive: boolean;
+  incomeType?: string;
 };
 
 export type ExpenseItem = {
@@ -161,19 +162,21 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   }, 0);
 
   const income: IncomeItem[] = [];
-  if (salaryYearly > 0) {
+  // 유년기(isChildhood)에 student job이면 salary 기반 "용돈" 라인을 생략한다.
+  // 부모님 용돈(allowanceYearly) 라인이 아래에서 추가되므로 중복 방지.
+  if (salaryYearly > 0 && !(isChildhood && job?.id === 'student')) {
     const isStudent = job?.id === 'student';
     const label = isStudent ? '용돈' : '월급';
     const emoji = isStudent ? '👛' : '💼';
-    income.push({ label, emoji, amount: salaryYearly, passive: false });
+    income.push({ label, emoji, amount: salaryYearly, passive: false, incomeType: '(근로소득)' });
   }
-  if (interestYearly > 0) income.push({ label: '이자', emoji: '🏦', amount: interestYearly, passive: true });
-  if (dividendYearly > 0) income.push({ label: '배당', emoji: '📈', amount: dividendYearly, passive: true });
-  if (rentalYearly > 0) income.push({ label: '임대', emoji: '🏘', amount: rentalYearly, passive: true });
-  if (pensionYearly > 0) income.push({ label: '연금', emoji: '💰', amount: pensionYearly, passive: true });
-  if (bondCouponYearly > 0) income.push({ label: '채권 쿠폰', emoji: '💸', amount: bondCouponYearly, passive: true });
+  if (interestYearly > 0) income.push({ label: '이자', emoji: '🏦', amount: interestYearly, passive: true, incomeType: '(자산소득)' });
+  if (dividendYearly > 0) income.push({ label: '배당', emoji: '📈', amount: dividendYearly, passive: true, incomeType: '(자산소득)' });
+  if (rentalYearly > 0) income.push({ label: '임대', emoji: '🏘', amount: rentalYearly, passive: true, incomeType: '(자산소득)' });
+  if (pensionYearly > 0) income.push({ label: '연금', emoji: '💰', amount: pensionYearly, passive: true, incomeType: '(연금소득)' });
+  if (bondCouponYearly > 0) income.push({ label: '채권 쿠폰', emoji: '💸', amount: bondCouponYearly, passive: true, incomeType: '(자산소득)' });
   // V3-03: 유년기 부모 용돈. passive로 분류하되 sustainablePassive 에서는 제외한다.
-  if (allowanceYearly > 0) income.push({ label: '부모님 용돈', emoji: '👛', amount: allowanceYearly, passive: true });
+  if (allowanceYearly > 0) income.push({ label: '부모님 용돈', emoji: '👛', amount: allowanceYearly, passive: true, incomeType: '(이전소득)' });
 
   const totalIncome = income.reduce((s, it) => s + it.amount, 0);
   const activeIncome = income.filter((it) => !it.passive).reduce((s, it) => s + it.amount, 0);
