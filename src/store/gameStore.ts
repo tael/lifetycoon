@@ -775,7 +775,8 @@ export const useGameStore = create<GameStoreState>()(
     takeLoan(amount) {
       const st = get();
       const stocksVal = st.holdings.reduce((s, h) => s + (st.prices[h.ticker] ?? 0) * h.shares, 0);
-      const totalAssets = st.cash + st.bank.balance + stocksVal;
+      const realEstateVal = st.realEstate.reduce((s, re) => s + re.currentValue, 0);
+      const totalAssets = st.cash + st.bank.balance + stocksVal + realEstateVal;
       const result = takeLoan(st.cash, st.bank, amount, totalAssets);
       if (!result.executed) return false;
       set({ cash: result.cash, bank: result.bank, hadLoan: true });

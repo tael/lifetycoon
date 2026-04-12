@@ -883,7 +883,7 @@ export function PlayScreen() {
         cash={cash}
         onBuy={(id) => {
           if (buyRealEstate(id)) { sfx.buy(); showToast('부동산 매입!', '🏠', 'success', 1500); }
-          else showToast('잔액이 부족해요', '😢', 'danger', 1500);
+          else showToast('현금이 부족해요', '😢', 'danger', 1500);
         }}
         onSell={(idx) => {
           if (sellRealEstate(idx)) { sfx.sell(); showToast('부동산 매각!', '💸', 'success', 1500); }
