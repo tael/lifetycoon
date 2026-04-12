@@ -24,7 +24,11 @@ import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
-import { pickRandomHouseholdClass } from '../game/domain/household';
+import {
+  ACADEMY_RATIO,
+  HOUSEHOLD_ALLOWANCE_YEARLY,
+  pickRandomHouseholdClass,
+} from '../game/domain/household';
 import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
@@ -425,7 +429,16 @@ export const useGameStore = create<GameStoreState>()(
       const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
       const totalTax = incomeTax + propertyTax;
 
-      const ctxCash = st.cash + grossPeriodIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax;
+      // V3-03/04: 유년기(10~18세) 부모 용돈 + 학원비. 가정 형편이 결정돼 있을 때만.
+      const isChildhood = intAge >= 10 && intAge < 19;
+      const householdClassForTick = character.householdClass;
+      const allowanceIncome = isChildhood && householdClassForTick
+        ? Math.round(HOUSEHOLD_ALLOWANCE_YEARLY[householdClassForTick] * deltaYears)
+        : 0;
+      const academyExpense = isChildhood && householdClassForTick
+        ? Math.round(HOUSEHOLD_ALLOWANCE_YEARLY[householdClassForTick] * ACADEMY_RATIO * deltaYears)
+        : 0;
+      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,

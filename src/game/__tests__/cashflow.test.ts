@@ -194,6 +194,53 @@ describe('computeCashflow', () => {
     expect(age650.income.find((i) => i.label === '연금')?.amount).toBe(500_000);
   });
 
+  it('V3-03: 유년기(10~18)에 가정 형편이 thrifty면 부모 용돈 600만 라인이 생긴다', () => {
+    const r = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'thrifty' }));
+    const allowance = r.income.find((i) => i.label === '부모님 용돈');
+    expect(allowance?.amount).toBe(6_000_000);
+    expect(allowance?.passive).toBe(true);
+    // sustainablePassive는 부모 용돈을 제외한다 → 자기 자산 0이면 0
+    expect(r.sustainablePassive).toBe(0);
+    expect(r.financiallyFree).toBe(false);
+  });
+
+  it('V3-03: average/affluent 가정의 용돈 테이블', () => {
+    const avg = computeCashflow(baseInput({ age: 15, job: null, householdClass: 'average' }));
+    expect(avg.income.find((i) => i.label === '부모님 용돈')?.amount).toBe(9_000_000);
+    const aff = computeCashflow(baseInput({ age: 18, job: null, householdClass: 'affluent' }));
+    expect(aff.income.find((i) => i.label === '부모님 용돈')?.amount).toBe(12_000_000);
+  });
+
+  it('V3-03: 19세 이상이면 부모 용돈 라인이 사라진다', () => {
+    const adult = computeCashflow(baseInput({ age: 19, job: null, householdClass: 'affluent' }));
+    expect(adult.income.find((i) => i.label === '부모님 용돈')).toBeUndefined();
+  });
+
+  it('V3-03: householdClass 미지정이면 유년기여도 부모 용돈 라인 없음 (구 호출자 호환)', () => {
+    const r = computeCashflow(baseInput({ age: 12, job: null }));
+    expect(r.income.find((i) => i.label === '부모님 용돈')).toBeUndefined();
+  });
+
+  it('V3-04: 유년기 학원비는 용돈의 65%로 expense 라인에 추가된다', () => {
+    const thrifty = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'thrifty' }));
+    expect(thrifty.expense.find((e) => e.label === '학원비')?.amount).toBe(Math.round(6_000_000 * 0.65));
+    const aff = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'affluent' }));
+    expect(aff.expense.find((e) => e.label === '학원비')?.amount).toBe(Math.round(12_000_000 * 0.65));
+  });
+
+  it('V3-03: sustainablePassive에는 부모 용돈/연금이 포함되지 않아 트레이트 오부여를 막는다', () => {
+    // 유년기 부모 용돈만으로는 financiallyFree가 되면 안 된다.
+    const child = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'affluent' }));
+    expect(child.passiveIncome).toBeGreaterThan(0); // 라인 존재
+    expect(child.sustainablePassive).toBe(0);
+    expect(child.financiallyFree).toBe(false);
+    // 65세 연금만으로도 financiallyFree가 되면 안 된다.
+    const elder = computeCashflow(baseInput({ age: 65 }));
+    expect(elder.passiveIncome).toBeGreaterThan(0);
+    expect(elder.sustainablePassive).toBe(0);
+    expect(elder.financiallyFree).toBe(false);
+  });
+
   it('대출 잔액 0이면 expense 배열에 "대출 이자" 라인이 없고, >0이면 있다', () => {
     const noLoan = computeCashflow(baseInput({
       job: salaryJob,

@@ -1,6 +1,11 @@
 import type { BankAccount, Bond, Holding, Insurance, Job, RealEstate, StockDef } from '../types';
 import { calculateIncomeTax, calculatePropertyTax } from '../engine/tax';
 import { computePensionYearly, PENSION_START_AGE } from './pension';
+import {
+  ACADEMY_RATIO,
+  HOUSEHOLD_ALLOWANCE_YEARLY,
+  type HouseholdClass,
+} from './household';
 
 export type IncomeItem = {
   label: string;
@@ -31,6 +36,13 @@ export type CashflowBreakdown = {
   freedomRatio: number;
   /** passiveIncome > 0 && passiveIncome >= totalExpense */
   financiallyFree: boolean;
+  /**
+   * "지속 가능한" 자동수입 — 부모 용돈/연금처럼 외부에 의존적인 수입은 제외하고
+   * 본인 자산이 만들어내는 패시브(이자/배당/임대/채권 쿠폰)만 합산한다.
+   * 재정 자유 판정은 이 값으로 한다 (V3-03: 유년기 부모 용돈으로 트레이트
+   * 오인 부여되는 문제 방지).
+   */
+  sustainablePassive: number;
 };
 
 export type CashflowInput = {
@@ -52,6 +64,11 @@ export type CashflowInput = {
    */
   careerCount?: number;
   inflationMultiplier?: number;
+  /**
+   * 가정 형편 (v0.3.0). 유년기(10~18세)의 부모 용돈/학원비 라인을 계산한다.
+   * 미지정 시 해당 라인은 표시되지 않는다 (구 호출자 호환).
+   */
+  householdClass?: HouseholdClass;
 };
 
 /**
@@ -82,9 +99,18 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     insurance,
     careerCount,
     inflationMultiplier,
+    householdClass,
   } = input;
 
   const intAge = Math.floor(age);
+  // 유년기 정의: 10세 이상 19세 미만 (PRD V3-03 범위 [10,18])
+  const isChildhood = intAge >= 10 && intAge < 19;
+  const allowanceYearly = isChildhood && householdClass
+    ? HOUSEHOLD_ALLOWANCE_YEARLY[householdClass]
+    : 0;
+  const academyYearly = allowanceYearly > 0
+    ? Math.round(allowanceYearly * ACADEMY_RATIO)
+    : 0;
 
   // --- Income --------------------------------------------------------------
   const salaryYearly = job ? Math.round(job.salary * 12) : 0;
@@ -119,10 +145,15 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   if (rentalYearly > 0) income.push({ label: '임대', emoji: '🏘', amount: rentalYearly, passive: true });
   if (pensionYearly > 0) income.push({ label: '연금', emoji: '💰', amount: pensionYearly, passive: true });
   if (bondCouponYearly > 0) income.push({ label: '채권 쿠폰', emoji: '💸', amount: bondCouponYearly, passive: true });
+  // V3-03: 유년기 부모 용돈. passive로 분류하되 sustainablePassive 에서는 제외한다.
+  if (allowanceYearly > 0) income.push({ label: '부모님 용돈', emoji: '👛', amount: allowanceYearly, passive: true });
 
   const totalIncome = income.reduce((s, it) => s + it.amount, 0);
   const activeIncome = income.filter((it) => !it.passive).reduce((s, it) => s + it.amount, 0);
   const passiveIncome = income.filter((it) => it.passive).reduce((s, it) => s + it.amount, 0);
+  // "지속 가능한" 패시브 — 부모 용돈/연금은 외부 의존이므로 제외.
+  // 자기 자산으로 만든 이자/배당/임대/채권 쿠폰만 인정.
+  const sustainablePassive = interestYearly + dividendYearly + rentalYearly + bondCouponYearly;
 
   // --- Expense -------------------------------------------------------------
   const realEstateValue = realEstate.reduce((s, re) => s + re.currentValue, 0);
@@ -138,15 +169,19 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   if (taxYearly > 0) expense.push({ label: '세금', emoji: '🧾', amount: taxYearly });
   if (insuranceYearly > 0) expense.push({ label: '보험료', emoji: '🏥', amount: insuranceYearly });
   if (loanInterestYearly > 0) expense.push({ label: '대출 이자', emoji: '💳', amount: loanInterestYearly });
+  // V3-04: 유년기 학원비 — 부모 용돈의 65% 만큼 자동 차감.
+  if (academyYearly > 0) expense.push({ label: '학원비', emoji: '📚', amount: academyYearly });
 
   const totalExpense = expense.reduce((s, it) => s + it.amount, 0);
   const netCashflow = totalIncome - totalExpense;
 
-  // 지출이 0이면 나눗셈 불가. passiveIncome이 있으면 "완전 자유" 1.0, 없으면 0.
+  // freedomRatio 와 financiallyFree 는 sustainablePassive 기준 (V3-03 결정).
+  // 부모 용돈은 잠시 들어왔다 사라지는 외부 자원이라 재정 자유 트레이트의 근거가
+  // 될 수 없다. 0세 → 19세 사이에 트레이트가 잘못 부여되는 사고를 방지한다.
   const freedomRatio = totalExpense > 0
-    ? passiveIncome / totalExpense
-    : passiveIncome > 0 ? 1 : 0;
-  const financiallyFree = passiveIncome > 0 && passiveIncome >= totalExpense;
+    ? sustainablePassive / totalExpense
+    : sustainablePassive > 0 ? 1 : 0;
+  const financiallyFree = sustainablePassive > 0 && sustainablePassive >= totalExpense;
 
   return {
     income,
@@ -158,5 +193,6 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     passiveIncome,
     freedomRatio,
     financiallyFree,
+    sustainablePassive,
   };
 }

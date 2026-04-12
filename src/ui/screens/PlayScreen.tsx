@@ -247,8 +247,9 @@ export function PlayScreen() {
       insurance,
       careerCount,
       inflationMultiplier,
+      householdClass: character.householdClass,
     }),
-    [character.age, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier],
+    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier],
   );
 
   // 재정 자유 트레이트 부여 — cashflow.financiallyFree 가 true 가 되는 순간 1회 토스트 + traits append.
