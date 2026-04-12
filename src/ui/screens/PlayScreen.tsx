@@ -560,7 +560,23 @@ export function PlayScreen() {
       )}
 
       {/* Cashflow Panel — 은행 탭 최상단. 올해 수입·지출 분해 + 자동수입 비율 */}
-      {tab === 'bank' && <CashflowPanel data={cashflow} />}
+      {tab === 'bank' && (
+        <>
+          <CashflowPanel data={cashflow} />
+          {/* V3-11: 누적 납세액 표시 — 드라이한 한 줄. */}
+          <div
+            style={{
+              marginTop: 4,
+              fontSize: '0.7rem',
+              color: 'var(--text-muted)',
+              textAlign: 'right',
+              padding: '0 4px',
+            }}
+          >
+            지금까지 낸 세금: {formatWon(totalTaxPaid)}
+          </div>
+        </>
+      )}
 
       {/* Assets — SECONDARY: 홈 탭에선 요약, 은행 탭에선 풀버전 */}
       {(tab === 'home' || tab === 'bank') && (

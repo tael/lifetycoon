@@ -18,6 +18,7 @@ dist-ssr
 .idea
 .DS_Store
 .omc/
+.backlog.md
 *.suo
 *.ntvs*
 *.njsproj
