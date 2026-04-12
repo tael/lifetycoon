@@ -21,7 +21,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           },
           {
             "kind": "wisdom",
@@ -40,7 +40,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 45000
+            "delta": 450000
           },
           {
             "kind": "happiness",
@@ -59,7 +59,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000
+            "delta": 50000
           },
           {
             "kind": "happiness",
@@ -179,7 +179,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -6000
+            "delta": -60000
           },
           {
             "kind": "wisdom",
@@ -334,7 +334,7 @@
           },
           {
             "kind": "cash",
-            "delta": 120000
+            "delta": 1200000
           },
           {
             "kind": "keyMoment",
@@ -483,7 +483,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "wisdom",
@@ -592,7 +592,7 @@
           },
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "keyMoment",
@@ -669,7 +669,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           },
           {
             "kind": "happiness",
@@ -819,7 +819,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -890,7 +890,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -909,7 +909,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -952,7 +952,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           },
           {
             "kind": "charisma",
@@ -1013,7 +1013,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000000
+            "delta": 500000000
           },
           {
             "kind": "setJob",
@@ -1192,7 +1192,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "charisma",
@@ -1253,7 +1253,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000000
+            "delta": -300000000
           },
           {
             "kind": "happiness",
@@ -1311,7 +1311,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -1483,7 +1483,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "happiness",
@@ -1549,7 +1549,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "happiness",
@@ -1601,7 +1601,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000000
+            "delta": -1000000000
           },
           {
             "kind": "happiness",
@@ -1659,7 +1659,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -40000
+            "delta": -400000
           },
           {
             "kind": "happiness",
@@ -1715,7 +1715,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000000
+            "delta": -200000000
           },
           {
             "kind": "happiness",
@@ -1729,7 +1729,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -1785,7 +1785,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -1985,7 +1985,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -2059,7 +2059,7 @@
           },
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           }
         ],
         "importance": 0.4
@@ -2098,7 +2098,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -2117,7 +2117,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000
+            "delta": -200000
           },
           {
             "kind": "happiness",
@@ -2160,7 +2160,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "health",
@@ -2179,7 +2179,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "health",
@@ -2218,7 +2218,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -2236,7 +2236,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -2254,7 +2254,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -250000
+            "delta": -2500000
           },
           {
             "kind": "happiness",
@@ -2301,7 +2301,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "happiness",
@@ -2352,7 +2352,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -2549,7 +2549,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -2603,7 +2603,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "stockShock",
@@ -2700,7 +2700,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "charisma",
@@ -2803,7 +2803,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "wisdom",
@@ -3030,7 +3030,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "bankInterestChange",
@@ -3142,7 +3142,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -3160,7 +3160,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ],
         "importance": 0.1
@@ -3251,7 +3251,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 20000000
+            "delta": 200000000
           },
           {
             "kind": "happiness",
@@ -3270,7 +3270,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 10000000
+            "delta": 100000000
           },
           {
             "kind": "charisma",
@@ -3317,7 +3317,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500
+            "delta": 5000
           },
           {
             "kind": "happiness",
@@ -3380,7 +3380,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000
+            "delta": -150000
           },
           {
             "kind": "happiness",
@@ -3438,7 +3438,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "stockShock",
@@ -3502,7 +3502,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "charisma",
@@ -3560,7 +3560,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "wisdom",
@@ -3673,7 +3673,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "charisma",
@@ -3786,7 +3786,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -3860,7 +3860,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "happiness",
@@ -3904,7 +3904,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "happiness",
@@ -3970,7 +3970,7 @@
           },
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "keyMoment",
@@ -4020,7 +4020,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "charisma",
@@ -4150,7 +4150,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "health",
@@ -4256,7 +4256,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 50000000
+        "value": 500000000
       },
       {
         "kind": "ageRange",
@@ -4278,7 +4278,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "wisdom",
@@ -4343,7 +4343,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 10000000
+            "delta": 100000000
           },
           {
             "kind": "charisma",
@@ -4383,7 +4383,7 @@
     "triggers": [
       {
         "kind": "cashLte",
-        "value": 10000
+        "value": 100000
       },
       {
         "kind": "ageRange",
@@ -4417,7 +4417,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "addTrait",
@@ -4474,7 +4474,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "charisma",
@@ -4540,7 +4540,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000000
+            "delta": -150000000
           },
           {
             "kind": "happiness",
@@ -4660,7 +4660,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "happiness",
@@ -4771,7 +4771,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000000
+            "delta": -200000000
           },
           {
             "kind": "charisma",
@@ -4848,7 +4848,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -4929,7 +4929,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "health",
@@ -4991,7 +4991,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "charisma",
@@ -5049,7 +5049,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -5068,7 +5068,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -5165,7 +5165,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000000
+            "delta": -200000000
           },
           {
             "kind": "keyMoment",
@@ -5190,7 +5190,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "wisdom",
@@ -5211,7 +5211,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 20000000
+        "value": 200000000
       },
       {
         "kind": "ageRange",
@@ -5233,7 +5233,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "charisma",
@@ -5291,7 +5291,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -600000
+            "delta": -6000000
           },
           {
             "kind": "health",
@@ -5433,7 +5433,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "happiness",
@@ -5472,7 +5472,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -5504,7 +5504,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -5629,7 +5629,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "happiness",
@@ -5648,7 +5648,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "wisdom",
@@ -5798,7 +5798,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 10000
+            "delta": 100000
           },
           {
             "kind": "happiness",
@@ -5943,7 +5943,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "charisma",
@@ -5995,7 +5995,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -6018,7 +6018,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "happiness",
@@ -6121,7 +6121,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -6183,7 +6183,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "happiness",
@@ -6216,7 +6216,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "wisdom",
@@ -6325,7 +6325,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "charisma",
@@ -6387,7 +6387,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "happiness",
@@ -6445,7 +6445,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1200000
+            "delta": -12000000
           },
           {
             "kind": "happiness",
@@ -6509,7 +6509,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000000
+            "delta": 500000000
           },
           {
             "kind": "happiness",
@@ -6546,7 +6546,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 5000000
+        "value": 50000000
       },
       {
         "kind": "ageRange",
@@ -6568,7 +6568,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "charisma",
@@ -6862,7 +6862,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 200000
+            "delta": 2000000
           },
           {
             "kind": "happiness",
@@ -6955,7 +6955,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -7000,7 +7000,7 @@
       },
       {
         "kind": "cashGte",
-        "value": 20000000
+        "value": 200000000
       }
     ],
     "ageRange": [
@@ -7017,7 +7017,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000000
+            "delta": -200000000
           },
           {
             "kind": "addTrait",
@@ -7071,7 +7071,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "happiness",
@@ -7090,7 +7090,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "happiness",
@@ -7130,7 +7130,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "happiness",
@@ -7196,7 +7196,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           }
         ],
         "importance": 0.3
@@ -7257,7 +7257,7 @@
           },
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "keyMoment",
@@ -7375,7 +7375,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "keyMoment",
@@ -7482,7 +7482,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "happiness",
@@ -7522,7 +7522,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 100000000
+        "value": 1000000000
       }
     ],
     "ageRange": [
@@ -7539,7 +7539,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000000
+            "delta": -500000000
           },
           {
             "kind": "charisma",
@@ -7566,7 +7566,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000000
+            "delta": -300000000
           },
           {
             "kind": "wisdom",
@@ -7597,7 +7597,7 @@
     "triggers": [
       {
         "kind": "cashLte",
-        "value": 50000
+        "value": 500000
       },
       {
         "kind": "ageRange",
@@ -7752,7 +7752,7 @@
           },
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "addTrait",
@@ -7820,7 +7820,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "happiness",
@@ -8043,7 +8043,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "wisdom",
@@ -8153,7 +8153,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 20000000
+            "delta": 200000000
           },
           {
             "kind": "charisma",
@@ -8212,7 +8212,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "wisdom",
@@ -8278,7 +8278,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -8326,7 +8326,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "charisma",
@@ -8348,7 +8348,7 @@
           },
           {
             "kind": "cash",
-            "delta": 100000
+            "delta": 1000000
           }
         ],
         "importance": 0.15
@@ -8383,7 +8383,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "happiness",
@@ -8494,7 +8494,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "health",
@@ -8550,7 +8550,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "charisma",
@@ -8747,7 +8747,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -25000
+            "delta": -250000
           },
           {
             "kind": "happiness",
@@ -8916,7 +8916,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "happiness",
@@ -8934,7 +8934,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -9090,7 +9090,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "happiness",
@@ -9108,7 +9108,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 100000
+            "delta": 1000000
           },
           {
             "kind": "charisma",
@@ -9150,7 +9150,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "charisma",
@@ -9212,7 +9212,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 100000000
+            "delta": 1000000000
           },
           {
             "kind": "happiness",
@@ -9235,7 +9235,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 10000000
+            "delta": 100000000
           }
         ],
         "importance": 0.3
@@ -9611,7 +9611,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 7777777
+            "delta": 77777770
           },
           {
             "kind": "happiness",
@@ -9730,7 +9730,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -9787,7 +9787,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -9810,7 +9810,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -9849,7 +9849,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "wisdom",
@@ -10027,7 +10027,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "charisma",
@@ -10085,7 +10085,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "happiness",
@@ -10145,7 +10145,7 @@
           },
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "addTrait",
@@ -10363,7 +10363,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "health",
@@ -10429,7 +10429,7 @@
           },
           {
             "kind": "cash",
-            "delta": 200000
+            "delta": 2000000
           }
         ],
         "importance": 0.25
@@ -10531,7 +10531,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "happiness",
@@ -10588,7 +10588,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "wisdom",
@@ -10646,7 +10646,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 20000000
+            "delta": 200000000
           },
           {
             "kind": "happiness",
@@ -10698,7 +10698,7 @@
           },
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           }
         ],
         "importance": 0.2
@@ -10737,7 +10737,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000
+            "delta": -150000
           },
           {
             "kind": "happiness",
@@ -10976,7 +10976,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -10999,7 +10999,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -11052,7 +11052,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "wisdom",
@@ -11070,7 +11070,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "happiness",
@@ -11216,7 +11216,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "wisdom",
@@ -11230,7 +11230,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -800000
+            "delta": -8000000
           },
           {
             "kind": "happiness",
@@ -11345,7 +11345,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "wisdom",
@@ -11407,7 +11407,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "happiness",
@@ -11425,7 +11425,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -11535,7 +11535,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -11620,7 +11620,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -11668,7 +11668,7 @@
           },
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           }
         ],
         "importance": 0.2
@@ -11717,7 +11717,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000
+            "delta": -200000
           },
           {
             "kind": "happiness",
@@ -11769,7 +11769,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "happiness",
@@ -11812,7 +11812,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "happiness",
@@ -11925,7 +11925,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "charisma",
@@ -12059,7 +12059,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "wisdom",
@@ -12104,7 +12104,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 200000000
+        "value": 2000000000
       }
     ],
     "ageRange": [
@@ -12121,7 +12121,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000000
+            "delta": 500000000
           },
           {
             "kind": "charisma",
@@ -12151,7 +12151,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 50000000
+        "value": 500000000
       },
       {
         "kind": "hasTrait",
@@ -12223,7 +12223,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000000
+            "delta": 5000000000
           },
           {
             "kind": "charisma",
@@ -12448,7 +12448,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "keyMoment",
@@ -12568,7 +12568,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "charisma",
@@ -12626,7 +12626,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "charisma",
@@ -12728,7 +12728,7 @@
       },
       {
         "kind": "cashGte",
-        "value": 10000000
+        "value": 100000000
       }
     ],
     "ageRange": [
@@ -12745,7 +12745,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -12801,7 +12801,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "charisma",
@@ -12859,7 +12859,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 25000000
+            "delta": 250000000
           },
           {
             "kind": "happiness",
@@ -12903,7 +12903,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "happiness",
@@ -12921,7 +12921,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -13066,7 +13066,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "charisma",
@@ -13181,7 +13181,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "happiness",
@@ -13242,7 +13242,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -13475,7 +13475,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "charisma",
@@ -13576,7 +13576,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000
+            "delta": 300000
           },
           {
             "kind": "charisma",
@@ -13634,7 +13634,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "happiness",
@@ -13687,7 +13687,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -13945,7 +13945,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "happiness",
@@ -14051,7 +14051,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "happiness",
@@ -14069,7 +14069,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "happiness",
@@ -14160,7 +14160,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 100000
+            "delta": 1000000
           },
           {
             "kind": "wisdom",
@@ -14218,7 +14218,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "charisma",
@@ -14280,7 +14280,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           },
           {
             "kind": "addTrait",
@@ -14388,7 +14388,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000
+            "delta": -30000
           },
           {
             "kind": "happiness",
@@ -14492,7 +14492,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "wisdom",
@@ -14577,7 +14577,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           }
         ],
         "importance": 0.05
@@ -14612,7 +14612,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000
+            "delta": 50000
           },
           {
             "kind": "happiness",
@@ -14666,7 +14666,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "wisdom",
@@ -14688,7 +14688,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ],
         "importance": 0.1
@@ -14860,7 +14860,8 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "amount": 1000000
+        "amount": 1000000,
+        "value": null
       }
     ],
     "ageRange": [
@@ -14961,7 +14962,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "happiness",
@@ -15049,7 +15050,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           },
           {
             "kind": "wisdom",
@@ -15104,7 +15105,8 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "amount": 2000000
+        "amount": 2000000,
+        "value": null
       }
     ],
     "ageRange": [
@@ -15121,7 +15123,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -15221,7 +15223,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "wisdom",
@@ -15278,7 +15280,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 10000000
+            "delta": 100000000
           },
           {
             "kind": "charisma",
@@ -15301,7 +15303,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "charisma",
@@ -15371,7 +15373,7 @@
           },
           {
             "kind": "cash",
-            "delta": 20000000
+            "delta": 200000000
           },
           {
             "kind": "keyMoment",
@@ -15442,7 +15444,7 @@
           },
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "keyMoment",
@@ -15465,7 +15467,7 @@
           },
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           }
         ],
         "importance": 0.5
@@ -15526,7 +15528,7 @@
           },
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "keyMoment",
@@ -15675,7 +15677,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -15730,7 +15732,8 @@
     "triggers": [
       {
         "kind": "cashLte",
-        "amount": 500000
+        "amount": 500000,
+        "value": null
       }
     ],
     "ageRange": [
@@ -15747,7 +15750,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "charisma",
@@ -15770,7 +15773,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           },
           {
             "kind": "health",
@@ -15800,7 +15803,7 @@
           },
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           }
         ],
         "importance": 0.45
@@ -15818,7 +15821,8 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "amount": 5000000
+        "amount": 5000000,
+        "value": null
       }
     ],
     "ageRange": [
@@ -15839,7 +15843,7 @@
           },
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "charisma",
@@ -15866,7 +15870,7 @@
           },
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           }
         ],
         "importance": 0.6
@@ -15906,7 +15910,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "keyMoment",
@@ -16010,7 +16014,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 200000
+            "delta": 2000000
           },
           {
             "kind": "happiness",
@@ -16442,7 +16446,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "happiness",
@@ -16465,7 +16469,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "charisma",
@@ -16517,7 +16521,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -16535,7 +16539,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "happiness",
@@ -16553,7 +16557,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -16605,7 +16609,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -16632,7 +16636,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -16688,7 +16692,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           }
         ],
         "importance": 0.65
@@ -16698,7 +16702,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000000
+            "delta": -200000000
           },
           {
             "kind": "happiness",
@@ -16716,7 +16720,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000000
+            "delta": -300000000
           },
           {
             "kind": "happiness",
@@ -16769,7 +16773,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -16792,7 +16796,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "happiness",
@@ -16854,7 +16858,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           },
           {
             "kind": "happiness",
@@ -16881,7 +16885,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           },
           {
             "kind": "happiness",
@@ -16899,7 +16903,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           },
           {
             "kind": "happiness",
@@ -16951,7 +16955,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -16969,7 +16973,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "wisdom",
@@ -16991,7 +16995,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "happiness",
@@ -17017,7 +17021,7 @@
     "triggers": [
       {
         "kind": "cashLte",
-        "value": 5000000
+        "value": 50000000
       },
       {
         "kind": "ageRange",
@@ -17039,7 +17043,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "happiness",
@@ -17062,7 +17066,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "happiness",
@@ -17102,7 +17106,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 20000000
+        "value": 200000000
       },
       {
         "kind": "ageRange",
@@ -17124,7 +17128,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -17241,7 +17245,7 @@
           },
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -17299,7 +17303,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "happiness",
@@ -17330,7 +17334,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1500000
+            "delta": 15000000
           },
           {
             "kind": "happiness",
@@ -17352,7 +17356,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "happiness",
@@ -17400,7 +17404,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "happiness",
@@ -17427,7 +17431,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "happiness",
@@ -17501,7 +17505,7 @@
           },
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "addTrait",
@@ -17546,7 +17550,7 @@
           },
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "happiness",
@@ -17602,7 +17606,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "addTrait",
@@ -17633,7 +17637,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ],
         "importance": 0.7
@@ -17643,7 +17647,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 4000000
+            "delta": 40000000
           },
           {
             "kind": "charisma",
@@ -17699,7 +17703,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 10000000
+            "delta": 100000000
           },
           {
             "kind": "wisdom",
@@ -17730,7 +17734,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "wisdom",
@@ -17752,7 +17756,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "wisdom",
@@ -18008,7 +18012,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ],
         "importance": 0.55
@@ -18170,7 +18174,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ],
         "importance": 0.6
@@ -18444,7 +18448,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "charisma",
@@ -18613,7 +18617,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "charisma",
@@ -18753,7 +18757,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "charisma",
@@ -18780,7 +18784,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "charisma",
@@ -18856,7 +18860,7 @@
           },
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "charisma",
@@ -18991,7 +18995,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "wisdom",
@@ -19010,7 +19014,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "happiness",
@@ -19029,7 +19033,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "wisdom",
@@ -19082,7 +19086,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "wisdom",
@@ -19101,7 +19105,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           },
           {
             "kind": "happiness",
@@ -19120,7 +19124,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "wisdom",
@@ -19169,7 +19173,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "charisma",
@@ -19211,7 +19215,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "charisma",
@@ -19347,7 +19351,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "happiness",
@@ -19935,7 +19939,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -6000
+            "delta": -60000
           },
           {
             "kind": "wisdom",
@@ -19958,7 +19962,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -6000
+            "delta": -60000
           },
           {
             "kind": "happiness",
@@ -19981,7 +19985,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -6000
+            "delta": -60000
           },
           {
             "kind": "happiness",
@@ -20112,7 +20116,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000
+            "delta": -20000
           },
           {
             "kind": "happiness",
@@ -20131,7 +20135,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -12000
+            "delta": -120000
           },
           {
             "kind": "happiness",
@@ -20274,7 +20278,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -18000
+            "delta": -180000
           },
           {
             "kind": "wisdom",
@@ -20775,7 +20779,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "charisma",
@@ -20968,7 +20972,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000
+            "delta": -150000
           },
           {
             "kind": "charisma",
@@ -21043,7 +21047,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "happiness",
@@ -21114,7 +21118,7 @@
           },
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "addTrait",
@@ -21151,7 +21155,7 @@
           },
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "keyMoment",
@@ -21204,7 +21208,7 @@
           },
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "addTrait",
@@ -21282,7 +21286,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "happiness",
@@ -21853,7 +21857,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -21876,7 +21880,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "happiness",
@@ -21899,7 +21903,7 @@
           },
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "addTrait",
@@ -21948,7 +21952,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "wisdom",
@@ -21990,7 +21994,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -22039,7 +22043,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -22062,7 +22066,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "wisdom",
@@ -22357,7 +22361,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 10000000
+        "value": 100000000
       },
       {
         "kind": "ageRange",
@@ -22384,7 +22388,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "wisdom",
@@ -22403,7 +22407,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -22642,7 +22646,7 @@
           },
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "keyMoment",
@@ -22676,7 +22680,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1500000
+            "delta": -15000000
           },
           {
             "kind": "wisdom",
@@ -22701,7 +22705,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 5000000
+        "value": 50000000
       },
       {
         "kind": "ageRange",
@@ -22728,7 +22732,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "wisdom",
@@ -22755,7 +22759,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "keyMoment",
@@ -22774,7 +22778,7 @@
           },
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           }
         ]
       }
@@ -22791,7 +22795,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 10000000
+        "value": 100000000
       },
       {
         "kind": "ageRange",
@@ -22818,7 +22822,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "wisdom",
@@ -22837,7 +22841,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "happiness",
@@ -22900,7 +22904,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "stress",
@@ -22922,7 +22926,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1500000
+            "delta": 15000000
           },
           {
             "kind": "keyMoment",
@@ -23160,7 +23164,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -23258,7 +23262,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -23371,7 +23375,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "health",
@@ -23454,7 +23458,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "keyMoment",
@@ -23603,7 +23607,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 3000000
+        "value": 30000000
       },
       {
         "kind": "ageRange",
@@ -23630,7 +23634,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -23661,7 +23665,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -23728,7 +23732,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -800000
+            "delta": -8000000
           },
           {
             "kind": "happiness",
@@ -23755,7 +23759,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -23791,7 +23795,7 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "value": 15000000
+        "value": 150000000
       },
       {
         "kind": "ageRange",
@@ -23818,7 +23822,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -23845,7 +23849,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -24162,7 +24166,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "charisma",
@@ -24185,7 +24189,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "wisdom",
@@ -24322,7 +24326,7 @@
           },
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "health",
@@ -24349,7 +24353,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           }
         ]
       },
@@ -24639,7 +24643,7 @@
           },
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "keyMoment",
@@ -24708,7 +24712,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "keyMoment",
@@ -24723,7 +24727,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "wisdom",
@@ -24785,7 +24789,7 @@
           },
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "stress",
@@ -24803,7 +24807,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1500000
+            "delta": 15000000
           },
           {
             "kind": "stress",
@@ -24821,7 +24825,7 @@
           },
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           },
           {
             "kind": "keyMoment",
@@ -24866,7 +24870,7 @@
           },
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "stress",
@@ -24888,7 +24892,7 @@
           },
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "stress",
@@ -24906,7 +24910,7 @@
           },
           {
             "kind": "cash",
-            "delta": 800000
+            "delta": 8000000
           }
         ]
       }
@@ -24946,7 +24950,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "keyMoment",
@@ -24961,7 +24965,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "wisdom",
@@ -25047,7 +25051,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -25105,7 +25109,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "happiness",
@@ -25146,7 +25150,7 @@
           },
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           }
         ]
       }
@@ -25181,7 +25185,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -25208,7 +25212,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           }
         ]
       },
@@ -25341,7 +25345,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "keyMoment",
@@ -25405,7 +25409,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 20000000
+            "delta": 200000000
           },
           {
             "kind": "stress",
@@ -25428,7 +25432,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "wisdom",
@@ -25596,7 +25600,7 @@
           },
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           }
         ]
       }
@@ -25721,7 +25725,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "wisdom",
@@ -25798,7 +25802,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -25821,7 +25825,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "happiness",
@@ -25839,7 +25843,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": -400000
+            "delta": -4000000
           },
           {
             "kind": "happiness",
@@ -25910,7 +25914,7 @@
           },
           {
             "kind": "money",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "wisdom",
@@ -26059,7 +26063,7 @@
           },
           {
             "kind": "money",
-            "delta": -400000
+            "delta": -4000000
           },
           {
             "kind": "wisdom",
@@ -26082,7 +26086,7 @@
           },
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -26100,7 +26104,7 @@
           },
           {
             "kind": "money",
-            "delta": -80000
+            "delta": -800000
           }
         ]
       }
@@ -26258,7 +26262,7 @@
           },
           {
             "kind": "money",
-            "delta": -20000
+            "delta": -200000
           }
         ]
       },
@@ -26317,7 +26321,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": 30000
+            "delta": 300000
           },
           {
             "kind": "wisdom",
@@ -26340,7 +26344,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": 10000
+            "delta": 100000
           },
           {
             "kind": "charisma",
@@ -26358,7 +26362,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": 20000
+            "delta": 200000
           },
           {
             "kind": "wisdom",
@@ -26415,7 +26419,7 @@
           },
           {
             "kind": "money",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "keyMoment",
@@ -26438,7 +26442,7 @@
           },
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           }
         ]
       },
@@ -26452,7 +26456,7 @@
           },
           {
             "kind": "money",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "happiness",
@@ -26505,7 +26509,7 @@
           },
           {
             "kind": "money",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "keyMoment",
@@ -26528,7 +26532,7 @@
           },
           {
             "kind": "money",
-            "delta": 200000
+            "delta": 2000000
           }
         ]
       },
@@ -26538,7 +26542,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "happiness",
@@ -26587,7 +26591,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -26610,7 +26614,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "wisdom",
@@ -26677,7 +26681,7 @@
           },
           {
             "kind": "money",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "charisma",
@@ -26700,7 +26704,7 @@
           },
           {
             "kind": "money",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "charisma",
@@ -26718,7 +26722,7 @@
           },
           {
             "kind": "money",
-            "delta": -500000
+            "delta": -5000000
           }
         ]
       }
@@ -26763,7 +26767,7 @@
           },
           {
             "kind": "money",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "keyMoment",
@@ -26837,7 +26841,7 @@
           },
           {
             "kind": "money",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "keyMoment",
@@ -26856,7 +26860,7 @@
           },
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           }
         ]
       },
@@ -26930,7 +26934,7 @@
           },
           {
             "kind": "money",
-            "delta": 100000
+            "delta": 1000000
           }
         ]
       },
@@ -26985,7 +26989,7 @@
           },
           {
             "kind": "money",
-            "delta": 150000
+            "delta": 1500000
           },
           {
             "kind": "keyMoment",
@@ -27145,7 +27149,7 @@
           },
           {
             "kind": "money",
-            "delta": 100000
+            "delta": 1000000
           },
           {
             "kind": "keyMoment",
@@ -27485,7 +27489,7 @@
           },
           {
             "kind": "money",
-            "delta": 200000
+            "delta": 2000000
           },
           {
             "kind": "happiness",
@@ -27512,7 +27516,7 @@
           },
           {
             "kind": "money",
-            "delta": -50000
+            "delta": -500000
           }
         ]
       },
@@ -27575,7 +27579,7 @@
           },
           {
             "kind": "money",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "keyMoment",
@@ -27598,7 +27602,7 @@
           },
           {
             "kind": "money",
-            "delta": -30000
+            "delta": -300000
           }
         ]
       },
@@ -27616,7 +27620,7 @@
           },
           {
             "kind": "money",
-            "delta": -15000
+            "delta": -150000
           }
         ]
       }
@@ -27665,7 +27669,7 @@
           },
           {
             "kind": "money",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "keyMoment",
@@ -27684,7 +27688,7 @@
           },
           {
             "kind": "money",
-            "delta": 100000
+            "delta": 1000000
           }
         ]
       },
@@ -27747,7 +27751,7 @@
           },
           {
             "kind": "money",
-            "delta": -80000
+            "delta": -800000
           },
           {
             "kind": "keyMoment",
@@ -27770,7 +27774,7 @@
           },
           {
             "kind": "money",
-            "delta": -80000
+            "delta": -800000
           }
         ]
       },
@@ -27915,7 +27919,7 @@
           },
           {
             "kind": "money",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "happiness",
@@ -27942,7 +27946,7 @@
           },
           {
             "kind": "money",
-            "delta": -50000
+            "delta": -500000
           }
         ]
       },
@@ -28005,7 +28009,7 @@
           },
           {
             "kind": "money",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "keyMoment",
@@ -28032,7 +28036,7 @@
           },
           {
             "kind": "money",
-            "delta": -300000
+            "delta": -3000000
           }
         ]
       },
@@ -28046,7 +28050,7 @@
           },
           {
             "kind": "money",
-            "delta": 200000
+            "delta": 2000000
           }
         ]
       }
@@ -28099,7 +28103,7 @@
           },
           {
             "kind": "money",
-            "delta": -120000
+            "delta": -1200000
           },
           {
             "kind": "keyMoment",
@@ -28122,7 +28126,7 @@
           },
           {
             "kind": "money",
-            "delta": -40000
+            "delta": -400000
           }
         ]
       },
@@ -28189,7 +28193,7 @@
           },
           {
             "kind": "money",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "keyMoment",
@@ -28212,7 +28216,7 @@
           },
           {
             "kind": "money",
-            "delta": -30000
+            "delta": -300000
           }
         ]
       },
@@ -28275,7 +28279,7 @@
           },
           {
             "kind": "money",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "keyMoment",
@@ -28298,7 +28302,7 @@
           },
           {
             "kind": "money",
-            "delta": -150000
+            "delta": -1500000
           }
         ]
       },
@@ -28308,7 +28312,7 @@
         "effects": [
           {
             "kind": "money",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "wisdom",
@@ -28365,7 +28369,7 @@
           },
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "keyMoment",
@@ -28388,7 +28392,7 @@
           },
           {
             "kind": "money",
-            "delta": -80000
+            "delta": -800000
           }
         ]
       },
@@ -28619,7 +28623,7 @@
           },
           {
             "kind": "money",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "keyMoment",
@@ -28656,7 +28660,7 @@
           },
           {
             "kind": "money",
-            "delta": -50000
+            "delta": -500000
           }
         ]
       }
@@ -28810,7 +28814,7 @@
           },
           {
             "kind": "money",
-            "delta": -30000
+            "delta": -300000
           }
         ]
       },
@@ -28873,7 +28877,7 @@
           },
           {
             "kind": "money",
-            "delta": -20000
+            "delta": -200000
           },
           {
             "kind": "keyMoment",
@@ -28896,7 +28900,7 @@
           },
           {
             "kind": "money",
-            "delta": -50000
+            "delta": -500000
           }
         ]
       },
@@ -29029,7 +29033,7 @@
           },
           {
             "kind": "money",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "keyMoment",
@@ -29052,7 +29056,7 @@
           },
           {
             "kind": "money",
-            "delta": -80000
+            "delta": -800000
           }
         ]
       },
@@ -29088,7 +29092,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 2000000
+        "amount": 2000000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -29119,7 +29124,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2500000
+            "delta": -25000000
           },
           {
             "kind": "keyMoment",
@@ -29146,7 +29151,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "keyMoment",
@@ -29169,7 +29174,7 @@
           },
           {
             "kind": "cash",
-            "delta": -1200000
+            "delta": -12000000
           }
         ]
       }
@@ -29191,7 +29196,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 1500000
+        "amount": 1500000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -29226,7 +29232,7 @@
           },
           {
             "kind": "cash",
-            "delta": -1800000
+            "delta": -18000000
           },
           {
             "kind": "keyMoment",
@@ -29253,7 +29259,7 @@
           },
           {
             "kind": "cash",
-            "delta": -1500000
+            "delta": -15000000
           }
         ]
       },
@@ -29271,7 +29277,7 @@
           },
           {
             "kind": "cash",
-            "delta": -1200000
+            "delta": -12000000
           }
         ]
       }
@@ -29293,7 +29299,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 3000000
+        "amount": 3000000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -29328,7 +29335,7 @@
           },
           {
             "kind": "cash",
-            "delta": -3500000
+            "delta": -35000000
           },
           {
             "kind": "keyMoment",
@@ -29351,7 +29358,7 @@
           },
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           }
         ]
       },
@@ -29369,7 +29376,7 @@
           },
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           }
         ]
       }
@@ -29422,7 +29429,7 @@
           },
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "keyMoment",
@@ -29449,7 +29456,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ]
       },
@@ -29463,7 +29470,7 @@
           },
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           }
         ]
       }
@@ -29516,7 +29523,7 @@
           },
           {
             "kind": "cash",
-            "delta": -600000
+            "delta": -6000000
           },
           {
             "kind": "keyMoment",
@@ -29539,7 +29546,7 @@
           },
           {
             "kind": "cash",
-            "delta": -400000
+            "delta": -4000000
           }
         ]
       },
@@ -29557,7 +29564,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           }
         ]
       }
@@ -29579,7 +29586,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 5000000
+        "amount": 5000000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -29602,7 +29610,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -29633,7 +29641,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           },
           {
             "kind": "happiness",
@@ -29655,7 +29663,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000000
+            "delta": -150000000
           },
           {
             "kind": "happiness",
@@ -29689,7 +29697,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 8000000
+        "amount": 8000000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -29712,7 +29721,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -12000000
+            "delta": -120000000
           },
           {
             "kind": "happiness",
@@ -29739,7 +29748,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -29761,7 +29770,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -18000000
+            "delta": -180000000
           },
           {
             "kind": "happiness",
@@ -29814,7 +29823,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "intelligence",
@@ -29841,7 +29850,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 20000000
+            "delta": 200000000
           },
           {
             "kind": "intelligence",
@@ -29893,7 +29902,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 5000000
+        "amount": 5000000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -29916,7 +29926,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -6000000
+            "delta": -60000000
           },
           {
             "kind": "happiness",
@@ -29943,7 +29953,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -4000000
+            "delta": -40000000
           },
           {
             "kind": "intelligence",
@@ -29961,7 +29971,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           },
           {
             "kind": "happiness",
@@ -30014,7 +30024,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "intelligence",
@@ -30041,7 +30051,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000000
+            "delta": -10000000
           },
           {
             "kind": "intelligence",
@@ -30116,7 +30126,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "wisdom",
@@ -30143,7 +30153,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "wisdom",
@@ -30210,7 +30220,7 @@
           },
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           },
           {
             "kind": "wisdom",
@@ -30237,7 +30247,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -30259,7 +30269,7 @@
           },
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -30324,7 +30334,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "keyMoment",
@@ -30369,7 +30379,7 @@
           },
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           }
         ]
       }
@@ -30391,7 +30401,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 5000000
+        "amount": 5000000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -30414,7 +30425,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -30441,7 +30452,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -30463,7 +30474,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "happiness",
@@ -30516,7 +30527,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "happiness",
@@ -30543,7 +30554,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "happiness",
@@ -30569,7 +30580,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "happiness",
@@ -30634,7 +30645,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "keyMoment",
@@ -30657,7 +30668,7 @@
           },
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           }
         ]
       },
@@ -30720,7 +30731,7 @@
           },
           {
             "kind": "cash",
-            "delta": -15000000
+            "delta": -150000000
           },
           {
             "kind": "keyMoment",
@@ -30743,7 +30754,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "keyMoment",
@@ -30762,7 +30773,7 @@
           },
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           }
         ]
       }
@@ -30815,7 +30826,7 @@
           },
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "keyMoment",
@@ -30838,7 +30849,7 @@
           },
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           }
         ]
       },
@@ -30905,7 +30916,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "keyMoment",
@@ -30932,7 +30943,7 @@
           },
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           }
         ]
       },
@@ -31058,7 +31069,8 @@
       },
       {
         "kind": "cashGte",
-        "amount": 500000
+        "amount": 500000,
+        "value": null
       },
       {
         "kind": "randomChance",
@@ -31089,7 +31101,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           }
         ]
       },
@@ -31107,7 +31119,7 @@
           },
           {
             "kind": "cash",
-            "delta": -800000
+            "delta": -8000000
           }
         ]
       },
@@ -31125,7 +31137,7 @@
           },
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           }
         ]
       }
@@ -31174,7 +31186,7 @@
           },
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           }
         ]
       },
@@ -31196,7 +31208,7 @@
           },
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "keyMoment",
@@ -31219,7 +31231,7 @@
           },
           {
             "kind": "cash",
-            "delta": -80000
+            "delta": -800000
           }
         ]
       }
@@ -31291,7 +31303,7 @@
           },
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           }
         ]
       },
@@ -31443,7 +31455,7 @@
           },
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           }
         ]
       },
@@ -31483,7 +31495,7 @@
           },
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           }
         ]
       }
@@ -31655,7 +31667,7 @@
           },
           {
             "kind": "cash",
-            "delta": 1000000000
+            "delta": 10000000000
           },
           {
             "kind": "wisdom",
@@ -31843,7 +31855,7 @@
           },
           {
             "kind": "cash",
-            "delta": 500000000
+            "delta": 5000000000
           },
           {
             "kind": "wisdom",
@@ -32005,7 +32017,7 @@
           },
           {
             "kind": "cash",
-            "delta": 200000
+            "delta": 2000000
           }
         ]
       },
@@ -32063,7 +32075,7 @@
           },
           {
             "kind": "cash",
-            "delta": -2400000
+            "delta": -24000000
           },
           {
             "kind": "happiness",
@@ -32100,7 +32112,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "wisdom",
@@ -32172,7 +32184,7 @@
           },
           {
             "kind": "cash",
-            "delta": 150000
+            "delta": 1500000
           }
         ]
       },
@@ -32186,7 +32198,7 @@
           },
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           }
         ]
       }
@@ -32260,7 +32272,7 @@
           },
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "happiness",
@@ -32274,7 +32286,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 1000000
+            "delta": 10000000
           },
           {
             "kind": "happiness",
@@ -32326,7 +32338,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 8000000
+            "delta": 80000000
           },
           {
             "kind": "charisma",
@@ -32438,7 +32450,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "wisdom",
@@ -32456,7 +32468,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000000
+            "delta": 300000000
           },
           {
             "kind": "charisma",
@@ -32504,7 +32516,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 15000000
+            "delta": 150000000
           },
           {
             "kind": "charisma",
@@ -32535,7 +32547,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 7000000
+            "delta": 70000000
           },
           {
             "kind": "charisma",
@@ -32609,7 +32621,7 @@
           },
           {
             "kind": "cash",
-            "delta": 120000000
+            "delta": 1200000000
           },
           {
             "kind": "addTrait",
@@ -32959,7 +32971,7 @@
           },
           {
             "kind": "cash",
-            "delta": -50000
+            "delta": -500000
           },
           {
             "kind": "keyMoment",
@@ -32982,7 +32994,7 @@
           },
           {
             "kind": "cash",
-            "delta": -80000
+            "delta": -800000
           }
         ]
       },
@@ -33036,7 +33048,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000000
+            "delta": -50000000
           },
           {
             "kind": "stress",
@@ -33054,7 +33066,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "wisdom",
@@ -33077,7 +33089,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000000
+            "delta": -80000000
           },
           {
             "kind": "charisma",
@@ -33153,7 +33165,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000000
+            "delta": -100000000
           },
           {
             "kind": "wisdom",
@@ -33225,7 +33237,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 3000000
+            "delta": 30000000
           },
           {
             "kind": "happiness",
@@ -33248,7 +33260,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "wisdom",
@@ -33330,7 +33342,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "wisdom",
@@ -33393,7 +33405,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 5000000
+            "delta": 50000000
           },
           {
             "kind": "happiness",
@@ -33632,7 +33644,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 2000000
+            "delta": 20000000
           },
           {
             "kind": "happiness",
@@ -33913,7 +33925,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 500000
+            "delta": 5000000
           },
           {
             "kind": "independence",
@@ -34066,7 +34078,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -34295,7 +34307,7 @@
           },
           {
             "kind": "cash",
-            "delta": 100000
+            "delta": 1000000
           },
           {
             "kind": "wisdom",
@@ -34379,7 +34391,7 @@
           },
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           }
         ]
       },
@@ -34389,7 +34401,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 200000
+            "delta": 2000000
           },
           {
             "kind": "wisdom",
@@ -34548,7 +34560,7 @@
           },
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "happiness",
@@ -35098,7 +35110,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "intelligence",
@@ -35138,7 +35150,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -2000000
+            "delta": -20000000
           },
           {
             "kind": "wisdom",
@@ -35380,7 +35392,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -35627,7 +35639,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -80000
+            "delta": -800000
           },
           {
             "kind": "wisdom",
@@ -35751,7 +35763,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "health",
@@ -35796,7 +35808,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "health",
@@ -35822,7 +35834,8 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "amount": 5000000
+        "amount": 5000000,
+        "value": null
       }
     ],
     "ageRange": [
@@ -35839,7 +35852,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000000
+            "delta": -30000000
           },
           {
             "kind": "wisdom",
@@ -35968,7 +35981,8 @@
     "triggers": [
       {
         "kind": "cashGte",
-        "amount": 30000000
+        "amount": 30000000,
+        "value": null
       }
     ],
     "ageRange": [
@@ -35985,7 +35999,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -28000000
+            "delta": -280000000
           },
           {
             "kind": "wisdom",
@@ -36012,7 +36026,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -22000000
+            "delta": -220000000
           },
           {
             "kind": "happiness",
@@ -36272,7 +36286,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 30000
+            "delta": 300000
           },
           {
             "kind": "happiness",
@@ -36290,7 +36304,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000
+            "delta": -200000
           },
           {
             "kind": "happiness",
@@ -36343,7 +36357,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           },
           {
             "kind": "charisma",
@@ -36365,7 +36379,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000
+            "delta": -200000
           },
           {
             "kind": "charisma",
@@ -36405,7 +36419,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 80000
+            "delta": 800000
           },
           {
             "kind": "wisdom",
@@ -36481,7 +36495,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "intelligence",
@@ -36508,7 +36522,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "intelligence",
@@ -36566,7 +36580,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -20000
+            "delta": -200000
           },
           {
             "kind": "happiness",
@@ -36707,7 +36721,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -30000
+            "delta": -300000
           },
           {
             "kind": "wisdom",
@@ -36914,7 +36928,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "happiness",
@@ -36947,7 +36961,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -1000
+            "delta": -10000
           },
           {
             "kind": "happiness",
@@ -36986,7 +37000,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 200000
+            "delta": 2000000
           },
           {
             "kind": "health",
@@ -37009,7 +37023,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 300000
+            "delta": 3000000
           },
           {
             "kind": "wisdom",
@@ -37028,7 +37042,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 150000
+            "delta": 1500000
           },
           {
             "kind": "wisdom",
@@ -37051,7 +37065,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -37094,7 +37108,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -3000
+            "delta": -30000
           },
           {
             "kind": "happiness",
@@ -37166,7 +37180,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -5000
+            "delta": -50000
           },
           {
             "kind": "happiness",
@@ -37234,7 +37248,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -9000
+            "delta": -90000
           },
           {
             "kind": "happiness",
@@ -37248,7 +37262,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -9000
+            "delta": -90000
           },
           {
             "kind": "happiness",
@@ -37306,7 +37320,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000
+            "delta": -150000
           },
           {
             "kind": "happiness",
@@ -37324,7 +37338,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -15000
+            "delta": -150000
           },
           {
             "kind": "happiness",
@@ -37438,7 +37452,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -150000
+            "delta": -1500000
           },
           {
             "kind": "happiness",
@@ -37461,7 +37475,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": 50000
+            "delta": 500000
           },
           {
             "kind": "wisdom",
@@ -37511,7 +37525,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -80000
+            "delta": -800000
           },
           {
             "kind": "happiness",
@@ -37583,7 +37597,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -300000
+            "delta": -3000000
           },
           {
             "kind": "happiness",
@@ -37620,7 +37634,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -37664,7 +37678,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "happiness",
@@ -37697,7 +37711,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -80000
+            "delta": -800000
           },
           {
             "kind": "happiness",
@@ -37737,7 +37751,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -500000
+            "delta": -5000000
           },
           {
             "kind": "happiness",
@@ -37764,7 +37778,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -800000
+            "delta": -8000000
           },
           {
             "kind": "happiness",
@@ -37809,7 +37823,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -100000
+            "delta": -1000000
           },
           {
             "kind": "happiness",
@@ -37958,7 +37972,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000
+            "delta": -80000
           },
           {
             "kind": "happiness",
@@ -37991,7 +38005,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -8000
+            "delta": -80000
           },
           {
             "kind": "happiness",
@@ -38330,7 +38344,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -200000
+            "delta": -2000000
           },
           {
             "kind": "wisdom",
@@ -38394,7 +38408,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "intelligence",
@@ -38421,7 +38435,7 @@
         "effects": [
           {
             "kind": "cash",
-            "delta": -10000
+            "delta": -100000
           },
           {
             "kind": "intelligence",
@@ -38495,7 +38509,7 @@
             "importance": 0.9
           }
         ],
-        "importance": 1.0
+        "importance": 1
       },
       {
         "label": "현재를 받아들인다",
