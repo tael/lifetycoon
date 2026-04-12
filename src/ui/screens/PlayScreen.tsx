@@ -1351,8 +1351,8 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
         }
       }}
       disabled={disabled}
-      aria-label={`${label}, ${formatWon(cost)}원${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} 써서 ${effectLabel} 올리기`}
-      title={maxed ? `${effectLabel}이 이미 충분해요` : `${formatWon(cost)}원${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} → ${effectLabel} ↑`}
+      aria-label={`${label}, ${formatWon(cost)}${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} 써서 ${effectLabel} 올리기`}
+      title={maxed ? `${effectLabel}이 이미 충분해요` : `${formatWon(cost)}${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} → ${effectLabel} ↑`}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -1372,7 +1372,7 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
       <span style={{ fontWeight: 700, marginTop: 2 }}>{label}</span>
       {/* 비용 → 효과 관계 명시 (기회비용 교육의 핵심) */}
       <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: 2 }}>
-        {formatWon(cost)}원{timeCostMonths > 0 && ` · ${timeCostMonths}개월`}
+        {formatWon(cost)}{timeCostMonths > 0 && ` · ${timeCostMonths}개월`}
       </span>
       <span style={{ fontSize: '0.55rem', color: 'var(--accent)', fontWeight: 700 }}>
         → {effectEmoji} ↑
