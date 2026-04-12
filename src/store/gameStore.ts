@@ -685,12 +685,17 @@ export const useGameStore = create<GameStoreState>()(
       const govLoanLogEntry: LifeEvent[] = [];
       let postGovBank = postSaleBank;
       let govLoanRecord: LoanRecord | null = null;
-      // 정부 대출은 진짜 바닥일 때만: 현금 음수 + 예금 없음 + 매각 가능 자산 없음
+      // 정부 대출은 진짜 바닥일 때만:
+      // (1) 현금 음수 (2) 예금·주식·부동산 없음 (3) 성인(19세+)만 (4) 부족분 100만원 이상
+      // 미성년자는 부모가 대신 부담 — 부모님 용돈 경로로 이미 현금이 들어오고 있으므로
+      // 정부 대출이 아닌 부모 보호로 취급한다.
+      const isAdult = intAge >= 19;
       const noLiquidAssets =
         postSaleBank.balance <= 0 &&
         postSaleHoldings.length === 0 &&
         postSaleRealEstate.length === 0;
-      if (finalCash < 0 && noLiquidAssets) {
+      const MIN_GOV_LOAN = 100_000_000; // 최소 1억원 이상 부족 시에만
+      if (finalCash < 0 && noLiquidAssets && isAdult && Math.abs(finalCash) >= MIN_GOV_LOAN) {
         const deficit = Math.abs(finalCash);
         const LOAN_UNIT = 1_000_000; // 100만원 단위
         const govLoanAmount = Math.ceil(deficit / LOAN_UNIT) * LOAN_UNIT;
