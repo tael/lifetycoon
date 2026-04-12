@@ -36,3 +36,6 @@ export function formatWon(n: number): string {
   }
   return `${sign}${abs.toLocaleString()}원`;
 }
+
+/** formatWon의 별칭 — 한국식 만/억/조 포맷 */
+export const formatKoreanWon = formatWon;
