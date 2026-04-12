@@ -59,6 +59,7 @@ import {
 } from '../game/engine/eventDispatcher';
 import { calculateIncomeTax, calculatePropertyTax } from '../game/engine/tax';
 import type { ChallengeMode } from '../game/engine/challengeMode';
+import { computeCrisisLevel } from '../game/domain/crisisEngine';
 import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
@@ -122,8 +123,18 @@ export type GameStoreState = {
    * null이면 아직 산정 전 (유년기/19세 미만).
    */
   parentalRepaymentBase: number | null;
+  /**
+   * V5-02: 학업 종료 나이. 부모 용돈·학원비 수령 기간과 되돌림 부담을 결정한다.
+   * - 19: 고졸 (기본값)
+   * - 23: 대학
+   * - 26: 대학원
+   * 시나리오에서 변경 가능. 기본값 19 → 기존 동작과 완전 호환.
+   */
+  educationEndAge: number;
   /** V3-11: 누적 납세액 (소득세 + 재산세). 리셋 시 0. */
   totalTaxPaid: number;
+  /** V5-04: 위기 상태(orange 이상)에서 보낸 누적 연수. */
+  crisisTurns: number;
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   currentSeason: Season;
   dripEnabled: boolean;
@@ -212,7 +223,9 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     unlockedSkills: [],
     parentalInvestment: 0,
     parentalRepaymentBase: null,
+    educationEndAge: 19,
     totalTaxPaid: 0,
+    crisisTurns: 0,
     choiceHistory: [],
     currentSeason: 'spring' as Season,
     dripEnabled: false,
@@ -458,8 +471,10 @@ export const useGameStore = create<GameStoreState>()(
       const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
       const totalTax = incomeTax + propertyTax;
 
-      // V3-03/04: 유년기(10~18세) 부모 용돈 + 학원비. 가정 형편이 결정돼 있을 때만.
-      const isChildhood = intAge >= 10 && intAge < 19;
+      // V3-03/04: 유년기(10~educationEndAge-1세) 부모 용돈 + 학원비. 가정 형편이 결정돼 있을 때만.
+      // V5-02: educationEndAge(기본 19)로 학업 기간을 결정한다.
+      const educationEndAge = st.educationEndAge ?? 19;
+      const isChildhood = intAge >= 10 && intAge < educationEndAge;
       const householdClassForTick = character.householdClass;
       const yearlyAllowanceForAge = isChildhood && householdClassForTick
         ? getYearlyParentalAllowance(householdClassForTick, intAge)
@@ -639,8 +654,42 @@ export const useGameStore = create<GameStoreState>()(
       const newBoomReached = st.boomTimeBillionaireReached || (economyCycle.phase === 'boom' && totalAssetsNow >= 100000000);
       const newSurvivedRecession = st.survivedRecessionWithAssets || (economyCycle.phase === 'recession' && totalAssetsNow >= 10000000);
 
+      // V5-04: 위기 레벨 계산 + 스탯 차감
+      const totalExpenses = insuranceCost + totalTax + academyExpense + costOfLivingExpense + upkeepExpense + repaymentExpense;
+      const crisisLevel = computeCrisisLevel({
+        netCashflow: (grossPeriodIncome - totalExpenses) / 12,
+        monthlyExpense: totalExpenses / 12,
+        totalAssets: totalAssetsNow,
+        cash: finalCash,
+      });
+      const crisisTurns = (crisisLevel === 'orange' || crisisLevel === 'red')
+        ? st.crisisTurns + deltaYears
+        : st.crisisTurns;
+      // 위기 스탯 차감 (orange: -3/-2/-1/-1, red: -6/-4/-2/-2 × deltaYears)
+      const crisisCharacter = (() => {
+        if (crisisLevel === 'orange') {
+          return {
+            ...character,
+            happiness: Math.max(0, Math.min(100, character.happiness - 3 * deltaYears)),
+            health: Math.max(0, Math.min(100, character.health - 2 * deltaYears)),
+            wisdom: Math.max(0, Math.min(100, character.wisdom - 1 * deltaYears)),
+            charisma: Math.max(0, Math.min(100, character.charisma - 1 * deltaYears)),
+          };
+        }
+        if (crisisLevel === 'red') {
+          return {
+            ...character,
+            happiness: Math.max(0, Math.min(100, character.happiness - 6 * deltaYears)),
+            health: Math.max(0, Math.min(100, character.health - 4 * deltaYears)),
+            wisdom: Math.max(0, Math.min(100, character.wisdom - 2 * deltaYears)),
+            charisma: Math.max(0, Math.min(100, character.charisma - 2 * deltaYears)),
+          };
+        }
+        return character;
+      })();
+
       set({
-        character: { ...character, emoji },
+        character: { ...crisisCharacter, emoji },
         cash: finalCash,
         bank,
         holdings: autoHoldings,
@@ -660,6 +709,7 @@ export const useGameStore = create<GameStoreState>()(
         parentalInvestment,
         totalTaxPaid,
         parentalRepaymentBase,
+        crisisTurns,
       });
     },
     triggerEvent(ev) {

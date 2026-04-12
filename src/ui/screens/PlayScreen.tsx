@@ -27,6 +27,7 @@ import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
 import { KEY_SHOW_STAT_HINTS, SettingsModal } from '../components/SettingsModal';
 import { incrementBought, incrementSold } from '../../store/globalStats';
+import { computeCrisisLevel } from '../../game/domain/crisisEngine';
 
 export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
@@ -469,6 +470,40 @@ export function PlayScreen() {
         )}
       </div>
       )}
+
+      {/* 위기 뱃지 — 홈 탭에서만, orange 이상일 때만 표시 */}
+      {tab === 'home' && (() => {
+        const crisisLevel = computeCrisisLevel({
+          netCashflow: cashflow.netCashflow / 12,
+          monthlyExpense: cashflow.totalExpense / 12,
+          totalAssets,
+          cash,
+        });
+        if (crisisLevel === 'safe' || crisisLevel === 'yellow') return null;
+        const badgeConfig = crisisLevel === 'red'
+          ? { emoji: '🔴', label: '긴급 상황', bg: '#ffebee', border: '#ef9a9a', color: '#c62828' }
+          : { emoji: '🟠', label: '생활비 위기', bg: '#fff3e0', border: '#ffcc80', color: '#e65100' };
+        return (
+          <div
+            role="status"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '6px 12px',
+              background: badgeConfig.bg,
+              border: `1px solid ${badgeConfig.border}`,
+              borderRadius: 'var(--radius-sm)',
+              color: badgeConfig.color,
+              fontWeight: 700,
+              fontSize: 'var(--font-size-sm)',
+            }}
+          >
+            <span>{badgeConfig.emoji}</span>
+            <span>{badgeConfig.label}</span>
+          </div>
+        );
+      })()}
 
       {/* Dreams — PRIMARY 지표: 홈 탭에서만. 컴팩트 한 줄 + 접기/펼치기 */}
       {tab === 'home' && (

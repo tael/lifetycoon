@@ -36,6 +36,7 @@ export type PersistedSave = {
     | 'parentalInvestment'
     | 'parentalRepaymentBase'
     | 'totalTaxPaid'
+    | 'crisisTurns'
   >;
 };
 
@@ -67,6 +68,7 @@ export function saveGame(state: GameStoreState): void {
         parentalInvestment: state.parentalInvestment,
         parentalRepaymentBase: state.parentalRepaymentBase,
         totalTaxPaid: state.totalTaxPaid,
+        crisisTurns: state.crisisTurns,
       },
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
@@ -101,6 +103,7 @@ export function loadGame(): PersistedSave | null {
     if (parsed.state?.parentalInvestment == null) parsed.state.parentalInvestment = 0;
     if (parsed.state?.parentalRepaymentBase === undefined) parsed.state.parentalRepaymentBase = null;
     if (parsed.state?.totalTaxPaid == null) parsed.state.totalTaxPaid = 0;
+    if (parsed.state?.crisisTurns == null) parsed.state.crisisTurns = 0;
     return parsed;
   } catch {
     return null;
