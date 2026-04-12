@@ -79,11 +79,11 @@ const ACHIEVEMENTS: Achievement[] = [
   {
     id: 'all_grades',
     title: '인생 컬렉터',
-    description: 'S, A, B, C 등급을 모두 달성!',
+    description: 'S, A, B, C, D, F 등급을 모두 달성!',
     emoji: '🎯',
     check: (_e, m) => {
       const has = new Set(m.gradesEarned);
-      return has.has('S') && has.has('A') && has.has('B') && has.has('C');
+      return has.has('S') && has.has('A') && has.has('B') && has.has('C') && has.has('D') && has.has('F');
     },
   },
   {

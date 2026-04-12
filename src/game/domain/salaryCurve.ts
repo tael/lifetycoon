@@ -60,8 +60,6 @@ const JOB_CURVE_MAP: Record<string, CurvePoint[]> = {
   // 일반직
   officeworker: GENERAL,
   teacher: GENERAL,
-  parttime: GENERAL,
-  student: GENERAL,
   // 전문직
   doctor: PROFESSIONAL,
   scientist: PROFESSIONAL,
@@ -73,7 +71,7 @@ const JOB_CURVE_MAP: Record<string, CurvePoint[]> = {
   chef: SELF_EMPLOYED,
   // 예술가
   artist: ARTIST,
-  // 은퇴자 — 곡선 적용 안 함
+  // student/parttime/retired — 곡선 없이 항상 1.0
 };
 
 /** 곡선 위 두 점 사이를 선형 보간 */
@@ -97,8 +95,10 @@ function lerpCurve(curve: CurvePoint[], age: number): number {
  * 은퇴자(retired)는 곡선 없이 항상 1.0을 반환.
  * 매핑되지 않은 직업도 1.0 (안전 폴백).
  */
+const FIXED_ONE_JOBS = new Set(['student', 'parttime', 'retired']);
+
 export function ageSalaryMultiplier(age: number, jobId: string): number {
-  if (jobId === 'retired') return 1.0;
+  if (FIXED_ONE_JOBS.has(jobId)) return 1.0;
   const curve = JOB_CURVE_MAP[jobId];
   if (!curve) return 1.0;
   return lerpCurve(curve, age);

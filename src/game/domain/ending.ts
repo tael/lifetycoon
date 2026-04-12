@@ -2,12 +2,14 @@ import type { Dream, Ending, Grade, KeyMoment } from '../types';
 import { stageForAge } from '../types';
 
 export function calculateGrade(achieved: number, total: number): Grade {
-  if (total === 0) return 'C';
+  if (total === 0) return 'F';
   const r = achieved / total;
   if (r >= 0.999) return 'S';
-  if (r >= 0.66) return 'A';
-  if (r >= 0.33) return 'B';
-  return 'C';
+  if (r >= 0.75) return 'A';
+  if (r >= 0.50) return 'B';
+  if (r >= 0.25) return 'C';
+  if (r > 0) return 'D';
+  return 'F';
 }
 
 // Select key moments ensuring stage coverage (유년기/청년기/장년기 at least 1 each if available)
@@ -95,6 +97,10 @@ function gradeWord(g: Grade): string {
       return '평범하지만 행복한';
     case 'C':
       return '조용하고 소박한';
+    case 'D':
+      return '힘겨웠지만 의미 있었던';
+    case 'F':
+      return '아무것도 이루지 못한';
   }
 }
 

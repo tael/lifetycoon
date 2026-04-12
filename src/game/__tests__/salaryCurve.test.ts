@@ -43,6 +43,12 @@ describe('ageSalaryMultiplier', () => {
     expect(mid).toBeCloseTo(0.85, 2);
   });
 
+  it('student/parttime는 나이에 관계없이 항상 1.0', () => {
+    expect(ageSalaryMultiplier(16, 'student')).toBe(1.0);
+    expect(ageSalaryMultiplier(22, 'student')).toBe(1.0);
+    expect(ageSalaryMultiplier(30, 'parttime')).toBe(1.0);
+  });
+
   it('곡선 범위 밖(어린 나이/고령)은 첫/마지막 점 값을 반환', () => {
     // officeworker: 10세=0.5가 최소
     expect(ageSalaryMultiplier(5, 'officeworker')).toBeCloseTo(0.5, 2);

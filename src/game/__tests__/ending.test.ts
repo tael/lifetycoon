@@ -3,8 +3,8 @@ import { calculateGrade, selectKeyMoments } from '../domain/ending';
 import type { KeyMoment } from '../types';
 
 describe('calculateGrade', () => {
-  it('total 0이면 C', () => {
-    expect(calculateGrade(0, 0)).toBe('C');
+  it('total 0이면 F', () => {
+    expect(calculateGrade(0, 0)).toBe('F');
   });
 
   it('전부 달성(1.0): S', () => {
@@ -12,27 +12,47 @@ describe('calculateGrade', () => {
     expect(calculateGrade(1, 1)).toBe('S');
   });
 
-  it('4/5(0.8): A', () => {
+  it('4/5(0.8): A (임계 0.75 초과)', () => {
     expect(calculateGrade(4, 5)).toBe('A');
   });
 
-  it('2/3 ≈ 0.667: A (임계 0.66 초과)', () => {
-    expect(calculateGrade(2, 3)).toBe('A');
+  it('3/4(0.75): A (임계 0.75 경계)', () => {
+    expect(calculateGrade(3, 4)).toBe('A');
   });
 
-  it('1/3 ≈ 0.333: B (임계 0.33 초과)', () => {
-    expect(calculateGrade(1, 3)).toBe('B');
+  it('3/6(0.5): B (임계 0.50 경계)', () => {
+    expect(calculateGrade(3, 6)).toBe('B');
   });
 
-  it('0/5: C', () => {
-    expect(calculateGrade(0, 5)).toBe('C');
+  it('2/5(0.4): C (임계 0.25 초과)', () => {
+    expect(calculateGrade(2, 5)).toBe('C');
   });
 
-  it('부동소수점 경계: 0.32는 C, 0.34는 B', () => {
-    // 1/3 = 0.333... 은 B. 0.33 정확히는 C로 내려가지만 achieved/total로는 재현 어려움.
-    // 실무적으로 1/3, 2/3 두 케이스만 확인.
-    expect(calculateGrade(1, 3)).toBe('B');
-    expect(calculateGrade(2, 3)).toBe('A');
+  it('1/5(0.2): D (0 < r < 0.25)', () => {
+    expect(calculateGrade(1, 5)).toBe('D');
+  });
+
+  it('0/5(0): F (r = 0)', () => {
+    expect(calculateGrade(0, 5)).toBe('F');
+  });
+
+  it('부동소수점 경계 케이스', () => {
+    // S: ≥0.999
+    expect(calculateGrade(999, 1000)).toBe('S');
+    expect(calculateGrade(99, 100)).toBe('A');
+    // A: ≥0.75
+    expect(calculateGrade(3, 4)).toBe('A');
+    expect(calculateGrade(2, 3)).toBe('B');
+    // B: ≥0.50
+    expect(calculateGrade(1, 2)).toBe('B');
+    expect(calculateGrade(2, 5)).toBe('C');
+    // C: ≥0.25
+    expect(calculateGrade(1, 4)).toBe('C');
+    expect(calculateGrade(1, 5)).toBe('D');
+    // D: > 0
+    expect(calculateGrade(1, 100)).toBe('D');
+    // F: = 0
+    expect(calculateGrade(0, 100)).toBe('F');
   });
 });
 

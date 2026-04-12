@@ -202,7 +202,7 @@ export type Phase =
   | { kind: 'paused'; event: EconomicEvent }
   | { kind: 'ending' };
 
-export type Grade = 'S' | 'A' | 'B' | 'C';
+export type Grade = 'S' | 'A' | 'B' | 'C' | 'D' | 'F';
 
 export type Ending = {
   grade: Grade;
