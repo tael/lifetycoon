@@ -598,6 +598,7 @@ export const useGameStore = create<GameStoreState>()(
         ...cycleLogEntry,
         ...taxLogEntry,
         ...seasonLogEntry,
+        ...overdraftLogEntry,
         {
           age: intAge,
           text: `${intAge}세: 자산 ${Math.round((ctxCash + bank.balance) / 10000)}만원`,
@@ -615,7 +616,21 @@ export const useGameStore = create<GameStoreState>()(
       // 쿠폰은 과세 대상이라 taxableIncome에 포함됐지만 여기서는 실제 cash 유입으로
       // 한 번만 더한다.
       const bondIncome = couponCash + principalCash;
-      const finalCash = ctxCash + bondIncome;
+      const preFinalCash = ctxCash + bondIncome;
+
+      // 마이너스통장: 현금이 음수 상태로 연도가 지나면 음수 금액에 대해 대출 이자율로 이자 부과.
+      const CASH_FLOOR = -500_000_000; // -5억 하한
+      let finalCash = preFinalCash;
+      const overdraftLogEntry: LifeEvent[] = [];
+      if (preFinalCash < 0) {
+        const overdraftInterest = Math.round(Math.abs(preFinalCash) * bank.loanInterestRate * deltaYears);
+        finalCash = Math.max(preFinalCash - overdraftInterest, CASH_FLOOR);
+        overdraftLogEntry.push({
+          age: intAge,
+          text: `⚠️ 마이너스 잔고 이자 -${Math.round(overdraftInterest / 10000)}만원 부과`,
+          timestamp: Date.now(),
+        });
+      }
 
       const stocksValNow = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
       const totalAssetsNow = finalCash + bank.balance + stocksValNow + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);

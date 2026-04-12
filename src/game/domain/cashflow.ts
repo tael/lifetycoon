@@ -77,6 +77,11 @@ export type CashflowInput = {
    * 산정해 저장한 값을 그대로 넘긴다. null/0이면 라인 미표시.
    */
   parentalRepaymentBase?: number | null;
+  /**
+   * 현재 현금 잔액. 음수이면 마이너스통장 이자 라인을 expense에 추가한다.
+   * 미지정 시 해당 라인은 표시되지 않는다 (구 호출자 호환).
+   */
+  cash?: number;
 };
 
 /**
@@ -109,6 +114,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     inflationMultiplier,
     householdClass,
     parentalRepaymentBase,
+    cash,
   } = input;
 
   const intAge = Math.floor(age);
@@ -189,6 +195,11 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   // V3-09: 부모님 용돈 되돌림 (20~60세)
   const repaymentYearly = parentalRepaymentForAge(intAge, parentalRepaymentBase ?? 0);
   if (repaymentYearly > 0) expense.push({ label: '부모님 용돈', emoji: '💝', amount: repaymentYearly });
+  // 마이너스통장: 현금이 음수이면 음수 금액 × 대출 이자율만큼 예상 이자 표시.
+  const overdraftInterestYearly = cash != null && cash < 0
+    ? Math.round(Math.abs(cash) * bank.loanInterestRate)
+    : 0;
+  if (overdraftInterestYearly > 0) expense.push({ label: '마이너스 이자', emoji: '🔻', amount: overdraftInterestYearly });
 
   const totalExpense = expense.reduce((s, it) => s + it.amount, 0);
   const netCashflow = totalIncome - totalExpense;
