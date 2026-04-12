@@ -302,7 +302,7 @@ export async function runSingleGame(seed: number, runIndex: number): Promise<Run
       finalRealEstateValue: realEstateValue,
       finalBondsValue: bondsValue,
       finalTotalAssets: totalAssets,
-      grade: ending?.grade ?? 'unknown',
+      grade: ending?.grade ?? 'unknown' as string,
       dreamsAchieved: ending?.dreamsAchieved ?? 0,
       dreamsTotal: ending?.totalDreams ?? pickedDreamIds.length,
       dreamIdsAchieved: st.dreams.filter((d) => d.achieved).map((d) => d.id),

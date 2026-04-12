@@ -89,6 +89,8 @@ export function generateLifeSummary(
     A: [`${name}은(는) 멋진 인생을 살았다.`, `${name}의 삶은 빛났다.`],
     B: [`${name}은(는) 평범하지만 행복했다.`, `${name}의 소소한 인생.`],
     C: [`${name}은(는) 조용히 살다 갔다.`, `${name}의 고요한 여정.`],
+    D: [`${name}은(는) 힘겨운 인생을 버텼다.`, `${name}의 고단했던 날들.`],
+    F: [`${name}은(는) 아무것도 이루지 못했다.`, `${name}의 텅 빈 여정.`],
   };
   parts.push(openers[grade][Math.floor(Math.random() * openers[grade].length)]);
 

@@ -15,12 +15,14 @@ import { AssetChart } from '../components/AssetChart';
 import { showToast } from '../components/Toast';
 import type { Grade } from '../../game/types';
 
-const GRADE_EMOJI: Record<Grade, string> = { S: '👑', A: '🌟', B: '🙂', C: '🌱' };
+const GRADE_EMOJI: Record<Grade, string> = { S: '👑', A: '🌟', B: '🙂', C: '🌱', D: '🥀', F: '💀' };
 const GRADE_LABEL: Record<Grade, string> = {
   S: '전설의 인생',
   A: '멋진 인생',
   B: '평범하지만 행복한 인생',
   C: '조용하고 소박한 인생',
+  D: '힘겨웠지만 의미 있었던 인생',
+  F: '아무것도 이루지 못한 인생',
 };
 
 export function EndingScreen() {

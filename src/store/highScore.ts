@@ -11,7 +11,7 @@ export type HighScore = {
   lastPlayed: string;
 };
 
-const GRADE_ORDER: Record<Grade, number> = { S: 4, A: 3, B: 2, C: 1 };
+const GRADE_ORDER: Record<Grade, number> = { S: 6, A: 5, B: 4, C: 3, D: 2, F: 1 };
 
 export function loadHighScore(): HighScore | null {
   try {
