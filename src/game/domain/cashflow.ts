@@ -3,7 +3,7 @@ import { calculateIncomeTax, calculatePropertyTax } from '../engine/tax';
 import { computePensionYearly, PENSION_START_AGE } from './pension';
 import {
   ACADEMY_RATIO,
-  HOUSEHOLD_ALLOWANCE_YEARLY,
+  getYearlyParentalAllowance,
   type HouseholdClass,
 } from './household';
 import { computeCostOfLiving } from './costOfLiving';
@@ -114,7 +114,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   // 유년기 정의: 10세 이상 19세 미만 (PRD V3-03 범위 [10,18])
   const isChildhood = intAge >= 10 && intAge < 19;
   const allowanceYearly = isChildhood && householdClass
-    ? HOUSEHOLD_ALLOWANCE_YEARLY[householdClass]
+    ? getYearlyParentalAllowance(householdClass, intAge)
     : 0;
   const academyYearly = allowanceYearly > 0
     ? Math.round(allowanceYearly * ACADEMY_RATIO)

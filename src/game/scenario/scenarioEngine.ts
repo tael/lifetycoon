@@ -35,13 +35,13 @@ export type EffectContext = {
   warnings?: string[];
 };
 
-// 이벤트 buyStock의 강제대출 최소 단위 (10만원) — UI의 대출 버튼 단위와 일치.
-const FORCED_LOAN_UNIT = 100_000;
+// 이벤트 buyStock의 강제대출 최소 단위 (100만원) — UI의 대출 버튼 단위와 일치.
+const FORCED_LOAN_UNIT = 1_000_000;
 
 // cash 필드의 하한선. 현금은 음수 상태를 허용하지만 "파산 수렁"으로 무제한
-// 내려가지 않도록 -5,000만원에서 막는다. 이 한도를 넘는 손실은 effect가 조용히
+// 내려가지 않도록 -5억원에서 막는다. 이 한도를 넘는 손실은 effect가 조용히
 // 절단돼서 플레이어가 영영 회복 불가능한 상태에 빠지는 걸 방지한다.
-const CASH_FLOOR = -50_000_000;
+const CASH_FLOOR = -500_000_000;
 
 // 캐릭터의 수치형 스탯 필드 4종. applyEffect에서 반복되는 업데이트 패턴을
 // 하나로 모아 단순화하기 위한 좁은 타입.

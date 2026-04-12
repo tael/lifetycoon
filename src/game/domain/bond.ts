@@ -9,9 +9,9 @@ export type BondDef = {
 };
 
 export const BOND_LISTINGS: BondDef[] = [
-  { id: 'short_bond',  name: '단기 국채 (3년)',  faceValue: 1000000, couponRate: 0.03, maturityYears: 3 },
-  { id: 'mid_bond',   name: '중기 국채 (5년)',  faceValue: 1000000, couponRate: 0.04, maturityYears: 5 },
-  { id: 'long_bond',  name: '장기 국채 (10년)', faceValue: 1000000, couponRate: 0.05, maturityYears: 10 },
+  { id: 'short_bond',  name: '단기 국채 (3년)',  faceValue: 10_000_000, couponRate: 0.03, maturityYears: 3 },
+  { id: 'mid_bond',   name: '중기 국채 (5년)',  faceValue: 10_000_000, couponRate: 0.04, maturityYears: 5 },
+  { id: 'long_bond',  name: '장기 국채 (10년)', faceValue: 10_000_000, couponRate: 0.05, maturityYears: 10 },
 ];
 
 /**

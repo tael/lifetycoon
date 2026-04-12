@@ -2,8 +2,8 @@
   {
     "id": "first_house",
     "title": "첫 집 마련",
-    "description": "내 이름의 집 한 채 갖기 (3억)",
-    "targetCondition": { "kind": "totalAssetsGte", "value": 300000000 },
+    "description": "내 이름의 집 한 채 갖기 (5억)",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 500000000 },
     "achieved": false,
     "rewardKeyMoment": "드디어 자기 집을 갖게 되었다",
     "iconEmoji": "🏠"
@@ -11,8 +11,8 @@
   {
     "id": "space_trip",
     "title": "우주여행",
-    "description": "진짜 우주로 떠나보기 (5억)",
-    "targetCondition": { "kind": "totalAssetsGte", "value": 500000000 },
+    "description": "진짜 우주로 떠나보기 (20억)",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 2000000000 },
     "achieved": false,
     "rewardKeyMoment": "우주선을 타고 지구를 내려다봤다",
     "iconEmoji": "🚀"
@@ -29,10 +29,10 @@
   {
     "id": "rich_youth",
     "title": "30대 부자",
-    "description": "40세 전에 1억원 모으기",
-    "targetCondition": { "kind": "totalAssetsGteByAge", "value": 100000000, "byAge": 40 },
+    "description": "40세 전에 10억원 모으기",
+    "targetCondition": { "kind": "totalAssetsGteByAge", "value": 1000000000, "byAge": 40 },
     "achieved": false,
-    "rewardKeyMoment": "30대에 이미 1억의 여유를 만들었다",
+    "rewardKeyMoment": "30대에 이미 10억의 여유를 만들었다",
     "iconEmoji": "💰"
   },
   {
@@ -64,11 +64,11 @@
   },
   {
     "id": "billionaire",
-    "title": "10억 부자",
-    "description": "10억원 모으기",
-    "targetCondition": { "kind": "totalAssetsGte", "value": 1000000000 },
+    "title": "100억 부자",
+    "description": "100억원 모으기",
+    "targetCondition": { "kind": "totalAssetsGte", "value": 10000000000 },
     "achieved": false,
-    "rewardKeyMoment": "10억의 주인이 되었다",
+    "rewardKeyMoment": "100억의 주인이 되었다",
     "iconEmoji": "🤑"
   },
   {

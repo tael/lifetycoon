@@ -17,10 +17,10 @@ const baseCharacter: Character = {
 function makeCtx(overrides: Partial<EffectContext> = {}): EffectContext {
   return {
     character: baseCharacter,
-    cash: 100000,
+    cash: 10_000_000,
     bank: { balance: 0, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     holdings: [],
-    prices: { DDUK: 1000, RAIN: 2000 },
+    prices: { DDUK: 10_000, RAIN: 20_000 },
     job: null,
     jobs: [] as Job[],
     traits: [],
@@ -37,58 +37,58 @@ function choice(effects: EventChoice['effects']): EventChoice {
 
 describe('buyStock effect', () => {
   it('actually adds shares to holdings and deducts cash', () => {
-    const ctx = makeCtx({ cash: 100000 });
+    const ctx = makeCtx({ cash: 10_000_000 });
     const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
     expect(result.holdings).toHaveLength(1);
-    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20, avgBuyPrice: 1000 });
-    expect(result.cash).toBe(100000 - 20000);
+    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20, avgBuyPrice: 10_000 });
+    expect(result.cash).toBe(10_000_000 - 200_000);
     expect(result.warnings).toEqual([]);
   });
 
   it('merges with existing holding and recomputes average', () => {
-    const existing: Holding = { ticker: 'DDUK', shares: 10, avgBuyPrice: 800 };
-    const ctx = makeCtx({ cash: 100000, holdings: [existing] });
+    const existing: Holding = { ticker: 'DDUK', shares: 10, avgBuyPrice: 8_000 };
+    const ctx = makeCtx({ cash: 10_000_000, holdings: [existing] });
     const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 10 }]), 30);
-    // (800*10 + 1000*10)/20 = 900
-    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20, avgBuyPrice: 900 });
-    expect(result.cash).toBe(100000 - 10000);
+    // (8000*10 + 10000*10)/20 = 9000
+    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20, avgBuyPrice: 9_000 });
+    expect(result.cash).toBe(10_000_000 - 100_000);
   });
 
-  it('forces a loan (10만원 단위 올림) when cash is short but loan limit allows', () => {
-    // cost = 20 * 1000 = 20,000. cash = 5,000. shortfall = 15,000 → loan 100,000.
-    // totalAssets (cash 5k + bank balance 80k) = 85k → maxLoan = 42,500. NOT enough for 100k.
-    // Increase bank balance so limit is enough: bank 400k → totalAssets 405k → maxLoan 202,500.
+  it('forces a loan (100만원 단위 올림) when cash is short but loan limit allows', () => {
+    // cost = 20 * 10000 = 200,000. cash = 50,000. shortfall = 150,000 → loan 1,000,000 (올림).
+    // totalAssets (cash 50k + bank 4M) = 4,050,000 → maxLoan = 2,025,000. 1M < 2,025,000 → OK.
     const ctx = makeCtx({
-      cash: 5000,
-      bank: { balance: 400000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
+      cash: 50_000,
+      bank: { balance: 4_000_000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     });
     const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
     expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20 });
-    // cash flow: 5000 + 100000 loan - 20000 cost = 85000
-    expect(result.cash).toBe(85000);
-    expect(result.bank.loanBalance).toBe(100000);
+    // cash flow: 50,000 + 1,000,000 loan - 200,000 cost = 850,000
+    expect(result.cash).toBe(850_000);
+    expect(result.bank.loanBalance).toBe(1_000_000);
     expect(result.warnings?.length).toBe(1);
     expect(result.warnings?.[0]).toMatch(/대출.*DDUK 20주/);
   });
 
-  it('rounds shortfall UP to next 10만원 loan unit', () => {
-    // cost = 1 * 1000 = 1000. cash = 0. shortfall 1000 → loan 100,000 (올림).
+  it('rounds shortfall UP to next 100만원 loan unit', () => {
+    // cost = 1 * 10000 = 10,000. cash = 0. shortfall 10,000 → loan 1,000,000 (올림).
+    // totalAssets (cash 0 + bank 5M) = 5M → maxLoan = 2,500,000. 1M < 2.5M → OK.
     const ctx = makeCtx({
       cash: 0,
-      bank: { balance: 500000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
+      bank: { balance: 5_000_000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     });
     const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 1 }]), 30);
-    expect(result.bank.loanBalance).toBe(100000);
-    expect(result.cash).toBe(99000); // 0 + 100000 loan - 1000 cost
+    expect(result.bank.loanBalance).toBe(1_000_000);
+    expect(result.cash).toBe(990_000); // 0 + 1,000,000 loan - 10,000 cost
   });
 
   it('skips and emits warning when even max loan cannot cover the purchase', () => {
-    // cost = 20 * 1000 = 20,000. cash = 0. bank = 10,000.
-    // totalAssets = 10,000 → maxLoan = 5,000. shortfall 20,000 → loan unit 100,000.
-    // remainingLimit 5,000 < 100,000 → skip.
+    // cost = 20 * 10000 = 200,000. cash = 0. bank = 100,000.
+    // totalAssets = 100,000 → maxLoan = 50,000. shortfall 200,000 → loan unit 1,000,000.
+    // remainingLimit 50,000 < 1,000,000 → skip.
     const ctx = makeCtx({
       cash: 0,
-      bank: { balance: 10000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
+      bank: { balance: 100_000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     });
     const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
     expect(result.holdings).toHaveLength(0);
@@ -98,7 +98,7 @@ describe('buyStock effect', () => {
   });
 
   it('buys at pre-shock price when ordered before stockShock', () => {
-    const ctx = makeCtx({ cash: 100000 });
+    const ctx = makeCtx({ cash: 10_000_000 });
     const result = applyChoice(
       ctx,
       choice([
@@ -107,33 +107,33 @@ describe('buyStock effect', () => {
       ]),
       30,
     );
-    // Buy at 1000, cost 10000. Then shock price to 1500.
-    expect(result.cash).toBe(90000);
-    expect(result.holdings[0].avgBuyPrice).toBe(1000);
-    expect(result.prices.DDUK).toBe(1500);
+    // Buy at 10000, cost 100000. Then shock price to 15000.
+    expect(result.cash).toBe(9_900_000);
+    expect(result.holdings[0].avgBuyPrice).toBe(10_000);
+    expect(result.prices.DDUK).toBe(15_000);
   });
 });
 
 describe('sellStock effect', () => {
   it('removes shares and credits cash at current price', () => {
     const ctx = makeCtx({
-      cash: 50000,
-      holdings: [{ ticker: 'DDUK', shares: 30, avgBuyPrice: 800 }],
+      cash: 5_000_000,
+      holdings: [{ ticker: 'DDUK', shares: 30, avgBuyPrice: 8_000 }],
     });
     const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'DDUK', shares: 10 }]), 30);
     expect(result.holdings[0].shares).toBe(20);
-    expect(result.cash).toBe(50000 + 10000);
+    expect(result.cash).toBe(5_000_000 + 100_000);
     expect(result.warnings).toEqual([]);
   });
 
   it('removes holding entirely when selling all shares', () => {
     const ctx = makeCtx({
       cash: 0,
-      holdings: [{ ticker: 'DDUK', shares: 10, avgBuyPrice: 800 }],
+      holdings: [{ ticker: 'DDUK', shares: 10, avgBuyPrice: 8_000 }],
     });
     const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'DDUK', shares: 10 }]), 30);
     expect(result.holdings).toHaveLength(0);
-    expect(result.cash).toBe(10000);
+    expect(result.cash).toBe(100_000);
   });
 
   it('skips and emits warning when holdings are insufficient', () => {

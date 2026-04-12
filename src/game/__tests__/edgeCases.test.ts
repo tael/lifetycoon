@@ -96,9 +96,9 @@ describe('edgeCases: 10 seeds × 90-year headless simulation', () => {
 
         // ── 불변식 검증 ──
 
-        // cash: 음의 무한대로 가지 않음 (시나리오 엔진이 -5000만 플로어 적용)
+        // cash: 음의 무한대로 가지 않음 (시나리오 엔진이 -5억 플로어 적용, v0.4.0 스케일)
         expect(Number.isFinite(cash), `[seed=${masterSeed}] cash non-finite at age ${age}`).toBe(true);
-        expect(cash, `[seed=${masterSeed}] cash below -50M at age ${age}`).toBeGreaterThanOrEqual(-50_000_000);
+        expect(cash, `[seed=${masterSeed}] cash below -500M at age ${age}`).toBeGreaterThanOrEqual(-500_000_000);
 
         // happiness/health: 0~100
         expect(character.happiness, `[seed=${masterSeed}] happiness < 0 at age ${age}`).toBeGreaterThanOrEqual(0);

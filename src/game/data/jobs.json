@@ -11,7 +11,7 @@
   {
     "id": "parttime",
     "title": "편의점 알바",
-    "salary": 120000,
+    "salary": 800000,
     "minAge": 15,
     "recommendedAssets": 0,
     "iconEmoji": "🏪",
@@ -20,7 +20,7 @@
   {
     "id": "officeworker",
     "title": "회사원",
-    "salary": 280000,
+    "salary": 3300000,
     "minAge": 22,
     "recommendedAssets": 0,
     "iconEmoji": "💼",
@@ -29,16 +29,16 @@
   {
     "id": "youtuber",
     "title": "유튜버",
-    "salary": 250000,
+    "salary": 2000000,
     "minAge": 15,
-    "recommendedAssets": 500000,
+    "recommendedAssets": 5000000,
     "iconEmoji": "📹",
     "flavorText": "좋아요 누르고 구독!"
   },
   {
     "id": "scientist",
     "title": "과학자",
-    "salary": 400000,
+    "salary": 5000000,
     "minAge": 28,
     "recommendedAssets": 0,
     "iconEmoji": "🔬",
@@ -48,28 +48,28 @@
   {
     "id": "chef",
     "title": "셰프",
-    "salary": 330000,
+    "salary": 2800000,
     "minAge": 20,
-    "recommendedAssets": 200000,
+    "recommendedAssets": 2000000,
     "iconEmoji": "👨\u200d🍳",
     "flavorText": "떡볶이로 세계 1등",
-    "upkeepCost": 200000
+    "upkeepCost": 150000
   },
   {
     "id": "ceo",
     "title": "사장님",
-    "salary": 700000,
+    "salary": 2500000,
     "minAge": 30,
-    "recommendedAssets": 10000000,
+    "recommendedAssets": 100000000,
     "iconEmoji": "👔",
     "flavorText": "회사 대표, 회의 100개"
   },
   {
     "id": "artist",
     "title": "예술가",
-    "salary": 180000,
+    "salary": 1800000,
     "minAge": 18,
-    "recommendedAssets": 300000,
+    "recommendedAssets": 3000000,
     "iconEmoji": "🎨",
     "flavorText": "그림이 마음을 말해요",
     "upkeepCost": 200000
@@ -77,18 +77,19 @@
   {
     "id": "athlete",
     "title": "운동선수",
-    "salary": 600000,
+    "salary": 5000000,
     "minAge": 16,
     "recommendedAssets": 0,
     "iconEmoji": "🏃",
-    "flavorText": "땀방울의 힘"
+    "flavorText": "땀방울의 힘",
+    "upkeepCost": 300000
   },
   {
     "id": "doctor",
     "title": "의사",
-    "salary": 650000,
+    "salary": 11000000,
     "minAge": 30,
-    "recommendedAssets": 5000000,
+    "recommendedAssets": 50000000,
     "iconEmoji": "🏥",
     "flavorText": "아픈 곳을 고치는 사람",
     "upkeepCost": 100000
@@ -96,7 +97,7 @@
   {
     "id": "teacher",
     "title": "선생님",
-    "salary": 320000,
+    "salary": 3000000,
     "minAge": 24,
     "recommendedAssets": 0,
     "iconEmoji": "🍎",
@@ -105,7 +106,7 @@
   {
     "id": "retired",
     "title": "은퇴자",
-    "salary": 100000,
+    "salary": 1000000,
     "minAge": 65,
     "recommendedAssets": 0,
     "iconEmoji": "🌴",

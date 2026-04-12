@@ -26,7 +26,7 @@ import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
 import {
   ACADEMY_RATIO,
-  HOUSEHOLD_ALLOWANCE_YEARLY,
+  getYearlyParentalAllowance,
   pickRandomHouseholdClass,
 } from '../game/domain/household';
 import { computeCostOfLiving } from '../game/domain/costOfLiving';
@@ -450,12 +450,11 @@ export const useGameStore = create<GameStoreState>()(
       // V3-03/04: 유년기(10~18세) 부모 용돈 + 학원비. 가정 형편이 결정돼 있을 때만.
       const isChildhood = intAge >= 10 && intAge < 19;
       const householdClassForTick = character.householdClass;
-      const allowanceIncome = isChildhood && householdClassForTick
-        ? Math.round(HOUSEHOLD_ALLOWANCE_YEARLY[householdClassForTick] * deltaYears)
+      const yearlyAllowanceForAge = isChildhood && householdClassForTick
+        ? getYearlyParentalAllowance(householdClassForTick, intAge)
         : 0;
-      const academyExpense = isChildhood && householdClassForTick
-        ? Math.round(HOUSEHOLD_ALLOWANCE_YEARLY[householdClassForTick] * ACADEMY_RATIO * deltaYears)
-        : 0;
+      const allowanceIncome = Math.round(yearlyAllowanceForAge * deltaYears);
+      const academyExpense = Math.round(yearlyAllowanceForAge * ACADEMY_RATIO * deltaYears);
       // V3-06/07: 성인 기본 생활비. 도메인 함수로 단일화.
       // 주의: salaryIncome은 deltaYears가 곱해진 값이라 baseSalaryYearly로 환산해 도메인에 넘긴다.
       const baseSalaryYearly = st.job ? Math.round(st.job.salary * 12) : 0;

@@ -199,21 +199,24 @@ describe('computeCashflow', () => {
     expect(age650.income.find((i) => i.label === '연금')?.amount).toBe(500_000);
   });
 
-  it('V3-03: 유년기(10~18)에 가정 형편이 thrifty면 부모 용돈 600만 라인이 생긴다', () => {
+  it('V4: 유년기(10~18)에 가정 형편이 thrifty/12세면 부모 용돈 480만 라인이 생긴다', () => {
+    // thrifty early(10~12) 월 40만 × 12 = 480만
     const r = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'thrifty' }));
     const allowance = r.income.find((i) => i.label === '부모님 용돈');
-    expect(allowance?.amount).toBe(6_000_000);
+    expect(allowance?.amount).toBe(4_800_000);
     expect(allowance?.passive).toBe(true);
     // sustainablePassive는 부모 용돈을 제외한다 → 자기 자산 0이면 0
     expect(r.sustainablePassive).toBe(0);
     expect(r.financiallyFree).toBe(false);
   });
 
-  it('V3-03: average/affluent 가정의 용돈 테이블', () => {
+  it('V4: average/affluent 가정의 연령대별 용돈 테이블', () => {
+    // average mid(13~15) 월 75만 × 12 = 900만
     const avg = computeCashflow(baseInput({ age: 15, job: null, householdClass: 'average' }));
     expect(avg.income.find((i) => i.label === '부모님 용돈')?.amount).toBe(9_000_000);
+    // affluent late(16~18) 월 120만 × 12 = 1440만
     const aff = computeCashflow(baseInput({ age: 18, job: null, householdClass: 'affluent' }));
-    expect(aff.income.find((i) => i.label === '부모님 용돈')?.amount).toBe(12_000_000);
+    expect(aff.income.find((i) => i.label === '부모님 용돈')?.amount).toBe(14_400_000);
   });
 
   it('V3-03: 19세 이상이면 부모 용돈 라인이 사라진다', () => {
@@ -226,11 +229,13 @@ describe('computeCashflow', () => {
     expect(r.income.find((i) => i.label === '부모님 용돈')).toBeUndefined();
   });
 
-  it('V3-04: 유년기 학원비는 용돈의 65%로 expense 라인에 추가된다', () => {
+  it('V4: 유년기 학원비는 용돈의 65%로 expense 라인에 추가된다 (연령대별)', () => {
+    // thrifty early(10~12) 월 40만 × 12 = 480만 × 65%
     const thrifty = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'thrifty' }));
-    expect(thrifty.expense.find((e) => e.label === '학원비')?.amount).toBe(Math.round(6_000_000 * 0.65));
+    expect(thrifty.expense.find((e) => e.label === '학원비')?.amount).toBe(Math.round(4_800_000 * 0.65));
+    // affluent early(10~12) 월 80만 × 12 = 960만 × 65%
     const aff = computeCashflow(baseInput({ age: 12, job: null, householdClass: 'affluent' }));
-    expect(aff.expense.find((e) => e.label === '학원비')?.amount).toBe(Math.round(12_000_000 * 0.65));
+    expect(aff.expense.find((e) => e.label === '학원비')?.amount).toBe(Math.round(9_600_000 * 0.65));
   });
 
   it('V3-03: sustainablePassive에는 부모 용돈/연금이 포함되지 않아 트레이트 오부여를 막는다', () => {

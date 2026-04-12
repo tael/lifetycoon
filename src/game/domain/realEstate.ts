@@ -9,9 +9,9 @@ export type RealEstateDef = {
 };
 
 export const REAL_ESTATE_LISTINGS: RealEstateDef[] = [
-  { id: 'small_apt',  name: '소형 아파트', price: 30000000, monthlyRent: 0 },
-  { id: 'commercial', name: '상가',         price: 50000000, monthlyRent: 300000 },
-  { id: 'large_apt',  name: '대형 아파트',  price: 100000000, monthlyRent: 0 },
+  { id: 'small_apt',  name: '소형 아파트', price: 300_000_000, monthlyRent: 0 },
+  { id: 'commercial', name: '상가',         price: 500_000_000, monthlyRent: 3_000_000 },
+  { id: 'large_apt',  name: '대형 아파트',  price: 1_000_000_000, monthlyRent: 0 },
 ];
 
 /** 연 3~5% 가치 상승 (PRNG 기반) */
