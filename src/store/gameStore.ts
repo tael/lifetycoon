@@ -277,6 +277,12 @@ export const useGameStore = create<GameStoreState>()(
       // v0.3.0: 가정 형편은 시작 시 1회 랜덤으로 확정. streams.misc 사용 → seed 기반 결정론.
       const householdClass = pickRandomHouseholdClass(streams.misc);
       const startCharacter = { ...createCharacter(name, resolvedGender), householdClass };
+
+      // 새 게임 시작 시 URL 파라미터 클리어 (공유 코드 제거)
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+
       set({
         ...base,
         seeds,
@@ -369,6 +375,8 @@ export const useGameStore = create<GameStoreState>()(
           const compoundFactor = Math.pow(1 + divRate, deltaYears) - 1;
           perStockDividend[h.ticker] = Math.round(price * h.shares * compoundFactor);
         }
+        // DRIP 시점 가용 현금: 현재 보유 현금 + 이번 틱 확정 수입
+        const dripAvailableCash = st.cash + salaryIncome + dividendIncome + pensionIncome;
         dripHoldings = dripHoldings.map((h) => {
           const div = perStockDividend[h.ticker] ?? 0;
           const price = st.prices[h.ticker] ?? 0;
@@ -376,6 +384,8 @@ export const useGameStore = create<GameStoreState>()(
           const additionalShares = Math.floor(div / price);
           if (additionalShares <= 0) return h;
           const cost = additionalShares * price;
+          // 현금 부족 시 재투자 스킵 (음수 현금 방지)
+          if (dripSpent + cost > dripAvailableCash) return h;
           dripSpent += cost;
           const totalShares = h.shares + additionalShares;
           const newAvg = Math.round(
