@@ -148,6 +148,10 @@ export function PlayScreen() {
         loopRef.current?.pause();
         setShowMilestone(intAge);
       }
+      // 유년기 종료 안내 (18세→19세 전환)
+      if (intAge === 19) {
+        showToast('부모님의 용돈이 끝났습니다. 이제 스스로 벌어야 합니다.', '🎒', 'info', 4000);
+      }
       prevAgeRef.current = intAge;
     }
     // Dream achievement toast
