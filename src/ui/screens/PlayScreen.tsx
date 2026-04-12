@@ -18,6 +18,7 @@ import { MilestonePopup, isMilestoneAge } from '../components/MilestonePopup';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { NewsTicker } from '../components/NewsTicker';
 import { DebtBadge } from '../components/DebtBadge';
+import { AssetCompositionBar } from '../components/AssetCompositionBar';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
 import { StockDetailModal } from '../components/StockDetailModal';
@@ -692,6 +693,16 @@ export function PlayScreen() {
                   자산 {assetDelta > 0 ? '▲' : '▼'}{formatWon(Math.abs(assetDelta))}
                 </div>
               )}
+              <AssetCompositionBar
+                segments={[
+                  { label: '현금', value: cash, color: '#2196f3', emoji: '💵' },
+                  { label: '예금', value: bank.balance, color: '#42a5f5', emoji: '🏦' },
+                  { label: '주식', value: stocksValue, color: '#4caf50', emoji: '📈' },
+                  { label: '부동산', value: realEstateValue, color: '#ff9800', emoji: '🏠' },
+                  { label: '채권', value: bonds.reduce((s, b) => s + b.faceValue, 0), color: '#9c27b0', emoji: '📜' },
+                ]}
+                total={totalAssets}
+              />
             </>
           );
         })()}
