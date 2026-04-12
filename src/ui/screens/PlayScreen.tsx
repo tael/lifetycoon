@@ -92,8 +92,16 @@ export function PlayScreen() {
     endGame();
   }, [endGame]);
 
+  // 월 단위 표시용 float age. gameStore.character.age는 정수 경계에서만 갱신되므로
+  // formatAge가 "X세 1월"로 고정되던 버그를 우회한다. 매 프레임이 아니라 약 1개월
+  // (1/12년) 간격으로만 업데이트돼서 리렌더 비용을 낮게 유지한다.
+  const [displayAge, setDisplayAge] = useState(character.age);
+  const onDisplayAgeChange = useCallback((age: number) => {
+    setDisplayAge(age);
+  }, []);
+
   useEffect(() => {
-    const loop = createGameLoop({ onIntAgeChange, onFinished });
+    const loop = createGameLoop({ onIntAgeChange, onFinished, onDisplayAgeChange });
     loopRef.current = loop;
     const vis = createVisibilityController();
     vis.attach(
@@ -285,7 +293,7 @@ export function PlayScreen() {
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
-              {formatAge(character.age)}
+              {formatAge(displayAge)}
             </span>
             {economyCycle && (
               <span style={{

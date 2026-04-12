@@ -11,7 +11,17 @@ export type GameLoopState = {
 export type GameLoopCallbacks = {
   onIntAgeChange: (newIntAge: number, deltaYears: number, elapsedMs: number) => void;
   onFinished: () => void;
+  /**
+   * 월/일 단위의 부드러운 나이 표시를 위한 저빈도 틱 콜백.
+   * 매 rAF 프레임마다 불리지 않고, age가 MIN_DISPLAY_AGE_STEP(약 1/12년) 이상
+   * 변할 때만 호출된다. PlayScreen의 "10세 3월" 표시 갱신용.
+   */
+  onDisplayAgeChange?: (age: number, elapsedMs: number) => void;
 };
+
+// 표시용 age 갱신 임계: 약 1개월 (1/12년). rAF 프레임마다 setState하면 리렌더가
+// 과도하니 월 단위에서만 부모에게 알린다.
+const MIN_DISPLAY_AGE_STEP = 1 / 12;
 
 export type GameLoopHandle = {
   start: () => void;
@@ -60,6 +70,14 @@ export function createGameLoop(
   let lastTick = 0;
   let rafId: number | null = null;
   let lastIntAge = 10;
+  let lastDisplayAge = elapsedMsToAge(0);
+
+  function maybeEmitDisplayAge(age: number) {
+    if (!callbacks.onDisplayAgeChange) return;
+    if (Math.abs(age - lastDisplayAge) < MIN_DISPLAY_AGE_STEP) return;
+    lastDisplayAge = age;
+    callbacks.onDisplayAgeChange(age, state.elapsedMs);
+  }
 
   function tick(now: number) {
     if (!state.running) return;
@@ -77,6 +95,7 @@ export function createGameLoop(
       lastIntAge = intAge;
       callbacks.onIntAgeChange(intAge, deltaYears, state.elapsedMs);
     }
+    maybeEmitDisplayAge(age);
 
     if (isFinished(age)) {
       state.running = false;
