@@ -143,9 +143,9 @@ export function StockDetailModal({ stock, price, holding, cash, onBuy, onSell, o
               <div style={valueStyle}>{(stock.volatility * 100).toFixed(0)}%</div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={labelStyle}>배당률</div>
+              <div style={labelStyle}>시가배당률</div>
               <div style={{ ...valueStyle, color: stock.dividendRate > 0 ? 'var(--success)' : 'inherit' }}>
-                {stock.dividendRate > 0 ? `${(stock.dividendRate * 100).toFixed(0)}%` : '-'}
+                {stock.dividendRate > 0 ? `${(stock.dividendRate * 100).toFixed(1)}%` : '-'}
               </div>
             </div>
           </div>
@@ -180,6 +180,22 @@ export function StockDetailModal({ stock, price, holding, cash, onBuy, onSell, o
                 </div>
               </div>
             </div>
+            {stock.dividendRate > 0 && avgBuy > 0 && (
+              <div style={infoRowStyle}>
+                <div>
+                  <div style={labelStyle}>시가배당률</div>
+                  <div style={{ ...valueStyle, color: 'var(--success)' }}>
+                    {(stock.dividendRate * 100).toFixed(1)}%
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={labelStyle}>내 수익률</div>
+                  <div style={{ ...valueStyle, color: 'var(--success)' }}>
+                    {((price * stock.dividendRate) / avgBuy * 100).toFixed(1)}%
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

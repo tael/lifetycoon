@@ -1389,7 +1389,7 @@ function StockRow({
             </span>
             {stock.dividendRate > 0 && (
               <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
-                배당{(stock.dividendRate * 100).toFixed(0)}%
+                시가배당률 {(stock.dividendRate * 100).toFixed(1)}%
               </span>
             )}
           </div>
