@@ -1,112 +1,12 @@
 [
-  {
-    "ticker": "DDUK",
-    "name": "떡볶이 제국",
-    "sector": "분식",
-    "basePrice": 12000,
-    "drift": 0.08,
-    "volatility": 0.35,
-    "iconEmoji": "🌶️",
-    "flavorText": "매콤달콤 제국의 꿈",
-    "dividendRate": 0.02
-  },
-  {
-    "ticker": "RAIN",
-    "name": "무지개 전자",
-    "sector": "기술",
-    "basePrice": 35000,
-    "drift": 0.12,
-    "volatility": 0.25,
-    "iconEmoji": "🌈",
-    "flavorText": "색색깔 기술의 힘",
-    "dividendRate": 0.01
-  },
-  {
-    "ticker": "PENG",
-    "name": "펭귄 택배",
-    "sector": "물류",
-    "basePrice": 22000,
-    "drift": 0.06,
-    "volatility": 0.18,
-    "iconEmoji": "🐧",
-    "flavorText": "얼음길도 배달!",
-    "dividendRate": 0.03
-  },
-  {
-    "ticker": "TOFU",
-    "name": "두부공주",
-    "sector": "식품",
-    "basePrice": 9000,
-    "drift": 0.04,
-    "volatility": 0.12,
-    "iconEmoji": "🍱",
-    "flavorText": "하얗고 부드러운 왕국",
-    "dividendRate": 0.04
-  },
-  {
-    "ticker": "ROCK",
-    "name": "로켓김밥",
-    "sector": "분식",
-    "basePrice": 50000,
-    "drift": 0.15,
-    "volatility": 0.45,
-    "iconEmoji": "🚀",
-    "flavorText": "김밥이 우주로 갑니다",
-    "dividendRate": 0.0
-  },
-  {
-    "ticker": "CATB",
-    "name": "고양이 은행",
-    "sector": "금융",
-    "basePrice": 78000,
-    "drift": 0.05,
-    "volatility": 0.1,
-    "iconEmoji": "🐱",
-    "flavorText": "냥냥 저축왕",
-    "dividendRate": 0.05
-  },
-  {
-    "ticker": "META",
-    "name": "메타우주여행",
-    "sector": "엔터",
-    "basePrice": 120000,
-    "drift": 0.18,
-    "volatility": 0.55,
-    "iconEmoji": "🌌",
-    "flavorText": "꿈속의 우주여행",
-    "dividendRate": 0.0
-  },
-  {
-    "ticker": "LEGC",
-    "name": "레전드 치킨",
-    "sector": "식품",
-    "basePrice": 42000,
-    "drift": 0.1,
-    "volatility": 0.22,
-    "iconEmoji": "🍗",
-    "flavorText": "바삭한 전설",
-    "dividendRate": 0.025
-  },
-  {
-    "ticker": "BORA",
-    "name": "보라보라 화장품",
-    "sector": "뷰티",
-    "basePrice": 63000,
-    "drift": 0.09,
-    "volatility": 0.28,
-    "iconEmoji": "💜",
-    "flavorText": "반짝이는 아름다움",
-    "dividendRate": 0.015
-  },
-  {
-    "ticker": "DOGE",
-    "name": "댕댕이 사료",
-    "sector": "반려",
-    "basePrice": 18000,
-    "drift": 0.07,
-    "volatility": 0.15,
-    "iconEmoji": "🐕",
-    "flavorText": "멍멍이 행복",
-    "dividendRate": 0.03
-  }
+  { "ticker": "SBE", "name": "삼성번개 전자", "sector": "IT", "basePrice": 200000, "drift": 0.04, "volatility": 0.15, "dividendRate": 0.025, "iconEmoji": "📱", "flavorText": "갤럭시가 아니라 '은하수폰'입니다만, 전 세계 1위는 맞아요." },
+  { "ticker": "SKHM", "name": "SK 하이메모리", "sector": "IT", "basePrice": 650000, "drift": 0.08, "volatility": 0.35, "dividendRate": 0.003, "iconEmoji": "🧠", "flavorText": "AI 붐 타고 하늘을 나는 중. 착지는 언제?" },
+  { "ticker": "CUBE", "name": "CUBE엔터", "sector": "엔터", "basePrice": 240000, "drift": 0.02, "volatility": 0.30, "dividendRate": 0.005, "iconEmoji": "🎤", "flavorText": "아이돌 한 명이 군대 가면 주가도 같이 입대합니다." },
+  { "ticker": "CJFOOD", "name": "CJ으뜸식품", "sector": "식품", "basePrice": 320000, "drift": 0.03, "volatility": 0.12, "dividendRate": 0.018, "iconEmoji": "🥟", "flavorText": "냉동 만두 하나로 세계를 제패하는 중." },
+  { "ticker": "EBIG", "name": "이빅마트", "sector": "유통", "basePrice": 90000, "drift": 0.01, "volatility": 0.18, "dividendRate": 0.020, "iconEmoji": "🛒", "flavorText": "온라인 쇼핑에 밀려도 신선식품만큼은 우리가 왕." },
+  { "ticker": "HDCAR", "name": "현대달리는차", "sector": "자동차", "basePrice": 430000, "drift": 0.05, "volatility": 0.20, "dividendRate": 0.022, "iconEmoji": "🚗", "flavorText": "전기차 전환 중. 배터리 값이 곧 주가입니다." },
+  { "ticker": "CELT", "name": "셀트리온바이오", "sector": "바이오", "basePrice": 180000, "drift": 0.06, "volatility": 0.35, "dividendRate": 0.004, "iconEmoji": "🧬", "flavorText": "바이오시밀러로 유럽 공략. 임상 결과에 따라 하늘과 땅." },
+  { "ticker": "KBNK", "name": "KB국민뱅크", "sector": "금융", "basePrice": 95000, "drift": 0.03, "volatility": 0.10, "dividendRate": 0.055, "iconEmoji": "🏦", "flavorText": "금리가 오를수록 웃는 얼굴. 배당도 두둑합니다." },
+  { "ticker": "POSC", "name": "포스코철강왕", "sector": "제조", "basePrice": 330000, "drift": 0.03, "volatility": 0.18, "dividendRate": 0.028, "iconEmoji": "⚙️", "flavorText": "철강은 영원하다. 2차전지 소재도 우리가 합니다." },
+  { "ticker": "LGBK", "name": "LG 배터리킹", "sector": "에너지", "basePrice": 400000, "drift": 0.07, "volatility": 0.30, "dividendRate": 0.002, "iconEmoji": "🔋", "flavorText": "전기차 배터리 없이는 달릴 수 없죠. 수요는 무한합니다." }
 ]

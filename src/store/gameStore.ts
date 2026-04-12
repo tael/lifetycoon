@@ -22,6 +22,7 @@ import type {
   StockDef,
 } from '../game/types';
 import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate';
+import { calculateAcquisitionTax, calculateCapitalGainsTax } from '../game/domain/realEstateTax';
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
@@ -168,8 +169,8 @@ export type GameStoreState = {
   changeJob: (jobId: string) => { success: boolean; reason?: string };
   toggleInsurance: (type: 'health' | 'asset') => void;
   toggleDrip: () => void;
-  buyRealEstate: (id: string) => boolean;
-  sellRealEstate: (index: number) => boolean;
+  buyRealEstate: (id: string) => { success: boolean; acquisitionTax: number };
+  sellRealEstate: (index: number) => { success: boolean; capitalGainsTax: number };
   buyBond: (id: string) => boolean;
   endGame: () => void;
   resetAll: () => void;
@@ -970,8 +971,12 @@ export const useGameStore = create<GameStoreState>()(
     buyRealEstate(id) {
       const st = get();
       const listing = REAL_ESTATE_LISTINGS.find((l) => l.id === id);
-      if (!listing) return false;
-      if (st.cash < listing.price) return false;
+      if (!listing) return { success: false, acquisitionTax: 0 };
+      const isCommercial = listing.id === 'commercial';
+      const ownedCountAfter = st.realEstate.length + 1;
+      const acquisitionTax = calculateAcquisitionTax(listing.price, ownedCountAfter, isCommercial);
+      const totalCost = listing.price + acquisitionTax;
+      if (st.cash < totalCost) return { success: false, acquisitionTax: 0 };
       const newRe: RealEstate = {
         id: listing.id,
         name: listing.name,
@@ -980,17 +985,32 @@ export const useGameStore = create<GameStoreState>()(
         monthlyRent: listing.monthlyRent,
         purchasedAtAge: Math.floor(st.character.age),
       };
-      set({ cash: st.cash - listing.price, realEstate: [...st.realEstate, newRe] });
-      return true;
+      set({
+        cash: st.cash - totalCost,
+        realEstate: [...st.realEstate, newRe],
+        totalTaxPaid: st.totalTaxPaid + acquisitionTax,
+      });
+      return { success: true, acquisitionTax };
     },
     sellRealEstate(index) {
       const st = get();
       const re = st.realEstate[index];
-      if (!re) return false;
-      const proceeds = re.currentValue;
+      if (!re) return { success: false, capitalGainsTax: 0 };
+      const yearsHeld = st.character.age - re.purchasedAtAge;
+      const capitalGainsTax = calculateCapitalGainsTax(
+        re.currentValue,
+        re.purchasePrice,
+        yearsHeld,
+        st.realEstate.length,
+      );
+      const netProceeds = re.currentValue - capitalGainsTax;
       const newList = st.realEstate.filter((_, i) => i !== index);
-      set({ cash: st.cash + proceeds, realEstate: newList });
-      return true;
+      set({
+        cash: st.cash + netProceeds,
+        realEstate: newList,
+        totalTaxPaid: st.totalTaxPaid + capitalGainsTax,
+      });
+      return { success: true, capitalGainsTax };
     },
     buyBond(id) {
       const st = get();

@@ -38,11 +38,24 @@ export function InvestTab({
         realEstate={realEstate}
         cash={cash}
         onBuy={(id) => {
-          if (buyRealEstate(id)) { sfx.buy(); showToast('부동산 매입!', '🏠', 'success', 1500); }
-          else showToast('현금이 부족해요', '😢', 'danger', 1500);
+          const result = buyRealEstate(id);
+          if (result.success) {
+            sfx.buy();
+            showToast(`부동산 매입! 취득세 ${formatWon(result.acquisitionTax)} 납부`, '🏠', 'success', 2000);
+          } else {
+            showToast('현금이 부족해요', '😢', 'danger', 1500);
+          }
         }}
         onSell={(idx) => {
-          if (sellRealEstate(idx)) { sfx.sell(); showToast('부동산 매각!', '💸', 'success', 1500); }
+          const result = sellRealEstate(idx);
+          if (result.success) {
+            sfx.sell();
+            if (result.capitalGainsTax === 0) {
+              showToast('부동산 매각! 1주택 2년 보유 비과세 적용', '💸', 'success', 2000);
+            } else {
+              showToast(`부동산 매각! 양도세 ${formatWon(result.capitalGainsTax)} 납부`, '💸', 'success', 2000);
+            }
+          }
         }}
       />
 

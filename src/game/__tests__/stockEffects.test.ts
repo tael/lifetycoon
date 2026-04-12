@@ -20,7 +20,7 @@ function makeCtx(overrides: Partial<EffectContext> = {}): EffectContext {
     cash: 10_000_000,
     bank: { balance: 0, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     holdings: [],
-    prices: { DDUK: 10_000, RAIN: 20_000 },
+    prices: { SBE: 10_000, SKHM: 20_000 },
     job: null,
     jobs: [] as Job[],
     traits: [],
@@ -38,19 +38,19 @@ function choice(effects: EventChoice['effects']): EventChoice {
 describe('buyStock effect', () => {
   it('actually adds shares to holdings and deducts cash', () => {
     const ctx = makeCtx({ cash: 10_000_000 });
-    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'SBE', shares: 20 }]), 30);
     expect(result.holdings).toHaveLength(1);
-    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20, avgBuyPrice: 10_000 });
+    expect(result.holdings[0]).toMatchObject({ ticker: 'SBE', shares: 20, avgBuyPrice: 10_000 });
     expect(result.cash).toBe(10_000_000 - 200_000);
     expect(result.warnings).toEqual([]);
   });
 
   it('merges with existing holding and recomputes average', () => {
-    const existing: Holding = { ticker: 'DDUK', shares: 10, avgBuyPrice: 8_000 };
+    const existing: Holding = { ticker: 'SBE', shares: 10, avgBuyPrice: 8_000 };
     const ctx = makeCtx({ cash: 10_000_000, holdings: [existing] });
-    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 10 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'SBE', shares: 10 }]), 30);
     // (8000*10 + 10000*10)/20 = 9000
-    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20, avgBuyPrice: 9_000 });
+    expect(result.holdings[0]).toMatchObject({ ticker: 'SBE', shares: 20, avgBuyPrice: 9_000 });
     expect(result.cash).toBe(10_000_000 - 100_000);
   });
 
@@ -61,13 +61,13 @@ describe('buyStock effect', () => {
       cash: 50_000,
       bank: { balance: 4_000_000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     });
-    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
-    expect(result.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 20 });
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'SBE', shares: 20 }]), 30);
+    expect(result.holdings[0]).toMatchObject({ ticker: 'SBE', shares: 20 });
     // cash flow: 50,000 + 1,000,000 loan - 200,000 cost = 850,000
     expect(result.cash).toBe(850_000);
     expect(result.bank.loanBalance).toBe(1_000_000);
     expect(result.warnings?.length).toBe(1);
-    expect(result.warnings?.[0]).toMatch(/대출.*DDUK 20주/);
+    expect(result.warnings?.[0]).toMatch(/대출.*SBE 20주/);
   });
 
   it('rounds shortfall UP to next 100만원 loan unit', () => {
@@ -77,7 +77,7 @@ describe('buyStock effect', () => {
       cash: 0,
       bank: { balance: 5_000_000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     });
-    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 1 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'SBE', shares: 1 }]), 30);
     expect(result.bank.loanBalance).toBe(1_000_000);
     expect(result.cash).toBe(990_000); // 0 + 1,000,000 loan - 10,000 cost
   });
@@ -90,7 +90,7 @@ describe('buyStock effect', () => {
       cash: 0,
       bank: { balance: 100_000, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 },
     });
-    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'DDUK', shares: 20 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'buyStock', ticker: 'SBE', shares: 20 }]), 30);
     expect(result.holdings).toHaveLength(0);
     expect(result.cash).toBe(0);
     expect(result.bank.loanBalance).toBe(0);
@@ -102,15 +102,15 @@ describe('buyStock effect', () => {
     const result = applyChoice(
       ctx,
       choice([
-        { kind: 'buyStock', ticker: 'DDUK', shares: 10 },
-        { kind: 'stockShock', ticker: 'DDUK', multiplier: 1.5 },
+        { kind: 'buyStock', ticker: 'SBE', shares: 10 },
+        { kind: 'stockShock', ticker: 'SBE', multiplier: 1.5 },
       ]),
       30,
     );
     // Buy at 10000, cost 100000. Then shock price to 15000.
     expect(result.cash).toBe(9_900_000);
     expect(result.holdings[0].avgBuyPrice).toBe(10_000);
-    expect(result.prices.DDUK).toBe(15_000);
+    expect(result.prices.SBE).toBe(15_000);
   });
 });
 
@@ -118,9 +118,9 @@ describe('sellStock effect', () => {
   it('removes shares and credits cash at current price', () => {
     const ctx = makeCtx({
       cash: 5_000_000,
-      holdings: [{ ticker: 'DDUK', shares: 30, avgBuyPrice: 8_000 }],
+      holdings: [{ ticker: 'SBE', shares: 30, avgBuyPrice: 8_000 }],
     });
-    const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'DDUK', shares: 10 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'SBE', shares: 10 }]), 30);
     expect(result.holdings[0].shares).toBe(20);
     expect(result.cash).toBe(5_000_000 + 100_000);
     expect(result.warnings).toEqual([]);
@@ -129,19 +129,19 @@ describe('sellStock effect', () => {
   it('removes holding entirely when selling all shares', () => {
     const ctx = makeCtx({
       cash: 0,
-      holdings: [{ ticker: 'DDUK', shares: 10, avgBuyPrice: 8_000 }],
+      holdings: [{ ticker: 'SBE', shares: 10, avgBuyPrice: 8_000 }],
     });
-    const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'DDUK', shares: 10 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'SBE', shares: 10 }]), 30);
     expect(result.holdings).toHaveLength(0);
     expect(result.cash).toBe(100_000);
   });
 
   it('skips and emits warning when holdings are insufficient', () => {
     const ctx = makeCtx({ cash: 0, holdings: [] });
-    const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'DDUK', shares: 10 }]), 30);
+    const result = applyChoice(ctx, choice([{ kind: 'sellStock', ticker: 'SBE', shares: 10 }]), 30);
     expect(result.cash).toBe(0);
     expect(result.holdings).toHaveLength(0);
     expect(result.warnings?.length).toBe(1);
-    expect(result.warnings?.[0]).toContain('DDUK');
+    expect(result.warnings?.[0]).toContain('SBE');
   });
 });

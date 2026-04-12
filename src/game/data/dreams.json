@@ -21,7 +21,7 @@
     "id": "ddukbokki_shop",
     "title": "떡볶이 가게 창업",
     "description": "떡볶이 제국 주식 100주 모으기",
-    "targetCondition": { "kind": "stockOwnedShares", "ticker": "DDUK", "shares": 100 },
+    "targetCondition": { "kind": "stockOwnedShares", "ticker": "SBE", "shares": 100 },
     "achieved": false,
     "rewardKeyMoment": "세상에서 제일 매운 떡볶이 가게를 열었다",
     "iconEmoji": "🍡"

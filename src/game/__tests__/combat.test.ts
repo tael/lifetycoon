@@ -16,7 +16,7 @@ import stocksRaw from '../data/stocks.json';
 import type { StockDef, Holding, BankAccount } from '../types';
 
 const stocks = stocksRaw as StockDef[];
-const TICKER = stocks[0].ticker; // 'DDUK'
+const TICKER = stocks[0].ticker; // 'SBE'
 const PRICE = 1000;
 
 // ─── 1. buy/sell 연속 호출 – avgBuyPrice 정확성 ────────────────────────────

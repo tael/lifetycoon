@@ -20,7 +20,7 @@ function makeCtx(overrides: Partial<EffectContext> = {}): EffectContext {
     cash: 10_000_000,
     bank: { balance: 20_000_000, interestRate: 0.03, loanBalance: 5_000_000, loanInterestRate: 0.05 },
     holdings: [],
-    prices: { DDUK: 1000 },
+    prices: { SBE: 1000 },
     job: null,
     jobs: [],
     traits: [],
@@ -40,7 +40,7 @@ const halveChoice: EventChoice = {
 describe('halveWealth effect ("회상의 댓가")', () => {
   it('cash·bank·holdings·realEstate를 절반으로 줄인다', () => {
     const ctx = makeCtx({
-      holdings: [{ ticker: 'DDUK', shares: 10, avgBuyPrice: 1000 }],
+      holdings: [{ ticker: 'SBE', shares: 10, avgBuyPrice: 1000 }],
       realEstate: [{
         id: 'shop',
         name: '상가',
@@ -70,15 +70,15 @@ describe('halveWealth effect ("회상의 댓가")', () => {
   it('홀수 shares는 내림되고 1주짜리는 제거된다', () => {
     const ctx = makeCtx({
       holdings: [
-        { ticker: 'DDUK', shares: 5, avgBuyPrice: 1000 },
-        { ticker: 'RAIN', shares: 1, avgBuyPrice: 2000 },
+        { ticker: 'SBE', shares: 5, avgBuyPrice: 1000 },
+        { ticker: 'SKHM', shares: 1, avgBuyPrice: 2000 },
       ],
-      prices: { DDUK: 1000, RAIN: 2000 },
+      prices: { SBE: 1000, SKHM: 2000 },
     });
     const next = applyChoice(ctx, halveChoice, 60);
-    // DDUK 5→2 (floor), RAIN 1→0 → 필터 제거
+    // SBE 5→2 (floor), SKHM 1→0 → 필터 제거
     expect(next.holdings.length).toBe(1);
-    expect(next.holdings[0]).toMatchObject({ ticker: 'DDUK', shares: 2 });
+    expect(next.holdings[0]).toMatchObject({ ticker: 'SBE', shares: 2 });
   });
 
   it('realEstate 배열이 없어도 안전하게 동작한다', () => {
