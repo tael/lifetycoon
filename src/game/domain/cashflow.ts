@@ -175,6 +175,9 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   // V3-06/07: 성인 기본 생활비 (연봉 35% or 무직 최저 360만)
   const costOfLivingYearly = computeCostOfLiving(intAge, salaryYearly);
   if (costOfLivingYearly > 0) expense.push({ label: '생활비', emoji: '🏠', amount: costOfLivingYearly });
+  // V3-08: 직업별 자기계발비 (월 → 연 환산). upkeepCost 미정의 직업은 0.
+  const upkeepYearly = job?.upkeepCost ? Math.round(job.upkeepCost * 12) : 0;
+  if (upkeepYearly > 0) expense.push({ label: '자기계발비', emoji: '🎓', amount: upkeepYearly });
 
   const totalExpense = expense.reduce((s, it) => s + it.amount, 0);
   const netCashflow = totalIncome - totalExpense;

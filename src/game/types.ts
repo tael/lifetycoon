@@ -60,6 +60,11 @@ export type Job = {
   recommendedAssets: number;
   iconEmoji: string;
   flavorText: string;
+  /**
+   * 월 단위 자기계발/업무 유지비 (v0.3.0 V3-08).
+   * 예술 계열은 재료/공간, 전문직은 학회/자격증 갱신 등을 표현. 미정의 시 0.
+   */
+  upkeepCost?: number;
 };
 
 export type DreamCondition =

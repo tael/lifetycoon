@@ -243,6 +243,18 @@ describe('computeCashflow', () => {
     expect(elder.financiallyFree).toBe(false);
   });
 
+  it('V3-08: job.upkeepCost가 있으면 자기계발비 라인이 expense에 추가된다 (월→연 환산)', () => {
+    const artist: Job = { ...salaryJob, id: 'artist', upkeepCost: 200_000 };
+    const r = computeCashflow(baseInput({ age: 25, job: artist }));
+    const upkeep = r.expense.find((e) => e.label === '자기계발비');
+    expect(upkeep?.amount).toBe(200_000 * 12);
+  });
+
+  it('V3-08: upkeepCost 미정의 직업은 자기계발비 라인 없음', () => {
+    const r = computeCashflow(baseInput({ age: 25, job: salaryJob }));
+    expect(r.expense.find((e) => e.label === '자기계발비')).toBeUndefined();
+  });
+
   it('대출 잔액 0이면 expense 배열에 "대출 이자" 라인이 없고, >0이면 있다', () => {
     const noLoan = computeCashflow(baseInput({
       job: salaryJob,

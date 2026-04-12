@@ -42,7 +42,8 @@
     "minAge": 28,
     "recommendedAssets": 0,
     "iconEmoji": "🔬",
-    "flavorText": "우주의 비밀을 찾는 중"
+    "flavorText": "우주의 비밀을 찾는 중",
+    "upkeepCost": 100000
   },
   {
     "id": "chef",
@@ -51,7 +52,8 @@
     "minAge": 20,
     "recommendedAssets": 200000,
     "iconEmoji": "👨\u200d🍳",
-    "flavorText": "떡볶이로 세계 1등"
+    "flavorText": "떡볶이로 세계 1등",
+    "upkeepCost": 200000
   },
   {
     "id": "ceo",
@@ -69,7 +71,8 @@
     "minAge": 18,
     "recommendedAssets": 300000,
     "iconEmoji": "🎨",
-    "flavorText": "그림이 마음을 말해요"
+    "flavorText": "그림이 마음을 말해요",
+    "upkeepCost": 200000
   },
   {
     "id": "athlete",
@@ -87,7 +90,8 @@
     "minAge": 30,
     "recommendedAssets": 5000000,
     "iconEmoji": "🏥",
-    "flavorText": "아픈 곳을 고치는 사람"
+    "flavorText": "아픈 곳을 고치는 사람",
+    "upkeepCost": 100000
   },
   {
     "id": "teacher",

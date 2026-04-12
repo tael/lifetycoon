@@ -457,7 +457,11 @@ export const useGameStore = create<GameStoreState>()(
       const costOfLivingExpense = Math.round(
         computeCostOfLiving(intAge, baseSalaryYearly) * deltaYears,
       );
-      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense - costOfLivingExpense;
+      // V3-08: 직업별 자기계발비 (월 단위 → 연으로 환산). 무직이면 0.
+      const upkeepExpense = st.job?.upkeepCost
+        ? Math.round(st.job.upkeepCost * 12 * deltaYears)
+        : 0;
+      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense - costOfLivingExpense - upkeepExpense;
       // V3-05: 부모가 나에게 준 총액 (학원비 차감 전). 유년기에만 누적.
       const parentalInvestment = st.parentalInvestment + allowanceIncome;
       // V3-11: 납세액 누계.
