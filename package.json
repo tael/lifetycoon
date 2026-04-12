@@ -1,7 +1,7 @@
 {
   "name": "lifetycoon-kids",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -36,6 +36,7 @@
     "jsdom": "^29.0.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.0",
+    "tsx": "^4.19.4",
     "vite": "^8.0.1",
     "vitest": "^4.1.2"
   }
