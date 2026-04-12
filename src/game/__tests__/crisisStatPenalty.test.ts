@@ -133,7 +133,7 @@ describe('crisisTurns 누적', () => {
 
   it('red 위기 시 crisisTurns 누적', () => {
     const crisisTurns = 3;
-    const level = 'red' as const;
+    const level: string = 'red';
     const deltaYears = 2;
     const newCrisisTurns = (level === 'orange' || level === 'red')
       ? crisisTurns + deltaYears
@@ -143,7 +143,7 @@ describe('crisisTurns 누적', () => {
 
   it('safe 시 crisisTurns 변화 없음', () => {
     const crisisTurns = 5;
-    const level = 'safe' as const;
+    const level: string = 'safe';
     const deltaYears = 1;
     const newCrisisTurns = (level === 'orange' || level === 'red')
       ? crisisTurns + deltaYears
@@ -153,7 +153,7 @@ describe('crisisTurns 누적', () => {
 
   it('yellow 시 crisisTurns 변화 없음', () => {
     const crisisTurns = 5;
-    const level = 'yellow' as const;
+    const level: string = 'yellow';
     const deltaYears = 1;
     const newCrisisTurns = (level === 'orange' || level === 'red')
       ? crisisTurns + deltaYears

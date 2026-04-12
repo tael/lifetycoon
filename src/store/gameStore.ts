@@ -632,6 +632,17 @@ export const useGameStore = create<GameStoreState>()(
         });
       }
 
+      // V5-04: 위기 레벨 계산 (강제 매각·정부 대출보다 먼저 결정해야 함)
+      const totalExpensesForCrisis = insuranceCost + totalTax + (typeof academyExpense !== 'undefined' ? academyExpense : 0) + (typeof costOfLivingExpense !== 'undefined' ? costOfLivingExpense : 0) + (typeof upkeepExpense !== 'undefined' ? upkeepExpense : 0) + (typeof repaymentExpense !== 'undefined' ? repaymentExpense : 0);
+      const stocksValForCrisis = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
+      const totalAssetsForCrisis = finalCash + bank.balance + stocksValForCrisis + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
+      const crisisLevel = computeCrisisLevel({
+        netCashflow: (grossPeriodIncome - totalExpensesForCrisis) / 12,
+        monthlyExpense: totalExpensesForCrisis / 12,
+        totalAssets: totalAssetsForCrisis,
+        cash: finalCash,
+      });
+
       // V5-05: 강제 매각 — red 위기 시 자산 순서대로 매각해 현금 보충
       const forcedSaleLogEntry: LifeEvent[] = [];
       let postSaleHoldings = autoHoldings;
@@ -707,14 +718,7 @@ export const useGameStore = create<GameStoreState>()(
       const newBoomReached = st.boomTimeBillionaireReached || (economyCycle.phase === 'boom' && totalAssetsNow >= 100000000);
       const newSurvivedRecession = st.survivedRecessionWithAssets || (economyCycle.phase === 'recession' && totalAssetsNow >= 10000000);
 
-      // V5-04: 위기 레벨 계산 + 스탯 차감
-      const totalExpenses = insuranceCost + totalTax + academyExpense + costOfLivingExpense + upkeepExpense + repaymentExpense;
-      const crisisLevel = computeCrisisLevel({
-        netCashflow: (grossPeriodIncome - totalExpenses) / 12,
-        monthlyExpense: totalExpenses / 12,
-        totalAssets: totalAssetsNow,
-        cash: finalCash,
-      });
+      // V5-04: 위기 스탯 차감 (crisisLevel은 강제 매각 전에 이미 계산됨)
       const crisisTurns = (crisisLevel === 'orange' || crisisLevel === 'red')
         ? st.crisisTurns + deltaYears
         : st.crisisTurns;

@@ -74,6 +74,7 @@ export function decodeShareCode(code: string): ShareEnvelope | null {
       traitsCount: (raw.traitsCount as number) ?? 0,
       totalChoicesMade: (raw.totalChoicesMade as number) ?? 0,
       uniqueScenariosEncountered: (raw.uniqueScenariosEncountered as number) ?? 0,
+      crisisTurns: (raw.crisisTurns as number) ?? 0,
     };
     return {
       v: parsed.v,
