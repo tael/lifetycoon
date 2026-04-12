@@ -578,9 +578,49 @@ export function PlayScreen() {
         </>
       )}
 
-      {/* Assets — SECONDARY: 홈 탭에선 요약, 은행 탭에선 풀버전 */}
+      {/* Assets — 홈 탭: 현금흐름+자산 병렬 요약, 은행 탭: 풀버전 */}
       {(tab === 'home' || tab === 'bank') && (
       <div className="card">
+        {/* 홈 탭: 월 순수입과 총 자산을 동급 사이즈로 나란히 */}
+        {tab === 'home' && (() => {
+          const monthlyNet = Math.round(cashflow.netCashflow / 12);
+          const netPositive = monthlyNet >= 0;
+          const monthlyPassive = Math.round(cashflow.passiveIncome / 12);
+          return (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 'var(--sp-sm)' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}>💰 월 순수입</div>
+                  <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800, color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
+                    {netPositive ? '+' : '-'}{formatWon(Math.abs(monthlyNet))}
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}>📊 총 자산</div>
+                  <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800, color: 'var(--accent)' }}>
+                    {formatWon(totalAssets)}
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 'var(--sp-sm)' }}>
+                <div style={{ textAlign: 'center', fontSize: 'var(--font-size-xs)', fontWeight: 700, color: 'var(--accent)' }}>
+                  💎 자동수입 월 {formatWon(monthlyPassive)}
+                </div>
+                <div style={{ textAlign: 'center', fontSize: 'var(--font-size-xs)', fontWeight: 700, color: bank.loanBalance > 0 ? 'var(--danger)' : 'var(--text-muted)' }}>
+                  {bank.loanBalance > 0 ? `💳 부채 ${formatWon(bank.loanBalance)}` : '💳 부채 없음'}
+                </div>
+              </div>
+              {assetDelta !== 0 && (
+                <div style={{ textAlign: 'center', fontSize: 'var(--font-size-xs)', color: assetDelta > 0 ? 'var(--success)' : 'var(--danger)', marginBottom: 'var(--sp-xs)' }}>
+                  자산 {assetDelta > 0 ? '▲' : '▼'}{formatWon(Math.abs(assetDelta))}
+                </div>
+              )}
+            </>
+          );
+        })()}
+        {/* 은행 탭: 기존 상세 목록 */}
+        {tab === 'bank' && (
+        <>
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700 }}>💰 자산</span>
           <span>
@@ -611,30 +651,8 @@ export function PlayScreen() {
             </div>
           )}
         </div>
-        {/* 홈 탭: 캐시플로 한 줄 요약 — 연 순현금흐름과 자동수입만 드라이하게 */}
-        {tab === 'home' && (() => {
-          const netPositive = cashflow.netCashflow >= 0;
-          return (
-            <div
-              style={{
-                marginTop: 'var(--sp-xs)',
-                display: 'flex',
-                gap: 10,
-                flexWrap: 'wrap',
-                fontSize: 'var(--font-size-xs)',
-                fontWeight: 700,
-              }}
-            >
-              <span style={{ color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
-                💰 월 {netPositive ? '+' : '-'}{formatWon(Math.abs(Math.round(cashflow.netCashflow / 12)))}
-              </span>
-              <span style={{ color: 'var(--text-muted)' }}>·</span>
-              <span style={{ color: 'var(--accent)' }}>
-                💎 자동수입 월 {formatWon(Math.round(cashflow.passiveIncome / 12))}
-              </span>
-            </div>
-          );
-        })()}
+        </>
+        )}
         {/* 홈 탭: 다음 꿈 목표선 오버레이 (축1 관계 시각화) */}
         {tab === 'home' && (() => {
           const nextMoneyDream = dreams.find((d) => !d.achieved && (d.targetCondition.kind === 'totalAssetsGte' || d.targetCondition.kind === 'cashGte'));
