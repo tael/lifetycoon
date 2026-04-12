@@ -25,13 +25,14 @@ import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate
 import { calculateAcquisitionTax, calculateCapitalGainsTax } from '../game/domain/realEstateTax';
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
-import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
+import { createCharacter, emojiFor, computeStatPenalty, costOfLivingMultiplier } from '../game/domain/character';
 import {
   ACADEMY_RATIO,
   getYearlyParentalAllowance,
   pickRandomHouseholdClass,
 } from '../game/domain/household';
 import { computeCostOfLiving } from '../game/domain/costOfLiving';
+import { showToast } from '../ui/components/Toast';
 import { ageSalaryMultiplier } from '../game/domain/salaryCurve';
 import {
   REPAYMENT_START_AGE,
@@ -145,6 +146,8 @@ export type GameStoreState = {
   loanHistory: LoanRecord[];
   /** 연도별 월 순현금흐름 히스토리. 매년 advanceYear 에서 추가. 최대 90개(10~100세). */
   cashflowHistory: { age: number; netMonthly: number }[];
+  /** 실제 생활비 / 기대 생활비 비율. 1.0 = 정상. CareBtn 효율에 반영. */
+  costOfLivingRatio: number;
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   currentSeason: Season;
   dripEnabled: boolean;
@@ -244,6 +247,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     crisisTurns: 0,
     loanHistory: [],
     cashflowHistory: [],
+    costOfLivingRatio: 1,
     choiceHistory: [],
     currentSeason: 'spring' as Season,
     dripEnabled: false,
@@ -334,11 +338,35 @@ export const useGameStore = create<GameStoreState>()(
       set({ dreams: freshDreams(ids) });
     },
     advanceYear(intAge, deltaYears) {
-      const st = get();
+      let st = get();
+
+      // ── Feature: 성인 학생 최대 10년 → 강제 직업 변경 ──
+      const educationEndAge = st.educationEndAge ?? 19;
+      if (st.job?.id === 'student' && intAge >= educationEndAge + 10) {
+        const parttime = JOBS.find((j) => j.id === 'parttime');
+        if (parttime) {
+          set({ job: parttime, lastJobChangeAge: intAge });
+          st = get();
+          showToast('학업 기간이 끝났습니다. 아르바이트를 시작합니다.', '🏪', 'info', 3000);
+        }
+      }
+
+      // ── Feature: 생활비 비율 → 스탯 감소 배수 계산 ──
+      const jobId = st.job?.id;
+      const baseSalaryYearly = st.job ? Math.round(st.job.salary * ageSalaryMultiplier(intAge, st.job.id) * 12) : 0;
+      const expectedCostOfLiving = computeCostOfLiving(intAge, baseSalaryYearly, jobId);
+      // costOfLivingRatio: 순현금흐름이 마이너스이면 생활비 절감 → ratio < 1
+      // 전년도 cashflowHistory에서 순현금흐름을 확인하여 비율 계산
+      const lastCf = st.cashflowHistory.length > 0 ? st.cashflowHistory[st.cashflowHistory.length - 1] : null;
+      const cfRatio = lastCf && lastCf.netMonthly < 0 && expectedCostOfLiving > 0
+        ? Math.max(0.1, 1 + (lastCf.netMonthly * 12) / expectedCostOfLiving)
+        : 1;
+      const colMult = costOfLivingMultiplier(cfRatio);
+
       // 1) Age up + natural stat decay (tamagotchi mechanic, gentle for kids)
-      const happyDecay = intAge > 70 ? 1.2 : intAge > 50 ? 0.8 : 0.4;
-      const healthDecay = intAge > 70 ? 1.0 : intAge > 50 ? 0.5 : 0.15;
-      const character = {
+      const happyDecay = (intAge > 70 ? 1.2 : intAge > 50 ? 0.8 : 0.4) * colMult.decayMult;
+      const healthDecay = (intAge > 70 ? 1.0 : intAge > 50 ? 0.5 : 0.15) * colMult.decayMult;
+      let character = {
         ...st.character,
         age: intAge,
         happiness: Math.max(10, st.character.happiness - happyDecay * deltaYears),
@@ -382,7 +410,6 @@ export const useGameStore = create<GameStoreState>()(
       const monthlyPension = Math.round(pensionYearly / 12);
       const monthlyRental = st.realEstate.reduce((sum, re) => sum + re.monthlyRent, 0);
 
-      const educationEndAge = st.educationEndAge ?? 19;
       const isChildhood = intAge >= 10 && intAge < educationEndAge;
       const householdClassForTick = character.householdClass;
       const yearlyAllowanceForAge = isChildhood && householdClassForTick
@@ -391,8 +418,7 @@ export const useGameStore = create<GameStoreState>()(
       const monthlyAllowance = Math.round(yearlyAllowanceForAge / 12);
       const monthlyAcademy = Math.round(yearlyAllowanceForAge * ACADEMY_RATIO / 12);
 
-      const baseSalaryYearly = st.job ? Math.round(st.job.salary * ageSalaryMultiplier(intAge, st.job.id) * 12) : 0;
-      const costOfLivingYearly = computeCostOfLiving(intAge, baseSalaryYearly);
+      const costOfLivingYearly = computeCostOfLiving(intAge, baseSalaryYearly, jobId);
       const monthlyCostOfLiving = Math.round(costOfLivingYearly / 12);
 
       const monthlyUpkeep = st.job?.upkeepCost ?? 0;
@@ -479,13 +505,14 @@ export const useGameStore = create<GameStoreState>()(
         mTotalExpenses += monthExpense; // 실제 차감된 값으로 누적 (반올림 오차 없음)
 
         // 성인 순현금흐름 마이너스 대응: 스탯 감소 + 생활비 절감 + 강제 부업
-        const monthlyNetFlow = monthlySalary + monthlyInterest + monthlyDividend + monthlyRental + monthlyPension + monthlyAllowance - monthExpense;
+        const monthlyBankInterest = mBankBalance > 0 ? Math.round(mBankBalance * monthlyInterestRate) : 0;
+        const monthlyNetFlow = monthlySalary + monthlyBankInterest + monthlyDividend + monthlyRental + monthlyPension + monthlyAllowance - monthExpense;
         if (intAge >= 19 && monthlyNetFlow < 0) {
           // (1) 행복/건강/매력 중 랜덤 1~2개 감소
           const rng = streams.misc();
-          if (rng < 0.33) { mCharacter = { ...mCharacter, happiness: Math.max(0, mCharacter.happiness - 1) }; }
-          else if (rng < 0.66) { mCharacter = { ...mCharacter, health: Math.max(0, mCharacter.health - 1) }; }
-          else { mCharacter = { ...mCharacter, charisma: Math.max(0, mCharacter.charisma - 1) }; }
+          if (rng < 0.33) { character = { ...character, happiness: Math.max(0, character.happiness - 1) }; }
+          else if (rng < 0.66) { character = { ...character, health: Math.max(0, character.health - 1) }; }
+          else { character = { ...character, charisma: Math.max(0, character.charisma - 1) }; }
 
           // (2) 강제 생활비 50% 절감 (차감한 생활비의 절반을 돌려줌)
           const costRefund = Math.round(monthlyCostOfLiving * 0.5);
@@ -883,6 +910,7 @@ export const useGameStore = create<GameStoreState>()(
         crisisTurns,
         loanHistory: govLoanRecord ? [...st.loanHistory, govLoanRecord] : st.loanHistory,
         cashflowHistory,
+        costOfLivingRatio: cfRatio,
       });
     },
     triggerEvent(ev) {

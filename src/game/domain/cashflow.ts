@@ -219,8 +219,8 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   if (loanInterestYearly > 0) expense.push({ label: '대출 이자', emoji: '💳', amount: loanInterestYearly });
   // V3-04: 유년기 학원비 — 부모 용돈의 65% 만큼 자동 차감.
   if (academyYearly > 0) expense.push({ label: '학원비', emoji: '📚', amount: academyYearly });
-  // V3-06/07: 성인 기본 생활비 (연봉 35% or 무직 최저 360만)
-  const costOfLivingYearly = computeCostOfLiving(intAge, salaryYearly);
+  // V3-06/07: 성인 기본 생활비 (직업별 차등 비율)
+  const costOfLivingYearly = computeCostOfLiving(intAge, salaryYearly, job?.id);
   if (costOfLivingYearly > 0) expense.push({ label: '생활비', emoji: '🏠', amount: costOfLivingYearly });
   // V3-08: 직업별 자기계발비 (월 → 연 환산). upkeepCost 미정의 직업은 0.
   const upkeepYearly = job?.upkeepCost ? Math.round(job.upkeepCost * 12) : 0;

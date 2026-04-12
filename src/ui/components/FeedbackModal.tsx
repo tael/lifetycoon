@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
+import { readAutoChoice } from './SettingsModal';
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xykbrdzn';
 
@@ -52,6 +53,7 @@ export function FeedbackModal({ onClose }: Props) {
       language: typeof navigator !== 'undefined' ? navigator.language : 'unknown',
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
       timestamp: new Date().toISOString(),
+      autoChoice: readAutoChoice(),
     };
 
     try {

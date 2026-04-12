@@ -7,7 +7,7 @@ import { saveGame } from '../../store/persistence';
 import { formatAge, progressFraction } from '../../game/engine/timeAxis';
 import { formatWon } from '../../game/domain/asset';
 import { ageSalaryMultiplier } from '../../game/domain/salaryCurve';
-import { emojiFor, computeStatPenalty } from '../../game/domain/character';
+import { emojiFor, computeStatPenalty, costOfLivingMultiplier } from '../../game/domain/character';
 import { EventModal } from './EventModal';
 import { SkillModal } from './SkillModal';
 import { showToast } from '../components/Toast';
@@ -960,7 +960,8 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
         const st = useGameStore.getState();
         if (st.cash < cost) return;
         const penalty = computeStatPenalty(st.character);
-        const effectiveDelta = Math.max(1, Math.round(delta * penalty.careEffMult));
+        const colMult = costOfLivingMultiplier(st.costOfLivingRatio);
+        const effectiveDelta = Math.max(1, Math.round(delta * penalty.careEffMult * colMult.careBoost));
         useGameStore.setState({
           cash: st.cash - cost,
           character: {

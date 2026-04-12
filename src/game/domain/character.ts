@@ -62,6 +62,20 @@ export function computeStatPenalty(char: Character): StatPenalty {
   return { salaryMult, returnMult, careEffMult, charmMult, reasons };
 }
 
+/**
+ * 생활비 비율에 따른 케어 효율/자연 감소 배수.
+ * ratio = actualCostOfLiving / expectedCostOfLiving (1.0 = 정상).
+ * 0.8 이상이면 정상(보너스 없음). 미만이면 케어 효율 하락, 자연 감소 상승.
+ */
+export function costOfLivingMultiplier(ratio: number): { careBoost: number; decayMult: number } {
+  if (ratio >= 0.8) return { careBoost: 1, decayMult: 1 };
+  const clamped = Math.max(0.1, ratio); // 0.1 하한 (10배 감소 캡)
+  return {
+    careBoost: clamped,
+    decayMult: 1 / clamped,
+  };
+}
+
 export function createCharacter(name: string, gender?: 'male' | 'female'): Character {
   return {
     name,

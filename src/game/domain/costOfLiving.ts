@@ -12,23 +12,43 @@
  *     같은 한 줄 설명으로 충분.
  */
 
-/** 성인 연봉 대비 생활비 비율. 0.42 = 연봉의 42%. */
+/** 기본 성인 연봉 대비 생활비 비율. 0.42 = 연봉의 42%. */
 export const ADULT_COST_OF_LIVING_RATIO = 0.42;
 
 /** 무직 또는 저연봉 성인의 연 최저 생활비. 월 140만 환산. */
 export const UNEMPLOYED_MIN_YEARLY = 16_800_000;
 
 /**
+ * 직업별 생활비 비율 맵.
+ * 고소득 전문직은 비율이 높고, 학생/아르바이트는 낮게 설정.
+ */
+export const JOB_COST_RATIO: Record<string, number> = {
+  student: 0.25,
+  parttime: 0.35,
+  artist: 0.40,
+  chef: 0.40,
+  officeworker: 0.42,
+  teacher: 0.42,
+  youtuber: 0.42,
+  scientist: 0.45,
+  athlete: 0.45,
+  doctor: 0.50,
+  ceo: 0.50,
+  retired: 0.35,
+};
+
+/**
  * 연 생활비 계산.
  * - 19세 미만: 0 (부모 부담)
  * - 무직(salary<=0): UNEMPLOYED_MIN_YEARLY 고정
- * - 직업 있음: max(UNEMPLOYED_MIN_YEARLY, 연봉 * 0.42)
+ * - 직업 있음: max(UNEMPLOYED_MIN_YEARLY, 연봉 * 직업별비율)
  */
-export function computeCostOfLiving(age: number, yearlySalary: number): number {
+export function computeCostOfLiving(age: number, yearlySalary: number, jobId?: string): number {
   if (age < 19) return 0;
   if (yearlySalary <= 0) return UNEMPLOYED_MIN_YEARLY;
+  const ratio = jobId ? (JOB_COST_RATIO[jobId] ?? ADULT_COST_OF_LIVING_RATIO) : ADULT_COST_OF_LIVING_RATIO;
   return Math.max(
     UNEMPLOYED_MIN_YEARLY,
-    Math.round(yearlySalary * ADULT_COST_OF_LIVING_RATIO),
+    Math.round(yearlySalary * ratio),
   );
 }

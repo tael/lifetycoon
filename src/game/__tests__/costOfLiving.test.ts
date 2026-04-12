@@ -2,11 +2,12 @@ import { describe, it, expect } from 'vitest';
 import {
   ADULT_COST_OF_LIVING_RATIO,
   UNEMPLOYED_MIN_YEARLY,
+  JOB_COST_RATIO,
   computeCostOfLiving,
 } from '../domain/costOfLiving';
 
 describe('costOfLiving — 성인 기본 생활비 (v0.4.0)', () => {
-  it('상수값: 비율 42%, 무직 최저 1,680만 (월 140만)', () => {
+  it('상수값: 기본 비율 42%, 무직 최저 1,680만 (월 140만)', () => {
     expect(ADULT_COST_OF_LIVING_RATIO).toBeCloseTo(0.42, 5);
     expect(UNEMPLOYED_MIN_YEARLY).toBe(16_800_000);
   });
@@ -17,7 +18,7 @@ describe('costOfLiving — 성인 기본 생활비 (v0.4.0)', () => {
     expect(computeCostOfLiving(18.99, 9_000_000)).toBe(0);
   });
 
-  it('19세+ 직업 있음: 연봉의 42%, 단 최저선(1,680만) 클램프', () => {
+  it('19세+ jobId 없음: 기본 비율 42% 적용', () => {
     // 연봉 6천만 × 42% = 2520만 (최저선 초과)
     expect(computeCostOfLiving(25, 60_000_000)).toBe(25_200_000);
     // 연봉 1억 × 42% = 4200만
@@ -29,7 +30,7 @@ describe('costOfLiving — 성인 기본 생활비 (v0.4.0)', () => {
     expect(computeCostOfLiving(50, 0)).toBe(16_800_000);
   });
 
-  it('저연봉이라 42%가 1,680만에 못 미치면 1,680만으로 클램프', () => {
+  it('저연봉이라 비율 적용 결과가 1,680만에 못 미치면 1,680만으로 클램프', () => {
     // 연봉 3천만 × 42% = 1260만 < 1680만 → 1680만
     expect(computeCostOfLiving(22, 30_000_000)).toBe(16_800_000);
   });
@@ -38,5 +39,20 @@ describe('costOfLiving — 성인 기본 생활비 (v0.4.0)', () => {
     expect(computeCostOfLiving(19, 0)).toBe(16_800_000);
     // 연봉 5천만 × 42% = 2100만 (최저선 초과)
     expect(computeCostOfLiving(19, 50_000_000)).toBe(21_000_000);
+  });
+
+  it('직업별 생활비 비율: student 25%, doctor 50%', () => {
+    expect(JOB_COST_RATIO.student).toBe(0.25);
+    expect(JOB_COST_RATIO.doctor).toBe(0.50);
+    // 연봉 6천만 × student 25% = 1500만 < 1680만 → 1680만 클램프
+    expect(computeCostOfLiving(25, 60_000_000, 'student')).toBe(16_800_000);
+    // 연봉 1억 × doctor 50% = 5000만
+    expect(computeCostOfLiving(40, 100_000_000, 'doctor')).toBe(50_000_000);
+    // 연봉 1억 × parttime 35% = 3500만
+    expect(computeCostOfLiving(30, 100_000_000, 'parttime')).toBe(35_000_000);
+  });
+
+  it('미지정 jobId는 기본 비율(42%) 폴백', () => {
+    expect(computeCostOfLiving(25, 60_000_000, 'unknown_job')).toBe(25_200_000);
   });
 });
