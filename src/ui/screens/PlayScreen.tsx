@@ -562,7 +562,7 @@ export function PlayScreen() {
       {/* Cashflow Panel — 은행 탭 최상단. 올해 수입·지출 분해 + 자동수입 비율 */}
       {tab === 'bank' && (
         <>
-          <CashflowPanel data={cashflow} />
+          <CashflowPanel data={cashflow} age={character.age} />
           {/* V3-11: 누적 납세액 표시 — 드라이한 한 줄. */}
           <div
             style={{

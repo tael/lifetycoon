@@ -3,6 +3,8 @@ import type { CashflowBreakdown } from '../../game/domain/cashflow';
 
 type Props = {
   data: CashflowBreakdown;
+  /** 현재 나이 — 유년기 힌트 표시용 (V3-13). 없으면 힌트 미노출. */
+  age?: number;
 };
 
 /**
@@ -11,7 +13,7 @@ type Props = {
  * 톤: 드라이한 팩트 전달. 칭찬·격려 금지. "자동수입이 월 지출을 넘으면
  * 일하지 않아도 생활이 가능합니다" 수준의 중립적 시스템 메시지만 사용.
  */
-export function CashflowPanel({ data }: Props) {
+export function CashflowPanel({ data, age }: Props) {
   const {
     income,
     expense,
@@ -46,6 +48,19 @@ export function CashflowPanel({ data }: Props) {
       >
         💰 올해 현금흐름
       </div>
+      {/* V3-13: 유년기 힌트 — 월급이 아니라 부모 용돈이 주 수입이라는 점을 안내 */}
+      {age != null && Math.floor(age) >= 10 && Math.floor(age) < 19 && (
+        <div
+          style={{
+            fontSize: '0.62rem',
+            color: 'var(--text-muted)',
+            marginBottom: 4,
+            lineHeight: 1.4,
+          }}
+        >
+          유년기에는 월급 대신 부모님이 용돈을 주고, 그중 일부가 학원비로 나갑니다.
+        </div>
+      )}
 
       {/* Income 섹션 */}
       <Section
