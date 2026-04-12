@@ -26,6 +26,9 @@ export type PersistedSave = {
     | 'autoInvest'
     | 'speedMultiplier'
     | 'ending'
+    | 'parentalInvestment'
+    | 'parentalRepaymentBase'
+    | 'totalTaxPaid'
   >;
 };
 
@@ -53,6 +56,9 @@ export function saveGame(state: GameStoreState): void {
         autoInvest: state.autoInvest,
         speedMultiplier: state.speedMultiplier,
         ending: state.ending,
+        parentalInvestment: state.parentalInvestment,
+        parentalRepaymentBase: state.parentalRepaymentBase,
+        totalTaxPaid: state.totalTaxPaid,
       },
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
@@ -74,6 +80,10 @@ export function loadGame(): PersistedSave | null {
     if (parsed.state?.character && parsed.state.character.householdClass == null) {
       parsed.state.character = { ...parsed.state.character, householdClass: 'average' };
     }
+    // v0.3.0 신규 누계 필드 — 미존재 시 0/null 폴백
+    if (parsed.state?.parentalInvestment == null) parsed.state.parentalInvestment = 0;
+    if (parsed.state?.parentalRepaymentBase === undefined) parsed.state.parentalRepaymentBase = null;
+    if (parsed.state?.totalTaxPaid == null) parsed.state.totalTaxPaid = 0;
     return parsed;
   } catch {
     return null;

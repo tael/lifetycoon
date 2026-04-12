@@ -33,6 +33,14 @@ describe('household — 가정 형편 시스템', () => {
     expect(pickRandomHouseholdClass(() => 0.99)).toBe('affluent');
   });
 
+  it('V3-05: 9년 유년기 누적 시 부모 용돈 총액 산식 검증 (검소=5400만, 평범=8100만, 넉넉=10800만)', () => {
+    // 10세부터 18세까지 9개년 동안 매년 HOUSEHOLD_ALLOWANCE_YEARLY가 누적된다.
+    const years = 9;
+    expect(HOUSEHOLD_ALLOWANCE_YEARLY.thrifty * years).toBe(54_000_000);
+    expect(HOUSEHOLD_ALLOWANCE_YEARLY.average * years).toBe(81_000_000);
+    expect(HOUSEHOLD_ALLOWANCE_YEARLY.affluent * years).toBe(108_000_000);
+  });
+
   it('대량 샘플에서 1/3 균등 분포에 가깝다', () => {
     const counts: Record<HouseholdClass, number> = { thrifty: 0, average: 0, affluent: 0 };
     let seed = 1;

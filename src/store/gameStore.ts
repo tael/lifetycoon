@@ -108,6 +108,15 @@ export type GameStoreState = {
   boomTimeBillionaireReached: boolean;
   survivedRecessionWithAssets: boolean;
   unlockedSkills: string[];
+  /** V3-05: 유년기 동안 부모가 캐릭터에게 지급한 용돈 누계 (학원비 차감 전 총액). */
+  parentalInvestment: number;
+  /**
+   * V3-09: 부모님 용돈 되돌림 연 지급액. 20세 첫 틱에 1회 산정해 60세까지 고정.
+   * null이면 아직 산정 전 (유년기/19세 미만).
+   */
+  parentalRepaymentBase: number | null;
+  /** V3-11: 누적 납세액 (소득세 + 재산세). 리셋 시 0. */
+  totalTaxPaid: number;
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   currentSeason: Season;
   dripEnabled: boolean;
@@ -194,6 +203,9 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     boomTimeBillionaireReached: false,
     survivedRecessionWithAssets: false,
     unlockedSkills: [],
+    parentalInvestment: 0,
+    parentalRepaymentBase: null,
+    totalTaxPaid: 0,
     choiceHistory: [],
     currentSeason: 'spring' as Season,
     dripEnabled: false,
@@ -439,6 +451,10 @@ export const useGameStore = create<GameStoreState>()(
         ? Math.round(HOUSEHOLD_ALLOWANCE_YEARLY[householdClassForTick] * ACADEMY_RATIO * deltaYears)
         : 0;
       const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense;
+      // V3-05: 부모가 나에게 준 총액 (학원비 차감 전). 유년기에만 누적.
+      const parentalInvestment = st.parentalInvestment + allowanceIncome;
+      // V3-11: 납세액 누계.
+      const totalTaxPaid = st.totalTaxPaid + totalTax;
       const { dreams, newlyAchieved } = checkAndMarkDreams(
         st.dreams,
         intAge,
@@ -585,6 +601,8 @@ export const useGameStore = create<GameStoreState>()(
         boomTimeBillionaireReached: newBoomReached,
         survivedRecessionWithAssets: newSurvivedRecession,
         currentSeason: newSeason,
+        parentalInvestment,
+        totalTaxPaid,
       });
     },
     triggerEvent(ev) {
