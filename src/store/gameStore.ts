@@ -29,6 +29,7 @@ import {
   HOUSEHOLD_ALLOWANCE_YEARLY,
   pickRandomHouseholdClass,
 } from '../game/domain/household';
+import { computeCostOfLiving } from '../game/domain/costOfLiving';
 import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
@@ -450,7 +451,13 @@ export const useGameStore = create<GameStoreState>()(
       const academyExpense = isChildhood && householdClassForTick
         ? Math.round(HOUSEHOLD_ALLOWANCE_YEARLY[householdClassForTick] * ACADEMY_RATIO * deltaYears)
         : 0;
-      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense;
+      // V3-06/07: 성인 기본 생활비. 도메인 함수로 단일화.
+      // 주의: salaryIncome은 deltaYears가 곱해진 값이라 baseSalaryYearly로 환산해 도메인에 넘긴다.
+      const baseSalaryYearly = st.job ? Math.round(st.job.salary * 12) : 0;
+      const costOfLivingExpense = Math.round(
+        computeCostOfLiving(intAge, baseSalaryYearly) * deltaYears,
+      );
+      const ctxCash = st.cash + grossPeriodIncome + allowanceIncome - autoInvestSpent - dripSpent - insuranceCost - totalTax - academyExpense - costOfLivingExpense;
       // V3-05: 부모가 나에게 준 총액 (학원비 차감 전). 유년기에만 누적.
       const parentalInvestment = st.parentalInvestment + allowanceIncome;
       // V3-11: 납세액 누계.

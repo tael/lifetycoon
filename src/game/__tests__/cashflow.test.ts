@@ -34,7 +34,9 @@ const sampleStocks: StockDef[] = [
 
 function baseInput(overrides: Partial<CashflowInput> = {}): CashflowInput {
   return {
-    age: 30,
+    // 기본 age는 18세(유년기 마지막)로 둔다 — 19세+ 부터 발생하는 생활비/세금 기본 라인이
+    // 자동으로 추가돼 다른 검증값을 오염시키지 않도록. 성인 케이스는 명시적으로 age를 넘긴다.
+    age: 18,
     job: null,
     bank: baseBank,
     effectiveInterestRate: 0.03,
