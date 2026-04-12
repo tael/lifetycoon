@@ -6,6 +6,20 @@
 /** 한글 유니코드 범위: AC00 ~ D7A3 */
 function hasFinalConsonant(char: string): boolean {
   const code = char.charCodeAt(0);
+
+  // 숫자: 한국어 수사 발음 기준 받침 여부
+  // 받침 있음: 0(영), 1(일), 3(삼), 6(육), 7(칠), 8(팔)
+  // 받침 없음: 2(이), 4(사), 5(오), 9(구)
+  if (code >= 0x30 && code <= 0x39) {
+    return [0, 1, 3, 6, 7, 8].includes(code - 0x30);
+  }
+
+  // 영문: 자음으로 끝나면 받침 있음, 모음으로 끝나면 없음
+  const upper = char.toUpperCase();
+  if ((upper >= 'A' && upper <= 'Z')) {
+    return !'AEIOU'.includes(upper);
+  }
+
   if (code < 0xac00 || code > 0xd7a3) return false;
   // (code - 0xAC00) % 28 === 0 이면 받침 없음
   return (code - 0xac00) % 28 !== 0;

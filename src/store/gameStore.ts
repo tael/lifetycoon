@@ -196,7 +196,13 @@ function freshDreams(pickedIds: string[]): Dream[] {
 }
 
 function freshNpcs(): FriendNPC[] {
-  return NPCS_RAW.map((n) =>
+  // Fisher-Yates shuffle → 32명 풀에서 랜덤 10명 선택
+  const pool = [...NPCS_RAW];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, 10).map((n) =>
     createNpcFromSeed(n.id, n.name, n.personality, n.iconEmoji),
   );
 }
@@ -400,6 +406,11 @@ export const useGameStore = create<GameStoreState>()(
         : 0;
       const monthlyRepayment = Math.round(repaymentYearly / 12);
 
+      // STOCKS 사전 매핑 (O(N)→O(1)) — 루프 밖에서 한 번만 생성
+      const stockMap: Record<string, (typeof STOCKS)[number]> = Object.fromEntries(
+        STOCKS.map((s) => [s.ticker, s]),
+      );
+
       // 월별 누적 변수
       let mCash = st.cash;
       let mBankBalance = st.bank.balance;
@@ -410,7 +421,7 @@ export const useGameStore = create<GameStoreState>()(
       let mTotalDividendIncome = 0; // 연간 배당 총액 (세금용)
       let mTotalPensionIncome = 0; // 연간 연금 총액 (세금용)
       let mTotalRentalIncome = 0; // 연간 임대 총액 (세금용)
-      let mTotalExpenses = 0; // 연간 지출 총액 (위기 판정용)
+      let mTotalExpenses = 0; // 연간 지출 총액 (위기 판정용) — 실제 차감된 값으로 누적
       let mDripSpent = 0; // DRIP 비용 누적
 
       const CASH_FLOOR = -500_000_000; // -5억 하한
@@ -431,7 +442,7 @@ export const useGameStore = create<GameStoreState>()(
         // 배당 (연 배당률 / 12)
         let monthlyDividend = 0;
         for (const h of mHoldings) {
-          const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
+          const stockDef = stockMap[h.ticker];
           const divRate = stockDef?.dividendRate ?? 0;
           if (divRate <= 0) continue;
           const price = st.prices[h.ticker] ?? 0;
@@ -454,12 +465,13 @@ export const useGameStore = create<GameStoreState>()(
         mTotalAllowance += monthlyAllowance;
 
         // ── 월 지출 ──
+        const monthExpense = monthlyCostOfLiving + monthlyInsurance + monthlyAcademy + monthlyUpkeep + monthlyRepayment;
         mCash -= monthlyCostOfLiving;
         mCash -= monthlyInsurance;
         mCash -= monthlyAcademy;
         mCash -= monthlyUpkeep;
         mCash -= monthlyRepayment;
-        mTotalExpenses += monthlyCostOfLiving + monthlyInsurance + monthlyAcademy + monthlyUpkeep + monthlyRepayment;
+        mTotalExpenses += monthExpense; // 실제 차감된 값으로 누적 (반올림 오차 없음)
 
         // 대출 이자 (월 복리)
         if (mLoanBalance > 0) {
@@ -482,7 +494,7 @@ export const useGameStore = create<GameStoreState>()(
         if (st.dripEnabled && monthlyDividend > 0 && mCash > 0) {
           for (let hi = 0; hi < mHoldings.length; hi++) {
             const h = mHoldings[hi];
-            const stockDef = STOCKS.find((s) => s.ticker === h.ticker);
+            const stockDef = stockMap[h.ticker]; // O(1) 조회
             const divRate = stockDef?.dividendRate ?? 0;
             if (divRate <= 0) continue;
             const price = st.prices[h.ticker] ?? 0;
@@ -498,9 +510,8 @@ export const useGameStore = create<GameStoreState>()(
             const newAvg = Math.round(
               (h.avgBuyPrice * h.shares + price * additionalShares) / totalShares,
             );
-            mHoldings = mHoldings.map((hh, idx) =>
-              idx === hi ? { ticker: h.ticker, shares: totalShares, avgBuyPrice: newAvg } : hh,
-            );
+            // in-place mutate — 매월 새 배열 생성 대신 직접 수정
+            mHoldings[hi] = { ticker: h.ticker, shares: totalShares, avgBuyPrice: newAvg };
           }
         }
       }
