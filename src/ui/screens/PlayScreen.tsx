@@ -42,6 +42,7 @@ export function PlayScreen() {
   const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
   const [showSettings, setShowSettings] = useState(false);
   const [dreamExpanded, setDreamExpanded] = useState(false);
+  const [loanHistoryExpanded, setLoanHistoryExpanded] = useState(false);
   const stockSectors = ['all', ...Array.from(new Set(STOCKS.map((s) => s.sector).filter(Boolean)))];
   const [showStatHints] = useState<boolean>(() => {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
@@ -83,6 +84,7 @@ export function PlayScreen() {
   const withdraw = useGameStore((s) => s.withdraw);
   const takeLoan = useGameStore((s) => s.takeLoan);
   const repayLoan = useGameStore((s) => s.repayLoan);
+  const loanHistory = useGameStore((s) => s.loanHistory);
 
   const onIntAgeChange = useCallback(
     (newIntAge: number, deltaYears: number, _elapsedMs: number) => {
@@ -910,6 +912,35 @@ export function PlayScreen() {
             color: 'var(--success)',
           }}>
             📋 연 보험료 합계: {(insurance.premium / 10000).toFixed(0)}만원
+          </div>
+        )}
+      </div>
+      )}
+
+      {/* 대출 이력 — 은행 탭 */}
+      {tab === 'bank' && loanHistory.length > 0 && (
+      <div className="card">
+        <button
+          onClick={() => setLoanHistoryExpanded((v) => !v)}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        >
+          <span style={{ fontWeight: 700 }}>📋 대출 이력</span>
+          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+            {loanHistoryExpanded ? '접기 ▲' : `${Math.min(loanHistory.length, 10)}건 보기 ▼`}
+          </span>
+        </button>
+        {loanHistoryExpanded && (
+          <div style={{ marginTop: 'var(--sp-sm)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {[...loanHistory].reverse().slice(0, 10).map((r, i) => {
+              const sourceLabel = r.source === 'bank' ? '은행 대출' : r.source === 'government' ? '정부 긴급 대출' : '이벤트 강제 대출';
+              const color = r.source === 'government' ? 'var(--warning)' : r.source === 'forced' ? 'var(--danger)' : 'var(--text-secondary)';
+              return (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--font-size-xs)', padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>{r.age}세 | {sourceLabel}</span>
+                  <span style={{ fontWeight: 700, color }}>{formatWon(r.amount)}</span>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

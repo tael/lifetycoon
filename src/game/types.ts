@@ -236,6 +236,13 @@ export type RealEstate = {
   purchasedAtAge: number;
 };
 
+export type LoanRecord = {
+  age: number;
+  amount: number;
+  source: 'bank' | 'forced' | 'government';
+  reason: string;
+};
+
 export type Bond = {
   id: string;
   name: string;

@@ -14,6 +14,7 @@ import type {
   Job,
   KeyMoment,
   LifeEvent,
+  LoanRecord,
   Phase,
   RealEstate,
   ScenarioEvent,
@@ -137,6 +138,8 @@ export type GameStoreState = {
   totalTaxPaid: number;
   /** V5-04: 위기 상태(orange 이상)에서 보낸 누적 연수. */
   crisisTurns: number;
+  /** 대출 이력. 은행 자발적·이벤트 강제·정부 긴급 대출을 모두 기록한다. */
+  loanHistory: LoanRecord[];
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   currentSeason: Season;
   dripEnabled: boolean;
@@ -228,6 +231,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     educationEndAge: 19,
     totalTaxPaid: 0,
     crisisTurns: 0,
+    loanHistory: [],
     choiceHistory: [],
     currentSeason: 'spring' as Season,
     dripEnabled: false,
@@ -679,6 +683,7 @@ export const useGameStore = create<GameStoreState>()(
       // V5-06: 정부 긴급 생활안정 대출 (최후 안전망)
       const govLoanLogEntry: LifeEvent[] = [];
       let postGovBank = postSaleBank;
+      let govLoanRecord: LoanRecord | null = null;
       if (finalCash < 0) {
         const deficit = Math.abs(finalCash);
         const LOAN_UNIT = 1_000_000; // 100만원 단위
@@ -690,6 +695,7 @@ export const useGameStore = create<GameStoreState>()(
           text: `🏛️ 정부 긴급 생활안정 대출 ${formatWon(govLoanAmount)}이 실행됐습니다`,
           timestamp: Date.now(),
         });
+        govLoanRecord = { age: intAge, amount: govLoanAmount, source: 'government', reason: '정부 긴급 생활안정 대출' };
       }
 
       const recentLog = [
@@ -767,6 +773,7 @@ export const useGameStore = create<GameStoreState>()(
         totalTaxPaid,
         parentalRepaymentBase,
         crisisTurns,
+        loanHistory: govLoanRecord ? [...st.loanHistory, govLoanRecord] : st.loanHistory,
       });
     },
     triggerEvent(ev) {
@@ -818,6 +825,10 @@ export const useGameStore = create<GameStoreState>()(
       // buyStock의 강제대출 경로를 탔다면 hadLoan 플래그도 올려서
       // "대출을 받았다가 완납" 업적 트래킹과 일관되게 한다.
       const forcedLoanTaken = next.bank.loanBalance > st.bank.loanBalance;
+      const forcedLoanAmount = forcedLoanTaken ? next.bank.loanBalance - st.bank.loanBalance : 0;
+      const newLoanHistory: LoanRecord[] = forcedLoanTaken
+        ? [...st.loanHistory, { age: event.triggeredAtAge, amount: forcedLoanAmount, source: 'forced', reason: event.title }]
+        : st.loanHistory;
       set({
         character: next.character,
         cash: next.cash,
@@ -830,6 +841,7 @@ export const useGameStore = create<GameStoreState>()(
         usedScenarioIds: newUsed,
         choiceHistory: newChoiceHistory,
         hadLoan: st.hadLoan || forcedLoanTaken,
+        loanHistory: newLoanHistory,
         // realEstate는 halveWealth 같은 effect에서만 변경된다. 아닌 경우 원본 유지.
         realEstate: next.realEstate ?? st.realEstate,
         phase: { kind: 'playing' },
@@ -903,7 +915,13 @@ export const useGameStore = create<GameStoreState>()(
       const totalAssets = st.cash + st.bank.balance + stocksVal + realEstateVal;
       const result = takeLoan(st.cash, st.bank, amount, totalAssets);
       if (!result.executed) return false;
-      set({ cash: result.cash, bank: result.bank, hadLoan: true });
+      const record: LoanRecord = {
+        age: Math.floor(st.character.age),
+        amount,
+        source: 'bank',
+        reason: '은행 대출',
+      };
+      set({ cash: result.cash, bank: result.bank, hadLoan: true, loanHistory: [...st.loanHistory, record] });
       return true;
     },
     repayLoan(amount) {
