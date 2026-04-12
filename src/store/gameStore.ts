@@ -525,11 +525,17 @@ export const useGameStore = create<GameStoreState>()(
           mTotalSalaryIncome += SIDE_JOB_MONTHLY;
         }
 
-        // 대출 이자 (월 복리)
+        // 대출 이자: 현금에서 납부. 현금 부족 시에만 원금에 가산(복리).
         if (mLoanBalance > 0) {
           const loanMonthlyRate = st.bank.loanInterestRate / 12;
           const loanInterest = Math.round(mLoanBalance * loanMonthlyRate);
-          mLoanBalance += loanInterest;
+          if (mCash >= loanInterest) {
+            mCash -= loanInterest;
+            mTotalExpenses += loanInterest;
+          } else {
+            // 현금 부족: 이자가 원금에 가산 (복리 — 대출 잔액 증가의 유일한 경로)
+            mLoanBalance += loanInterest;
+          }
         }
 
         // 자유입출금통장 이자 (양수: 연 0.1% 가산, 음수: 마이너스통장 이자 차감)
