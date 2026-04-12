@@ -547,6 +547,7 @@ export const useGameStore = create<GameStoreState>()(
             title: picked.title,
             text: picked.text,
             choices: picked.choices,
+            category: picked.category,
           };
           phase = { kind: 'paused', event: triggeredEvent };
         }

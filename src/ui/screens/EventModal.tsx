@@ -1,6 +1,14 @@
 import { useEffect, useRef } from 'react';
-import type { EconomicEvent, EventEffect } from '../../game/types';
+import type { EconomicEvent, EventEffect, EventCategory } from '../../game/types';
 import { useGameStore } from '../../store/gameStore';
+
+/** V3-12: 카테고리 뱃지 라벨/이모지. */
+const CATEGORY_BADGE: Record<EventCategory, { emoji: string; label: string; bg: string; color: string }> = {
+  consumption: { emoji: '💸', label: '소비', bg: '#fce4ec', color: '#c2185b' },
+  investment: { emoji: '📈', label: '투자', bg: '#e3f2fd', color: '#1565c0' },
+  education: { emoji: '🎓', label: '학습', bg: '#fff8e1', color: '#ef6c00' },
+  event: { emoji: '✨', label: '사건', bg: '#ede7f6', color: '#5e35b1' },
+};
 import { showToast } from '../components/Toast';
 import { sfx } from '../../game/engine/soundFx';
 import { KEY_SHOW_STAT_HINTS, readAutoChoice } from '../components/SettingsModal';
@@ -99,6 +107,26 @@ export function EventModal({
           <div style={{ fontSize: '2.5rem', marginBottom: 'var(--sp-sm)' }}>📢</div>
           <h2 id="event-modal-title" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 700 }}>
             {event.title}
+            {event.category && (() => {
+              const b = CATEGORY_BADGE[event.category];
+              return (
+                <span
+                  style={{
+                    display: 'inline-block',
+                    marginLeft: 8,
+                    padding: '2px 8px',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    borderRadius: 'var(--radius-full)',
+                    background: b.bg,
+                    color: b.color,
+                    verticalAlign: 'middle',
+                  }}
+                >
+                  {b.emoji} {b.label}
+                </span>
+              );
+            })()}
           </h2>
           <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
             {Math.floor(event.triggeredAtAge)}세

@@ -135,6 +135,9 @@ export type TriggerKind =
   | { kind: 'hasJob'; jobId: string }
   | { kind: 'hasTrait'; trait: string };
 
+/** 시나리오 이벤트 카테고리 (v0.3.0 V3-12). 이벤트 모달에 작은 뱃지로 노출. */
+export type EventCategory = 'consumption' | 'investment' | 'education' | 'event';
+
 export type ScenarioEvent = {
   id: string;
   triggers: TriggerKind[];
@@ -146,6 +149,8 @@ export type ScenarioEvent = {
   choices: EventChoice[];
   tags: string[];
   oneShot: boolean; // true면 한 번만 발생
+  /** v0.3.0 V3-12: 카테고리 뱃지. 미지정 시 뱃지 미노출. */
+  category?: EventCategory;
 };
 
 export type FriendNPC = {
@@ -185,6 +190,8 @@ export type EconomicEvent = {
   title: string;
   text: string;
   choices: EventChoice[];
+  /** v0.3.0 V3-12: 카테고리 뱃지 (시나리오에서 그대로 전달). */
+  category?: EventCategory;
 };
 
 export type Phase =
