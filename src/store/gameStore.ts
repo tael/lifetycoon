@@ -61,6 +61,7 @@ import { calculateIncomeTax, calculatePropertyTax } from '../game/engine/tax';
 import type { ChallengeMode } from '../game/engine/challengeMode';
 import { computeCrisisLevel } from '../game/domain/crisisEngine';
 import { forcedLiquidation } from '../game/domain/forcedLiquidation';
+import { formatWon } from '../game/domain/asset';
 import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
@@ -631,15 +632,66 @@ export const useGameStore = create<GameStoreState>()(
         });
       }
 
+      // V5-05: 강제 매각 — red 위기 시 자산 순서대로 매각해 현금 보충
+      const forcedSaleLogEntry: LifeEvent[] = [];
+      let postSaleHoldings = autoHoldings;
+      let postSaleRealEstate = appreciatedRealEstate;
+      let postSaleBank = bank;
+      if (finalCash < 0 && crisisLevel === 'red') {
+        const deficit = Math.abs(finalCash);
+        const liq = forcedLiquidation(
+          deficit,
+          finalCash,
+          bank,
+          autoHoldings,
+          prices,
+          appreciatedRealEstate,
+        );
+        finalCash += liq.cashRecovered;
+        postSaleBank = { ...bank, balance: bank.balance - liq.bankWithdrawn };
+        postSaleHoldings = autoHoldings
+          .map((h) => {
+            const sold = liq.stocksSold.find((s) => s.ticker === h.ticker);
+            if (!sold) return h;
+            const remaining = h.shares - sold.shares;
+            return remaining > 0 ? { ...h, shares: remaining } : null;
+          })
+          .filter((h): h is NonNullable<typeof h> => h !== null);
+        postSaleRealEstate = appreciatedRealEstate.filter(
+          (re) => !liq.realEstateSold.some((s) => s.id === re.id),
+        );
+        for (const warn of liq.warnings) {
+          forcedSaleLogEntry.push({ age: intAge, text: warn, timestamp: Date.now() });
+        }
+      }
+
+      // V5-06: 정부 긴급 생활안정 대출 (최후 안전망)
+      const govLoanLogEntry: LifeEvent[] = [];
+      let postGovBank = postSaleBank;
+      if (finalCash < 0) {
+        const deficit = Math.abs(finalCash);
+        const LOAN_UNIT = 1_000_000; // 100만원 단위
+        const govLoanAmount = Math.ceil(deficit / LOAN_UNIT) * LOAN_UNIT;
+        postGovBank = { ...postSaleBank, loanBalance: postSaleBank.loanBalance + govLoanAmount };
+        finalCash += govLoanAmount;
+        govLoanLogEntry.push({
+          age: intAge,
+          text: `🏛️ 정부 긴급 생활안정 대출 ${formatWon(govLoanAmount)}이 실행됐습니다`,
+          timestamp: Date.now(),
+        });
+      }
+
       const recentLog = [
         ...st.recentLog,
         ...cycleLogEntry,
         ...taxLogEntry,
         ...seasonLogEntry,
         ...overdraftLogEntry,
+        ...forcedSaleLogEntry,
+        ...govLoanLogEntry,
         {
           age: intAge,
-          text: `${intAge}세: 자산 ${Math.round((finalCash + bank.balance) / 10000)}만원`,
+          text: `${intAge}세: 자산 ${Math.round((finalCash + postGovBank.balance) / 10000)}만원`,
           timestamp: Date.now(),
         },
       ].slice(-RECENT_LOG_LIMIT);
@@ -692,8 +744,8 @@ export const useGameStore = create<GameStoreState>()(
       set({
         character: { ...crisisCharacter, emoji },
         cash: finalCash,
-        bank,
-        holdings: autoHoldings,
+        bank: postGovBank,
+        holdings: postSaleHoldings,
         prices,
         npcs,
         dreams,
@@ -702,7 +754,7 @@ export const useGameStore = create<GameStoreState>()(
         assetHistory,
         phase,
         economyCycle,
-        realEstate: appreciatedRealEstate,
+        realEstate: postSaleRealEstate,
         bonds: updatedBonds,
         boomTimeBillionaireReached: newBoomReached,
         survivedRecessionWithAssets: newSurvivedRecession,
