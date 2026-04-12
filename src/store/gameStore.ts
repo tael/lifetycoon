@@ -595,25 +595,6 @@ export const useGameStore = create<GameStoreState>()(
           }]
         : [];
 
-      const recentLog = [
-        ...st.recentLog,
-        ...cycleLogEntry,
-        ...taxLogEntry,
-        ...seasonLogEntry,
-        ...overdraftLogEntry,
-        {
-          age: intAge,
-          text: `${intAge}세: 자산 ${Math.round((ctxCash + bank.balance) / 10000)}만원`,
-          timestamp: Date.now(),
-        },
-      ].slice(-RECENT_LOG_LIMIT);
-
-      // Track asset history every 5 years (stocksVal already computed above for emoji)
-      const totalNow = ctxCash + bank.balance + stocksVal;
-      const assetHistory = intAge % 5 === 0
-        ? [...st.assetHistory, { age: intAge, value: totalNow }]
-        : st.assetHistory;
-
       // Bond coupon + maturity — 이미 위에서 applyBondCoupon 호출 결과를 받아뒀다.
       // 쿠폰은 과세 대상이라 taxableIncome에 포함됐지만 여기서는 실제 cash 유입으로
       // 한 번만 더한다.
@@ -633,6 +614,25 @@ export const useGameStore = create<GameStoreState>()(
           timestamp: Date.now(),
         });
       }
+
+      const recentLog = [
+        ...st.recentLog,
+        ...cycleLogEntry,
+        ...taxLogEntry,
+        ...seasonLogEntry,
+        ...overdraftLogEntry,
+        {
+          age: intAge,
+          text: `${intAge}세: 자산 ${Math.round((finalCash + bank.balance) / 10000)}만원`,
+          timestamp: Date.now(),
+        },
+      ].slice(-RECENT_LOG_LIMIT);
+
+      // Track asset history every 5 years (stocksVal already computed above for emoji)
+      const totalNow = finalCash + bank.balance + stocksVal;
+      const assetHistory = intAge % 5 === 0
+        ? [...st.assetHistory, { age: intAge, value: totalNow }]
+        : st.assetHistory;
 
       const stocksValNow = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
       const totalAssetsNow = finalCash + bank.balance + stocksValNow + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
