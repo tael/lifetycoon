@@ -11,8 +11,8 @@ const baseBank: BankAccount = {
 const noInsurance: Insurance = { health: false, asset: false, premium: 0 };
 
 const salaryJob: Job = {
-  id: 'student',
-  title: '학생',
+  id: 'test_job',
+  title: '테스트직업',
   salary: 500_000, // 월 50만 → 연 600만 (면세 구간)
   minAge: 10,
   recommendedAssets: 0,

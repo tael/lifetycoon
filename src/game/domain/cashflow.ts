@@ -8,6 +8,7 @@ import {
 } from './household';
 import { computeCostOfLiving } from './costOfLiving';
 import { parentalRepaymentForAge } from './parentalRepayment';
+import { ageSalaryMultiplier } from './salaryCurve';
 
 export type IncomeItem = {
   label: string;
@@ -121,7 +122,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     : 0;
 
   // --- Income --------------------------------------------------------------
-  const salaryYearly = job ? Math.round(job.salary * 12) : 0;
+  const salaryYearly = job ? Math.round(job.salary * ageSalaryMultiplier(intAge, job.id) * 12) : 0;
   const interestYearly = bank.balance > 0
     ? Math.round(bank.balance * effectiveInterestRate)
     : 0;

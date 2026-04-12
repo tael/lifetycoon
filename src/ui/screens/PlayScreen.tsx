@@ -9,6 +9,7 @@ import { createVisibilityController } from '../../game/engine/visibility';
 import { saveGame } from '../../store/persistence';
 import { formatAge, progressFraction } from '../../game/engine/timeAxis';
 import { formatWon } from '../../game/domain/asset';
+import { ageSalaryMultiplier } from '../../game/domain/salaryCurve';
 import { emojiFor, computeStatPenalty } from '../../game/domain/character';
 import { EventModal } from './EventModal';
 import { SkillModal } from './SkillModal';
@@ -359,7 +360,7 @@ export function PlayScreen() {
             </div>
             {job && (
               <div className="text-muted" style={{ fontSize: '0.68rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {job.iconEmoji} {job.title} · 월 {formatWon(job.salary)}
+                {job.iconEmoji} {job.title} · 월 {formatWon(Math.round(job.salary * ageSalaryMultiplier(intAge, job.id)))}
               </div>
             )}
           </div>

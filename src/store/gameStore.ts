@@ -30,6 +30,7 @@ import {
   pickRandomHouseholdClass,
 } from '../game/domain/household';
 import { computeCostOfLiving } from '../game/domain/costOfLiving';
+import { ageSalaryMultiplier } from '../game/domain/salaryCurve';
 import {
   REPAYMENT_START_AGE,
   computeParentalRepaymentBase,
@@ -336,7 +337,7 @@ export const useGameStore = create<GameStoreState>()(
       // 저스탯이면 드라이하게 숫자로 불이익을 준다.
       const statPenalty = computeStatPenalty(character);
       const salaryIncome = st.job
-        ? Math.round(st.job.salary * 12 * deltaYears * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
+        ? Math.round(st.job.salary * ageSalaryMultiplier(intAge, st.job.id) * 12 * deltaYears * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
         : 0;
       // Pension: 65세+ 시 근무 연수 기반 연금 (공식은 domain/pension.ts 참조 — cashflow UI와 동일)
       const careerCount = st.usedScenarioIds.filter(
@@ -457,7 +458,7 @@ export const useGameStore = create<GameStoreState>()(
       const academyExpense = Math.round(yearlyAllowanceForAge * ACADEMY_RATIO * deltaYears);
       // V3-06/07: 성인 기본 생활비. 도메인 함수로 단일화.
       // 주의: salaryIncome은 deltaYears가 곱해진 값이라 baseSalaryYearly로 환산해 도메인에 넘긴다.
-      const baseSalaryYearly = st.job ? Math.round(st.job.salary * 12) : 0;
+      const baseSalaryYearly = st.job ? Math.round(st.job.salary * ageSalaryMultiplier(intAge, st.job.id) * 12) : 0;
       const costOfLivingExpense = Math.round(
         computeCostOfLiving(intAge, baseSalaryYearly) * deltaYears,
       );
