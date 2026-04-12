@@ -54,8 +54,12 @@ function seededPick3(ids: string[], seed: number): string[] {
 // 7) 은퇴 — 65세부터 자산 축소
 
 const TICKERS = ['DDUK', 'RAIN', 'PENG', 'TOFU', 'ROCK', 'CATB', 'META', 'LEGC', 'BORA', 'DOGE'];
-const RE_IDS = ['small_apt', 'commercial', 'large_apt'];
-const RE_PRICES: Record<string, number> = { small_apt: 300_000_000, commercial: 500_000_000, large_apt: 1_000_000_000 };
+const RE_IDS = ['studio', 'small_apt', 'villa', 'commercial', 'office', 'large_apt', 'mall', 'hotel', 'factory', 'resort'];
+const RE_PRICES: Record<string, number> = {
+  studio: 250_000_000, small_apt: 300_000_000, villa: 450_000_000,
+  commercial: 500_000_000, office: 800_000_000, large_apt: 1_000_000_000,
+  mall: 1_500_000_000, hotel: 2_000_000_000, factory: 2_500_000_000, resort: 3_000_000_000,
+};
 const BOND_IDS = ['short_bond', 'mid_bond', 'long_bond'];
 
 // 직업 우선순위 (salary 기준, minAge 고려)
@@ -141,21 +145,25 @@ function applyFinancialStrategy(age: number, rng: () => number): void {
         }
       }
 
-      // 부동산 매입 — 30세 이후, 현금이 충분하면
-      if (age >= 30 && fresh.realEstate.length === 0) {
+      // 부동산 매입 — 25세 이후, 현금이 충분하면. 자산 규모에 맞는 부동산 선택
+      if (age >= 25) {
         const freshAfterStock = useGameStore.getState();
-        // 살 수 있는 가장 비싼 부동산
+        // 현금의 70%까지 투자 가능한 가장 비싼 부동산 선택 (과도한 올인 방지)
+        const budget = Math.floor(freshAfterStock.cash * 0.7);
         const affordable = RE_IDS
-          .filter(id => RE_PRICES[id] <= freshAfterStock.cash)
+          .filter(id => RE_PRICES[id] <= budget)
           .sort((a, b) => RE_PRICES[b] - RE_PRICES[a]);
-        if (affordable.length > 0) {
+        // 보유 상한 3채, 매년 매입 확률로 분산
+        if (affordable.length > 0 && freshAfterStock.realEstate.length < 3 && rng() < 0.4) {
           actions.buyRealEstate(affordable[0]);
-        } else if (freshAfterStock.cash > 100_000_000 && !freshAfterStock.hadLoan && rng() < 0.3) {
-          // 대출을 받아서라도 부동산 매입 시도
-          const needed = RE_PRICES['small_apt'] - freshAfterStock.cash;
+        } else if (affordable.length === 0 && freshAfterStock.cash > 100_000_000
+                   && freshAfterStock.realEstate.length === 0 && !freshAfterStock.hadLoan && rng() < 0.3) {
+          // 대출을 받아서라도 첫 부동산 매입 시도 (원룸/소형)
+          const target = freshAfterStock.cash >= 200_000_000 ? 'small_apt' : 'studio';
+          const needed = RE_PRICES[target] - freshAfterStock.cash;
           if (needed > 0 && needed < 200_000_000) {
             if (actions.takeLoan(needed)) {
-              actions.buyRealEstate('small_apt');
+              actions.buyRealEstate(target);
             }
           }
         }
@@ -184,9 +192,15 @@ function applyFinancialStrategy(age: number, rng: () => number): void {
         }
       }
 
-      // 두 번째 부동산 기회
-      if (fresh.realEstate.length < 2 && availableCash > 500_000_000 && rng() < 0.5) {
-        actions.buyRealEstate('commercial');
+      // 추가 부동산 — 자산에 비례한 업그레이드
+      if (fresh.realEstate.length < 3 && rng() < 0.3) {
+        const reBudget = Math.floor(availableCash * 0.5);
+        const reAffordable = RE_IDS
+          .filter(id => RE_PRICES[id] <= reBudget)
+          .sort((a, b) => RE_PRICES[b] - RE_PRICES[a]);
+        if (reAffordable.length > 0) {
+          actions.buyRealEstate(reAffordable[0]);
+        }
       }
 
     } else {

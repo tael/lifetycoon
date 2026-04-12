@@ -1,5 +1,6 @@
 import type { Dream, Ending, Grade, KeyMoment } from '../types';
 import { stageForAge } from '../types';
+import { josa } from './josa';
 
 function downgradeByLevel(grade: Grade, levels: number): Grade {
   const grades: Grade[] = ['S', 'A', 'B', 'C', 'D', 'F'];
@@ -27,12 +28,46 @@ export function calculateGrade(achieved: number, total: number, crisisTurns?: nu
   return grade;
 }
 
+/** 자산 관련 moment 여부 판단 (tag 또는 text 기반) */
+function isAssetMoment(m: KeyMoment): boolean {
+  const assetKeywords = ['자산', '돈', '부동산', '주식', '투자', '억', '만원', '저축', '재산'];
+  const inTag = assetKeywords.some((kw) => m.tag.includes(kw));
+  const inText = assetKeywords.some((kw) => m.text.includes(kw));
+  return inTag || inText;
+}
+
+/** importance를 자산 여부로 조정한 값 반환 (원본 객체 불변) */
+function effectiveImportance(m: KeyMoment): number {
+  return isAssetMoment(m) ? m.importance - 0.1 : m.importance;
+}
+
+/**
+ * "최고의 순간" 1개를 선정한다.
+ * 꿈 달성, 직업 전환, 인생 이벤트(결혼/출산 등) 기반 moment를 우선하며
+ * 자산 관련 moment의 importance를 0.1 감점 처리한다.
+ * importance(보정 후) >= 0.8인 non-asset moment가 있으면 그 중 최고를,
+ * 없으면 보정된 importance 기준 최고 moment를 반환한다.
+ */
+export function highlightMoment(moments: KeyMoment[]): KeyMoment | undefined {
+  if (moments.length === 0) return undefined;
+  const nonAssetHighImportance = moments.filter(
+    (m) => !isAssetMoment(m) && m.importance >= 0.8,
+  );
+  const pool = nonAssetHighImportance.length > 0 ? nonAssetHighImportance : moments;
+  return pool.reduce((best, m) =>
+    effectiveImportance(m) > effectiveImportance(best) ? m : best,
+  );
+}
+
 // Select key moments ensuring stage coverage (유년기/청년기/장년기 at least 1 each if available)
 export function selectKeyMoments(
   keyMoments: KeyMoment[],
   maxCount: number,
 ): KeyMoment[] {
-  const sorted = [...keyMoments].sort((a, b) => b.importance - a.importance);
+  // 자산 moment는 보정된 importance로 정렬
+  const sorted = [...keyMoments].sort(
+    (a, b) => effectiveImportance(b) - effectiveImportance(a),
+  );
   const result: KeyMoment[] = [];
   const stagesTaken = new Set<string>();
 
@@ -60,6 +95,16 @@ export function selectKeyMoments(
   return result.sort((a, b) => a.age - b.age).slice(0, maxCount);
 }
 
+/** 템플릿 문자열에서 {name}은(는)/{name}이(가)/{name}을(를) 패턴을 이름+올바른 조사로 치환 */
+function applyNameJosa(template: string, name: string): string {
+  return template
+    .replace('{name}은(는)', name + josa(name, '은/는'))
+    .replace('{name}이(가)', name + josa(name, '이/가'))
+    .replace('{name}을(를)', name + josa(name, '을/를'))
+    .replace('{name}과(와)', name + josa(name, '과/와'))
+    .replace('{name}', name);
+}
+
 export function buildEpitaph(
   characterName: string,
   selected: KeyMoment[],
@@ -75,7 +120,7 @@ export function buildEpitaph(
       Math.floor(rng() * epitaphTemplates.opening.length)
     ];
   lines.push(
-    opening.replace('{name}', characterName).replace('{grade}', gradeWord(grade)),
+    applyNameJosa(opening, characterName).replace('{grade}', gradeWord(grade)),
   );
   lines.push('');
   for (const m of selected) {
@@ -95,8 +140,7 @@ export function buildEpitaph(
     ];
   lines.push('');
   lines.push(
-    closing
-      .replace('{name}', characterName)
+    applyNameJosa(closing, characterName)
       .replace('{assets}', finalAssets.toLocaleString()),
   );
   return lines;

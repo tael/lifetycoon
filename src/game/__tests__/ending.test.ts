@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateGrade, selectKeyMoments } from '../domain/ending';
+import { calculateGrade, selectKeyMoments, highlightMoment } from '../domain/ending';
 import type { KeyMoment } from '../types';
 
 describe('calculateGrade', () => {
@@ -92,6 +92,40 @@ function mkMoment(age: number, importance: number, text: string): KeyMoment {
   // stageForAge(m.age)로 단계 판정을 하므로 tag 값은 중요하지 않다.
   return { age, importance, text, tag: '유년기' };
 }
+
+describe('highlightMoment', () => {
+  it('importance >= 0.8인 non-asset moment를 자산 moment보다 우선 선정', () => {
+    const moments: KeyMoment[] = [
+      { age: 90, importance: 0.95, text: '자산 100억 달성', tag: '노년기' },
+      { age: 30, importance: 0.85, text: '꿈의 직장 취업', tag: '청년기' },
+    ];
+    const result = highlightMoment(moments);
+    expect(result?.text).toBe('꿈의 직장 취업');
+  });
+
+  it('text에 "돈" 키워드가 있으면 importance 0.1 감점 처리', () => {
+    const moments: KeyMoment[] = [
+      { age: 50, importance: 0.9, text: '큰돈을 벌었다', tag: '중년기' },
+      { age: 40, importance: 0.85, text: '결혼을 했다', tag: '중년기' },
+    ];
+    // 자산 moment: 0.9 - 0.1 = 0.8, non-asset: 0.85 → non-asset 우선
+    const result = highlightMoment(moments);
+    expect(result?.text).toBe('결혼을 했다');
+  });
+
+  it('non-asset이 없으면 보정된 importance 기준 최고 moment 반환', () => {
+    const moments: KeyMoment[] = [
+      { age: 80, importance: 0.9, text: '자산 50억 돌파', tag: '노년기' },
+      { age: 60, importance: 0.7, text: '자산 10억 달성', tag: '장년기' },
+    ];
+    const result = highlightMoment(moments);
+    expect(result?.age).toBe(80);
+  });
+
+  it('빈 배열이면 undefined 반환', () => {
+    expect(highlightMoment([])).toBeUndefined();
+  });
+});
 
 describe('selectKeyMoments', () => {
   it('각 단계에서 최소 1개씩 우선 픽 (노년기 포함)', () => {
