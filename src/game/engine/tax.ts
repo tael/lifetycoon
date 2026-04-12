@@ -5,36 +5,54 @@
  */
 
 /**
- * 소득세 계산 (연 소득 기준)
- * 0~1200만: 0% (면세)
- * 1200~5000만: 6%
- * 5000만~1억: 15%
- * 1억+: 24%
+ * 소득세 계산 (연 소득 기준) — v0.3.0 V3-10 5단계 누진세
+ *
+ * 한국 종합소득세(2024)를 단순화한 5단계.
+ * 0~1400만: 6%
+ * 1400만~5000만: 15%
+ * 5000만~8800만: 24%
+ * 8800만~1억5천만: 35%
+ * 1억5천만+: 42%
+ *
+ * v0.2 이전 면세 구간(0~1200만)은 폐지. 이제 1원이라도 소득이면 6%부터
+ * 시작한다. 단 부모 용돈은 비과세이며 gameStore.advanceYear의
+ * taxableIncome 산정에서 제외된다.
  */
 export function calculateIncomeTax(yearlyIncome: number): number {
   if (yearlyIncome <= 0) return 0;
 
-  const BRACKET_1 = 12_000_000;  // 1200만
-  const BRACKET_2 = 50_000_000;  // 5000만
-  const BRACKET_3 = 100_000_000; // 1억
+  const B1 = 14_000_000;   // 1400만
+  const B2 = 50_000_000;   // 5000만
+  const B3 = 88_000_000;   // 8800만
+  const B4 = 150_000_000;  // 1억5000만
 
-  if (yearlyIncome <= BRACKET_1) return 0;
-
-  if (yearlyIncome <= BRACKET_2) {
-    return Math.round((yearlyIncome - BRACKET_1) * 0.06);
+  if (yearlyIncome <= B1) {
+    return Math.round(yearlyIncome * 0.06);
   }
-
-  if (yearlyIncome <= BRACKET_3) {
+  if (yearlyIncome <= B2) {
+    return Math.round(B1 * 0.06 + (yearlyIncome - B1) * 0.15);
+  }
+  if (yearlyIncome <= B3) {
     return Math.round(
-      (BRACKET_2 - BRACKET_1) * 0.06 +
-      (yearlyIncome - BRACKET_2) * 0.15,
+      B1 * 0.06 +
+      (B2 - B1) * 0.15 +
+      (yearlyIncome - B2) * 0.24,
     );
   }
-
+  if (yearlyIncome <= B4) {
+    return Math.round(
+      B1 * 0.06 +
+      (B2 - B1) * 0.15 +
+      (B3 - B2) * 0.24 +
+      (yearlyIncome - B3) * 0.35,
+    );
+  }
   return Math.round(
-    (BRACKET_2 - BRACKET_1) * 0.06 +
-    (BRACKET_3 - BRACKET_2) * 0.15 +
-    (yearlyIncome - BRACKET_3) * 0.24,
+    B1 * 0.06 +
+    (B2 - B1) * 0.15 +
+    (B3 - B2) * 0.24 +
+    (B4 - B3) * 0.35 +
+    (yearlyIncome - B4) * 0.42,
   );
 }
 
