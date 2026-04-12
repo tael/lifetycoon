@@ -25,6 +25,9 @@ export function CashflowPanel({ data, age }: Props) {
     financiallyFree,
   } = data;
 
+  // 연 단위 → 월 단위 환산 (UI 표시용)
+  const monthly = (v: number) => Math.round(v / 12);
+
   const netPositive = netCashflow >= 0;
   const ratioPct = Math.round(freedomRatio * 100);
   const barPct = Math.min(100, Math.max(0, ratioPct));
@@ -46,7 +49,7 @@ export function CashflowPanel({ data, age }: Props) {
           marginBottom: 'var(--sp-sm)',
         }}
       >
-        💰 올해 현금흐름
+        💰 이달의 현금흐름
       </div>
       {/* V3-13: 유년기 힌트 — 월급이 아니라 부모 용돈이 주 수입이라는 점을 안내 */}
       {age != null && Math.floor(age) >= 10 && Math.floor(age) < 19 && (
@@ -65,18 +68,18 @@ export function CashflowPanel({ data, age }: Props) {
       {/* Income 섹션 */}
       <Section
         title="수입"
-        totalLabel={`+${formatWon(totalIncome)}`}
+        totalLabel={`+${formatWon(monthly(totalIncome))}`}
         totalColor="var(--success)"
       >
         {income.length === 0 ? (
-          <EmptyRow text="올해 들어올 수입이 없습니다" />
+          <EmptyRow text="이달 들어올 수입이 없습니다" />
         ) : (
           income.map((it) => (
             <Row
               key={it.label}
               emoji={it.emoji}
               label={it.label}
-              amount={`+${formatWon(it.amount)}`}
+              amount={`+${formatWon(monthly(it.amount))}`}
               color="var(--success)"
               tag={it.passive ? '자동' : undefined}
             />
@@ -87,18 +90,18 @@ export function CashflowPanel({ data, age }: Props) {
       {/* Expense 섹션 */}
       <Section
         title="지출"
-        totalLabel={`-${formatWon(totalExpense)}`}
+        totalLabel={`-${formatWon(monthly(totalExpense))}`}
         totalColor="var(--danger, #c62828)"
       >
         {expense.length === 0 ? (
-          <EmptyRow text="올해 나갈 고정 지출이 없습니다" />
+          <EmptyRow text="이달 나갈 고정 지출이 없습니다" />
         ) : (
           expense.map((it) => (
             <Row
               key={it.label}
               emoji={it.emoji}
               label={it.label}
-              amount={`-${formatWon(it.amount)}`}
+              amount={`-${formatWon(monthly(it.amount))}`}
               color="var(--danger, #c62828)"
             />
           ))
@@ -127,7 +130,7 @@ export function CashflowPanel({ data, age }: Props) {
           }}
         >
           {netPositive ? '+' : '-'}
-          {formatWon(Math.abs(netCashflow))} {netPositive ? '🟢' : '🔴'}
+          {formatWon(Math.abs(monthly(netCashflow)))} {netPositive ? '🟢' : '🔴'}
         </span>
       </div>
 
@@ -150,7 +153,7 @@ export function CashflowPanel({ data, age }: Props) {
               color: financiallyFree ? 'var(--success)' : 'var(--text-muted)',
             }}
           >
-            {ratioPct}% ({formatWon(passiveIncome)} / {formatWon(totalExpense)})
+            {ratioPct}% ({formatWon(monthly(passiveIncome))} / {formatWon(monthly(totalExpense))})
           </span>
         </div>
         <div
@@ -194,7 +197,7 @@ export function CashflowPanel({ data, age }: Props) {
             lineHeight: 1.4,
           }}
         >
-          자동수입이 월 지출을 넘으면 일하지 않아도 생활이 가능합니다.
+          자동수입이 지출을 넘으면 일하지 않아도 생활이 가능합니다.
         </div>
       </div>
     </div>

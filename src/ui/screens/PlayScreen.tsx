@@ -626,11 +626,11 @@ export function PlayScreen() {
               }}
             >
               <span style={{ color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
-                💰 올해 {netPositive ? '+' : '-'}{formatWon(Math.abs(cashflow.netCashflow))}
+                💰 월 {netPositive ? '+' : '-'}{formatWon(Math.abs(Math.round(cashflow.netCashflow / 12)))}
               </span>
               <span style={{ color: 'var(--text-muted)' }}>·</span>
               <span style={{ color: 'var(--accent)' }}>
-                💎 자동수입 {formatWon(cashflow.passiveIncome)}
+                💎 자동수입 월 {formatWon(Math.round(cashflow.passiveIncome / 12))}
               </span>
             </div>
           );
