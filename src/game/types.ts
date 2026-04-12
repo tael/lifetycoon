@@ -1,6 +1,8 @@
 // Core domain types for LifeTycoon Kids
 // All types are framework-independent. No React/Zustand imports here.
 
+import type { HouseholdClass } from './domain/household';
+
 export type Seeds = {
   master: number;
   stock: number;
@@ -18,6 +20,11 @@ export type Character = {
   traits: string[]; // 성격 태그 (획득)
   emoji: string; // 현재 기분 이모지
   gender?: 'male' | 'female';
+  /**
+   * 가정 형편 (v0.3.0). 시작 시 1회 랜덤으로 결정되며 게임 도중 변경되지 않는다.
+   * 저장 데이터에 없는 구버전 세이브는 load 시 'average'로 폴백한다.
+   */
+  householdClass?: HouseholdClass;
 };
 
 export type StockDef = {

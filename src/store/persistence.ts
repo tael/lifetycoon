@@ -70,6 +70,10 @@ export function loadGame(): PersistedSave | null {
       console.warn('Save file has older version, skipping:', parsed.v);
       return null;
     }
+    // v0.3.0 마이그레이션: 구버전 세이브에는 character.householdClass가 없으니 'average'로 폴백
+    if (parsed.state?.character && parsed.state.character.householdClass == null) {
+      parsed.state.character = { ...parsed.state.character, householdClass: 'average' };
+    }
     return parsed;
   } catch {
     return null;

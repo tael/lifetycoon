@@ -24,6 +24,7 @@ import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate
 import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
 import { createCharacter, emojiFor, computeStatPenalty } from '../game/domain/character';
+import { pickRandomHouseholdClass } from '../game/domain/household';
 import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, applyLoanInterest, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
@@ -250,10 +251,13 @@ export const useGameStore = create<GameStoreState>()(
           }]
         : [];
       const resolvedGender: 'male' | 'female' = gender ?? get().pendingGender ?? (Math.random() < 0.5 ? 'male' : 'female');
+      // v0.3.0: 가정 형편은 시작 시 1회 랜덤으로 확정. streams.misc 사용 → seed 기반 결정론.
+      const householdClass = pickRandomHouseholdClass(streams.misc);
+      const startCharacter = { ...createCharacter(name, resolvedGender), householdClass };
       set({
         ...base,
         seeds,
-        character: createCharacter(name, resolvedGender),
+        character: startCharacter,
         dreams: freshDreams(pickedDreamIds),
         phase: { kind: 'playing' },
         cash: startCash,
