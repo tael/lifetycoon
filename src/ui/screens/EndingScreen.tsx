@@ -10,10 +10,11 @@ import { updateHighScore } from '../../store/highScore';
 import { saveEndingToGallery } from '../../store/endingGallery';
 import { updateGlobalStats } from '../../store/globalStats';
 import { generateLifeSummary, generateLifeTitle } from '../../game/domain/lifeSummary';
+import { highlightMoment } from '../../game/domain/ending';
 import { ConfettiBurst } from '../components/MoneyAnimation';
 import { AssetChart } from '../components/AssetChart';
 import { showToast } from '../components/Toast';
-import type { Grade } from '../../game/types';
+import type { Grade, KeyMoment } from '../../game/types';
 
 const GRADE_EMOJI: Record<Grade, string> = { S: '👑', A: '🌟', B: '🙂', C: '🌱', D: '🥀', F: '💀' };
 const GRADE_LABEL: Record<Grade, string> = {
@@ -25,9 +26,28 @@ const GRADE_LABEL: Record<Grade, string> = {
   F: '아무것도 이루지 못한 인생',
 };
 
+const GRADE_GRADIENT: Record<Grade, string> = {
+  S: 'linear-gradient(135deg, #ffd700 0%, #ffb300 30%, #ff8f00 100%)',
+  A: 'linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 30%, #9e9e9e 100%)',
+  B: 'linear-gradient(135deg, #64b5f6 0%, #42a5f5 30%, #1e88e5 100%)',
+  C: 'linear-gradient(135deg, #81c784 0%, #66bb6a 30%, #43a047 100%)',
+  D: 'linear-gradient(135deg, #bdbdbd 0%, #9e9e9e 30%, #757575 100%)',
+  F: 'linear-gradient(135deg, #b71c1c 0%, #c62828 30%, #d32f2f 100%)',
+};
+
+const GRADE_SHADOW: Record<Grade, string> = {
+  S: '0 8px 32px rgba(255, 215, 0, 0.3)',
+  A: '0 8px 32px rgba(158, 158, 158, 0.3)',
+  B: '0 8px 32px rgba(66, 165, 245, 0.3)',
+  C: '0 8px 32px rgba(102, 187, 106, 0.3)',
+  D: '0 8px 32px rgba(117, 117, 117, 0.3)',
+  F: '0 8px 32px rgba(211, 47, 47, 0.3)',
+};
+
 export function EndingScreen() {
   const ending = useGameStore((s) => s.ending);
   const characterName = useGameStore((s) => s.character.name);
+  const dreams = useGameStore((s) => s.dreams);
   const resetAll = useGameStore((s) => s.resetAll);
   const [visibleLines, setVisibleLines] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -112,101 +132,326 @@ export function EndingScreen() {
     resetAll();
   };
 
+  const highlight = highlightMoment(ending.keyMomentsSelected);
+  const achievedDreams = dreams.filter((d) => d.achieved);
+  const unachievedDreams = dreams.filter((d) => !d.achieved);
+  const dreamProgress = ending.totalDreams > 0
+    ? (ending.dreamsAchieved / ending.totalDreams) * 100
+    : 0;
+
   return (
-    <div className="app-container flex flex-col flex-center" style={{ gap: 'var(--sp-lg)', paddingTop: 'var(--sp-2xl)' }}>
-      {/* Tombstone */}
+    <div className="app-container flex flex-col flex-center" style={{ gap: 'var(--sp-lg)', paddingTop: 'var(--sp-xl)', paddingBottom: 'var(--sp-2xl)' }}>
+
+      {/* ═══ Hero Grade Card ═══ */}
       <div style={{
-        background: 'linear-gradient(180deg, #8d6e63 0%, #6d4c41 100%)',
-        borderRadius: '60px 60px 0 0',
-        padding: 'var(--sp-xl) var(--sp-lg)',
+        background: GRADE_GRADIENT[ending.grade],
+        borderRadius: 'var(--radius-lg)',
+        padding: 'var(--sp-2xl) var(--sp-lg) var(--sp-xl)',
         color: '#fff',
         textAlign: 'center',
-        maxWidth: 380,
+        maxWidth: 400,
         width: '100%',
-        boxShadow: 'var(--shadow-lg)',
+        boxShadow: GRADE_SHADOW[ending.grade],
         position: 'relative',
+        overflow: 'hidden',
       }}>
-        {/* Grade crown */}
-        <div style={{ fontSize: '3rem', marginBottom: 'var(--sp-sm)' }}>
+        {/* Decorative circles */}
+        <div style={{
+          position: 'absolute', top: -40, right: -40,
+          width: 120, height: 120, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.1)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: -30, left: -30,
+          width: 80, height: 80, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.08)',
+        }} />
+
+        {/* Grade emoji large */}
+        <div style={{
+          fontSize: '4rem',
+          marginBottom: 'var(--sp-sm)',
+          filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
+        }}>
           {GRADE_EMOJI[ending.grade]}
         </div>
-        <div style={{ fontSize: 'var(--font-size-sm)', opacity: 0.9, marginBottom: 4 }}>
+
+        {/* Grade text */}
+        <div style={{
+          fontSize: 'var(--font-size-3xl)',
+          fontWeight: 800,
+          letterSpacing: '0.05em',
+          textShadow: '0 2px 8px rgba(0,0,0,0.2)',
+          marginBottom: 'var(--sp-xs)',
+        }}>
+          {ending.grade}등급
+        </div>
+        <div style={{
+          fontSize: 'var(--font-size-lg)',
+          opacity: 0.95,
+          fontWeight: 600,
+          marginBottom: 'var(--sp-md)',
+        }}>
+          {GRADE_LABEL[ending.grade]}
+        </div>
+
+        {/* Life title */}
+        <div style={{
+          fontSize: 'var(--font-size-sm)',
+          opacity: 0.85,
+          fontStyle: 'italic',
+          marginBottom: 'var(--sp-lg)',
+        }}>
           {generateLifeTitle(
             useGameStore.getState().traits, ending.finalAssets, ending.finalHappiness,
             ending.dreamsAchieved, ending.totalDreams, ending,
           )}
         </div>
-        <div className={`grade-${ending.grade}`} style={{
-          fontSize: 'var(--font-size-2xl)',
-          fontWeight: 800,
-          marginBottom: 'var(--sp-xs)',
+
+        {/* Stats row */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          borderTop: '1px solid rgba(255,255,255,0.25)',
+          paddingTop: 'var(--sp-md)',
         }}>
-          {ending.grade}등급
+          <StatBadge value={`${ending.dreamsAchieved}/${ending.totalDreams}`} label="꿈 달성" />
+          <StatBadge value={formatWon(ending.finalAssets)} label="유산" />
+          <StatBadge value={`${ending.finalHappiness}`} label="행복도" />
         </div>
-        <div style={{ fontSize: 'var(--font-size-sm)', opacity: 0.8, marginBottom: 4 }}>
-          {GRADE_LABEL[ending.grade]}
+      </div>
+
+      {/* ═══ Life Summary Quote ═══ */}
+      <div style={{
+        maxWidth: 400, width: '100%',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-md)',
+        padding: 'var(--sp-lg)',
+        boxShadow: 'var(--shadow-md)',
+        position: 'relative',
+        textAlign: 'center',
+      }}>
+        <div style={{
+          fontSize: '3rem',
+          color: 'var(--accent)',
+          opacity: 0.3,
+          lineHeight: 1,
+          marginBottom: '-8px',
+        }}>
+          "
         </div>
-        <div style={{ fontSize: 'var(--font-size-xs)', opacity: 0.7, marginBottom: 'var(--sp-lg)', fontStyle: 'italic' }}>
-          "{generateLifeSummary(
+        <p style={{
+          fontSize: 'var(--font-size-sm)',
+          color: 'var(--text-secondary)',
+          lineHeight: 1.8,
+          fontStyle: 'italic',
+        }}>
+          {generateLifeSummary(
             characterName, ending.grade, ending.finalAssets, ending.finalHappiness,
             ending.dreamsAchieved, ending.totalDreams,
             useGameStore.getState().traits, ending.keyMomentsSelected,
-          )}"
+          )}
+        </p>
+        <div style={{
+          fontSize: '3rem',
+          color: 'var(--accent)',
+          opacity: 0.3,
+          lineHeight: 1,
+          marginTop: '-8px',
+          transform: 'rotate(180deg)',
+        }}>
+          "
         </div>
+        <div style={{
+          fontSize: 'var(--font-size-xs)',
+          color: 'var(--text-muted)',
+          marginTop: 'var(--sp-xs)',
+        }}>
+          인생 한줄 요약
+        </div>
+      </div>
 
-        {/* Epitaph */}
-        <div style={{ textAlign: 'left', lineHeight: 2, minHeight: 200 }}>
+      {/* ═══ Epitaph — Typing Animation ═══ */}
+      <div style={{
+        maxWidth: 400, width: '100%',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-md)',
+        padding: 'var(--sp-lg)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <div style={{
+          fontWeight: 700,
+          fontSize: 'var(--font-size-base)',
+          marginBottom: 'var(--sp-md)',
+          textAlign: 'center',
+        }}>
+          📜 비문
+        </div>
+        <div style={{ textAlign: 'left', lineHeight: 2, minHeight: 120 }}>
           {ending.epitaph.slice(0, visibleLines).map((line, i) => (
             <p key={i} style={{
               opacity: 1,
               animation: 'fadeIn 0.5s ease-in',
               fontSize: line === '' ? '0.5rem' : 'var(--font-size-sm)',
+              color: 'var(--text-secondary)',
             }}>
               {line || '\u00A0'}
             </p>
           ))}
           {visibleLines < ending.epitaph.length && (
-            <span style={{ animation: 'blink 1s infinite' }}>▌</span>
+            <span style={{ animation: 'blink 1s infinite', color: 'var(--accent)' }}>▌</span>
           )}
-        </div>
-
-        {/* Stats */}
-        <div style={{
-          marginTop: 'var(--sp-lg)',
-          display: 'flex',
-          justifyContent: 'space-around',
-          borderTop: '1px solid rgba(255,255,255,0.3)',
-          paddingTop: 'var(--sp-md)',
-        }}>
-          <div className="stat-badge">
-            <span className="stat-badge__value" style={{ color: '#fff' }}>
-              {ending.dreamsAchieved}/{ending.totalDreams}
-            </span>
-            <span className="stat-badge__label" style={{ color: 'rgba(255,255,255,0.7)' }}>꿈 달성</span>
-          </div>
-          <div className="stat-badge">
-            <span className="stat-badge__value" style={{ color: '#fff' }}>
-              {formatWon(ending.finalAssets)}
-            </span>
-            <span className="stat-badge__label" style={{ color: 'rgba(255,255,255,0.7)' }}>유산</span>
-          </div>
-          <div className="stat-badge">
-            <span className="stat-badge__value" style={{ color: '#fff' }}>
-              {ending.finalHappiness}
-            </span>
-            <span className="stat-badge__label" style={{ color: 'rgba(255,255,255,0.7)' }}>행복도</span>
-          </div>
         </div>
       </div>
 
-      {/* Asset Chart */}
-      <div className="card" style={{ width: '100%', maxWidth: 380 }}>
+      {/* ═══ Timeline — Life Journey ═══ */}
+      <div style={{
+        maxWidth: 400, width: '100%',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-md)',
+        padding: 'var(--sp-lg)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <div style={{
+          fontWeight: 700,
+          fontSize: 'var(--font-size-base)',
+          marginBottom: 'var(--sp-md)',
+          textAlign: 'center',
+        }}>
+          🛤️ 인생의 여정
+        </div>
+        <div style={{ position: 'relative', paddingLeft: 28 }}>
+          {/* Vertical line */}
+          <div style={{
+            position: 'absolute',
+            left: 8,
+            top: 4,
+            bottom: 4,
+            width: 2,
+            background: 'linear-gradient(to bottom, var(--accent-light), var(--accent), var(--accent-light))',
+            borderRadius: 1,
+          }} />
+          {ending.keyMomentsSelected.map((m, i) => {
+            const isHighlight = highlight && highlight.age === m.age && highlight.text === m.text;
+            return (
+              <TimelineItem key={i} moment={m} isHighlight={!!isHighlight} />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ═══ Dream Cards ═══ */}
+      <div style={{
+        maxWidth: 400, width: '100%',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-md)',
+        padding: 'var(--sp-lg)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <div style={{
+          fontWeight: 700,
+          fontSize: 'var(--font-size-base)',
+          marginBottom: 'var(--sp-sm)',
+          textAlign: 'center',
+        }}>
+          ✨ 꿈 달성 현황
+        </div>
+
+        {/* Progress bar */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--sp-sm)',
+          marginBottom: 'var(--sp-md)',
+        }}>
+          <div style={{
+            flex: 1,
+            height: 8,
+            background: 'var(--bg-secondary)',
+            borderRadius: 'var(--radius-full)',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              width: `${dreamProgress}%`,
+              height: '100%',
+              background: dreamProgress === 100
+                ? 'linear-gradient(90deg, #ffd700, #ff8f00)'
+                : 'linear-gradient(90deg, var(--accent), var(--accent-hover))',
+              borderRadius: 'var(--radius-full)',
+              transition: 'width 0.6s ease-out',
+            }} />
+          </div>
+          <span style={{
+            fontSize: 'var(--font-size-sm)',
+            fontWeight: 700,
+            color: dreamProgress === 100 ? 'var(--grade-s)' : 'var(--text-secondary)',
+            whiteSpace: 'nowrap',
+          }}>
+            {ending.dreamsAchieved}/{ending.totalDreams}
+          </span>
+        </div>
+
+        {/* Dream cards grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-sm)' }}>
+          {achievedDreams.map((d) => (
+            <div key={d.id} style={{
+              background: 'linear-gradient(135deg, #fff8e1, #fff3e0)',
+              borderRadius: 'var(--radius-sm)',
+              padding: 'var(--sp-sm)',
+              textAlign: 'center',
+              border: '1px solid rgba(255, 183, 77, 0.3)',
+            }}>
+              <div style={{ fontSize: '1.8rem', marginBottom: 2 }}>{d.iconEmoji}</div>
+              <div style={{
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+              }}>
+                {d.title}
+              </div>
+            </div>
+          ))}
+          {unachievedDreams.map((d) => (
+            <div key={d.id} style={{
+              background: 'var(--bg-secondary)',
+              borderRadius: 'var(--radius-sm)',
+              padding: 'var(--sp-sm)',
+              textAlign: 'center',
+              opacity: 0.4,
+              filter: 'grayscale(1)',
+            }}>
+              <div style={{ fontSize: '1.8rem', marginBottom: 2 }}>{d.iconEmoji}</div>
+              <div style={{
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 700,
+                color: 'var(--text-muted)',
+              }}>
+                {d.title}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══ Asset Chart ═══ */}
+      <div className="card" style={{ width: '100%', maxWidth: 400 }}>
         <AssetChart data={useGameStore.getState().assetHistory} />
       </div>
 
-      {/* Life Statistics */}
-      <div className="card" style={{ width: '100%', maxWidth: 380 }}>
-        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
+      {/* ═══ Life Statistics ═══ */}
+      <div style={{
+        maxWidth: 400, width: '100%',
+        background: 'var(--bg-card)',
+        borderRadius: 'var(--radius-md)',
+        padding: 'var(--sp-lg)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <div style={{
+          fontWeight: 700,
+          fontSize: 'var(--font-size-base)',
+          marginBottom: 'var(--sp-sm)',
+          textAlign: 'center',
+        }}>
           📋 인생 통계
         </div>
         {(() => {
@@ -214,9 +459,6 @@ export function EndingScreen() {
           const eventsTotal = st.usedScenarioIds.length;
           const traitsCount = st.traits.length;
           const stockHoldings = st.holdings.length;
-          const bestMoment = ending.keyMomentsSelected.length > 0
-            ? ending.keyMomentsSelected.reduce((a, b) => a.importance > b.importance ? a : b)
-            : null;
           const stats = [
             { emoji: '📌', label: '경험한 이벤트', value: `${eventsTotal}개` },
             { emoji: '🏷️', label: '획득한 특성', value: `${traitsCount}개` },
@@ -224,7 +466,6 @@ export function EndingScreen() {
             { emoji: '🏦', label: '예금 잔고', value: formatWon(st.bank.balance) },
             { emoji: '🖱️', label: '총 선택 수', value: `${ending.totalChoicesMade}개` },
             { emoji: '🗺️', label: '경험한 시나리오', value: `${ending.uniqueScenariosEncountered} / 380` },
-            { emoji: '⭐', label: '최고의 순간', value: bestMoment ? `${Math.floor(bestMoment.age)}세` : '-' },
           ];
           return (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -239,24 +480,13 @@ export function EndingScreen() {
                   <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginTop: 2 }}>{s.value}</div>
                 </div>
               ))}
-              {bestMoment && (
-                <div style={{
-                  gridColumn: '1 / -1',
-                  background: 'var(--accent-light)',
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '6px 8px',
-                  fontSize: 'var(--font-size-xs)',
-                }}>
-                  ⭐ {bestMoment.text}
-                </div>
-              )}
             </div>
           );
         })()}
       </div>
 
-      {/* NPC Comparison */}
-      <div className="card" style={{ width: '100%', maxWidth: 380 }}>
+      {/* ═══ NPC Comparison ═══ */}
+      <div className="card" style={{ width: '100%', maxWidth: 400 }}>
         <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
           👥 라이벌과 비교
         </div>
@@ -284,9 +514,9 @@ export function EndingScreen() {
         })()}
       </div>
 
-      {/* New Achievements */}
+      {/* ═══ New Achievements ═══ */}
       {newAchievements.length > 0 && (
-        <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center', border: '2px solid var(--grade-s)' }}>
+        <div className="card" style={{ width: '100%', maxWidth: 400, textAlign: 'center', border: '2px solid var(--grade-s)' }}>
           <div style={{ fontWeight: 800, fontSize: 'var(--font-size-lg)', marginBottom: 'var(--sp-sm)' }}>
             🏆 업적 달성!
           </div>
@@ -308,9 +538,9 @@ export function EndingScreen() {
         </div>
       )}
 
-      {/* Missed dreams — replay hook */}
+      {/* ═══ Missed Dreams — replay hook ═══ */}
       {ending.dreamsAchieved < ending.totalDreams && (
-        <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center' }}>
+        <div className="card" style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
           <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
             💭 이루지 못한 꿈
           </div>
@@ -330,21 +560,21 @@ export function EndingScreen() {
         </div>
       )}
 
-      {/* Strategy Tip */}
-      <div className="card" style={{ width: '100%', maxWidth: 380, textAlign: 'center' }}>
+      {/* ═══ Strategy Tip ═══ */}
+      <div className="card" style={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
         <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>💡 다음 인생 팁</div>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
           {generateTip(ending, useGameStore.getState())}
         </p>
       </div>
 
-      {/* Seed display */}
+      {/* ═══ Seed display ═══ */}
       <div className="text-muted text-center" style={{ fontSize: '0.6rem' }}>
         🎲 시드: {useGameStore.getState().seeds.master}
       </div>
 
-      {/* Actions */}
-      <div className="flex flex-col gap-sm" style={{ width: '100%', maxWidth: 380 }}>
+      {/* ═══ Actions ═══ */}
+      <div className="flex flex-col gap-sm" style={{ width: '100%', maxWidth: 400 }}>
         <button className="btn btn-primary btn-block" onClick={handleShare}>
           {copied ? '✅ 복사됨!' : '📤 친구에게 공유'}
         </button>
@@ -377,7 +607,79 @@ export function EndingScreen() {
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes highlightPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,112,67,0.3); } 50% { box-shadow: 0 0 0 6px rgba(255,112,67,0); } }
       `}</style>
+    </div>
+  );
+}
+
+/* ── Sub-components ── */
+
+function StatBadge({ value, label }: { value: string; label: string }) {
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ fontSize: 'var(--font-size-base)', fontWeight: 800, color: '#fff' }}>{value}</div>
+      <div style={{ fontSize: 'var(--font-size-xs)', color: 'rgba(255,255,255,0.7)' }}>{label}</div>
+    </div>
+  );
+}
+
+function TimelineItem({ moment, isHighlight }: { moment: KeyMoment; isHighlight: boolean }) {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'flex-start',
+      marginBottom: 'var(--sp-md)',
+      position: 'relative',
+    }}>
+      {/* Dot on timeline */}
+      <div style={{
+        position: 'absolute',
+        left: -24,
+        top: 4,
+        width: 12,
+        height: 12,
+        borderRadius: '50%',
+        background: isHighlight ? 'var(--accent)' : 'var(--accent-light)',
+        border: isHighlight ? '2px solid var(--accent-hover)' : '2px solid var(--accent)',
+        zIndex: 1,
+      }} />
+
+      {/* Age label */}
+      <div style={{
+        minWidth: 42,
+        fontWeight: 700,
+        fontSize: 'var(--font-size-xs)',
+        color: isHighlight ? 'var(--accent)' : 'var(--text-muted)',
+        paddingTop: 1,
+      }}>
+        {Math.floor(moment.age)}세
+      </div>
+
+      {/* Event text */}
+      <div style={{
+        flex: 1,
+        fontSize: 'var(--font-size-sm)',
+        color: isHighlight ? 'var(--text-primary)' : 'var(--text-secondary)',
+        fontWeight: isHighlight ? 700 : 400,
+        background: isHighlight ? 'var(--accent-light)' : 'transparent',
+        borderRadius: isHighlight ? 'var(--radius-sm)' : 0,
+        padding: isHighlight ? '4px 8px' : '0',
+        animation: isHighlight ? 'highlightPulse 2s ease-in-out infinite' : 'none',
+        lineHeight: 1.5,
+      }}>
+        {isHighlight && <span style={{ marginRight: 4 }}>⭐</span>}
+        {moment.text}
+        {isHighlight && (
+          <div style={{
+            fontSize: 'var(--font-size-xs)',
+            color: 'var(--accent)',
+            marginTop: 2,
+          }}>
+            최고의 순간
+          </div>
+        )}
+      </div>
     </div>
   );
 }
