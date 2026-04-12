@@ -1,8 +1,5 @@
-import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
-import { useGameStore, STOCKS } from '../../store/gameStore';
-import { CashflowPanel } from '../components/CashflowPanel';
-import { computeCashflow } from '../../game/domain/cashflow';
-import { sfx } from '../../game/engine/soundFx';
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { useGameStore } from '../../store/gameStore';
 import { createGameLoop, type GameLoopHandle } from '../../game/engine/gameLoop';
 import { monthsToMs } from '../../game/engine/timeAxis';
 import { createVisibilityController } from '../../game/engine/visibility';
@@ -21,14 +18,13 @@ import { DebtBadge } from '../components/DebtBadge';
 import { AssetCompositionBar } from '../components/AssetCompositionBar';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
-import { StockDetailModal } from '../components/StockDetailModal';
-import { PHASE_LABEL, getEffectiveInterestRate } from '../../game/engine/economyCycle';
-import type { StockDef, RealEstate } from '../../game/types';
-import { REAL_ESTATE_LISTINGS } from '../../game/domain/realEstate';
+import { PHASE_LABEL } from '../../game/engine/economyCycle';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
 import { KEY_SHOW_STAT_HINTS, SettingsModal } from '../components/SettingsModal';
-import { incrementBought, incrementSold } from '../../store/globalStats';
 import { computeCrisisLevel } from '../../game/domain/crisisEngine';
+import { usePlayDerived } from '../hooks/usePlayDerived';
+import { BankTab } from './tabs/BankTab';
+import { InvestTab } from './tabs/InvestTab';
 
 export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
@@ -39,12 +35,9 @@ export function PlayScreen() {
   const [lastQuizAge, setLastQuizAge] = useState<number | null>(null);
   const [cycleTickerMsg, setCycleTickerMsg] = useState<string | undefined>(undefined);
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
-  const [stockSectorFilter, setStockSectorFilter] = useState<string>('all');
   const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
   const [showSettings, setShowSettings] = useState(false);
   const [dreamExpanded, setDreamExpanded] = useState(false);
-  const [loanHistoryExpanded, setLoanHistoryExpanded] = useState(false);
-  const stockSectors = ['all', ...Array.from(new Set(STOCKS.map((s) => s.sector).filter(Boolean)))];
   const [showStatHints] = useState<boolean>(() => {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
   });
@@ -55,42 +48,35 @@ export function PlayScreen() {
   const character = useGameStore((s) => s.character);
   const cash = useGameStore((s) => s.cash);
   const bank = useGameStore((s) => s.bank);
-  const holdings = useGameStore((s) => s.holdings);
-  const prices = useGameStore((s) => s.prices);
   const job = useGameStore((s) => s.job);
   const dreams = useGameStore((s) => s.dreams);
   const traits = useGameStore((s) => s.traits);
   const unlockedSkills = useGameStore((s) => s.unlockedSkills);
-  const usedScenarioIds = useGameStore((s) => s.usedScenarioIds);
   const keyMoments = useGameStore((s) => s.keyMoments);
   const npcs = useGameStore((s) => s.npcs);
   const speedMultiplier = useGameStore((s) => s.speedMultiplier);
-  const autoInvest = useGameStore((s) => s.autoInvest);
-  const dripEnabled = useGameStore((s) => s.dripEnabled);
-  const realEstate = useGameStore((s) => s.realEstate);
   const bonds = useGameStore((s) => s.bonds);
-  const buyRealEstate = useGameStore((s) => s.buyRealEstate);
-  const sellRealEstate = useGameStore((s) => s.sellRealEstate);
-  const insurance = useGameStore((s) => s.insurance);
-  const parentalRepaymentBase = useGameStore((s) => s.parentalRepaymentBase);
-  const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
-  const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const economyCycle = useGameStore((s) => s.economyCycle);
   const advanceYear = useGameStore((s) => s.advanceYear);
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
-  const buy = useGameStore((s) => s.buy);
-  const sell = useGameStore((s) => s.sell);
-  const deposit = useGameStore((s) => s.deposit);
-  const withdraw = useGameStore((s) => s.withdraw);
-  const takeLoan = useGameStore((s) => s.takeLoan);
-  const repayLoan = useGameStore((s) => s.repayLoan);
-  const loanHistory = useGameStore((s) => s.loanHistory);
+
+  const {
+    stocksValue,
+    realEstateValue,
+    totalAssets,
+    dividendIncome,
+    stockReturnPct,
+    effectiveInterestRate,
+    intAge,
+    cashflow,
+    displayAge,
+    onDisplayAgeChange,
+  } = usePlayDerived();
 
   const onIntAgeChange = useCallback(
     (newIntAge: number, deltaYears: number, _elapsedMs: number) => {
       advanceYear(newIntAge, deltaYears);
-      // Save periodically
       if (newIntAge % 5 === 0) saveGame(useGameStore.getState());
     },
     [advanceYear],
@@ -99,14 +85,6 @@ export function PlayScreen() {
   const onFinished = useCallback(() => {
     endGame();
   }, [endGame]);
-
-  // 월 단위 표시용 float age. gameStore.character.age는 정수 경계에서만 갱신되므로
-  // formatAge가 "X세 1월"로 고정되던 버그를 우회한다. 매 프레임이 아니라 약 1개월
-  // (1/12년) 간격으로만 업데이트돼서 리렌더 비용을 낮게 유지한다.
-  const [displayAge, setDisplayAge] = useState(character.age);
-  const onDisplayAgeChange = useCallback((age: number) => {
-    setDisplayAge(age);
-  }, []);
 
   useEffect(() => {
     const loop = createGameLoop({ onIntAgeChange, onFinished, onDisplayAgeChange });
@@ -124,8 +102,7 @@ export function PlayScreen() {
     };
   }, [onIntAgeChange, onFinished]);
 
-  // Sync pause/resume with phase. 설정 모달이 열려 있을 때도 시간을 멈춘다 —
-  // 유저가 설정을 살피는 동안 나이가 흐르면 억울하게 연차가 날아가는 경험을 막기 위함.
+  // Sync pause/resume with phase
   useEffect(() => {
     const loop = loopRef.current;
     if (!loop) return;
@@ -147,18 +124,15 @@ export function PlayScreen() {
   useEffect(() => {
     const intAge = Math.floor(character.age);
     if (intAge > prevAgeRef.current) {
-      // Milestone popup every 10 years
       if (isMilestoneAge(intAge) && phase.kind === 'playing') {
         loopRef.current?.pause();
         setShowMilestone(intAge);
       }
-      // 유년기 종료 안내 (18세→19세 전환)
       if (intAge === 19) {
         showToast('부모님의 용돈이 끝났습니다. 이제 스스로 벌어야 합니다.', '🎒', 'info', 4000);
       }
       prevAgeRef.current = intAge;
     }
-    // Dream achievement toast
     const achieved = dreams.filter((d) => d.achieved).length;
     if (achieved > prevDreamsRef.current) {
       const newDream = dreams.find(
@@ -173,7 +147,7 @@ export function PlayScreen() {
     }
   }, [character.age, dreams, phase]);
 
-  // Economy cycle change → NewsTicker alert
+  // Economy cycle change -> NewsTicker alert
   useEffect(() => {
     if (!economyCycle) return;
     const prev = prevCyclePhaseRef.current;
@@ -195,15 +169,11 @@ export function PlayScreen() {
   };
 
   const progress = progressFraction(character.age);
-  const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-  const realEstateValue = realEstate.reduce((s, re) => s + re.currentValue, 0);
-  const totalAssets = cash + bank.balance + stocksValue + realEstateValue;
 
   // Previous total for Y-o-Y change
   const prevTotalRef = useRef(totalAssets);
   const assetDelta = totalAssets - prevTotalRef.current;
 
-  // Update prev total when age changes
   useEffect(() => {
     const intA = Math.floor(character.age);
     if (intA !== prevAgeRef.current) {
@@ -211,62 +181,7 @@ export function PlayScreen() {
     }
   }, [character.age, totalAssets]);
 
-  // Stock portfolio return + dividends
-  const totalCost = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
-  const dividendIncome = holdings.reduce((sum, h) => {
-    const def = STOCKS.find((s) => s.ticker === h.ticker);
-    const divRate = def?.dividendRate ?? 0;
-    const price = prices[h.ticker] ?? 0;
-    return sum + Math.round(price * h.shares * divRate);
-  }, 0);
-  const stockReturnPct = totalCost > 0
-    ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%`
-    : undefined;
-
-  // 화면 표시용 유효 이자율 — tick 계산과 동일한 base + phase + skill 보너스를 반영한다.
-  // 자산 카드 "예금 연 X%" extra 라벨과 cashflow 계산에 공통 사용.
-  const effectiveInterestRate = economyCycle
-    ? getEffectiveInterestRate(
-        bank.interestRate,
-        economyCycle.phase,
-        unlockedSkills.includes('finance_101'),
-      )
-    : bank.interestRate;
-  const intAge = Math.floor(character.age);
-
-  // 연금 공식 입력 — gameStore.advanceYear와 동일한 정의로 단일화.
-  const careerCount = useMemo(
-    () => usedScenarioIds.filter(
-      (id) => id.includes('job') || id.includes('career') || id.includes('part_time'),
-    ).length + 1,
-    [usedScenarioIds],
-  );
-  const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
-
-  // 캐시플로 분해 — 도메인 함수로 단일화. v0.2.0 가시화.
-  // 메모이제이션은 관련 의존성만 재계산 시 새 객체를 만든다. 과도한 최적화는 피한다.
-  const cashflow = useMemo(
-    () => computeCashflow({
-      age: character.age,
-      job,
-      bank,
-      effectiveInterestRate,
-      holdings,
-      prices,
-      stocks: STOCKS,
-      realEstate,
-      bonds,
-      insurance,
-      careerCount,
-      inflationMultiplier,
-      householdClass: character.householdClass,
-      parentalRepaymentBase,
-    }),
-    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier, parentalRepaymentBase],
-  );
-
-  // 재정 자유 트레이트 부여 — cashflow.financiallyFree 가 true 가 되는 순간 1회 토스트 + traits append.
-  // 엔딩 보너스/등급 로직은 이번 사이클 제외 (플랜 문서의 범위 방어).
+  // 재정 자유 트레이트 부여
   const prevFreeRef = useRef(false);
   useEffect(() => {
     if (!cashflow.financiallyFree) {
@@ -299,7 +214,7 @@ export function PlayScreen() {
       {/* News Ticker */}
       <NewsTicker age={character.age} forcedMessage={cycleTickerMsg} />
 
-      {/* 부채 뱃지 — 대출 잔액이 있을 때만 HUD 상단에 노출 (부채 고통 가시화) */}
+      {/* 부채 뱃지 */}
       <DebtBadge />
 
       {/* Age Timeline header */}
@@ -334,7 +249,6 @@ export function PlayScreen() {
         </div>
         <div className="progress-bar" style={{ position: 'relative' }}>
           <div className="progress-bar__fill" style={{ width: `${progress * 100}%` }} />
-          {/* Milestone markers */}
           {[20, 30, 40, 50, 60, 70, 80, 90].map((a) => (
             <div key={a} style={{
               position: 'absolute',
@@ -353,10 +267,9 @@ export function PlayScreen() {
         </div>
       </div>
 
-      {/* Character — TERTIARY: 홈 탭에서만 (시각 순서는 꿈→자산→캐릭터) */}
+      {/* Character — 홈 탭에서만 */}
       {tab === 'home' && (
       <div className="card" style={{ padding: 'var(--sp-sm) var(--sp-md)', order: 3 }}>
-        {/* 상단 한 줄: 이모지 | 이름+직업 | 스킬/퀴즈 아이콘 버튼 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-sm)' }}>
           <div
             role="img"
@@ -373,7 +286,6 @@ export function PlayScreen() {
               </div>
             )}
           </div>
-          {/* 스킬/퀴즈 아이콘 버튼 (축소) */}
           <button
             onClick={() => setShowSkillModal(true)}
             title={`스킬 ${unlockedSkills.length > 0 ? `(${unlockedSkills.length})` : ''}`}
@@ -409,7 +321,6 @@ export function PlayScreen() {
           })()}
         </div>
 
-        {/* 스탯 4개 한 줄 (기존 StatMini) */}
         <div className="flex gap-sm" style={{ marginTop: 'var(--sp-sm)' }}>
           <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" showHints={showStatHints} />
           <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" showHints={showStatHints} />
@@ -417,7 +328,6 @@ export function PlayScreen() {
           <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" showHints={showStatHints} />
         </div>
 
-        {/* 컨디션 페널티 배너 — 저스탯(30 미만)일 때만 경제적 불이익을 드라이하게 고지 */}
         {(() => {
           const penalty = computeStatPenalty(character);
           if (penalty.reasons.length === 0) return null;
@@ -441,9 +351,6 @@ export function PlayScreen() {
           );
         })()}
 
-        {/* 케어 버튼 한 줄 (비용→효과 관계) */}
-        {/* 시간 비용(timeCostMonths): 간식은 즉석, 건강(운동)은 1개월, 공부는 2개월,
-            노래(여가)는 1개월. "공부엔 시간이 많이 든다"는 기회비용 교육 의도. */}
         <div style={{ display: 'flex', gap: 4, marginTop: 'var(--sp-sm)' }}>
           <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" timeCostMonths={0} loopRef={loopRef} />
           <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" timeCostMonths={1} loopRef={loopRef} />
@@ -451,7 +358,6 @@ export function PlayScreen() {
           <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" timeCostMonths={1} loopRef={loopRef} />
         </div>
 
-        {/* 특성 태그 — 공간 절약을 위해 상위 5개만, 나머지는 +N */}
         {traits.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 'var(--sp-xs)' }}>
             {traits.slice(0, 5).map((t) => (
@@ -474,7 +380,7 @@ export function PlayScreen() {
       </div>
       )}
 
-      {/* 위기 뱃지 — 홈 탭에서만, orange 이상일 때만 표시 */}
+      {/* 위기 뱃지 — 홈 탭에서만 */}
       {tab === 'home' && (() => {
         const crisisLevel = computeCrisisLevel({
           netCashflow: cashflow.netCashflow / 12,
@@ -508,7 +414,7 @@ export function PlayScreen() {
         );
       })()}
 
-      {/* Dreams — PRIMARY 지표: 홈 탭에서만. 컴팩트 한 줄 + 접기/펼치기 */}
+      {/* Dreams — 홈 탭에서만 */}
       {tab === 'home' && (
       <div
         className="card"
@@ -525,7 +431,6 @@ export function PlayScreen() {
         aria-expanded={dreamExpanded}
         aria-label="꿈 패널 접기/펼치기"
       >
-        {/* 헤더: 한 줄 요약 + 전체 진행도 바 */}
         <div className="flex flex-between" style={{ alignItems: 'center' }}>
           <span style={{ fontWeight: 800, fontSize: 'var(--font-size-sm)' }}>
             🌟 나의 꿈 {dreams.filter((d) => d.achieved).length}/{dreams.length}
@@ -546,7 +451,6 @@ export function PlayScreen() {
           </div>
         </div>
 
-        {/* 펼침 상태: 상세 목록 */}
         {dreamExpanded && (
           <div style={{ marginTop: 'var(--sp-xs)' }} onClick={(e) => e.stopPropagation()}>
             {dreams.map((d) => {
@@ -637,30 +541,23 @@ export function PlayScreen() {
       </div>
       )}
 
-      {/* Cashflow Panel — 은행 탭 최상단. 올해 수입·지출 분해 + 자동수입 비율 */}
+      {/* Bank Tab */}
       {tab === 'bank' && (
-        <>
-          <CashflowPanel data={cashflow} age={character.age} />
-          {/* V3-11: 누적 납세액 표시 — 드라이한 한 줄. */}
-          <div
-            style={{
-              marginTop: 4,
-              fontSize: '0.7rem',
-              color: 'var(--text-muted)',
-              textAlign: 'right',
-              padding: '0 4px',
-            }}
-          >
-            지금까지 낸 세금: {formatWon(totalTaxPaid)}
-          </div>
-        </>
+        <BankTab
+          cashflow={cashflow}
+          effectiveInterestRate={effectiveInterestRate}
+          totalAssets={totalAssets}
+          stocksValue={stocksValue}
+          realEstateValue={realEstateValue}
+          stockReturnPct={stockReturnPct}
+          assetDelta={assetDelta}
+        />
       )}
 
-      {/* Assets — 홈 탭: 현금흐름+자산 병렬 요약, 은행 탭: 풀버전 */}
-      {(tab === 'home' || tab === 'bank') && (
+      {/* Home tab: 자산 요약 */}
+      {tab === 'home' && (
       <div className="card">
-        {/* 홈 탭: 월 순수입과 총 자산을 동급 사이즈로 나란히 */}
-        {tab === 'home' && (() => {
+        {(() => {
           const monthlyNet = Math.round(cashflow.netCashflow / 12);
           const netPositive = monthlyNet >= 0;
           const monthlyPassive = Math.round(cashflow.passiveIncome / 12);
@@ -706,43 +603,8 @@ export function PlayScreen() {
             </>
           );
         })()}
-        {/* 은행 탭: 기존 상세 목록 */}
-        {tab === 'bank' && (
-        <>
-        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}>💰 자산</span>
-          <span>
-            <span style={{ fontWeight: 700, color: 'var(--accent)' }}>{formatWon(totalAssets)}</span>
-            {assetDelta !== 0 && (
-              <span style={{ fontSize: 'var(--font-size-xs)', color: assetDelta > 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
-                {assetDelta > 0 ? '▲' : '▼'}{formatWon(Math.abs(assetDelta))}
-              </span>
-            )}
-          </span>
-        </div>
-        <div className="flex flex-col gap-xs">
-          <AssetRow label="현금" value={cash} />
-          <AssetRow label="예금" value={bank.balance} extra={`연 ${(effectiveInterestRate * 100).toFixed(1)}%`} />
-          <AssetRow label="주식" value={stocksValue} extra={stockReturnPct} />
-          {realEstateValue > 0 && (
-            <AssetRow label="부동산" value={realEstateValue} extra={`${realEstate.length}채`} />
-          )}
-          {bank.loanBalance > 0 && (
-            <div className="flex flex-between" style={{ alignItems: 'center' }}>
-              <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--danger)' }}>대출</span>
-              <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700, color: 'var(--danger)' }}>
-                -{formatWon(bank.loanBalance)}
-                <span style={{ fontWeight: 400, fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>
-                  연 {(bank.loanInterestRate * 100).toFixed(1)}%
-                </span>
-              </span>
-            </div>
-          )}
-        </div>
-        </>
-        )}
-        {/* 홈 탭: 다음 꿈 목표선 오버레이 (축1 관계 시각화) */}
-        {tab === 'home' && (() => {
+        {/* 홈 탭: 다음 꿈 목표선 오버레이 */}
+        {(() => {
           const nextMoneyDream = dreams.find((d) => !d.achieved && (d.targetCondition.kind === 'totalAssetsGte' || d.targetCondition.kind === 'cashGte'));
           if (!nextMoneyDream) return null;
           const cond = nextMoneyDream.targetCondition;
@@ -766,316 +628,16 @@ export function PlayScreen() {
             </div>
           );
         })()}
-        {/* 은행 탭: 입출금/대출 버튼 — 캐시플로 분해는 카드 상단 별도 패널로 분리. */}
-        {tab === 'bank' && (() => {
-          const loanLimit = Math.max(0, Math.floor(totalAssets * 0.5) - bank.loanBalance);
-          const maxRepay = Math.min(cash, bank.loanBalance);
-          return (
-          <>
-            {/* 입금 */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
-              <QuickActionBtn label="입금 100만" onClick={() => {
-                if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'info', 1200);
-              }} disabled={cash < 1000000} />
-              <QuickActionBtn label="입금 500만" onClick={() => {
-                if (deposit(5000000)) showToast('500만원 입금!', '🏦', 'info', 1200);
-              }} disabled={cash < 5000000} />
-              <QuickActionBtn label="입금 1천만" onClick={() => {
-                if (deposit(10000000)) showToast('1,000만원 입금!', '🏦', 'success', 1200);
-              }} disabled={cash < 10000000} />
-              <QuickActionBtn label="전액 입금" onClick={() => {
-                if (cash > 0 && deposit(cash)) showToast(`${formatWon(cash)} 입금!`, '🏦', 'success', 1200);
-              }} disabled={cash <= 0} />
-            </div>
-            {/* 출금 */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
-              <QuickActionBtn label="출금 100만" onClick={() => {
-                if (withdraw(1000000)) showToast('100만원 출금!', '💸', 'info', 1200);
-              }} disabled={bank.balance < 1000000} />
-              <QuickActionBtn label="출금 500만" onClick={() => {
-                if (withdraw(5000000)) showToast('500만원 출금!', '💸', 'info', 1200);
-              }} disabled={bank.balance < 5000000} />
-              <QuickActionBtn label="출금 1천만" onClick={() => {
-                if (withdraw(10000000)) showToast('1,000만원 출금!', '💸', 'success', 1200);
-              }} disabled={bank.balance < 10000000} />
-              <QuickActionBtn label="전액 출금" onClick={() => {
-                if (bank.balance > 0 && withdraw(bank.balance)) showToast(`${formatWon(bank.balance)} 출금!`, '💸', 'success', 1200);
-              }} disabled={bank.balance <= 0} />
-            </div>
-            {/* 대출/상환 */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
-              <QuickActionBtn label="대출 100만" onClick={() => {
-                if (takeLoan(1000000)) showToast('100만원 대출!', '🏧', 'warning', 1500);
-                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-              }} disabled={loanLimit < 1000000} danger />
-              <QuickActionBtn label="대출 500만" onClick={() => {
-                if (takeLoan(5000000)) showToast('500만원 대출!', '🏧', 'warning', 1500);
-                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-              }} disabled={loanLimit < 5000000} danger />
-              <QuickActionBtn label="대출 1천만" onClick={() => {
-                if (takeLoan(10000000)) showToast('1,000만원 대출!', '🏧', 'warning', 1500);
-                else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-              }} disabled={loanLimit < 10000000} danger />
-              <QuickActionBtn label="한도까지" onClick={() => {
-                if (loanLimit > 0 && takeLoan(loanLimit)) showToast(`${formatWon(loanLimit)} 대출!`, '🏧', 'warning', 1500);
-                else showToast('대출 한도 없음!', '🚫', 'danger', 1500);
-              }} disabled={loanLimit <= 0} danger />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
-              <QuickActionBtn label="상환 100만" onClick={() => {
-                if (repayLoan(1000000)) showToast('100만원 상환!', '✅', 'success', 1200);
-              }} disabled={bank.loanBalance < 1000000 || cash < 1000000} />
-              <QuickActionBtn label="상환 500만" onClick={() => {
-                if (repayLoan(5000000)) showToast('500만원 상환!', '✅', 'success', 1200);
-              }} disabled={bank.loanBalance < 5000000 || cash < 5000000} />
-              <QuickActionBtn label="상환 1천만" onClick={() => {
-                if (repayLoan(10000000)) showToast('1,000만원 상환!', '✅', 'success', 1200);
-              }} disabled={bank.loanBalance < 10000000 || cash < 10000000} />
-              <QuickActionBtn label="전액 상환" onClick={() => {
-                if (maxRepay > 0 && repayLoan(maxRepay)) showToast(`${formatWon(maxRepay)} 상환!`, '✅', 'success', 1200);
-              }} disabled={maxRepay <= 0} />
-            </div>
-          </>
-          );
-        })()}
       </div>
       )}
 
-      {/* Insurance — 은행 탭 */}
-      {tab === 'bank' && (
-      <div className="card">
-        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)' }}>🛡️ 보험</div>
-        <div className="flex flex-col gap-xs">
-          <div className="flex flex-between" style={{ alignItems: 'center' }}>
-            <div>
-              <span style={{ fontSize: 'var(--font-size-sm)' }}>건강보험</span>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 6 }}>
-                연 20만 · 건강 피해 -50%
-              </span>
-            </div>
-            <button
-              onClick={() => {
-                toggleInsurance('health');
-                showToast(
-                  insurance.health ? '건강보험 해지' : '건강보험 가입!',
-                  '🛡️',
-                  insurance.health ? 'warning' : 'success',
-                  1200,
-                );
-              }}
-              aria-label={insurance.health ? '건강보험 해지' : '건강보험 가입'}
-              aria-pressed={insurance.health}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-sm)',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: 'var(--font-size-xs)',
-                background: insurance.health ? 'var(--success)' : '#ccc',
-                color: '#fff',
-              }}
-            >
-              {insurance.health ? 'ON' : 'OFF'}
-            </button>
-          </div>
-          <div className="flex flex-between" style={{ alignItems: 'center' }}>
-            <div>
-              <span style={{ fontSize: 'var(--font-size-sm)' }}>자산보험</span>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 6 }}>
-                연 30만 · 현금 손실 -30%
-              </span>
-            </div>
-            <button
-              onClick={() => {
-                toggleInsurance('asset');
-                showToast(
-                  insurance.asset ? '자산보험 해지' : '자산보험 가입!',
-                  '🛡️',
-                  insurance.asset ? 'warning' : 'success',
-                  1200,
-                );
-              }}
-              aria-label={insurance.asset ? '자산보험 해지' : '자산보험 가입'}
-              aria-pressed={insurance.asset}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-sm)',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: 'var(--font-size-xs)',
-                background: insurance.asset ? 'var(--success)' : '#ccc',
-                color: '#fff',
-              }}
-            >
-              {insurance.asset ? 'ON' : 'OFF'}
-            </button>
-          </div>
-        </div>
-        {insurance.premium > 0 && (
-          <div style={{
-            marginTop: 'var(--sp-sm)',
-            padding: 'var(--sp-xs) var(--sp-sm)',
-            background: '#f0fff4',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: 'var(--font-size-xs)',
-            color: 'var(--success)',
-          }}>
-            📋 연 보험료 합계: {(insurance.premium / 10000).toFixed(0)}만원
-          </div>
-        )}
-      </div>
-      )}
-
-      {/* 대출 이력 — 은행 탭 */}
-      {tab === 'bank' && loanHistory.length > 0 && (
-      <div className="card">
-        <button
-          onClick={() => setLoanHistoryExpanded((v) => !v)}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-        >
-          <span style={{ fontWeight: 700 }}>📋 대출 이력</span>
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
-            {loanHistoryExpanded ? '접기 ▲' : `${Math.min(loanHistory.length, 10)}건 보기 ▼`}
-          </span>
-        </button>
-        {loanHistoryExpanded && (
-          <div style={{ marginTop: 'var(--sp-sm)', display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {[...loanHistory].reverse().slice(0, 10).map((r, i) => {
-              const sourceLabel = r.source === 'bank' ? '은행 대출' : r.source === 'government' ? '정부 긴급 대출' : '이벤트 강제 대출';
-              const color = r.source === 'government' ? 'var(--warning)' : r.source === 'forced' ? 'var(--danger)' : 'var(--text-secondary)';
-              return (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--font-size-xs)', padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>{r.age}세 | {sourceLabel}</span>
-                  <span style={{ fontWeight: 700, color }}>{formatWon(r.amount)}</span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-      )}
-
-      {/* Real Estate — 투자 탭 */}
+      {/* Invest Tab */}
       {tab === 'invest' && (
-      <RealEstateCard
-        realEstate={realEstate}
-        cash={cash}
-        onBuy={(id) => {
-          if (buyRealEstate(id)) { sfx.buy(); showToast('부동산 매입!', '🏠', 'success', 1500); }
-          else showToast('현금이 부족해요', '😢', 'danger', 1500);
-        }}
-        onSell={(idx) => {
-          if (sellRealEstate(idx)) { sfx.sell(); showToast('부동산 매각!', '💸', 'success', 1500); }
-        }}
-      />
-      )}
-
-      {/* Stock Board — 투자 탭 */}
-      {tab === 'invest' && (
-      <div className="card">
-        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}>📈 주식</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-            {dividendIncome > 0 && (
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)', fontWeight: 600 }}>
-                배당+{formatWon(dividendIncome)}
-              </span>
-            )}
-            <button
-              onClick={() => useGameStore.setState({ autoInvest: !autoInvest })}
-              aria-label={autoInvest ? '자동투자 끄기' : '자동투자 켜기'}
-              aria-pressed={autoInvest}
-              style={{
-                fontSize: '0.6rem',
-                padding: '2px 6px',
-                borderRadius: 'var(--radius-full)',
-                background: autoInvest ? 'var(--success)' : '#eee',
-                color: autoInvest ? '#fff' : '#999',
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              {autoInvest ? '🤖 자동ON' : '자동OFF'}
-            </button>
-            <button
-              onClick={() => useGameStore.getState().toggleDrip()}
-              aria-label={dripEnabled ? '배당 재투자 끄기' : '배당 재투자 켜기'}
-              aria-pressed={dripEnabled}
-              title="배당재투자 (DRIP): 받은 배당금을 그 주식에 자동으로 다시 투자해요. 복리 효과가 커져요."
-              style={{
-                fontSize: '0.6rem',
-                padding: '2px 6px',
-                borderRadius: 'var(--radius-full)',
-                background: dripEnabled ? 'var(--accent)' : '#eee',
-                color: dripEnabled ? '#fff' : '#999',
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              {dripEnabled ? '💎 배당재투자' : '배당재투자'}
-            </button>
-          </div>
-        </div>
-        {/* 섹터 필터 탭 */}
-        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 'var(--sp-sm)' }}>
-          {stockSectors.map((sector) => (
-            <button
-              key={sector}
-              onClick={() => setStockSectorFilter(sector)}
-              style={{
-                fontSize: '0.6rem',
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-full)',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 700,
-                background: stockSectorFilter === sector ? 'var(--accent)' : '#eee',
-                color: stockSectorFilter === sector ? '#fff' : '#666',
-              }}
-            >
-              {sector === 'all' ? '전체' : sector}
-            </button>
-          ))}
-        </div>
-        {[...STOCKS].sort((a, b) => {
-          const priceA = prices[a.ticker] ?? a.basePrice;
-          const priceB = prices[b.ticker] ?? b.basePrice;
-          const sharesA = holdings.find((h) => h.ticker === a.ticker)?.shares ?? 0;
-          const sharesB = holdings.find((h) => h.ticker === b.ticker)?.shares ?? 0;
-          const valueA = priceA * sharesA;
-          const valueB = priceB * sharesB;
-          const hasA = sharesA > 0;
-          const hasB = sharesB > 0;
-          if (hasA !== hasB) return hasA ? -1 : 1;
-          if (hasA && hasB) return valueB - valueA;
-          return priceB - priceA;
-        }).filter((s) => stockSectorFilter === 'all' || s.sector === stockSectorFilter)
-        .map((s: StockDef) => {
-          const price = prices[s.ticker] ?? s.basePrice;
-          const holding = holdings.find((h) => h.ticker === s.ticker);
-          return (
-            <StockRow
-              key={s.ticker}
-              stock={s}
-              price={price}
-              holding={holding}
-              onBuy={(n) => {
-                if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
-              }}
-              onSell={(n) => {
-                if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
-              }}
-              canBuy={cash >= price}
-              cash={cash}
-              onDetail={() => setSelectedStock(s.ticker)}
-            />
-          );
-        })}
-      </div>
+        <InvestTab
+          dividendIncome={dividendIncome}
+          selectedStock={selectedStock}
+          setSelectedStock={setSelectedStock}
+        />
       )}
 
       {/* NPCs + Ranking — 친구 탭 */}
@@ -1087,7 +649,6 @@ export function PlayScreen() {
             내 순위: {myRank}위/{npcs.length + 1}명
           </span>
         </div>
-        {/* Player row */}
         <div className="npc-row" style={{ background: 'var(--accent-light)', borderRadius: 'var(--radius-sm)', padding: '4px 6px', marginBottom: 2 }}>
           <span style={{ fontSize: myRank === 1 ? '1.2rem' : 'var(--font-size-xs)', minWidth: 28, textAlign: 'center', fontWeight: 800 }}>
             {myRank === 1 ? '👑' : `${myRank}위`}
@@ -1161,34 +722,9 @@ export function PlayScreen() {
         />
       )}
 
-      {/* Confetti on dream achieved */}
       {showConfetti && <ConfettiBurst />}
 
-      {/* Skill modal */}
       {showSkillModal && <SkillModal onClose={() => setShowSkillModal(false)} />}
-
-      {/* Stock Detail modal */}
-      {selectedStock && (() => {
-        const s = STOCKS.find((st) => st.ticker === selectedStock);
-        if (!s) return null;
-        const p = prices[selectedStock] ?? s.basePrice;
-        const h = holdings.find((hh) => hh.ticker === selectedStock);
-        return (
-          <StockDetailModal
-            stock={s}
-            price={p}
-            holding={h}
-            cash={cash}
-            onBuy={(n) => {
-              if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
-            }}
-            onSell={(n) => {
-              if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
-            }}
-            onClose={() => setSelectedStock(null)}
-          />
-        );
-      })()}
 
       {/* Stock Quiz modal */}
       {showQuizModal && (
@@ -1217,13 +753,8 @@ export function PlayScreen() {
         />
       )}
 
-      {/* First-play tutorial */}
       <TutorialOverlay />
-
-      {/* Bottom Tab Bar (fixed) */}
       <TabBar tab={tab} onChange={setTab} onOpenSettings={() => setShowSettings(true)} />
-
-      {/* Settings Modal */}
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
     </div>
   );
@@ -1236,8 +767,6 @@ function TabBar({ tab, onChange, onOpenSettings }: {
   onChange: (t: MainTab) => void;
   onOpenSettings: () => void;
 }) {
-  // 순서: 홈 → 은행 → 투자 → 친구 → 설정. 설정은 콘텐츠 탭이 아니라 모달 진입점이라
-  // aria-selected는 항상 false로 두고 버튼 역할만 한다.
   const items: { key: MainTab | 'settings'; emoji: string; label: string; isAction?: boolean }[] = [
     { key: 'home', emoji: '🏠', label: '홈' },
     { key: 'bank', emoji: '🏦', label: '은행' },
@@ -1371,121 +900,6 @@ function StatMini({ label, value, emoji, color, showHints }: { label: string; va
   );
 }
 
-function AssetRow({ label, value, extra }: { label: string; value: number; extra?: string }) {
-  return (
-    <div className="flex flex-between" style={{ fontSize: 'var(--font-size-sm)', padding: '2px 0' }}>
-      <span className="text-muted">{label}</span>
-      <span>
-        {formatWon(value)}
-        {extra && <span className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>({extra})</span>}
-      </span>
-    </div>
-  );
-}
-
-function QuickActionBtn({ label, onClick, disabled, danger }: { label: string; onClick: () => void; disabled: boolean; danger?: boolean }) {
-  return (
-    <button
-      className="btn btn-secondary"
-      style={{
-        flex: 1,
-        fontSize: 'var(--font-size-sm)',
-        minHeight: 36,
-        opacity: disabled ? 0.4 : 1,
-        ...(danger ? { color: 'var(--danger)', borderColor: 'var(--danger)' } : {}),
-      }}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {label}
-    </button>
-  );
-}
-
-function StockRow({
-  stock, price, holding, onBuy, onSell, canBuy, onDetail, cash,
-}: {
-  stock: StockDef; price: number; holding?: { shares: number; avgBuyPrice: number };
-  onBuy: (n: number) => void; onSell: (n: number) => void; canBuy: boolean;
-  onDetail: () => void; cash: number;
-}) {
-  const maxBuyable = price > 0 ? Math.floor(cash / price) : 0;
-  const pnl = holding ? (price - holding.avgBuyPrice) * holding.shares : 0;
-  return (
-    <div style={{ padding: '6px 0', borderBottom: '1px solid #f5f0e8' }}>
-      {/* 상단: 아이콘 + 종목 정보 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ fontSize: '1.2rem', width: 28, flexShrink: 0 }}>{stock.iconEmoji}</span>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={onDetail}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onDetail(); }}
-          aria-label={`${stock.name} 상세 보기`}
-          style={{ flex: 1, minWidth: 0, cursor: 'pointer' }}
-        >
-          <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {stock.name}
-            <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginLeft: 3, fontWeight: 400 }}>
-              {stock.sector}
-            </span>
-            {stock.dividendRate > 0 && (
-              <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
-                시가배당률 {(stock.dividendRate * 100).toFixed(1)}%
-              </span>
-            )}
-          </div>
-          <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-            <span style={{ color: price > stock.basePrice ? 'var(--success)' : price < stock.basePrice ? 'var(--danger)' : 'inherit' }}>
-              {price > stock.basePrice ? '▲' : price < stock.basePrice ? '▼' : '─'}{formatWon(price)}
-            </span>
-            {holding && ` · ${holding.shares}주`}
-            {holding && (
-              <span style={{ color: pnl >= 0 ? 'var(--success)' : 'var(--danger)', marginLeft: 4 }}>
-                {pnl >= 0 ? '+' : ''}{formatWon(pnl)}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-      {/* 하단: 거래 버튼 — 360px에서도 wrapping 가능 */}
-      <div style={{ display: 'flex', gap: 4, marginTop: 4, paddingLeft: 36, flexWrap: 'wrap' }}>
-        <TradBtn label="▲1주" color="buy" onClick={() => onBuy(1)} disabled={!canBuy} stockName={stock.name} />
-        <TradBtn label="▲5주" color="buy" onClick={() => onBuy(5)} disabled={maxBuyable < 5} stockName={stock.name} />
-        <TradBtn label={`▲전량${maxBuyable > 0 ? `(${maxBuyable})` : ''}`} color="buy" onClick={() => maxBuyable > 0 && onBuy(maxBuyable)} disabled={maxBuyable < 1} stockName={stock.name} />
-        <TradBtn label="▼1주" color="sell" onClick={() => onSell(1)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
-        <TradBtn label="▼전량" color="sell" onClick={() => onSell(holding?.shares ?? 0)} disabled={!holding || holding.shares < 1} stockName={stock.name} />
-      </div>
-    </div>
-  );
-}
-
-function TradBtn({ label, color, onClick, disabled, stockName }: { label: string; color: 'buy' | 'sell'; onClick: () => void; disabled: boolean; stockName?: string }) {
-  const isBuy = color === 'buy';
-  const namePrefix = stockName ? `${stockName} ` : '';
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={isBuy ? `${namePrefix}${label} 매수` : `${namePrefix}${label} 매도`}
-      style={{
-        padding: '8px 10px',
-        borderRadius: 'var(--radius-sm)',
-        background: disabled ? '#eee' : isBuy ? '#e8f5e9' : '#ffebee',
-        color: disabled ? '#aaa' : isBuy ? 'var(--success)' : 'var(--danger)',
-        fontSize: '0.7rem',
-        fontWeight: 700,
-        border: 'none',
-        cursor: disabled ? 'default' : 'pointer',
-        minHeight: 44,
-        minWidth: 52,
-      }}
-    >
-      {label}
-    </button>
-  );
-}
-
 function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, timeCostMonths = 0, loopRef }: {
   emoji: string;
   label: string;
@@ -1506,7 +920,6 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
       onClick={() => {
         const st = useGameStore.getState();
         if (st.cash < cost) return;
-        // 건강 저하 시 케어 효율 -25% (computeStatPenalty)
         const penalty = computeStatPenalty(st.character);
         const effectiveDelta = Math.max(1, Math.round(delta * penalty.careEffMult));
         useGameStore.setState({
@@ -1517,7 +930,6 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
           },
         });
         showToast(`${emoji} ${label}! ${effectEmoji}`, emoji, 'success', 1000);
-        // 시간 비용 소모 — 기회비용 교육
         if (timeCostMonths > 0 && loopRef?.current) {
           loopRef.current.addElapsedMs(monthsToMs(timeCostMonths));
         }
@@ -1542,7 +954,6 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
     >
       <span style={{ fontSize: '1.1rem' }} aria-hidden="true">{emoji}</span>
       <span style={{ fontWeight: 700, marginTop: 2 }}>{label}</span>
-      {/* 비용 → 효과 관계 명시 (기회비용 교육의 핵심) */}
       <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: 2 }}>
         {formatWon(cost)}{timeCostMonths > 0 && ` · ${timeCostMonths}개월`}
       </span>
@@ -1552,99 +963,6 @@ function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, ti
     </button>
   );
 }
-
-function RealEstateCard({
-  realEstate, cash, onBuy, onSell,
-}: {
-  realEstate: RealEstate[];
-  cash: number;
-  onBuy: (id: string) => void;
-  onSell: (idx: number) => void;
-}) {
-  // First listing not yet owned
-  const ownedIds = new Set(realEstate.map((re) => re.id));
-  const nextListing = REAL_ESTATE_LISTINGS.find((l) => !ownedIds.has(l.id));
-
-  return (
-    <div className="card">
-      <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>🏠 부동산</div>
-      {realEstate.length === 0 && (
-        <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginBottom: 'var(--sp-xs)' }}>
-          보유 부동산 없음
-        </div>
-      )}
-      {realEstate.map((re, i) => {
-        const gain = re.currentValue - re.purchasePrice;
-        return (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', borderBottom: '1px solid #f5f0e8' }}>
-            <span style={{ fontSize: '1.2rem' }}>🏠</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{re.name}</div>
-              <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>
-                {formatWon(re.currentValue)}
-                <span style={{ marginLeft: 4, color: gain >= 0 ? 'var(--success)' : 'var(--danger)' }}>
-                  {gain >= 0 ? '+' : ''}{formatWon(gain)}
-                </span>
-                {re.monthlyRent > 0 && (
-                  <span style={{ marginLeft: 4, color: 'var(--success)' }}>
-                    월세+{formatWon(re.monthlyRent)}
-                  </span>
-                )}
-              </div>
-            </div>
-            <button
-              onClick={() => onSell(i)}
-              aria-label={`${re.name} 매각`}
-              style={{
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-sm)',
-                background: '#ffebee',
-                color: 'var(--danger)',
-                fontSize: '0.65rem',
-                fontWeight: 700,
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              매각
-            </button>
-          </div>
-        );
-      })}
-      {nextListing && (
-        <div style={{ marginTop: 'var(--sp-xs)', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ flex: 1, fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)' }}>
-            매물: {nextListing.name} ({formatWon(nextListing.price)})
-            {nextListing.monthlyRent > 0 && ` · 월세 ${formatWon(nextListing.monthlyRent)}`}
-          </div>
-          <button
-            onClick={() => onBuy(nextListing.id)}
-            disabled={cash < nextListing.price}
-            aria-label={`${nextListing.name} 매입 ${formatWon(nextListing.price)}`}
-            style={{
-              padding: '2px 10px',
-              borderRadius: 'var(--radius-sm)',
-              background: cash >= nextListing.price ? '#e8f5e9' : '#eee',
-              color: cash >= nextListing.price ? 'var(--success)' : '#aaa',
-              fontSize: '0.65rem',
-              fontWeight: 700,
-              border: 'none',
-              cursor: cash >= nextListing.price ? 'pointer' : 'default',
-            }}
-          >
-            매입
-          </button>
-        </div>
-      )}
-      {!nextListing && realEstate.length > 0 && (
-        <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginTop: 4 }}>
-          모든 매물 보유 중 🎉
-        </div>
-      )}
-    </div>
-  );
-}
-
 
 function dreamProgress(
   d: { targetCondition: { kind: string; value?: number; shares?: number; jobId?: string } },
@@ -1663,7 +981,7 @@ function dreamProgress(
     case 'ageReached':
       return Math.min(1, age / (cond.value ?? 100));
     case 'stockOwnedShares':
-      return 0; // can't compute without holdings here, show 0
+      return 0;
     case 'jobHeld':
       return job?.id === cond.jobId ? 1 : 0;
     default:
@@ -1672,11 +990,11 @@ function dreamProgress(
 }
 
 function ageGradient(age: number): string {
-  if (age < 15) return 'linear-gradient(180deg, #fffde7 0%, #fff8e1 100%)'; // 유년: 밝은 노랑
-  if (age < 25) return 'linear-gradient(180deg, #e8f5e9 0%, #f1f8e9 100%)'; // 청년: 상쾌한 초록
-  if (age < 40) return 'linear-gradient(180deg, #e3f2fd 0%, #e8eaf6 100%)'; // 성인: 시원한 파랑
-  if (age < 55) return 'linear-gradient(180deg, #fff3e0 0%, #fbe9e7 100%)'; // 중년: 따뜻한 주황
-  if (age < 70) return 'linear-gradient(180deg, #fce4ec 0%, #f3e5f5 100%)'; // 장년: 부드러운 핑크
-  if (age < 85) return 'linear-gradient(180deg, #ede7f6 0%, #e8eaf6 100%)'; // 노년: 차분한 보라
-  return 'linear-gradient(180deg, #efebe9 0%, #d7ccc8 100%)'; // 말년: 포근한 베이지
+  if (age < 15) return 'linear-gradient(180deg, #fffde7 0%, #fff8e1 100%)';
+  if (age < 25) return 'linear-gradient(180deg, #e8f5e9 0%, #f1f8e9 100%)';
+  if (age < 40) return 'linear-gradient(180deg, #e3f2fd 0%, #e8eaf6 100%)';
+  if (age < 55) return 'linear-gradient(180deg, #fff3e0 0%, #fbe9e7 100%)';
+  if (age < 70) return 'linear-gradient(180deg, #fce4ec 0%, #f3e5f5 100%)';
+  if (age < 85) return 'linear-gradient(180deg, #ede7f6 0%, #e8eaf6 100%)';
+  return 'linear-gradient(180deg, #efebe9 0%, #d7ccc8 100%)';
 }
