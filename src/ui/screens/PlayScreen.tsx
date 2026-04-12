@@ -40,6 +40,7 @@ export function PlayScreen() {
   const [stockSectorFilter, setStockSectorFilter] = useState<string>('all');
   const [tab, setTab] = useState<'home' | 'invest' | 'bank' | 'friends'>('home');
   const [showSettings, setShowSettings] = useState(false);
+  const [dreamExpanded, setDreamExpanded] = useState(false);
   const stockSectors = ['all', ...Array.from(new Set(STOCKS.map((s) => s.sector).filter(Boolean)))];
   const [showStatHints] = useState<boolean>(() => {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
@@ -465,98 +466,132 @@ export function PlayScreen() {
       </div>
       )}
 
-      {/* Dreams — PRIMARY 지표: 홈 탭에서만, 최상단 */}
+      {/* Dreams — PRIMARY 지표: 홈 탭에서만. 컴팩트 한 줄 + 접기/펼치기 */}
       {tab === 'home' && (
-      <div className="card" style={{
-        border: '2px solid var(--accent)',
-        background: 'linear-gradient(135deg, #fff8e1 0%, #fff 40%)',
-        padding: 'var(--sp-md)',
-      }}>
-        <div className="flex flex-between" style={{ alignItems: 'baseline', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 800, fontSize: 'var(--font-size-base)' }}>🌟 나의 꿈</span>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--accent)', fontWeight: 700 }}>
-            {dreams.filter((d) => d.achieved).length} / {dreams.length} 달성
+      <div
+        className="card"
+        style={{
+          border: '2px solid var(--accent)',
+          background: 'linear-gradient(135deg, #fff8e1 0%, #fff 40%)',
+          padding: 'var(--sp-sm) var(--sp-md)',
+          cursor: 'pointer',
+        }}
+        onClick={() => setDreamExpanded((v) => !v)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setDreamExpanded((v) => !v); }}
+        aria-expanded={dreamExpanded}
+        aria-label="꿈 패널 접기/펼치기"
+      >
+        {/* 헤더: 한 줄 요약 + 전체 진행도 바 */}
+        <div className="flex flex-between" style={{ alignItems: 'center' }}>
+          <span style={{ fontWeight: 800, fontSize: 'var(--font-size-sm)' }}>
+            🌟 나의 꿈 {dreams.filter((d) => d.achieved).length}/{dreams.length}
           </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ width: 60, height: 6, borderRadius: 3, background: '#f0e8d0', overflow: 'hidden' }}>
+              <div style={{
+                height: '100%',
+                width: `${dreams.length > 0 ? Math.round((dreams.filter((d) => d.achieved).length / dreams.length) * 100) : 0}%`,
+                background: 'var(--accent)',
+                borderRadius: 3,
+                transition: 'width 0.5s',
+              }} />
+            </div>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+              {dreamExpanded ? '▲' : '▼'}
+            </span>
+          </div>
         </div>
-        {dreams.map((d) => {
-          const progress = dreamProgress(d, totalAssets, character.happiness, character.age, job);
-          const pct = Math.round(progress * 100);
-          // 꿈과 돈의 관계: totalAssetsGte/cashGte 꿈이면 "앞으로 얼마 더"
-          const cond = d.targetCondition;
-          let relationText = '';
-          if (!d.achieved) {
-            if (cond.kind === 'totalAssetsGte') {
-              const need = Math.max(0, cond.value - totalAssets);
-              relationText = need > 0 ? `앞으로 ${formatWon(need)} 더` : '곧 달성!';
-            } else if (cond.kind === 'cashGte') {
-              const need = Math.max(0, cond.value - cash);
-              relationText = need > 0 ? `현금 ${formatWon(need)} 더` : '곧 달성!';
-            } else if (cond.kind === 'ageReached') {
-              const yearsLeft = Math.max(0, cond.value - Math.floor(character.age));
-              relationText = yearsLeft > 0 ? `${yearsLeft}년 후 달성` : '곧 달성!';
-            } else if (cond.kind === 'happinessGte') {
-              relationText = `😊 행복도 키우기`;
-            } else if (cond.kind === 'wisdomGte') {
-              relationText = `📘 지혜 키우기`;
-            } else if (cond.kind === 'charismaGte') {
-              relationText = `✨ 매력 키우기`;
-            } else if (cond.kind === 'stockOwnedShares') {
-              relationText = `📈 ${cond.ticker} 주식 사기`;
-            } else if (cond.kind === 'jobHeld') {
-              relationText = `💼 직업 바꾸기`;
-            } else if (cond.kind === 'hasTrait' || cond.kind === 'hasTraitAny') {
-              relationText = `🏷️ 특성 획득하기`;
-            } else if (cond.kind === 'realEstateCountGte') {
-              relationText = `🏠 부동산 ${cond.value}개 사기`;
-            }
-          }
-          return (
-            <div key={d.id} style={{ padding: '8px 0', borderTop: '1px dashed #f0e8d0' }}>
-              <div className="flex gap-sm" style={{ alignItems: 'center' }}>
-                <span style={{ fontSize: '1.5rem', width: 28 }}>{d.iconEmoji}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{
-                    fontWeight: 700,
-                    fontSize: 'var(--font-size-sm)',
+
+        {/* 펼침 상태: 상세 목록 */}
+        {dreamExpanded && (
+          <div style={{ marginTop: 'var(--sp-xs)' }} onClick={(e) => e.stopPropagation()}>
+            {dreams.map((d) => {
+              const progress = dreamProgress(d, totalAssets, character.happiness, character.age, job);
+              const pct = Math.round(progress * 100);
+              const cond = d.targetCondition;
+              let relationText = '';
+              if (!d.achieved) {
+                if (cond.kind === 'totalAssetsGte') {
+                  const need = Math.max(0, cond.value - totalAssets);
+                  relationText = need > 0 ? `앞으로 ${formatWon(need)} 더` : '곧 달성!';
+                } else if (cond.kind === 'cashGte') {
+                  const need = Math.max(0, cond.value - cash);
+                  relationText = need > 0 ? `현금 ${formatWon(need)} 더` : '곧 달성!';
+                } else if (cond.kind === 'ageReached') {
+                  const yearsLeft = Math.max(0, cond.value - Math.floor(character.age));
+                  relationText = yearsLeft > 0 ? `${yearsLeft}년 후` : '곧 달성!';
+                } else if (cond.kind === 'happinessGte') {
+                  relationText = '😊 행복도';
+                } else if (cond.kind === 'wisdomGte') {
+                  relationText = '📘 지혜';
+                } else if (cond.kind === 'charismaGte') {
+                  relationText = '✨ 매력';
+                } else if (cond.kind === 'stockOwnedShares') {
+                  relationText = `📈 ${cond.ticker}`;
+                } else if (cond.kind === 'jobHeld') {
+                  relationText = '💼 직업';
+                } else if (cond.kind === 'hasTrait' || cond.kind === 'hasTraitAny') {
+                  relationText = '🏷️ 특성';
+                } else if (cond.kind === 'realEstateCountGte') {
+                  relationText = `🏠 부동산 ${cond.value}개`;
+                }
+              }
+              return (
+                <div key={d.id} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '4px 0',
+                  borderTop: '1px dashed #f0e8d0',
+                  fontSize: 'var(--font-size-sm)',
+                }}>
+                  <span style={{ fontSize: '1rem', width: 20, flexShrink: 0 }}>{d.iconEmoji}</span>
+                  <span style={{
+                    flex: 1,
+                    fontWeight: 600,
                     textDecoration: d.achieved ? 'line-through' : 'none',
                     opacity: d.achieved ? 0.5 : 1,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}>
                     {d.title}
-                  </div>
+                  </span>
                   {!d.achieved && relationText && (
-                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 1 }}>
-                      → {relationText}
+                    <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', flexShrink: 0 }}>
+                      {relationText}
+                    </span>
+                  )}
+                  {d.achieved ? (
+                    <span style={{ fontSize: '0.9rem', flexShrink: 0 }}>✅</span>
+                  ) : (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+                      <div style={{ width: 40, height: 4, borderRadius: 2, background: '#f0e8d0', overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%',
+                          width: `${pct}%`,
+                          background: pct >= 80 ? 'var(--success)' : 'var(--accent)',
+                          borderRadius: 2,
+                        }} />
+                      </div>
+                      <span style={{
+                        fontSize: '0.6rem',
+                        fontWeight: 700,
+                        color: pct >= 80 ? 'var(--success)' : pct >= 40 ? 'var(--accent)' : 'var(--text-muted)',
+                        minWidth: 24,
+                        textAlign: 'right',
+                      }}>
+                        {pct}%
+                      </span>
                     </div>
                   )}
                 </div>
-                {d.achieved ? (
-                  <span style={{ fontSize: '1.2rem' }}>✅</span>
-                ) : (
-                  <span style={{
-                    fontSize: 'var(--font-size-sm)',
-                    fontWeight: 700,
-                    color: pct >= 80 ? 'var(--success)' : pct >= 40 ? 'var(--accent)' : 'var(--text-muted)',
-                    minWidth: 36,
-                    textAlign: 'right',
-                  }}>
-                    {pct}%
-                  </span>
-                )}
-              </div>
-              {!d.achieved && (
-                <div style={{ height: 6, borderRadius: 3, background: '#f0e8d0', marginTop: 6, marginLeft: 36, overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%',
-                    width: `${pct}%`,
-                    background: pct >= 80 ? 'var(--success)' : 'var(--accent)',
-                    borderRadius: 3,
-                    transition: 'width 0.5s',
-                  }} />
-                </div>
-              )}
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        )}
       </div>
       )}
 
