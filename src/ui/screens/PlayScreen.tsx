@@ -430,10 +430,9 @@ export function PlayScreen() {
       {/* Dreams — 홈 탭에서만 */}
       {tab === 'home' && (
       <div
-        className="card"
+        className="card bg-gradient-dream"
         style={{
           border: '2px solid var(--accent)',
-          background: 'linear-gradient(135deg, #fff8e1 0%, #fff 40%)',
           padding: 'var(--sp-sm) var(--sp-md)',
           cursor: 'pointer',
         }}
@@ -582,13 +581,13 @@ export function PlayScreen() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 'var(--sp-sm)' }}>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}><Icon slot="asset-total" size="md" /> 월 순수입</div>
-                  <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800, color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
+                  <div className="num-big" style={{ fontSize: 'var(--font-size-lg)', color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
                     {netPositive ? '+' : '-'}{formatWon(Math.abs(monthlyNet))}
                   </div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}><Icon slot="nav-invest" size="md" /> 총 자산</div>
-                  <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800, color: 'var(--accent)' }}>
+                  <div className="num-big" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--accent)' }}>
                     {formatWon(totalAssets)}
                   </div>
                 </div>
@@ -912,8 +911,7 @@ function statGrade(value: number): string {
   return '위험';
 }
 
-function StatMini({ label, value, emoji, color, showHints }: { label: string; value: number; emoji: string; color?: string; showHints?: boolean }) {
-  const clr = color ?? 'var(--accent)';
+function StatMini({ label, value, emoji, color: _color, showHints }: { label: string; value: number; emoji: string; color?: string; showHints?: boolean }) {
   const pct = Math.min(100, Math.max(0, value));
   const isLow = value < 30;
   return (
@@ -927,21 +925,12 @@ function StatMini({ label, value, emoji, color, showHints }: { label: string; va
         aria-valuenow={Math.round(value)}
         aria-valuemin={0}
         aria-valuemax={100}
-        style={{
-          height: 5,
-          borderRadius: 3,
-          background: '#eee',
-          marginTop: 2,
-          overflow: 'hidden',
-        }}
+        className="stat-gauge"
       >
-        <div style={{
-          height: '100%',
-          width: `${pct}%`,
-          background: isLow ? 'var(--danger)' : clr,
-          borderRadius: 3,
-          transition: 'width 0.5s ease',
-        }} />
+        <div
+          className={`stat-gauge__fill${isLow ? ' stat-gauge__fill--low' : ''}`}
+          style={{ width: `${pct}%` }}
+        />
       </div>
       <div className="text-muted" style={{ fontSize: '0.55rem', marginTop: 1 }}>{label}</div>
       <style>{`@keyframes statPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }`}</style>

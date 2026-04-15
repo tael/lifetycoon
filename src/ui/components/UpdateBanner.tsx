@@ -90,7 +90,7 @@ export function UpdateBanner() {
         left: 0,
         right: 0,
         zIndex: 9500,
-        background: 'linear-gradient(90deg, #ff9800, #ff7043)',
+        background: 'linear-gradient(90deg, #ff9800, var(--accent))',
         color: '#fff',
         padding: '10px 14px',
         display: 'flex',

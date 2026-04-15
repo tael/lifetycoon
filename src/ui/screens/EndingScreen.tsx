@@ -395,8 +395,7 @@ export function EndingScreen() {
         {/* Dream cards grid */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-sm)' }}>
           {achievedDreams.map((d) => (
-            <div key={d.id} style={{
-              background: 'linear-gradient(135deg, #fff8e1, #fff3e0)',
+            <div key={d.id} className="bg-gradient-warm" style={{
               borderRadius: 'var(--radius-sm)',
               padding: 'var(--sp-sm)',
               textAlign: 'center',

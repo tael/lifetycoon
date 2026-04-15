@@ -143,12 +143,11 @@ export function TitleScreen() {
 
   return (
     <div
-      className="app-container flex flex-col flex-center"
+      className="app-container flex flex-col flex-center bg-gradient-title"
       style={{
         minHeight: '100dvh',
         gap: 'var(--sp-md)',
         padding: 'var(--sp-lg) var(--sp-md)',
-        background: 'linear-gradient(180deg, #fff8e1 0%, #fff3e0 35%, #fffde7 100%)',
       }}
     >
       {/* Hero */}
@@ -243,8 +242,7 @@ export function TitleScreen() {
             </button>
           )}
           {legacy && (
-            <div style={{
-              background: 'linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%)',
+            <div className="bg-gradient-warm" style={{
               borderRadius: 'var(--radius-md)',
               padding: 'var(--sp-md)',
               border: '2px solid #ffb300',
@@ -462,7 +460,7 @@ export function TitleScreen() {
         <button
           onClick={handleOpenReleaseNotes}
           style={{
-            background: 'linear-gradient(90deg, #ff9800, #ff7043)',
+            background: 'linear-gradient(90deg, #ff9800, var(--accent))',
             color: '#fff',
             border: 'none',
             borderRadius: 999,

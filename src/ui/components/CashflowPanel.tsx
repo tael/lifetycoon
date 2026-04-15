@@ -37,10 +37,9 @@ export function CashflowPanel({ data, age }: Props) {
 
   return (
     <div
-      className="card"
+      className="card bg-gradient-cool"
       style={{
         border: '2px solid var(--accent)',
-        background: 'linear-gradient(135deg, #f0f9ff 0%, #fff 40%)',
         padding: 'var(--sp-md)',
       }}
     >
