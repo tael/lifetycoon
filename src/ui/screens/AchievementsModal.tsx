@@ -1,4 +1,5 @@
 import { getAllAchievements, loadUnlocked } from '../../game/domain/achievements';
+import { Icon } from '../icons/Icon';
 
 interface Props {
   onClose: () => void;
@@ -25,9 +26,9 @@ export function AchievementsModal({ onClose }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--sp-md)' }}>
           <h2
             id="achievements-modal-title"
-            style={{ fontSize: 'var(--font-size-xl)', fontWeight: 800, margin: 0 }}
+            style={{ fontSize: 'var(--font-size-xl)', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: 'var(--sp-xs)' }}
           >
-            🏆 업적
+            <Icon slot="rank-trophy" size="lg" /> 업적
           </h2>
           <button
             onClick={onClose}

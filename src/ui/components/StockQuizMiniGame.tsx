@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { formatWon } from '../../game/domain/asset';
+import { Icon } from '../icons/Icon';
 
 type Props = {
   seed: number;
@@ -186,7 +187,7 @@ export function StockQuizMiniGame({ seed, onClose }: Props) {
         {/* 헤더 */}
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: '1.3rem' }}>🎯</span>
+            <span style={{ fontSize: '1.3rem' }}><Icon slot="feature-dream" size="md" /></span>
             <span style={{ fontWeight: 800, fontSize: 'var(--font-size-lg)' }}>주식 차트 퀴즈</span>
           </div>
           <button
@@ -252,7 +253,7 @@ export function StockQuizMiniGame({ seed, onClose }: Props) {
             </div>
 
             <p style={{ fontSize: 'var(--font-size-sm)', textAlign: 'center', margin: '10px 0 12px', fontWeight: 600 }}>
-              📊 1년 후 이 주식 가격은?
+              <Icon slot="nav-invest" size="md" /> 1년 후 이 주식 가격은?
             </p>
 
             {/* 선택 버튼 */}
@@ -273,7 +274,7 @@ export function StockQuizMiniGame({ seed, onClose }: Props) {
                 onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.96)')}
                 onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1)')}
               >
-                📈 상승
+                <Icon slot="nav-invest" size="md" /> 상승
               </button>
               <button
                 onClick={() => handleAnswer('down')}
@@ -291,7 +292,7 @@ export function StockQuizMiniGame({ seed, onClose }: Props) {
                 onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.96)')}
                 onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1)')}
               >
-                📉 하락
+                <Icon slot="eco-slump" size="md" /> 하락
               </button>
             </div>
           </>
@@ -356,15 +357,15 @@ export function StockQuizMiniGame({ seed, onClose }: Props) {
                 <div>
                   <div style={{ fontWeight: 700, marginBottom: 4 }}>획득 보상</div>
                   <div style={{ fontSize: 'var(--font-size-sm)', display: 'flex', gap: 12 }}>
-                    <span>📘 지혜 +5</span>
-                    <span>💰 현금 +10만원</span>
+                    <span><Icon slot="stat-wisdom" size="md" /> 지혜 +5</span>
+                    <span><Icon slot="asset-total" size="md" /> 현금 +10만원</span>
                   </div>
                 </div>
               ) : (
                 <div>
                   <div style={{ fontWeight: 700, marginBottom: 4 }}>교훈 획득</div>
                   <div style={{ fontSize: 'var(--font-size-sm)' }}>
-                    <span>📘 지혜 +2  (실패도 배움이에요!)</span>
+                    <span><Icon slot="stat-wisdom" size="md" /> 지혜 +2  (실패도 배움이에요!)</span>
                   </div>
                 </div>
               )}

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="silver_grad" x1="14" y1="22" x2="50" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1F2F6"/>
+      <stop offset="1" stop-color="#CED6E0"/>
+    </linearGradient>
+  </defs>
+  <!-- Ribbon -->
+  <path d="M20 6L32 38L44 6H36L32 18L28 6H20Z" fill="#FF7675" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 6L32 18L36 6H28Z" fill="#74B9FF" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Medal Body -->
+  <circle cx="32" cy="40" r="18" fill="url(#silver_grad)" stroke="#2D3436" stroke-width="2.5"/>
+  <!-- Inner Detail Circle -->
+  <circle cx="32" cy="40" r="12" stroke="#2D3436" stroke-width="2.5" stroke-opacity="0.2"/>
+  <!-- Shine Highlight -->
+  <path d="M25 35C27 32 31 30 35 31" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

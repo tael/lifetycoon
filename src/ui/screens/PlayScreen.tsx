@@ -27,6 +27,7 @@ import { usePlayDerived } from '../hooks/usePlayDerived';
 import { BankTab } from './tabs/BankTab';
 import { InvestTab } from './tabs/InvestTab';
 import { CashflowTab } from './tabs/CashflowTab';
+import { Icon } from '../icons/Icon';
 
 export function PlayScreen() {
   const loopRef = useRef<GameLoopHandle | null>(null);
@@ -39,6 +40,7 @@ export function PlayScreen() {
   const [selectedStock, setSelectedStock] = useState<string | null>(null);
   const [tab, setTab] = useState<'home' | 'cashflow' | 'bank' | 'assets' | 'friends'>('home');
   const [showSettings, setShowSettings] = useState(false);
+  const [showAdultModal, setShowAdultModal] = useState(false);
   const [dreamExpanded, setDreamExpanded] = useState(false);
   const [chartExpanded, setChartExpanded] = useState(false);
   const [showStatHints] = useState<boolean>(() => {
@@ -110,14 +112,14 @@ export function PlayScreen() {
   useEffect(() => {
     const loop = loopRef.current;
     if (!loop) return;
-    if (showSettings) {
+    if (showSettings || showAdultModal) {
       loop.pause();
       return;
     }
     if (phase.kind === 'paused') loop.pause();
     else if (phase.kind === 'playing') loop.resume();
     else if (phase.kind === 'ending') loop.stop();
-  }, [phase, showSettings]);
+  }, [phase, showSettings, showAdultModal]);
 
   // Sync speed
   useEffect(() => {
@@ -134,6 +136,8 @@ export function PlayScreen() {
       }
       if (intAge === 19) {
         showToast('부모님의 용돈이 끝났습니다. 이제 스스로 벌어야 합니다.', '🎒', 'info', 4000);
+        loopRef.current?.pause();
+        setShowAdultModal(true);
       }
       prevAgeRef.current = intAge;
     }
@@ -169,6 +173,11 @@ export function PlayScreen() {
 
   const handleMilestoneClose = () => {
     setShowMilestone(null);
+    loopRef.current?.resume();
+  };
+
+  const handleAdultModalClose = () => {
+    setShowAdultModal(false);
     loopRef.current?.resume();
   };
 
@@ -301,7 +310,7 @@ export function PlayScreen() {
               background: unlockedSkills.length > 0 ? 'var(--accent)' : '#fff',
               cursor: 'pointer', flexShrink: 0,
             }}
-          >🎓</button>
+          ><Icon slot="stat-wisdom" size="md" /></button>
           {(() => {
             const cooldownYears = 5;
             const canPlay = lastQuizAge === null || (intAge - lastQuizAge) >= cooldownYears;
@@ -320,7 +329,7 @@ export function PlayScreen() {
                   cursor: canPlay ? 'pointer' : 'not-allowed',
                   opacity: canPlay ? 1 : 0.5, flexShrink: 0,
                 }}
-              >🎯</button>
+              ><Icon slot="feature-dream" size="md" /></button>
             );
           })()}
         </div>
@@ -515,7 +524,7 @@ export function PlayScreen() {
                     </span>
                   )}
                   {d.achieved ? (
-                    <span style={{ fontSize: '0.9rem', flexShrink: 0 }}>✅</span>
+                    <span style={{ fontSize: '0.9rem', flexShrink: 0 }}><Icon slot="status-check" size="md" /></span>
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
                       <div style={{ width: 40, height: 4, borderRadius: 2, background: '#f0e8d0', overflow: 'hidden' }}>
@@ -572,13 +581,13 @@ export function PlayScreen() {
             <>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 'var(--sp-sm)' }}>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}>💰 월 순수입</div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}><Icon slot="asset-total" size="md" /> 월 순수입</div>
                   <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800, color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
                     {netPositive ? '+' : '-'}{formatWon(Math.abs(monthlyNet))}
                   </div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}>📊 총 자산</div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}><Icon slot="nav-invest" size="md" /> 총 자산</div>
                   <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800, color: 'var(--accent)' }}>
                     {formatWon(totalAssets)}
                   </div>
@@ -625,7 +634,7 @@ export function PlayScreen() {
                     color: 'var(--text-muted)',
                   }}
                 >
-                  <span>📊 자산 추이</span>
+                  <span><Icon slot="nav-invest" size="md" /> 자산 추이</span>
                   <span style={{ fontSize: 10 }}>{chartExpanded ? '▲' : '▼'}</span>
                 </button>
                 {chartExpanded && (
@@ -682,7 +691,7 @@ export function PlayScreen() {
       {tab === 'friends' && (
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}>👥 라이벌</span>
+          <span style={{ fontWeight: 700 }}><Icon slot="nav-friends" size="md" /> 라이벌</span>
           <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 700, color: myRank <= 1 ? 'var(--grade-s)' : myRank <= 2 ? 'var(--accent)' : 'var(--text-muted)' }}>
             내 순위: {myRank}위/{npcs.length + 1}명
           </span>
@@ -731,7 +740,7 @@ export function PlayScreen() {
       {/* Life Diary — 친구 탭 */}
       {tab === 'friends' && keyMoments.length > 0 && (
         <div className="card">
-          <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📖 인생 일기</div>
+          <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}><Icon slot="stat-wisdom" size="md" /> 인생 일기</div>
           {[...keyMoments].reverse().slice(0, 5).map((m, i, arr) => (
             <div key={i} style={{ fontSize: 'var(--font-size-xs)', padding: '3px 0', color: 'var(--text-secondary)', borderBottom: i < arr.length - 1 ? '1px solid #f5f0e8' : 'none' }}>
               <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{Math.floor(m.age)}세</span> {m.text}
@@ -794,6 +803,7 @@ export function PlayScreen() {
       <TutorialOverlay />
       <TabBar tab={tab} onChange={setTab} onOpenSettings={() => setShowSettings(true)} />
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
+      {showAdultModal && <AdultTransitionModal onClose={handleAdultModalClose} />}
     </div>
   );
 }
@@ -1037,4 +1047,83 @@ function ageGradient(age: number): string {
   if (age < 70) return 'linear-gradient(180deg, #fce4ec 0%, #f3e5f5 100%)';
   if (age < 85) return 'linear-gradient(180deg, #ede7f6 0%, #e8eaf6 100%)';
   return 'linear-gradient(180deg, #efebe9 0%, #d7ccc8 100%)';
+}
+
+function AdultTransitionModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      background: 'rgba(0,0,0,0.6)',
+      zIndex: 10000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      backdropFilter: 'blur(4px)',
+    }}>
+      <div style={{
+        background: '#fff',
+        borderRadius: '24px',
+        width: '100%',
+        maxWidth: '340px',
+        padding: '32px 24px',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+        textAlign: 'center',
+        animation: 'modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      }}>
+        <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🎊</div>
+        <h2 style={{ fontSize: '1.6rem', fontWeight: 900, marginBottom: '16px', color: 'var(--accent)' }}>
+          어른이 되었어요
+        </h2>
+        <p style={{ fontSize: '0.95rem', lineHeight: 1.6, color: '#444', marginBottom: '24px', wordBreak: 'keep-all' }}>
+          이제 부모님의 용돈이 끝났어요.<br />
+          월급을 벌고, 생활비를 내고, 저축도 해야 해요.
+        </p>
+
+        <div style={{
+          background: '#f8f9fa',
+          borderRadius: '16px',
+          padding: '16px',
+          textAlign: 'left',
+          marginBottom: '28px',
+        }}>
+          <h3 style={{ fontSize: '0.85rem', fontWeight: 800, marginBottom: '12px', color: '#666' }}>💡 생존 팁</h3>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {[
+              '직업을 꼭 구해서 월급을 받으세요',
+              '매달 나가는 생활비를 먼저 확인하세요',
+              '대출은 꼭 필요할 때만 조금씩',
+            ].map((tip, i) => (
+              <li key={i} style={{ fontSize: '0.85rem', display: 'flex', gap: '8px', alignItems: 'flex-start', color: '#333', fontWeight: 600 }}>
+                <span style={{ color: 'var(--accent)' }}>•</span>
+                {tip}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="btn btn-primary btn-block"
+          style={{
+            height: '56px',
+            fontSize: '1.1rem',
+            fontWeight: 800,
+            borderRadius: '16px',
+            boxShadow: '0 4px 12px rgba(255, 152, 0, 0.3)',
+          }}
+        >
+          알겠어요
+        </button>
+
+        <style>{`
+          @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+          }
+        `}</style>
+      </div>
+    </div>
+  );
 }

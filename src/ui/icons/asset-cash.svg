@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 하단 지폐 레이어 (입체감) -->
+  <rect x="10" y="24" width="44" height="22" rx="4" fill="#A2D9A1" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- 상단 지폐 -->
+  <rect x="10" y="18" width="44" height="22" rx="4" fill="#C1E7C1" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- 지폐 띠지 -->
+  <rect x="26" y="18" width="12" height="22" fill="#81C784" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- 중앙 원형 장식 -->
+  <circle cx="32" cy="29" r="4" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- 지폐 모서리 디테일 -->
+  <path d="M16 23H18" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M46 23H48" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

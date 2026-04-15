@@ -1,5 +1,6 @@
 import { formatWon } from '../../game/domain/asset';
 import type { CashflowBreakdown } from '../../game/domain/cashflow';
+import { Icon } from '../icons/Icon';
 
 type Props = {
   data: CashflowBreakdown;
@@ -50,7 +51,7 @@ export function CashflowPanel({ data, age }: Props) {
           marginBottom: 'var(--sp-sm)',
         }}
       >
-        💰 이달의 현금흐름
+        <Icon slot="asset-total" size="md" /> 이달의 현금흐름
       </div>
       {/* V3-13: 유년기 힌트 — 월급이 아니라 부모 용돈이 주 수입이라는 점을 안내 */}
       {age != null && Math.floor(age) >= 10 && Math.floor(age) < 19 && (

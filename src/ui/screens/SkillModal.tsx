@@ -1,6 +1,7 @@
 import { SKILLS } from '../../game/domain/skills';
 import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
+import { Icon } from '../icons/Icon';
 
 type Props = {
   onClose: () => void;
@@ -39,7 +40,7 @@ export function SkillModal({ onClose }: Props) {
       >
         {/* 헤더 */}
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-md)' }}>
-          <span style={{ fontWeight: 800, fontSize: 'var(--font-size-lg)' }}>🎓 스킬</span>
+          <span style={{ fontWeight: 800, fontSize: 'var(--font-size-lg)' }}><Icon slot="stat-wisdom" size="md" /> 스킬</span>
           <span
             style={{
               fontSize: 'var(--font-size-sm)',
@@ -50,7 +51,7 @@ export function SkillModal({ onClose }: Props) {
               borderRadius: '999px',
             }}
           >
-            📘 지혜 {Math.floor(wisdom)}
+            <Icon slot="stat-wisdom" size="md" /> 지혜 {Math.floor(wisdom)}
           </span>
         </div>
 
@@ -150,7 +151,7 @@ export function SkillModal({ onClose }: Props) {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      📘 지혜 {skill.wisdomCost} 사용하여 해금
+                      <Icon slot="stat-wisdom" size="md" /> 지혜 {skill.wisdomCost} 사용하여 해금
                     </button>
                   ) : (
                     <span
@@ -160,7 +161,7 @@ export function SkillModal({ onClose }: Props) {
                         fontWeight: 600,
                       }}
                     >
-                      📘 지혜 {needed} 더 필요 (필요: {skill.wisdomCost})
+                      <Icon slot="stat-wisdom" size="md" /> 지혜 {needed} 더 필요 (필요: {skill.wisdomCost})
                     </span>
                   )}
                 </div>

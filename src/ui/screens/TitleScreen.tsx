@@ -20,6 +20,7 @@ import { loadGlobalStats } from '../../store/globalStats';
 import { loadGallery } from '../../store/endingGallery';
 import { formatWon } from '../../game/domain/asset';
 import { CHALLENGE_MODES } from '../../game/engine/challengeMode';
+import { Icon } from '../icons/Icon';
 
 const RANDOM_NAMES = ['다솔','하늘','별','은우','지호','서아','도윤','수아','건우','예린','시우','주아','민준','채원','현우','지아','준호','리아','태준','유나'];
 
@@ -152,7 +153,9 @@ export function TitleScreen() {
     >
       {/* Hero */}
       <div className="text-center" style={{ marginTop: 'var(--sp-md)' }}>
-        <div className="emoji-xl" style={{ fontSize: '4rem' }}>🎮</div>
+        <div className="emoji-xl" style={{ fontSize: '4rem' }}>
+          <Icon slot="nav-home" size={64} />
+        </div>
         <h1 style={{ fontSize: 'var(--font-size-2xl)', marginTop: 'var(--sp-sm)', fontWeight: 800, letterSpacing: '-0.02em' }}>
           인생타이쿤
         </h1>
@@ -231,7 +234,7 @@ export function TitleScreen() {
             onClick={handleNew}
             disabled={!name.trim()}
           >
-            🚀 새 인생 시작
+            <Icon slot="eco-boom" size="md" /> 새 인생 시작
           </button>
 
           {savedExists && (
@@ -247,19 +250,19 @@ export function TitleScreen() {
               border: '2px solid #ffb300',
             }}>
               <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginBottom: 4 }}>
-                👶 부모 유산
+                <Icon slot="nav-friends" size="md" /> 부모 유산
               </div>
               <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 'var(--sp-sm)' }}>
                 {legacy.parentName} · {legacy.parentGrade}등급 · {formatWon(legacy.inheritance)}
               </div>
               <button className="btn btn-primary btn-block" onClick={handleLegacyStart}>
-                🎭 유산 이어받기
+                <Icon slot="nav-friends" size="md" /> 유산 이어받기
               </button>
             </div>
           )}
           {shareCodePresent && (
             <button className="btn btn-secondary btn-block" onClick={handleShare}>
-              📩 친구의 인생 보기
+              <Icon slot="nav-friends" size="md" /> 친구의 인생 보기
             </button>
           )}
         </div>
@@ -273,19 +276,19 @@ export function TitleScreen() {
       >
         <div className="flex flex-col gap-sm" style={{ marginTop: 'var(--sp-sm)' }}>
           <button className="btn btn-secondary btn-block" onClick={handleQuickStart}>
-            ⚡ 빠른 시작 (랜덤 이름)
+            <Icon slot="eco-boom" size="md" /> 빠른 시작 (랜덤 이름)
           </button>
           <button
             className="btn btn-secondary btn-block"
             style={{ borderColor: 'var(--gold, #ffd700)', background: '#fffde7' }}
             onClick={handleDailyChallenge}
           >
-            🏅 오늘의 챌린지 ({new Date().getMonth() + 1}/{new Date().getDate()})
+            <Icon slot="rank-medal" size="md" /> 오늘의 챌린지 ({new Date().getMonth() + 1}/{new Date().getDate()})
           </button>
 
           <div style={{ marginTop: 'var(--sp-xs)' }}>
             <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginBottom: 'var(--sp-xs)', color: 'var(--text-muted)' }}>
-              🎯 도전 모드
+              <Icon slot="feature-dream" size="md" /> 도전 모드
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
               {CHALLENGE_MODES.map((cm) => (
@@ -325,7 +328,7 @@ export function TitleScreen() {
           <div className="flex flex-col gap-sm" style={{ marginTop: 'var(--sp-sm)' }}>
             {highScore && (
               <div className="card" style={{ width: '100%', textAlign: 'center' }}>
-                <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📊 역대 최고 기록</div>
+                <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}><Icon slot="nav-invest" size="md" /> 역대 최고 기록</div>
                 <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 'var(--font-size-sm)' }}>
                   <div>
                     <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>{highScore.bestGrade}</div>
@@ -350,7 +353,7 @@ export function TitleScreen() {
                 aria-label="전체 통계 보기"
                 style={{ width: '100%', textAlign: 'center', cursor: 'pointer', background: 'var(--bg-card)' }}
               >
-                <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>📊 전체 통계</div>
+                <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}><Icon slot="nav-invest" size="md" /> 전체 통계</div>
                 <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: 'var(--font-size-sm)' }}>
                   <div>
                     <div style={{ fontSize: 'var(--font-size-lg)', fontWeight: 800 }}>
@@ -382,7 +385,7 @@ export function TitleScreen() {
                 style={{ width: '100%', textAlign: 'center', cursor: 'pointer', background: 'var(--bg-card)' }}
               >
                 <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>
-                  🏆 업적 {unlockedCount}/{getTotalCount()}
+                  <Icon slot="rank-trophy" size="md" /> 업적 {unlockedCount}/{getTotalCount()}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
                   {getAllAchievements().map((a) => {
@@ -412,7 +415,7 @@ export function TitleScreen() {
               return (
                 <div className="card" style={{ width: '100%' }}>
                   <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
-                    📜 엔딩 갤러리 ({gallery.length}개)
+                    <Icon slot="cat-savings" size="md" /> 엔딩 갤러리 ({gallery.length}개)
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     {recent.map((r, i) => (
@@ -470,7 +473,7 @@ export function TitleScreen() {
             boxShadow: '0 2px 8px rgba(255,112,67,0.35)',
           }}
         >
-          📢 새 소식 {unseenReleaseCount}건
+          <Icon slot="status-alert" size="md" /> 새 소식 {unseenReleaseCount}건
         </button>
       )}
 
@@ -505,7 +508,7 @@ export function TitleScreen() {
             border: '1px solid #ddd',
           }}
         >
-          ⚙️ 설정
+          <Icon slot="nav-settings" size="md" /> 설정
         </button>
         {savedExists && (
           <button

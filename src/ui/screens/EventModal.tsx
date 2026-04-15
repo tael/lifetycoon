@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { EconomicEvent, EventEffect, EventCategory } from '../../game/types';
 import { useGameStore } from '../../store/gameStore';
+import { Icon } from '../icons/Icon';
 
 /** V3-12: 카테고리 뱃지 라벨/이모지. */
 const CATEGORY_BADGE: Record<EventCategory, { emoji: string; label: string; bg: string; color: string }> = {
@@ -185,37 +186,37 @@ function effectIcons(effects: EventEffect[], showHints: boolean): React.ReactNod
       case 'cash':
       case 'money':
         nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>
-          💰{eff.delta >= 0 ? '+' : ''}{compact(eff.delta)}
+          <Icon slot="asset-cash" size="md" />{eff.delta >= 0 ? '+' : ''}{compact(eff.delta)}
         </span>);
         break;
       case 'addTrait':
         nodes.push(<span key={nodes.length}>🏷️{eff.trait}</span>);
         break;
       case 'setJob':
-        nodes.push(<span key={nodes.length}>💼전직</span>);
+        nodes.push(<span key={nodes.length}><Icon slot="cat-job" size="md" />전직</span>);
         break;
       // stockShock: 주식 변동은 중요 정보라 노출 (어느 종목인지까지)
       case 'stockShock':
         nodes.push(<span key={nodes.length} style={{ color: eff.multiplier >= 1 ? 'var(--success)' : 'var(--danger)' }}>
-          📈{eff.ticker}
+          <Icon slot="cat-stock" size="md" />{eff.ticker}
         </span>);
         break;
       // bankInterestChange: 이자율 변경은 중요 정보
       case 'bankInterestChange':
-        nodes.push(<span key={nodes.length}>🏦이자{eff.delta >= 0 ? '+' : ''}{(eff.delta * 100).toFixed(1)}%</span>);
+        nodes.push(<span key={nodes.length}><Icon slot="nav-bank" size="md" />이자{eff.delta >= 0 ? '+' : ''}{(eff.delta * 100).toFixed(1)}%</span>);
         break;
       // 스탯 힌트: showHints=true 일 때만 표시
       case 'happiness':
         if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>😊{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
         break;
       case 'health':
-        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>❤️{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}><Icon slot="stat-health" size="md" />{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
         break;
       case 'wisdom':
-        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>📚{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}><Icon slot="stat-wisdom" size="md" />{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
         break;
       case 'charisma':
-        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}>✨{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
+        if (showHints) nodes.push(<span key={nodes.length} style={{ color: eff.delta >= 0 ? 'var(--success)' : 'var(--danger)' }}><Icon slot="stat-charisma" size="md" />{eff.delta >= 0 ? '+' : ''}{eff.delta}</span>);
         break;
     }
   }

@@ -4,6 +4,7 @@ import { CashflowPanel } from '../../components/CashflowPanel';
 import { CashflowChart } from '../../components/CashflowChart';
 import { formatWon } from '../../../game/domain/asset';
 import type { CashflowBreakdown } from '../../../game/domain/cashflow';
+import { Icon } from '../../icons/Icon';
 
 export function CashflowTab({
   cashflow,
@@ -36,7 +37,7 @@ export function CashflowTab({
             padding: 0,
           }}
         >
-          <span style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>📈 현금흐름 추이</span>
+          <span style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}><Icon slot="nav-invest" size="md" /> 현금흐름 추이</span>
           <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
             {cashflowChartExpanded ? '접기 ▲' : '보기 ▼'}
           </span>

@@ -9,6 +9,7 @@ import { REAL_ESTATE_LISTINGS } from '../../../game/domain/realEstate';
 import { dynamicListingPrice, dynamicMonthlyRent } from '../../../game/engine/economyCycle';
 import type { EconomyPhase } from '../../../game/engine/economyCycle';
 import type { StockDef, RealEstate } from '../../../game/types';
+import { Icon } from '../../icons/Icon';
 
 export function InvestTab({
   dividendIncome,
@@ -71,7 +72,7 @@ export function InvestTab({
       {/* Stock Board */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}>📈 주식</span>
+          <span style={{ fontWeight: 700 }}><Icon slot="nav-invest" size="md" /> 주식</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             {dividendIncome > 0 && (
               <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)', fontWeight: 600 }}>
@@ -219,7 +220,7 @@ function RealEstateCard({
 
   return (
     <div className="card">
-      <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}>🏠 부동산</div>
+      <div style={{ fontWeight: 700, marginBottom: 'var(--sp-xs)' }}><Icon slot="nav-home" size="md" /> 부동산</div>
       {realEstate.length === 0 && (
         <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginBottom: 'var(--sp-xs)' }}>
           보유 부동산 없음
@@ -229,7 +230,7 @@ function RealEstateCard({
         const gain = re.currentValue - re.purchasePrice;
         return (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0', borderBottom: '1px solid #f5f0e8' }}>
-            <span style={{ fontSize: '1.2rem' }}>🏠</span>
+            <span style={{ fontSize: '1.2rem' }}><Icon slot="nav-home" size="md" /></span>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{re.name}</div>
               <div className="text-muted" style={{ fontSize: 'var(--font-size-xs)' }}>

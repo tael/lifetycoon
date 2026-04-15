@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Feet -->
+  <rect x="14" y="52" width="8" height="6" rx="2" fill="#2D3436" />
+  <rect x="42" y="52" width="8" height="6" rx="2" fill="#2D3436" />
+  
+  <!-- Safe Body -->
+  <rect x="8" y="8" width="48" height="46" rx="4" fill="#FFEAA7" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" />
+  
+  <!-- Safe Door -->
+  <rect x="14" y="14" width="36" height="34" rx="2" fill="#FDCB6E" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" />
+  
+  <!-- Dial -->
+  <circle cx="32" cy="31" r="9" fill="#FFEAA7" stroke="#2D3436" stroke-width="2.5" />
+  <circle cx="32" cy="31" r="2" fill="#2D3436" />
+  <!-- Dial Markers -->
+  <line x1="32" y1="22" x2="32" y2="25" stroke="#2D3436" stroke-width="2" stroke-linecap="round" />
+  <line x1="32" y1="37" x2="32" y2="40" stroke="#2D3436" stroke-width="2" stroke-linecap="round" />
+  <line x1="23" y1="31" x2="26" y2="31" stroke="#2D3436" stroke-width="2" stroke-linecap="round" />
+  <line x1="38" y1="31" x2="41" y2="31" stroke="#2D3436" stroke-width="2" stroke-linecap="round" />
+</svg>

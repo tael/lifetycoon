@@ -1,4 +1,5 @@
 import type { LifeEvent } from '../../game/types';
+import { Icon } from '../icons/Icon';
 
 interface Props {
   logs: LifeEvent[];
@@ -38,7 +39,7 @@ export function EventLogModal({ logs, onClose }: Props) {
     <div style={overlayStyle} onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div style={modalStyle}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <h2 style={{ margin: 0, fontSize: 'var(--font-size-lg, 18px)', fontWeight: 800 }}>📜 이벤트 로그</h2>
+          <h2 style={{ margin: 0, fontSize: 'var(--font-size-lg, 18px)', fontWeight: 800 }}><Icon slot="cat-savings" size="md" /> 이벤트 로그</h2>
           <button
             onClick={onClose}
             aria-label="닫기"

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Icon } from '../icons/Icon';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
 import { encodeShareCode, buildShareUrl } from '../../store/shareCode';
 import { clearSave } from '../../store/persistence';
@@ -173,7 +174,7 @@ export function EndingScreen() {
           marginBottom: 'var(--sp-sm)',
           filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
         }}>
-          {GRADE_EMOJI[ending.grade]}
+          {ending.grade === 'S' ? <Icon slot="rank-crown" size="xl" /> : GRADE_EMOJI[ending.grade]}
         </div>
 
         {/* Grade text */}
@@ -285,7 +286,7 @@ export function EndingScreen() {
           marginBottom: 'var(--sp-md)',
           textAlign: 'center',
         }}>
-          📜 비문
+          <Icon slot="cat-savings" size="md" /> 비문
         </div>
         <div style={{ textAlign: 'left', lineHeight: 2, minHeight: 120 }}>
           {ending.epitaph.slice(0, visibleLines).map((line, i) => (
@@ -354,7 +355,7 @@ export function EndingScreen() {
           marginBottom: 'var(--sp-sm)',
           textAlign: 'center',
         }}>
-          ✨ 꿈 달성 현황
+          <Icon slot="stat-charisma" size="md" /> 꿈 달성 현황
         </div>
 
         {/* Progress bar */}
@@ -488,7 +489,7 @@ export function EndingScreen() {
       {/* ═══ NPC Comparison ═══ */}
       <div className="card" style={{ width: '100%', maxWidth: 400 }}>
         <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)', textAlign: 'center' }}>
-          👥 라이벌과 비교
+          <Icon slot="nav-friends" size="md" /> 라이벌과 비교
         </div>
         {(() => {
           const npcs = useGameStore.getState().npcs;
@@ -506,7 +507,7 @@ export function EndingScreen() {
               color: p.isMe ? 'var(--accent)' : 'inherit',
               fontSize: 'var(--font-size-sm)',
             }}>
-              <span style={{ width: 24 }}>{i === 0 ? '👑' : `${i + 1}위`}</span>
+              <span style={{ width: 24 }}>{i === 0 ? <Icon slot="rank-crown" size="md" /> : `${i + 1}위`}</span>
               <span style={{ flex: 1 }}>{p.name}</span>
               <span>{formatWon(p.assets)}</span>
             </div>
@@ -518,7 +519,7 @@ export function EndingScreen() {
       {newAchievements.length > 0 && (
         <div className="card" style={{ width: '100%', maxWidth: 400, textAlign: 'center', border: '2px solid var(--grade-s)' }}>
           <div style={{ fontWeight: 800, fontSize: 'var(--font-size-lg)', marginBottom: 'var(--sp-sm)' }}>
-            🏆 업적 달성!
+            <Icon slot="rank-trophy" size="md" /> 업적 달성!
           </div>
           {newAchievements.map((a) => (
             <div key={a.id} style={{
@@ -576,7 +577,7 @@ export function EndingScreen() {
       {/* ═══ Actions ═══ */}
       <div className="flex flex-col gap-sm" style={{ width: '100%', maxWidth: 400 }}>
         <button className="btn btn-primary btn-block" onClick={handleShare}>
-          {copied ? '✅ 복사됨!' : '📤 친구에게 공유'}
+          {copied ? <><Icon slot="status-check" size="md" /> 복사됨!</> : '📤 친구에게 공유'}
         </button>
         {(() => {
           const st = useGameStore.getState();
@@ -592,7 +593,7 @@ export function EndingScreen() {
                 자녀가 {formatWon(inheritance)}을 상속받습니다
               </div>
               <button className="btn btn-secondary btn-block" onClick={handleLegacy}>
-                👶 자녀가 이어받기
+                <Icon slot="nav-friends" size="md" /> 자녀가 이어받기
               </button>
             </div>
           );

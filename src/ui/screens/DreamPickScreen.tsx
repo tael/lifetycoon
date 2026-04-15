@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGameStore, DREAMS_MASTER } from '../../store/gameStore';
+import { Icon } from '../icons/Icon';
 
 type DifficultyLevel = 'easy' | 'normal' | 'hard' | 'legend';
 
@@ -128,7 +129,7 @@ export function DreamPickScreen() {
             cursor: 'pointer',
           }}
         >
-          🔥 도전 세트
+          <Icon slot="eco-boom" size="md" /> 도전 세트
         </button>
       </div>
 
@@ -179,7 +180,7 @@ export function DreamPickScreen() {
                     {dream.description}
                   </div>
                 </div>
-                {isSelected && <span style={{ marginLeft: 'auto', fontSize: '1.5rem' }}>✅</span>}
+                {isSelected && <span style={{ marginLeft: 'auto', fontSize: '1.5rem' }}><Icon slot="status-check" size="md" /></span>}
               </div>
             </button>
           );

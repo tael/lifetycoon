@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Handle -->
+  <path d="M24 16c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="none" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Briefcase Body -->
+  <rect x="8" y="18" width="48" height="34" rx="4" fill="#D7B19D" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Top Flap -->
+  <path d="M8 18h48v10c0 4-3.2 7.2-7.2 7.2H15.2C11.2 35.2 8 32 8 28v-10z" fill="#C09A85" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Latch -->
+  <rect x="28" y="32" width="8" height="6" rx="1.5" fill="#FFEAA7" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Decorative Straps -->
+  <line x1="18" y1="18" x2="18" y2="35.2" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="46" y1="18" x2="46" y2="35.2" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

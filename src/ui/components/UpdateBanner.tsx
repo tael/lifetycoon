@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Icon } from '../icons/Icon';
 
 /**
  * 새 버전 감지 배너.
@@ -102,7 +103,7 @@ export function UpdateBanner() {
         flexWrap: 'wrap',
       }}
     >
-      <span>🎮 새 버전이 준비됐어요</span>
+      <span><Icon slot="nav-home" size="md" /> 새 버전이 준비됐어요</span>
       <button
         onClick={handleReload}
         style={{

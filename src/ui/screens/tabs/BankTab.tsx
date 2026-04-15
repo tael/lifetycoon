@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useGameStore } from '../../../store/gameStore';
 import { formatWon } from '../../../game/domain/asset';
 import { showToast } from '../../components/Toast';
+import { Icon } from '../../icons/Icon';
 
 export function BankTab({
   effectiveInterestRate,
@@ -22,16 +23,71 @@ export function BankTab({
   const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
 
   const [loanHistoryExpanded, setLoanHistoryExpanded] = useState(false);
+  const [pendingLoan, setPendingLoan] = useState<number | null>(null);
 
   const loanLimit = Math.max(0, Math.floor(totalAssets * 0.5) - bank.loanBalance);
   const maxRepay = Math.min(cash, bank.loanBalance);
 
+  const confirmLoan = () => {
+    if (pendingLoan !== null) {
+      if (takeLoan(pendingLoan)) {
+        showToast(`${formatWon(pendingLoan)} 대출!`, '🏧', 'warning', 1500);
+      } else {
+        showToast('대출 한도 초과!', '🚫', 'danger', 1500);
+      }
+      setPendingLoan(null);
+    }
+  };
+
   return (
     <>
+      {/* 대출 경고 모달 */}
+      {pendingLoan !== null && (
+        <div className="modal-overlay" style={{ zIndex: 1000 }}>
+          <div className="modal-content animate-pop" style={{ border: '2px solid var(--danger)' }}>
+            <h3 style={{ color: 'var(--danger)', marginBottom: 'var(--sp-sm)', fontFamily: 'var(--font-display)' }}>
+              잠깐! 대출은 돌려줘야 해요
+            </h3>
+            <p style={{ fontSize: 'var(--font-size-base)', marginBottom: 'var(--sp-md)', lineHeight: 1.5 }}>
+              원금 <strong>{formatWon(pendingLoan)}</strong>원을 빌리면,
+              <br />
+              12개월 뒤 이자까지 총 <strong>{formatWon(Math.round(pendingLoan * (1 + bank.loanInterestRate)))}</strong>원을 갚아야 해요.
+            </p>
+            <div style={{
+              background: 'var(--bg-secondary)',
+              padding: 'var(--sp-sm)',
+              borderRadius: 'var(--radius-md)',
+              fontSize: 'var(--font-size-sm)',
+              color: 'var(--text-secondary)',
+              marginBottom: 'var(--sp-lg)',
+              borderLeft: '4px solid var(--warning)'
+            }}>
+              💡 이자는 돈을 빌린 값이에요. 너무 많이 빌리면 월급이 이자로 다 나갈 수 있어요.
+            </div>
+            <div className="flex gap-sm">
+              <button
+                className="btn btn-secondary"
+                style={{ flex: 1, minHeight: 44 }}
+                onClick={() => setPendingLoan(null)}
+              >
+                취소
+              </button>
+              <button
+                className="btn btn-primary"
+                style={{ flex: 1, minHeight: 44, background: 'var(--danger)', boxShadow: '0 4px 0 #b71c1c' }}
+                onClick={confirmLoan}
+              >
+                그래도 빌릴래
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 은행 잔액 요약 */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}>🏦 은행</span>
+          <span style={{ fontWeight: 700 }}><Icon slot="nav-bank" size="md" /> 은행</span>
         </div>
         <div className="flex flex-col gap-xs">
           <div className="flex flex-between" style={{ fontSize: 'var(--font-size-sm)', padding: '2px 0' }}>
@@ -105,20 +161,11 @@ export function BankTab({
         </div>
         {/* 대출/상환 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
-          <QuickActionBtn label="대출 100만" onClick={() => {
-            if (takeLoan(1000000)) showToast('100만원 대출!', '🏧', 'warning', 1500);
-            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-          }} disabled={loanLimit < 1000000} danger />
-          <QuickActionBtn label="대출 500만" onClick={() => {
-            if (takeLoan(5000000)) showToast('500만원 대출!', '🏧', 'warning', 1500);
-            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-          }} disabled={loanLimit < 5000000} danger />
-          <QuickActionBtn label="대출 1천만" onClick={() => {
-            if (takeLoan(10000000)) showToast('1,000만원 대출!', '🏧', 'warning', 1500);
-            else showToast('대출 한도 초과!', '🚫', 'danger', 1500);
-          }} disabled={loanLimit < 10000000} danger />
+          <QuickActionBtn label="대출 100만" onClick={() => setPendingLoan(1000000)} disabled={loanLimit < 1000000} danger />
+          <QuickActionBtn label="대출 500만" onClick={() => setPendingLoan(5000000)} disabled={loanLimit < 5000000} danger />
+          <QuickActionBtn label="대출 1천만" onClick={() => setPendingLoan(10000000)} disabled={loanLimit < 10000000} danger />
           <QuickActionBtn label="한도까지" onClick={() => {
-            if (loanLimit > 0 && takeLoan(loanLimit)) showToast(`${formatWon(loanLimit)} 대출!`, '🏧', 'warning', 1500);
+            if (loanLimit > 0) setPendingLoan(loanLimit);
             else showToast('대출 한도 없음!', '🚫', 'danger', 1500);
           }} disabled={loanLimit <= 0} danger />
         </div>

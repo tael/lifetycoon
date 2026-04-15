@@ -1,0 +1,12 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rainbow Arcs -->
+  <!-- Outer Arc (Pastel Pink) -->
+  <path d="M10 44A22 22 0 0 1 54 44L48 44A16 16 0 0 0 16 44Z" fill="#FFB3BA" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Middle Arc (Pastel Yellow) -->
+  <path d="M16 44A16 16 0 0 1 48 44L42 44A10 10 0 0 0 22 44Z" fill="#FFFFBA" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Inner Arc (Pastel Blue) -->
+  <path d="M22 44A10 10 0 0 1 42 44L36 44A4 4 0 0 0 28 44Z" fill="#BAE1FF" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Soft Cloud at the bottom -->
+  <path d="M14 50C14 45.5817 17.5817 42 22 42C22 36.4772 26.4772 32 32 32C37.5228 32 42 36.4772 42 42C46.4183 42 50 45.5817 50 50C50 54.4183 46.4183 58 42 58H22C17.5817 58 14 54.4183 14 50Z" fill="#FFFFFF" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

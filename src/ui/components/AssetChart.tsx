@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { formatWon } from '../../game/domain/asset';
+import { Icon } from '../icons/Icon';
 
 type Props = {
   data: { age: number; value: number }[];
@@ -35,7 +36,7 @@ export function AssetChart({ data }: Props) {
   return (
     <div style={{ width: '100%', maxWidth: 340, margin: '0 auto' }}>
       <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', marginBottom: 'var(--sp-xs)', textAlign: 'center' }}>
-        📊 자산 추이
+        <Icon slot="nav-invest" size="md" /> 자산 추이
       </div>
       <svg
         viewBox={`-10 -10 ${chartW + 20} ${chartH + 30}`}
@@ -91,12 +92,12 @@ export function AssetChart({ data }: Props) {
               {/* Max/min emoji markers */}
               {isMax && (
                 <text x={p.x} y={p.y - 10} textAnchor="middle" fontSize="10" style={{ pointerEvents: 'none' }}>
-                  📈
+                  <Icon slot="nav-invest" size="md" />
                 </text>
               )}
               {isMin && (
                 <text x={p.x} y={p.y + 18} textAnchor="middle" fontSize="10" style={{ pointerEvents: 'none' }}>
-                  📉
+                  <Icon slot="eco-slump" size="md" />
                 </text>
               )}
               {/* Tooltip */}

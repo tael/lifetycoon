@@ -1,5 +1,6 @@
 import { loadGlobalStats } from '../../store/globalStats';
 import { formatWon } from '../../game/domain/asset';
+import { Icon } from '../icons/Icon';
 
 interface Props {
   onClose: () => void;
@@ -42,7 +43,7 @@ export function GlobalStatsModal({ onClose }: Props) {
             id="global-stats-modal-title"
             style={{ fontSize: 'var(--font-size-xl)', fontWeight: 800, margin: 0 }}
           >
-            📊 전체 통계
+            <Icon slot="nav-invest" size="md" /> 전체 통계
           </h2>
           <button
             onClick={onClose}

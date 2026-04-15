@@ -1,0 +1,14 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blue Hardcover Book -->
+  <rect x="12" y="10" width="40" height="44" rx="4" fill="#74B9FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Spine Line -->
+  <path d="M20 10V54" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Page Detail -->
+  <path d="M46 15V49" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Small Graduation Cap Symbol -->
+  <path d="M28 26L38 22L48 26L38 30L28 26Z" fill="#2D3436" stroke="#2D3436" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 28V33C32 33 38 36 44 33V28" fill="#2D3436" stroke="#2D3436" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Tassel -->
+  <path d="M48 26V31" stroke="#FF7675" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
