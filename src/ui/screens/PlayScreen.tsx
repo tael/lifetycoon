@@ -346,6 +346,22 @@ export function PlayScreen() {
                     )}
                   </button>
                 </div>
+                {(() => {
+                  const cooldownYears = 5;
+                  const canPlay = lastQuizAge === null || (intAge - lastQuizAge) >= cooldownYears;
+                  return (
+                    <button
+                      className="char-hud__action-btn"
+                      onClick={() => { if (canPlay) setShowQuizModal(true); }}
+                      disabled={!canPlay}
+                      title={canPlay ? '주식 차트 퀴즈' : `${cooldownYears - (intAge - (lastQuizAge ?? intAge))}년 후 도전`}
+                      aria-label="주식 퀴즈"
+                      style={{ opacity: canPlay ? 1 : 0.45 }}
+                    >
+                      <Icon slot="feature-dream" size={16} />
+                    </button>
+                  );
+                })()}
               </div>
             </div>
 
