@@ -2,88 +2,79 @@ import { describe, it, expect } from 'vitest';
 import { calculateGrade, selectKeyMoments, highlightMoment } from '../domain/ending';
 import type { KeyMoment } from '../types';
 
+// calculateGrade: 꿈 달성(0-60점) + 자산(0-40점) 복합 점수제
+// 꿈: 전부달성=60점, 절반=30점, 0개=0점
+// 자산: 100억+=40, 50억+=30, 20억+=20, 5억+=10, 미만=0
+// 등급: 80+→S, 55+→A, 35+→B, 15+→C, 달성>0→D, else→F
 describe('calculateGrade', () => {
   it('total 0이면 F', () => {
     expect(calculateGrade(0, 0)).toBe('F');
   });
 
-  it('전부 달성(1.0): S', () => {
-    expect(calculateGrade(5, 5)).toBe('S');
-    expect(calculateGrade(1, 1)).toBe('S');
+  it('꿈 전부 달성 + 100억: S (60+40=100)', () => {
+    expect(calculateGrade(2, 2, 0, 10_000_000_000)).toBe('S');
   });
 
-  it('4/5(0.8): A (임계 0.75 초과)', () => {
-    expect(calculateGrade(4, 5)).toBe('A');
+  it('꿈 전부 달성 + 자산 없음: A (60+0=60, ≥55)', () => {
+    expect(calculateGrade(2, 2, 0, 0)).toBe('A');
   });
 
-  it('3/4(0.75): A (임계 0.75 경계)', () => {
-    expect(calculateGrade(3, 4)).toBe('A');
+  it('꿈 절반 + 100억: A (30+40=70, ≥55)', () => {
+    expect(calculateGrade(1, 2, 0, 10_000_000_000)).toBe('A');
   });
 
-  it('3/6(0.5): B (임계 0.50 경계)', () => {
-    expect(calculateGrade(3, 6)).toBe('B');
+  it('꿈 절반 + 50억: B (30+30=60, ≥55 → A)', () => {
+    expect(calculateGrade(1, 2, 0, 5_000_000_000)).toBe('A');
   });
 
-  it('2/5(0.4): C (임계 0.25 초과)', () => {
-    expect(calculateGrade(2, 5)).toBe('C');
+  it('꿈 절반 + 20억: B (30+20=50, ≥35)', () => {
+    expect(calculateGrade(1, 2, 0, 2_000_000_000)).toBe('B');
   });
 
-  it('1/5(0.2): D (0 < r < 0.25)', () => {
-    expect(calculateGrade(1, 5)).toBe('D');
+  it('꿈 0개 + 100억: B (0+40=40, ≥35)', () => {
+    expect(calculateGrade(0, 2, 0, 10_000_000_000)).toBe('B');
   });
 
-  it('0/5(0): F (r = 0)', () => {
-    expect(calculateGrade(0, 5)).toBe('F');
+  it('꿈 절반 + 5억: C (30+10=40, ≥35 → B)', () => {
+    expect(calculateGrade(1, 2, 0, 500_000_000)).toBe('B');
   });
 
-  it('부동소수점 경계 케이스', () => {
-    // S: ≥0.999
-    expect(calculateGrade(999, 1000)).toBe('S');
-    expect(calculateGrade(99, 100)).toBe('A');
-    // A: ≥0.75
-    expect(calculateGrade(3, 4)).toBe('A');
-    expect(calculateGrade(2, 3)).toBe('B');
-    // B: ≥0.50
-    expect(calculateGrade(1, 2)).toBe('B');
-    expect(calculateGrade(2, 5)).toBe('C');
-    // C: ≥0.25
-    expect(calculateGrade(1, 4)).toBe('C');
-    expect(calculateGrade(1, 5)).toBe('D');
-    // D: > 0
-    expect(calculateGrade(1, 100)).toBe('D');
-    // F: = 0
-    expect(calculateGrade(0, 100)).toBe('F');
+  it('꿈 절반 + 자산 없음: C (30+0=30, ≥15)', () => {
+    expect(calculateGrade(1, 2, 0, 0)).toBe('C');
   });
 
-  it('crisisTurns=0: 기존과 동일', () => {
-    expect(calculateGrade(5, 5, 0)).toBe('S');
-    expect(calculateGrade(4, 5, 0)).toBe('A');
-    expect(calculateGrade(3, 6, 0)).toBe('B');
+  it('꿈 0개 + 5억: C (0+10=10, < 15 → D, 달성>0 없음 → D/F)', () => {
+    // 달성=0, score=10 → score>0이지만 achieved=0 → F
+    expect(calculateGrade(0, 2, 0, 500_000_000)).toBe('D');
+  });
+
+  it('꿈 0개 + 자산 없음: F', () => {
+    expect(calculateGrade(0, 2, 0, 0)).toBe('F');
+  });
+
+  it('crisisTurns=0: 하향 없음', () => {
+    expect(calculateGrade(2, 2, 0, 10_000_000_000)).toBe('S');
+    expect(calculateGrade(1, 2, 0, 2_000_000_000)).toBe('B');
   });
 
   it('crisisTurns>10: 1등급 하향', () => {
-    // 기본이 A → crisisTurns=15 → B
-    expect(calculateGrade(4, 5, 15)).toBe('B');
-    // 기본이 S → crisisTurns=15 → A
-    expect(calculateGrade(5, 5, 15)).toBe('A');
-    // 기본이 B → crisisTurns=15 → C
-    expect(calculateGrade(3, 6, 15)).toBe('C');
+    // S(100점) → A
+    expect(calculateGrade(2, 2, 15, 10_000_000_000)).toBe('A');
+    // A(60점) → B
+    expect(calculateGrade(2, 2, 15, 0)).toBe('B');
+    // B(50점) → C
+    expect(calculateGrade(1, 2, 15, 2_000_000_000)).toBe('C');
   });
 
   it('crisisTurns>20: 2등급 하향', () => {
-    // 기본이 A → crisisTurns=25 → C
-    expect(calculateGrade(4, 5, 25)).toBe('C');
-    // 기본이 S → crisisTurns=25 → B
-    expect(calculateGrade(5, 5, 25)).toBe('B');
-    // 기본이 B → crisisTurns=25 → D
-    expect(calculateGrade(3, 6, 25)).toBe('D');
+    // S(100점) → B
+    expect(calculateGrade(2, 2, 25, 10_000_000_000)).toBe('B');
+    // A(60점) → C
+    expect(calculateGrade(2, 2, 25, 0)).toBe('C');
   });
 
   it('F 이하로는 내려가지 않음', () => {
-    // 기본이 D → crisisTurns=25 → F
-    expect(calculateGrade(1, 5, 25)).toBe('F');
-    // 기본이 F → crisisTurns=25 → F
-    expect(calculateGrade(0, 5, 25)).toBe('F');
+    expect(calculateGrade(0, 2, 25, 0)).toBe('F');
   });
 });
 
