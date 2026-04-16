@@ -50,7 +50,7 @@ export function CashflowPanel({ data, age }: Props) {
           marginBottom: 'var(--sp-sm)',
         }}
       >
-        <Icon slot="asset-total" size="md" /> 이달의 현금흐름
+        <Icon slot="asset-total" size="md" /> 이달의 돈의 흐름
       </div>
       {/* V3-13: 유년기 힌트 — 월급이 아니라 부모 용돈이 주 수입이라는 점을 안내 */}
       {age != null && Math.floor(age) >= 10 && Math.floor(age) < 19 && (
@@ -134,7 +134,7 @@ export function CashflowPanel({ data, age }: Props) {
         }}
       >
         <span style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>
-          순현금흐름
+          이달 남는 돈
         </span>
         <span
           style={{
@@ -159,7 +159,7 @@ export function CashflowPanel({ data, age }: Props) {
           }}
         >
           <span style={{ fontWeight: 700 }}>
-            자동수입 / 월 지출
+            자동으로 들어오는 돈 / 월 지출
           </span>
           <span
             style={{
@@ -201,7 +201,7 @@ export function CashflowPanel({ data, age }: Props) {
             color: financiallyFree ? 'var(--success)' : 'var(--text-muted)',
           }}
         >
-          {financiallyFree ? '재정 자유 도달' : '자동수입만으로는 부족'}
+          {financiallyFree ? '🎉 돈이 나를 위해 일해요!' : '자동수입이 아직 부족해요'}
         </div>
         <div
           style={{
@@ -211,7 +211,7 @@ export function CashflowPanel({ data, age }: Props) {
             lineHeight: 1.4,
           }}
         >
-          자동수입이 지출을 넘으면 일하지 않아도 생활이 가능합니다.
+          자동으로 들어오는 돈이 쓰는 돈보다 많으면, 일 안 해도 살 수 있어요!
         </div>
       </div>
     </div>

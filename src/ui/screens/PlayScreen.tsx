@@ -230,9 +230,21 @@ export function PlayScreen() {
       {/* 부채 뱃지 */}
       <DebtBadge />
 
-      {/* Age Timeline header */}
-      <div className="card">
-        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-xs)' }}>
+      {/* Sticky Age Header */}
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 40,
+        background: 'rgba(250, 247, 242, 0.95)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        padding: 'var(--sp-sm) var(--sp-md)',
+        marginLeft: 'calc(-1 * var(--sp-md))',
+        marginRight: 'calc(-1 * var(--sp-md))',
+        borderBottom: '2.5px solid var(--border-duo)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+      }}>
+        <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 4 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontWeight: 700, fontSize: 'var(--font-size-lg)' }}>
               {formatAge(displayAge)}

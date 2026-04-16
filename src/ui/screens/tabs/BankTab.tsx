@@ -46,23 +46,21 @@ export function BankTab({
         <div className="modal-overlay" style={{ zIndex: 1000 }}>
           <div className="modal-content animate-pop" style={{ border: '2px solid var(--danger)' }}>
             <h3 style={{ color: 'var(--danger)', marginBottom: 'var(--sp-sm)', fontFamily: 'var(--font-display)' }}>
-              잠깐! 대출은 돌려줘야 해요
+              ⚠️ 잠깐! 대출은 꼭 갚아야 해요
             </h3>
             <p style={{ fontSize: 'var(--font-size-base)', marginBottom: 'var(--sp-md)', lineHeight: 1.5 }}>
               원금 <strong>{formatWon(pendingLoan)}</strong>원을 빌리면,
               <br />
-              12개월 뒤 이자까지 총 <strong>{formatWon(Math.round(pendingLoan * (1 + bank.loanInterestRate)))}</strong>원을 갚아야 해요.
             </p>
-            <div style={{
-              background: 'var(--bg-secondary)',
-              padding: 'var(--sp-sm)',
-              borderRadius: 'var(--radius-md)',
-              fontSize: 'var(--font-size-sm)',
-              color: 'var(--text-secondary)',
-              marginBottom: 'var(--sp-lg)',
-              borderLeft: '4px solid var(--warning)'
-            }}>
-              💡 이자는 돈을 빌린 값이에요. 너무 많이 빌리면 월급이 이자로 다 나갈 수 있어요.
+            <div style={{ fontSize: 'var(--font-size-sm)', marginBottom: 8 }}>
+              12개월 뒤 이자까지 총{' '}
+              <strong style={{ color: 'var(--danger)', fontSize: '1.1em' }}>
+                {formatWon(Math.round(pendingLoan * (1 + bank.loanInterestRate)))}
+              </strong>
+              원을 갚아야 해요.
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.5, background: '#fff3e0', padding: '6px 10px', borderRadius: 8 }}>
+              💡 이자는 빌린 돈의 대가예요. 갚을 수 있을 때만 빌리세요!
             </div>
             <div className="flex gap-sm">
               <button
