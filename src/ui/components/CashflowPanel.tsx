@@ -159,7 +159,7 @@ export function CashflowPanel({ data, age }: Props) {
           }}
         >
           <span style={{ fontWeight: 700 }}>
-            자동으로 들어오는 돈 / 월 지출
+            패시브 인컴 / 월 지출
           </span>
           <span
             style={{
@@ -201,7 +201,7 @@ export function CashflowPanel({ data, age }: Props) {
             color: financiallyFree ? 'var(--success)' : 'var(--text-muted)',
           }}
         >
-          {financiallyFree ? '🎉 돈이 나를 위해 일해요!' : '자동수입이 아직 부족해요'}
+          {financiallyFree ? '🎉 패시브 인컴이 지출을 초과합니다!' : '패시브 인컴이 아직 지출에 미치지 못합니다'}
         </div>
         <div
           style={{
@@ -211,7 +211,7 @@ export function CashflowPanel({ data, age }: Props) {
             lineHeight: 1.4,
           }}
         >
-          자동으로 들어오는 돈이 쓰는 돈보다 많으면, 일 안 해도 살 수 있어요!
+          패시브 인컴이 월 지출을 초과하면 근로 소득 없이도 생활이 가능합니다.
         </div>
       </div>
     </div>

@@ -48,6 +48,14 @@ describe('calculateGrade', () => {
     expect(calculateGrade(0, 2, 0, 500_000_000)).toBe('D');
   });
 
+  it('꿈 1/2 + 1억 자산 → B', () => {
+    expect(calculateGrade(1, 2, 0, 100_000_000)).toBe('B');
+  });
+
+  it('꿈 0/2 + 1억 자산 → D', () => {
+    expect(calculateGrade(0, 2, 0, 100_000_000)).toBe('D');
+  });
+
   it('꿈 0개 + 자산 없음: F', () => {
     expect(calculateGrade(0, 2, 0, 0)).toBe('F');
   });

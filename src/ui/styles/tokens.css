@@ -34,6 +34,8 @@
   --accent: #ff7043;
   --accent-hover: #ff5722;
   --accent-light: #ffe0b2;
+  --accent-secondary: #7c3aed;
+  --accent-secondary-shadow: #5b21b6;
   --success: #58cc02;
   --danger: #ff4b4b;
   --warning: #ffc800;
@@ -62,14 +64,21 @@
   --state-danger: var(--danger);
   --state-info: var(--info);
 
-  /* Spacing */
+  /* Section colors — colored section backgrounds */
+  --section-character: #f5f0ff;
+  --section-assets: #f0fdf4;
+  --section-invest: #eff6ff;
+  --section-bank: #fff7ed;
+  --section-cashflow: #fdf4ff;
+
+  /* Spacing — compact RPG HUD scale */
   --sp-2xs: 2px;
   --sp-xs: 4px;
   --sp-sm: 8px;
-  --sp-md: 16px;
-  --sp-lg: 24px;
-  --sp-xl: 32px;
-  --sp-2xl: 48px;
+  --sp-md: 12px;
+  --sp-lg: 20px;
+  --sp-xl: 28px;
+  --sp-2xl: 40px;
 
   /* Typography */
   --font-main: 'Pretendard Variable', 'BMJUA', 'BMDOHYEON', 'Noto Sans KR', -apple-system, sans-serif;
@@ -82,6 +91,11 @@
   --font-size-xl: 1.5rem;
   --font-size-2xl: 2rem;
   --font-size-3xl: 2.5rem;
+
+  /* Text label style */
+  --text-label-size: 0.6rem;
+  --text-label-weight: 700;
+  --text-label-spacing: 0.06em;
 
   /* Borders & Radius */
   --radius-xs: 4px;

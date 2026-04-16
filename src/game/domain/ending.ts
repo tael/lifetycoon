@@ -28,6 +28,7 @@ export function calculateGrade(
     : assets >= 5_000_000_000 ? 30 // 50억+
     : assets >= 2_000_000_000 ? 20 // 20억+
     : assets >= 500_000_000 ? 10   // 5억+
+    : assets >= 100_000_000 ? 5    // 1억+
     : 0;
 
   const score = dreamScore + assetScore;

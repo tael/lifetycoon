@@ -57,7 +57,7 @@
     "id": "long_life",
     "title": "100세까지 건강하게",
     "description": "100세 도달",
-    "targetCondition": { "kind": "ageReached", "value": 100 },
+    "targetCondition": { "kind": "ageReached", "value": 90 },
     "achieved": false,
     "rewardKeyMoment": "100번째 생일 케이크를 불었다",
     "iconEmoji": "🎂"
@@ -129,7 +129,7 @@
     "id": "d_long_life_100",
     "title": "100세까지 행복하게",
     "description": "100세 도달 & 행복도 80 이상",
-    "targetCondition": { "kind": "ageReachedAndHappinessGte", "age": 100, "happiness": 80 },
+    "targetCondition": { "kind": "ageReachedAndHappinessGte", "age": 90, "happiness": 80 },
     "achieved": false,
     "rewardKeyMoment": "100세 생일에도 환하게 웃을 수 있었다",
     "iconEmoji": "🎉"

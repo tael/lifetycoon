@@ -303,158 +303,91 @@ export function PlayScreen() {
         </div>
       </div>
 
-      {/* 글로벌 자산 미니바 — 항상 표시 */}
-      <div style={{
-        display: 'flex',
-        gap: 'var(--sp-sm)',
-        padding: 'var(--sp-xs) 0',
-        marginBottom: 'var(--sp-xs)',
-      }}>
-        <div style={{
-          flex: 1,
-          background: 'var(--bg-card)',
-          border: '2px solid var(--border-duo)',
-          borderRadius: 'var(--radius-md)',
-          padding: '6px 12px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          boxShadow: '0 2px 0 var(--border-strong)',
-        }}>
-          <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 600 }}>총 자산</span>
-          <span className="num-big" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--accent)' }}>
-            {formatWon(totalAssets)}
-          </span>
-        </div>
-        <div style={{
-          flex: 1,
-          background: 'var(--bg-card)',
-          border: '2px solid var(--border-duo)',
-          borderRadius: 'var(--radius-md)',
-          padding: '6px 12px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          boxShadow: '0 2px 0 var(--border-strong)',
-        }}>
-          <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 600 }}>현금</span>
-          <span className="num-big" style={{ fontSize: 'var(--font-size-sm)', color: cash < 0 ? 'var(--danger)' : 'var(--text-primary)' }}>
-            {cash < 0 ? '-' : ''}{formatWon(Math.abs(cash))}
-          </span>
-        </div>
-      </div>
-
-      {/* Character — 홈 탭에서만 */}
+      {/* Hero KPI + Character — 홈 탭에서만 통합 */}
       {tab === 'home' && (
-      <div className="card" style={{ padding: 'var(--sp-sm) var(--sp-md)', order: 3 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-sm)' }}>
-          <div
-            role="img"
-            aria-label={`${character.name}, ${Math.floor(character.age)}세`}
-            style={{ fontSize: '2.2rem', lineHeight: 1, flexShrink: 0 }}
-          >{emojiFor(character)}</div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {character.name}
+        <>
+          {/* Hero KPIs */}
+          <div className="hero-kpi">
+            <div className="hero-kpi__item" style={{ background: 'var(--section-assets)' }}>
+              <div className="hero-kpi__label">총 자산</div>
+              <div className="hero-kpi__value hero-kpi__value--accent">{formatWon(totalAssets)}</div>
             </div>
-            {job && (
-              <div className="text-muted" style={{ fontSize: '0.68rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {job.iconEmoji} {job.title} · 월 {formatWon(Math.round(job.salary * ageSalaryMultiplier(intAge, job.id)))}
+            <div className="hero-kpi__item" style={{ background: cashflow.netCashflow >= 0 ? 'var(--section-assets)' : '#fff5f5' }}>
+              <div className="hero-kpi__label">이달 순수입</div>
+              <div className={`hero-kpi__value ${cashflow.netCashflow >= 0 ? 'hero-kpi__value--positive' : 'hero-kpi__value--negative'}`}>
+                {cashflow.netCashflow >= 0 ? '+' : ''}{formatWon(Math.round(cashflow.netCashflow / 12))}
+              </div>
+            </div>
+          </div>
+
+          {/* Character HUD */}
+          <div className="card card--character" style={{ marginBottom: 8 }}>
+            <div className="char-hud">
+              <div className="char-hud__avatar" role="img" aria-label={`${character.name} ${Math.floor(character.age)}세`}>
+                <Icon slot="nav-friends" size={28} />
+              </div>
+              <div className="char-hud__info">
+                <div className="char-hud__name">{character.name}</div>
+                <div className="char-hud__sub">
+                  {job ? `${job.title} · 월 ${formatWon(Math.round(job.salary * ageSalaryMultiplier(intAge, job.id)))}` : '무직'}
+                </div>
+              </div>
+              <div className="char-hud__actions">
+                <div style={{ position: 'relative' }}>
+                  <button
+                    className="char-hud__action-btn"
+                    onClick={() => setShowSkillModal(true)}
+                    title="스킬"
+                    aria-label="스킬 모달"
+                  >
+                    <Icon slot="stat-wisdom" size={16} />
+                    {unlockedSkills.length > 0 && (
+                      <span style={{ position: 'absolute', top: -2, right: -2, background: 'var(--accent)', color: '#fff', borderRadius: '50%', width: 12, height: 12, fontSize: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1 }}>{unlockedSkills.length}</span>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Stats row */}
+            <div className="stat-chips" style={{ padding: '0 10px 8px' }}>
+              <StatMini label="행복" value={character.happiness} emoji="💛" color="#f59e0b" showHints={showStatHints} />
+              <StatMini label="건강" value={character.health} emoji="❤️" color="#ef4444" showHints={showStatHints} />
+              <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#3b82f6" showHints={showStatHints} />
+              <StatMini label="매력" value={character.charisma} emoji="✨" color="#a855f7" showHints={showStatHints} />
+            </div>
+
+            {/* Penalty */}
+            {(() => {
+              const penalty = computeStatPenalty(character);
+              if (penalty.reasons.length === 0) return null;
+              return (
+                <div role="status" style={{ margin: '0 10px 6px', padding: '4px 8px', background: '#fff5f5', border: '1px solid #fca5a5', borderRadius: 6, color: 'var(--danger)', fontSize: '0.62rem', fontWeight: 600 }}>
+                  <Icon slot="status-alert" size={12} style={{ marginRight: 3 }} />
+                  {penalty.reasons.join(' · ')}
+                </div>
+              );
+            })()}
+
+            {/* Care actions */}
+            <div className="action-strip" style={{ padding: '0 10px 10px' }}>
+              <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" timeCostMonths={0} loopRef={loopRef} />
+              <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" timeCostMonths={1} loopRef={loopRef} />
+              <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" timeCostMonths={2} loopRef={loopRef} />
+              <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" timeCostMonths={1} loopRef={loopRef} />
+            </div>
+
+            {/* Traits */}
+            {traits.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, padding: '0 10px 8px' }}>
+                {traits.slice(0, 5).map((t) => (
+                  <span key={t} style={{ background: 'var(--accent-light)', color: 'var(--accent)', padding: '1px 6px', borderRadius: 99, fontSize: '0.58rem', fontWeight: 600 }}>#{t}</span>
+                ))}
+                {traits.length > 5 && <span style={{ fontSize: '0.58rem', color: 'var(--text-muted)', padding: '1px 4px' }}>+{traits.length - 5}</span>}
               </div>
             )}
           </div>
-          <button
-            onClick={() => setShowSkillModal(true)}
-            title={`스킬 ${unlockedSkills.length > 0 ? `(${unlockedSkills.length})` : ''}`}
-            aria-label="스킬 모달 열기"
-            style={{
-              fontSize: '1rem',
-              width: 34, height: 34, borderRadius: '50%',
-              border: '1px solid var(--accent)',
-              background: unlockedSkills.length > 0 ? 'var(--accent)' : '#fff',
-              cursor: 'pointer', flexShrink: 0,
-            }}
-          ><Icon slot="stat-wisdom" size="md" /></button>
-          {(() => {
-            const cooldownYears = 5;
-            const canPlay = lastQuizAge === null || (intAge - lastQuizAge) >= cooldownYears;
-            const remaining = lastQuizAge !== null ? cooldownYears - (intAge - lastQuizAge) : 0;
-            return (
-              <button
-                onClick={() => { if (canPlay) setShowQuizModal(true); }}
-                disabled={!canPlay}
-                title={canPlay ? '주식 차트 퀴즈' : `${remaining}년 후 도전`}
-                aria-label="주식 퀴즈"
-                style={{
-                  fontSize: '1rem',
-                  width: 34, height: 34, borderRadius: '50%',
-                  border: '1px solid #ff8f00',
-                  background: canPlay ? '#fff8e1' : '#f5f5f5',
-                  cursor: canPlay ? 'pointer' : 'not-allowed',
-                  opacity: canPlay ? 1 : 0.5, flexShrink: 0,
-                }}
-              ><Icon slot="feature-dream" size="md" /></button>
-            );
-          })()}
-        </div>
-
-        <div className="flex gap-sm" style={{ marginTop: 'var(--sp-sm)' }}>
-          <StatMini label="행복" value={character.happiness} emoji="💛" color="#ffd54f" showHints={showStatHints} />
-          <StatMini label="건강" value={character.health} emoji="❤️" color="#ef5350" showHints={showStatHints} />
-          <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#42a5f5" showHints={showStatHints} />
-          <StatMini label="매력" value={character.charisma} emoji="✨" color="#ab47bc" showHints={showStatHints} />
-        </div>
-
-        {(() => {
-          const penalty = computeStatPenalty(character);
-          if (penalty.reasons.length === 0) return null;
-          return (
-            <div
-              role="status"
-              style={{
-                marginTop: 'var(--sp-xs)',
-                padding: '4px 8px',
-                background: '#fff5f5',
-                border: '1px solid #ef9a9a',
-                borderRadius: 'var(--radius-sm)',
-                color: 'var(--danger, #c62828)',
-                fontSize: '0.62rem',
-                fontWeight: 600,
-                lineHeight: 1.4,
-              }}
-            >
-              ⚠️ 컨디션 페널티: {penalty.reasons.join(' · ')}
-            </div>
-          );
-        })()}
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-sm)', marginTop: 'var(--sp-sm)' }}>
-          <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" timeCostMonths={0} loopRef={loopRef} />
-          <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" timeCostMonths={1} loopRef={loopRef} />
-          <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" timeCostMonths={2} loopRef={loopRef} />
-          <CareBtn emoji="🎤" label="노래" cost={3000} stat="charisma" delta={4} effectEmoji="✨" effectLabel="매력" timeCostMonths={1} loopRef={loopRef} />
-        </div>
-
-        {traits.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 'var(--sp-xs)' }}>
-            {traits.slice(0, 5).map((t) => (
-              <span key={t} style={{
-                background: 'var(--accent-light)',
-                color: 'var(--accent)',
-                padding: '1px 6px',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '0.58rem',
-                fontWeight: 600,
-              }}>#{t}</span>
-            ))}
-            {traits.length > 5 && (
-              <span style={{ fontSize: '0.58rem', color: 'var(--text-muted)', padding: '1px 4px' }}>
-                +{traits.length - 5}
-              </span>
-            )}
-          </div>
-        )}
-      </div>
+        </>
       )}
 
       {/* 위기 뱃지 — 홈 탭에서만 */}
@@ -1004,102 +937,69 @@ function SpeedControl({ current, onChange }: { current: number; onChange: (s: 0.
   );
 }
 
-function statGrade(value: number): string {
-  if (value >= 80) return '최고';
-  if (value >= 60) return '좋음';
-  if (value >= 40) return '보통';
-  if (value >= 20) return '나쁨';
-  return '위험';
-}
-
-function StatMini({ label, value, emoji, color: _color, showHints }: { label: string; value: number; emoji: string; color?: string; showHints?: boolean }) {
-  const pct = Math.min(100, Math.max(0, value));
+function StatMini({ label, value, color, showHints: _showHints }: {
+  label: string; value: number; emoji?: string; color: string; showHints?: boolean;
+}) {
+  const iconSlot = label === '행복' ? 'stat-happiness' as const
+    : label === '건강' ? 'stat-health' as const
+    : label === '지혜' ? 'stat-wisdom' as const
+    : 'stat-charisma' as const;
   const isLow = value < 30;
   return (
-    <div style={{ textAlign: 'center', flex: 1, animation: isLow ? 'statPulse 1s infinite' : 'none' }}>
-      <div style={{ fontSize: 'var(--font-size-xs)', color: isLow ? 'var(--danger)' : 'inherit', fontWeight: isLow ? 700 : 400 }}>
-        {emoji} {showHints ? Math.round(value) : statGrade(value)}{isLow ? '⚠️' : ''}
-      </div>
-      <div
-        role="progressbar"
-        aria-label={label}
-        aria-valuenow={Math.round(value)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        className="stat-gauge"
-      >
+    <div className="stat-chip">
+      <Icon slot={iconSlot} size={18} className="stat-chip__icon" />
+      <span className="stat-chip__value" style={{ color: isLow ? 'var(--danger)' : color }}>{value}</span>
+      <div className="stat-chip__bar">
         <div
-          className={`stat-gauge__fill${isLow ? ' stat-gauge__fill--low' : ''}`}
-          style={{ width: `${pct}%` }}
+          className={`stat-chip__bar-fill${isLow ? ' stat-chip__bar-fill--low' : ''}`}
+          style={{ width: `${value}%`, background: isLow ? 'var(--danger)' : color }}
         />
       </div>
-      <div className="text-muted" style={{ fontSize: '0.55rem', marginTop: 1 }}>{label}</div>
-      <style>{`@keyframes statPulse { 0%,100%{opacity:1} 50%{opacity:0.6} }`}</style>
     </div>
   );
 }
 
-function CareBtn({ emoji, label, cost, stat, delta, effectEmoji, effectLabel, timeCostMonths = 0, loopRef }: {
-  emoji: string;
-  label: string;
-  cost: number;
-  stat: string;
-  delta: number;
-  effectEmoji: string;
-  effectLabel: string;
-  timeCostMonths?: number;
-  loopRef?: React.RefObject<GameLoopHandle | null>;
+function CareBtn({ emoji: _emoji, label, cost, stat, delta, loopRef, timeCostMonths }: {
+  emoji: string; label: string; cost: number; stat: 'happiness' | 'health' | 'wisdom' | 'charisma';
+  delta: number; effectEmoji?: string; effectLabel?: string; timeCostMonths: number; loopRef: React.RefObject<GameLoopHandle | null>;
 }) {
-  const cash = useGameStore((s) => s.cash);
   const character = useGameStore((s) => s.character);
-  const disabled = cash < cost || (character as any)[stat] >= 95;
-  const maxed = (character as any)[stat] >= 95;
+  const cash = useGameStore((s) => s.cash);
+  const canAfford = cash >= cost;
+  const iconSlot = stat === 'happiness' ? 'stat-happiness' as const
+    : stat === 'health' ? 'stat-health' as const
+    : stat === 'wisdom' ? 'stat-wisdom' as const
+    : 'stat-charisma' as const;
+
+  const handleCare = () => {
+    if (!canAfford) { showToast('현금이 부족해요', undefined, 'danger', 1200); return; }
+    const st = useGameStore.getState();
+    const penalty = computeStatPenalty(st.character);
+    const colMult = costOfLivingMultiplier(st.costOfLivingRatio);
+    const effectiveDelta = Math.max(1, Math.round(delta * penalty.careEffMult * colMult.careBoost));
+    useGameStore.setState({
+      cash: st.cash - cost,
+      character: {
+        ...st.character,
+        [stat]: Math.min(100, st.character[stat] + effectiveDelta),
+      },
+    });
+    if (timeCostMonths > 0 && loopRef.current) {
+      loopRef.current.addElapsedMs(monthsToMs(timeCostMonths));
+    }
+    showToast(`${label} +${effectiveDelta}`, undefined, 'success', 1000);
+  };
+
   return (
     <button
-      onClick={() => {
-        const st = useGameStore.getState();
-        if (st.cash < cost) return;
-        const penalty = computeStatPenalty(st.character);
-        const colMult = costOfLivingMultiplier(st.costOfLivingRatio);
-        const effectiveDelta = Math.max(1, Math.round(delta * penalty.careEffMult * colMult.careBoost));
-        useGameStore.setState({
-          cash: st.cash - cost,
-          character: {
-            ...st.character,
-            [stat]: Math.min(100, (st.character as any)[stat] + effectiveDelta),
-          },
-        });
-        showToast(`${emoji} ${label}! ${effectEmoji}`, emoji, 'success', 1000);
-        if (timeCostMonths > 0 && loopRef?.current) {
-          loopRef.current.addElapsedMs(monthsToMs(timeCostMonths));
-        }
-      }}
-      disabled={disabled}
-      aria-label={`${label}, ${formatWon(cost)}${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} 써서 ${effectLabel} 올리기`}
-      title={maxed ? `${effectLabel}이 이미 충분해요` : `${formatWon(cost)}${timeCostMonths > 0 ? ` · ${timeCostMonths}개월` : ''} → ${effectLabel} ↑`}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '6px 4px',
-        borderRadius: 'var(--radius-md)',
-        background: disabled ? '#f5f5f5' : 'var(--bg-secondary)',
-        border: '1px solid #eee',
-        fontSize: '0.6rem',
-        opacity: disabled ? 0.5 : 1,
-        cursor: disabled ? 'default' : 'pointer',
-        minWidth: 56,
-        lineHeight: 1.2,
-      }}
+      className="action-strip__btn"
+      onClick={handleCare}
+      disabled={!canAfford || character[stat] >= 100}
+      style={{ opacity: canAfford ? 1 : 0.45 }}
     >
-      <span style={{ fontSize: '1.1rem' }} aria-hidden="true">{emoji}</span>
-      <span style={{ fontWeight: 700, marginTop: 2 }}>{label}</span>
-      <span style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: 2 }}>
-        {formatWon(cost)}{timeCostMonths > 0 && ` · ${timeCostMonths}개월`}
-      </span>
-      <span style={{ fontSize: '0.55rem', color: 'var(--accent)', fontWeight: 700 }}>
-        → {effectEmoji} ↑
-      </span>
+      <Icon slot={iconSlot} size={22} className="action-strip__icon" />
+      <span className="action-strip__label">{label}</span>
+      <span className="action-strip__cost">{formatWon(cost)}</span>
     </button>
   );
 }
