@@ -67,6 +67,8 @@ export function PlayScreen() {
   const endGame = useGameStore((s) => s.endGame);
   const setSpeed = useGameStore((s) => s.setSpeed);
   const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
+  const splitNotices = useGameStore((s) => s.splitNotices);
+  const clearSplitNotices = useGameStore((s) => s.clearSplitNotices);
 
   const {
     stocksValue,
@@ -154,6 +156,15 @@ export function PlayScreen() {
       prevDreamsRef.current = achieved;
     }
   }, [character.age, dreams, phase]);
+
+  // 액면분할 알림
+  useEffect(() => {
+    if (splitNotices.length === 0) return;
+    for (const msg of splitNotices) {
+      showToast(msg, undefined, 'achievement', 4000);
+    }
+    clearSplitNotices();
+  }, [splitNotices, clearSplitNotices]);
 
   // Economy cycle change -> NewsTicker alert
   useEffect(() => {
@@ -289,6 +300,47 @@ export function PlayScreen() {
         <div className="flex flex-between text-muted" style={{ fontSize: 'var(--font-size-xs)', marginTop: 2 }}>
           <span>10세</span>
           <span>100세</span>
+        </div>
+      </div>
+
+      {/* 글로벌 자산 미니바 — 항상 표시 */}
+      <div style={{
+        display: 'flex',
+        gap: 'var(--sp-sm)',
+        padding: 'var(--sp-xs) 0',
+        marginBottom: 'var(--sp-xs)',
+      }}>
+        <div style={{
+          flex: 1,
+          background: 'var(--bg-card)',
+          border: '2px solid var(--border-duo)',
+          borderRadius: 'var(--radius-md)',
+          padding: '6px 12px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxShadow: '0 2px 0 var(--border-strong)',
+        }}>
+          <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 600 }}>총 자산</span>
+          <span className="num-big" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--accent)' }}>
+            {formatWon(totalAssets)}
+          </span>
+        </div>
+        <div style={{
+          flex: 1,
+          background: 'var(--bg-card)',
+          border: '2px solid var(--border-duo)',
+          borderRadius: 'var(--radius-md)',
+          padding: '6px 12px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxShadow: '0 2px 0 var(--border-strong)',
+        }}>
+          <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 600 }}>현금</span>
+          <span className="num-big" style={{ fontSize: 'var(--font-size-sm)', color: cash < 0 ? 'var(--danger)' : 'var(--text-primary)' }}>
+            {cash < 0 ? '-' : ''}{formatWon(Math.abs(cash))}
+          </span>
         </div>
       </div>
 
@@ -844,11 +896,12 @@ function TabBar({ tab, onChange, onOpenSettings }: {
         right: 0,
         bottom: 0,
         display: 'flex',
-        background: '#fff',
-        borderTop: '1px solid #eee',
-        boxShadow: '0 -2px 8px rgba(0,0,0,0.06)',
+        background: 'rgba(255,255,255,0.97)',
+        borderTop: '2.5px solid var(--border-duo)',
+        boxShadow: '0 -4px 20px rgba(0,0,0,0.10)',
         zIndex: 50,
         paddingBottom: 'env(safe-area-inset-bottom, 0)',
+        paddingTop: 4,
       }}
     >
       {items.map((it) => {
@@ -866,25 +919,58 @@ function TabBar({ tab, onChange, onOpenSettings }: {
             onClick={handleClick}
             style={{
               flex: 1,
-              minHeight: 64,
+              minHeight: 56,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 3,
-              background: active ? 'var(--accent-light)' : 'transparent',
+              gap: 2,
               border: 'none',
               cursor: 'pointer',
-              color: active ? 'var(--accent)' : 'var(--text-secondary, #555)',
-              fontWeight: active ? 800 : 600,
-              borderRadius: active ? 10 : 0,
-              transform: active ? 'scale(1.06)' : 'scale(1)',
-              transition: 'all 0.15s ease',
-              padding: '6px 8px',
+              padding: '4px 2px 6px',
+              background: 'transparent',
+              position: 'relative',
+              ...(active ? {
+                color: 'var(--accent)',
+              } : {
+                color: 'var(--text-secondary)',
+                opacity: 0.7,
+              }),
             }}
           >
-            <span style={{ fontSize: '1.55rem', lineHeight: 1 }}>{it.emoji}</span>
-            <span style={{ fontSize: '0.8rem' }}>{it.label}</span>
+            {active && (
+              <span style={{
+                position: 'absolute',
+                top: 0,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 24,
+                height: 3,
+                borderRadius: '0 0 3px 3px',
+                background: 'var(--accent)',
+              }} />
+            )}
+            <span style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 40,
+              height: 28,
+              borderRadius: 14,
+              background: active ? 'var(--accent-light)' : 'transparent',
+              transition: 'all 0.15s ease',
+              marginBottom: 1,
+            }}>
+              <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>{it.emoji}</span>
+            </span>
+            <span style={{
+              fontSize: '0.65rem',
+              fontWeight: active ? 700 : 500,
+              letterSpacing: '-0.01em',
+              lineHeight: 1,
+            }}>
+              {it.label}
+            </span>
           </button>
         );
       })}

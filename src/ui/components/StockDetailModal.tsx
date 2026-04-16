@@ -1,5 +1,6 @@
 import type { StockDef, Holding } from '../../game/types';
 import { formatWon } from '../../game/domain/asset';
+import { useGameStore } from '../../store/gameStore';
 
 interface Props {
   stock: StockDef;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function StockDetailModal({ stock, price, holding, cash, onBuy, onSell, onClose }: Props) {
+  const dividendRates = useGameStore((s) => s.dividendRates);
   const priceDiffPct = ((price - stock.basePrice) / stock.basePrice) * 100;
   const priceDiffColor = priceDiffPct > 0 ? 'var(--success)' : priceDiffPct < 0 ? 'var(--danger)' : 'inherit';
 
@@ -145,7 +147,9 @@ export function StockDetailModal({ stock, price, holding, cash, onBuy, onSell, o
             <div style={{ textAlign: 'right' }}>
               <div style={labelStyle}>시가배당률</div>
               <div style={{ ...valueStyle, color: stock.dividendRate > 0 ? 'var(--success)' : 'inherit' }}>
-                {stock.dividendRate > 0 ? `${(stock.dividendRate * 100).toFixed(1)}%` : '-'}
+                {stock.dividendRate > 0
+                  ? `${((stock.basePrice * (dividendRates[stock.ticker] ?? stock.dividendRate)) / price * 100).toFixed(1)}%`
+                  : '-'}
               </div>
             </div>
           </div>
@@ -185,7 +189,7 @@ export function StockDetailModal({ stock, price, holding, cash, onBuy, onSell, o
                 <div>
                   <div style={labelStyle}>시가배당률</div>
                   <div style={{ ...valueStyle, color: 'var(--success)' }}>
-                    {(stock.dividendRate * 100).toFixed(1)}%
+                    {((stock.basePrice * (dividendRates[stock.ticker] ?? stock.dividendRate)) / price * 100).toFixed(1)}%
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>

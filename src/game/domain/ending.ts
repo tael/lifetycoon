@@ -9,18 +9,38 @@ function downgradeByLevel(grade: Grade, levels: number): Grade {
   return grades[newIdx];
 }
 
-export function calculateGrade(achieved: number, total: number, crisisTurns?: number): Grade {
+export function calculateGrade(
+  achieved: number,
+  total: number,
+  crisisTurns?: number,
+  finalAssets?: number,
+): Grade {
   if (total === 0) return 'F';
+
+  // 꿈 달성 점수 (0-60점)
   const r = achieved / total;
+  const dreamScore = r >= 0.999 ? 60 : r >= 0.5 ? 30 : 0;
+
+  // 자산 보너스 점수 (0-40점)
+  const assets = finalAssets ?? 0;
+  const assetScore =
+    assets >= 10_000_000_000 ? 40  // 100억+
+    : assets >= 5_000_000_000 ? 30 // 50억+
+    : assets >= 2_000_000_000 ? 20 // 20억+
+    : assets >= 500_000_000 ? 10   // 5억+
+    : 0;
+
+  const score = dreamScore + assetScore;
+
   let grade: Grade;
-  if (r >= 0.999) grade = 'S';
-  else if (r >= 0.75) grade = 'A';
-  else if (r >= 0.50) grade = 'B';
-  else if (r >= 0.25) grade = 'C';
-  else if (r > 0) grade = 'D';
+  if (score >= 80) grade = 'S';
+  else if (score >= 55) grade = 'A';
+  else if (score >= 35) grade = 'B';
+  else if (score >= 15) grade = 'C';
+  else if (score > 0 || achieved > 0) grade = 'D';
   else grade = 'F';
 
-  // crisisTurns에 따라 등급 하향 조정
+  // crisisTurns 하향 조정 유지
   const ct = crisisTurns ?? 0;
   if (ct > 20) grade = downgradeByLevel(grade, 2);
   else if (ct > 10) grade = downgradeByLevel(grade, 1);
@@ -189,7 +209,7 @@ export function buildEnding(
   extras: EndingExtras,
 ): Ending {
   const achieved = dreams.filter((d) => d.achieved);
-  const grade = calculateGrade(achieved.length, dreams.length, extras.crisisTurns);
+  const grade = calculateGrade(achieved.length, dreams.length, extras.crisisTurns, finalAssets);
   const selected = selectKeyMoments(keyMoments, 8);
   const epitaph = buildEpitaph(
     characterName,

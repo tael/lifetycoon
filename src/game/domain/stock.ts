@@ -84,3 +84,17 @@ export function holdingsValue(
     0,
   );
 }
+
+/**
+ * 주식 액면분할 판정 — 가격이 임계값 초과 시 분할 비율 반환.
+ * 분할 없으면 1 반환.
+ */
+export function splitRatioFor(price: number, basePrice: number): number {
+  // basePrice의 10배 초과 시 10:1 분할
+  if (price >= basePrice * 10) return 10;
+  // basePrice의 5배 초과 시 5:1 분할
+  if (price >= basePrice * 5) return 5;
+  // basePrice의 3배 초과 시 2:1 분할
+  if (price >= basePrice * 3) return 2;
+  return 1;
+}

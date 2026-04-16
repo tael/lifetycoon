@@ -11,6 +11,7 @@ export function BankTab({
   effectiveInterestRate: number;
   totalAssets: number;
 }) {
+  const economyPhase = useGameStore((s) => s.economyCycle.phase);
   const cash = useGameStore((s) => s.cash);
   const bank = useGameStore((s) => s.bank);
   const deposit = useGameStore((s) => s.deposit);
@@ -85,7 +86,18 @@ export function BankTab({
       {/* 은행 잔액 요약 */}
       <div className="card">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
-          <span style={{ fontWeight: 700 }}><Icon slot="nav-bank" size="md" /> 은행</span>
+          <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
+            <Icon slot="nav-bank" size="md" /> 은행
+            <span style={{
+              fontSize: '0.6rem', fontWeight: 700,
+              padding: '2px 7px', borderRadius: 999,
+              background: economyPhase === 'boom' ? '#fff3e0' : economyPhase === 'recession' ? '#e3f2fd' : '#f5f5f5',
+              color: economyPhase === 'boom' ? '#e65100' : economyPhase === 'recession' ? '#1565c0' : '#9e9e9e',
+              marginLeft: 6,
+            }}>
+              {economyPhase === 'boom' ? '호황' : economyPhase === 'recession' ? '불황' : '보통'}
+            </span>
+          </span>
         </div>
         <div className="flex flex-col gap-xs">
           <div className="flex flex-between" style={{ fontSize: 'var(--font-size-sm)', padding: '2px 0' }}>
@@ -99,6 +111,21 @@ export function BankTab({
               <span className="text-muted" style={{ fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>
                 (연 {(effectiveInterestRate * 100).toFixed(1)}%)
               </span>
+              <span style={{
+                fontSize: '0.55rem',
+                fontWeight: 700,
+                padding: '1px 5px',
+                borderRadius: 'var(--radius-full)',
+                marginLeft: 4,
+                background: economyPhase === 'boom' ? '#fff3e0'
+                  : economyPhase === 'recession' ? '#e3f2fd'
+                  : '#f5f5f5',
+                color: economyPhase === 'boom' ? '#e65100'
+                  : economyPhase === 'recession' ? '#1565c0'
+                  : '#757575',
+              }}>
+                {economyPhase === 'boom' ? '📈 호황' : economyPhase === 'recession' ? '📉 불황' : '─ 보통'}
+              </span>
             </span>
           </div>
           <div className="flex flex-between" style={{ alignItems: 'center' }}>
@@ -111,6 +138,11 @@ export function BankTab({
                 <span style={{ fontWeight: 400, fontSize: 'var(--font-size-xs)', marginLeft: 4 }}>
                   연 {(bank.loanInterestRate * 100).toFixed(1)}%
                 </span>
+              )}
+              {bank.loanBalance > 0 && economyPhase !== 'normal' && (
+                <div style={{ fontSize: '0.62rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                  {economyPhase === 'boom' ? '💡 호황기에는 대출 이자 부담이 커요' : '💡 불황기에는 금리가 낮아질 수 있어요'}
+                </div>
               )}
             </span>
           </div>

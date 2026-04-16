@@ -33,6 +33,7 @@ export function InvestTab({
     const age = Math.floor(s.character.age);
     return age > 30 ? 1 + 0.02 * (age - 30) : 1;
   });
+  const dividendRates = useGameStore((s) => s.dividendRates);
   const buy = useGameStore((s) => s.buy);
   const sell = useGameStore((s) => s.sell);
 
@@ -118,24 +119,28 @@ export function InvestTab({
         </div>
         {/* 섹터 필터 탭 */}
         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: 'var(--sp-sm)' }}>
-          {stockSectors.map((sector) => (
-            <button
-              key={sector}
-              onClick={() => setStockSectorFilter(sector)}
-              style={{
-                fontSize: '0.6rem',
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-full)',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 700,
-                background: stockSectorFilter === sector ? 'var(--accent)' : '#eee',
-                color: stockSectorFilter === sector ? '#fff' : '#666',
-              }}
-            >
-              {sector === 'all' ? '전체' : sector}
-            </button>
-          ))}
+          {stockSectors.map((sector) => {
+            const isActive = stockSectorFilter === sector;
+            return (
+              <button
+                key={sector}
+                onClick={() => setStockSectorFilter(sector)}
+                style={{
+                  padding: '4px 12px',
+                  borderRadius: 'var(--radius-full)',
+                  fontSize: 'var(--font-size-xs)',
+                  fontWeight: 700,
+                  border: `2px solid ${isActive ? 'var(--accent)' : 'var(--border-duo)'}`,
+                  background: isActive ? 'var(--accent)' : 'var(--bg-card)',
+                  color: isActive ? '#fff' : 'var(--text-secondary)',
+                  cursor: 'pointer',
+                  boxShadow: isActive ? '0 2px 0 var(--accent-shadow)' : '0 2px 0 var(--border-strong)',
+                }}
+              >
+                {sector === 'all' ? '전체' : sector}
+              </button>
+            );
+          })}
         </div>
         {[...STOCKS].sort((a, b) => {
           const priceA = prices[a.ticker] ?? a.basePrice;
@@ -168,6 +173,7 @@ export function InvestTab({
               canBuy={cash >= price}
               cash={cash}
               onDetail={() => setSelectedStock(s.ticker)}
+              dividendRates={dividendRates}
             />
           );
         })}
@@ -299,16 +305,23 @@ function RealEstateCard({
 }
 
 function StockRow({
-  stock, price, holding, onBuy, onSell, canBuy, onDetail, cash,
+  stock, price, holding, onBuy, onSell, canBuy, onDetail, cash, dividendRates,
 }: {
   stock: StockDef; price: number; holding?: { shares: number; avgBuyPrice: number };
   onBuy: (n: number) => void; onSell: (n: number) => void; canBuy: boolean;
-  onDetail: () => void; cash: number;
+  onDetail: () => void; cash: number; dividendRates: Record<string, number>;
 }) {
   const maxBuyable = price > 0 ? Math.floor(cash / price) : 0;
   const pnl = holding ? (price - holding.avgBuyPrice) * holding.shares : 0;
   return (
-    <div style={{ padding: '6px 0', borderBottom: '1px solid #f5f0e8' }}>
+    <div style={{
+      background: 'var(--bg-card)',
+      border: '2px solid var(--border-duo)',
+      borderRadius: 'var(--radius-md)',
+      padding: '10px 12px',
+      marginBottom: 8,
+      boxShadow: '0 2px 0 var(--border-strong)',
+    }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span style={{ fontSize: '1.2rem', width: 28, flexShrink: 0 }}>{stock.iconEmoji}</span>
         <div
@@ -326,7 +339,12 @@ function StockRow({
             </span>
             {stock.dividendRate > 0 && (
               <span style={{ fontSize: '0.55rem', color: 'var(--success)', marginLeft: 3, fontWeight: 400 }}>
-                시가배당률 {(stock.dividendRate * 100).toFixed(1)}%
+                {(() => {
+                  const currentRate = dividendRates[stock.ticker] ?? stock.dividendRate;
+                  const currentPrice = price > 0 ? price : stock.basePrice;
+                  const currentYield = (stock.basePrice * currentRate / currentPrice) * 100;
+                  return `시가배당률 ${currentYield.toFixed(1)}%`;
+                })()}
               </span>
             )}
           </div>
@@ -343,7 +361,7 @@ function StockRow({
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', gap: 4, marginTop: 4, paddingLeft: 36, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 4, marginTop: 8, flexWrap: 'wrap' }}>
         <TradBtn label="▲1주" color="buy" onClick={() => onBuy(1)} disabled={!canBuy} stockName={stock.name} />
         <TradBtn label="▲5주" color="buy" onClick={() => onBuy(5)} disabled={maxBuyable < 5} stockName={stock.name} />
         <TradBtn label={`▲전량${maxBuyable > 0 ? `(${maxBuyable})` : ''}`} color="buy" onClick={() => maxBuyable > 0 && onBuy(maxBuyable)} disabled={maxBuyable < 1} stockName={stock.name} />

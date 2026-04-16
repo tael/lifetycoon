@@ -43,7 +43,7 @@ import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
 import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
-import { nextPrice } from '../game/domain/stock';
+import { nextPrice, splitRatioFor } from '../game/domain/stock';
 import { createStreams, randomSeeds, type RngStreams } from '../game/engine/prng';
 import {
   createEconomyCycle,
@@ -151,6 +151,11 @@ export type GameStoreState = {
   choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[];
   currentSeason: Season;
   dripEnabled: boolean;
+  /** 종목별 현재 배당률. 매년 성장. 없으면 stockDef.dividendRate 사용. */
+  dividendRates: Record<string, number>;
+  /** 액면분할 알림 메시지 목록. advanceYear에서 채워지고 PlayScreen에서 소비 후 clear. */
+  splitNotices: string[];
+  clearSplitNotices: () => void;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   activeChallengeId: string | null;
@@ -251,6 +256,8 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     choiceHistory: [],
     currentSeason: 'spring' as Season,
     dripEnabled: false,
+    dividendRates: {},
+    splitNotices: [],
     speedMultiplier: 1,
     activeChallengeId: null,
     pendingGender: null,
@@ -285,6 +292,7 @@ type GameStoreActions = Pick<
   | 'resetAll'
   | 'unlockSkill'
   | 'loadSnapshot'
+  | 'clearSplitNotices'
 >;
 
 // Single shared stream per game (recreated from seeds)
@@ -380,6 +388,16 @@ export const useGameStore = create<GameStoreState>()(
       );
       const driftBonus = PHASE_DRIFT_BONUS[economyCycle.phase];
 
+      // 경기사이클 전환 시 예금 base rate 조정 (±0.005)
+      const newBaseInterestRate = cycleChanged
+        ? (() => {
+            const rateAdj = economyCycle.phase === 'boom' ? 0.005
+              : economyCycle.phase === 'recession' ? -0.005
+              : 0;
+            return Math.min(0.15, Math.max(0.01, st.bank.interestRate + rateAdj));
+          })()
+        : st.bank.interestRate;
+
       // ── 월별 분할 처리 ──────────────────────────────────────────────
       // 기존 연 단위 일괄 계산을 12개월 루프로 분할하여 월별 현금흐름을 반영한다.
       // 연 1회 처리 항목(세금, 주가 변동, NPC, 이벤트 등)은 루프 밖에서 처리.
@@ -474,10 +492,11 @@ export const useGameStore = create<GameStoreState>()(
         let monthlyDividend = 0;
         for (const h of mHoldings) {
           const stockDef = stockMap[h.ticker];
-          const divRate = stockDef?.dividendRate ?? 0;
+          const divRate = (st.dividendRates[h.ticker] ?? stockDef?.dividendRate) ?? 0;
           if (divRate <= 0) continue;
-          const price = st.prices[h.ticker] ?? 0;
-          const div = Math.round(price * h.shares * divRate / 12);
+          // 주당배당금 = basePrice 기준 고정 (주가 변동과 독립)
+          const basePriceForDiv = stockDef?.basePrice ?? (st.prices[h.ticker] ?? 0);
+          const div = Math.round(basePriceForDiv * h.shares * divRate / 12);
           monthlyDividend += div;
         }
         mCash += monthlyDividend;
@@ -553,11 +572,12 @@ export const useGameStore = create<GameStoreState>()(
           for (let hi = 0; hi < mHoldings.length; hi++) {
             const h = mHoldings[hi];
             const stockDef = stockMap[h.ticker]; // O(1) 조회
-            const divRate = stockDef?.dividendRate ?? 0;
+            const divRate = (st.dividendRates[h.ticker] ?? stockDef?.dividendRate) ?? 0;
             if (divRate <= 0) continue;
             const price = st.prices[h.ticker] ?? 0;
             if (price <= 0) continue;
-            const div = Math.round(price * h.shares * divRate / 12);
+            const basePriceForDiv = stockDef?.basePrice ?? price;
+            const div = Math.round(basePriceForDiv * h.shares * divRate / 12);
             const additionalShares = Math.floor(div / price);
             if (additionalShares <= 0) continue;
             const cost = additionalShares * price;
@@ -608,12 +628,44 @@ export const useGameStore = create<GameStoreState>()(
       // 4) Stock price drift (with economy cycle bonus + stat penalty) — 연 1회
       const prices: Record<string, number> = { ...st.prices };
       const driftAdj = driftBonus + statPenalty.returnMult;
+      const splitEvents: { ticker: string; name: string; ratio: number }[] = [];
       for (const s of STOCKS) {
         const adjustedStock = driftAdj !== 0
           ? { ...s, drift: s.drift + driftAdj }
           : s;
-        prices[s.ticker] = nextPrice(prices[s.ticker], adjustedStock, streams.stock, deltaYears);
+        const newPrice = nextPrice(prices[s.ticker], adjustedStock, streams.stock, deltaYears);
+        const splitRatio = splitRatioFor(newPrice, s.basePrice);
+        if (splitRatio > 1) {
+          prices[s.ticker] = Math.round(newPrice / splitRatio);
+          splitEvents.push({ ticker: s.ticker, name: s.name, ratio: splitRatio });
+        } else {
+          prices[s.ticker] = newPrice;
+        }
       }
+      // 보유 주식 분할 반영
+      for (const ev of splitEvents) {
+        mHoldings = mHoldings.map((h) =>
+          h.ticker === ev.ticker
+            ? {
+                ...h,
+                shares: h.shares * ev.ratio,
+                avgBuyPrice: Math.round(h.avgBuyPrice / ev.ratio),
+              }
+            : h,
+        );
+      }
+      // 4b) 배당성장: 매년 종목별 2% 성장 (호황 +0.5%, 침체 -0.5%) — 연 1회
+      const divGrowthBase = 0.02;
+      const divGrowthBonus = economyCycle.phase === 'boom' ? 0.005 : economyCycle.phase === 'recession' ? -0.005 : 0;
+      const updatedDividendRates: Record<string, number> = { ...st.dividendRates };
+      for (const s of STOCKS) {
+        if (s.dividendRate <= 0) continue;
+        const currentRate = updatedDividendRates[s.ticker] ?? s.dividendRate;
+        const growth = 1 + divGrowthBase + divGrowthBonus;
+        // 상한: 원래 배당률의 3배
+        updatedDividendRates[s.ticker] = Math.min(currentRate * growth, s.dividendRate * 3);
+      }
+
       // 5) NPC step - 플레이어 총자산 기반 catch-up — 연 1회
       const playerStocksVal = mHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
       const playerAssets = mCash + bank.balance + playerStocksVal + st.realEstate.reduce((s, re) => s + re.currentValue, 0) + st.bonds.reduce((s, b) => s + b.faceValue, 0);
@@ -895,7 +947,7 @@ export const useGameStore = create<GameStoreState>()(
       set({
         character: { ...crisisCharacter, emoji },
         cash: finalCash,
-        bank: postGovBank,
+        bank: { ...postGovBank, interestRate: newBaseInterestRate },
         holdings: postSaleHoldings,
         prices,
         npcs,
@@ -917,7 +969,14 @@ export const useGameStore = create<GameStoreState>()(
         loanHistory: govLoanRecord ? [...st.loanHistory, govLoanRecord] : st.loanHistory,
         cashflowHistory,
         costOfLivingRatio: cfRatio,
+        dividendRates: updatedDividendRates,
+        splitNotices: splitEvents.length > 0
+          ? splitEvents.map((ev) => `📈 ${ev.name} ${ev.ratio}:1 액면분할! 주식 수 ${ev.ratio}배, 가격 1/${ev.ratio}로 조정됩니다.`)
+          : [],
       });
+    },
+    clearSplitNotices() {
+      set({ splitNotices: [] });
     },
     triggerEvent(ev) {
       set({ phase: { kind: 'paused', event: ev } });
