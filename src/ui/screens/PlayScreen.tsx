@@ -364,7 +364,7 @@ export function PlayScreen() {
           );
         })()}
 
-        <div style={{ display: 'flex', gap: 4, marginTop: 'var(--sp-sm)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-sm)', marginTop: 'var(--sp-sm)' }}>
           <CareBtn emoji="🍕" label="간식" cost={5000} stat="happiness" delta={5} effectEmoji="😊" effectLabel="행복" timeCostMonths={0} loopRef={loopRef} />
           <CareBtn emoji="💊" label="건강" cost={10000} stat="health" delta={8} effectEmoji="❤️" effectLabel="건강" timeCostMonths={1} loopRef={loopRef} />
           <CareBtn emoji="📖" label="공부" cost={8000} stat="wisdom" delta={4} effectEmoji="📘" effectLabel="지혜" timeCostMonths={2} loopRef={loopRef} />
@@ -860,12 +860,15 @@ function TabBar({ tab, onChange, onOpenSettings }: {
               alignItems: 'center',
               justifyContent: 'center',
               gap: 3,
-              background: 'transparent',
+              background: active ? 'var(--accent-light)' : 'transparent',
               border: 'none',
               cursor: 'pointer',
               color: active ? 'var(--accent)' : 'var(--text-secondary, #555)',
               fontWeight: active ? 800 : 600,
-              borderTop: active ? '3px solid var(--accent)' : '3px solid transparent',
+              borderRadius: active ? 10 : 0,
+              transform: active ? 'scale(1.06)' : 'scale(1)',
+              transition: 'all 0.15s ease',
+              padding: '6px 8px',
             }}
           >
             <span style={{ fontSize: '1.55rem', lineHeight: 1 }}>{it.emoji}</span>

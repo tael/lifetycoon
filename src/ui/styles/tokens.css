@@ -34,21 +34,29 @@
   --accent: #ff7043;
   --accent-hover: #ff5722;
   --accent-light: #ffe0b2;
-  --success: #4caf50;
-  --danger: #e53935;
-  --warning: #ffb300;
-  --info: #42a5f5;
+  --success: #58cc02;
+  --danger: #ff4b4b;
+  --warning: #ffc800;
+  --info: #1cb0f6;
   --grade-s: #ffd700;
   --grade-a: #ff7043;
   --grade-b: #42a5f5;
   --grade-c: #bdbdbd;
+
+  /* Hard shadow — 색상별 진한 버전 */
+  --accent-shadow: #c4501e;
+  --success-shadow: #46a302;
+  --danger-shadow: #cc3c3c;
+  --info-shadow: #1899d6;
+  /* 테두리 */
+  --border-duo: #e5ddd0;
+  --border-strong: #cec2af;
 
   /* Surface & Border & State */
   --surface-1: #ffffff;
   --surface-2: #fafafa;
   --surface-3: #f5f5f5;
   --border-soft: rgba(0, 0, 0, 0.06);
-  --border-strong: rgba(0, 0, 0, 0.12);
   --state-success: var(--success);
   --state-warning: var(--warning);
   --state-danger: var(--danger);
@@ -85,10 +93,10 @@
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-  --shadow-hard: 0 4px 0 rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 0 rgba(0,0,0,0.15);
+  --shadow-md: 0 4px 0 var(--border-strong);
+  --shadow-lg: 0 6px 0 var(--border-strong);
+  --shadow-hard: 0 5px 0 var(--accent-shadow);
   --shadow-pop: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   /* Motion */
