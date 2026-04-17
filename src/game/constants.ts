@@ -9,10 +9,6 @@ export const ADULT_STUDENT_MONTHLY = 2_000_000; // 성인 학생 아르바이트
 // 정부 긴급 대출
 export const MIN_GOV_LOAN = 100_000_000;
 
-// 보험료
-export const HEALTH_INSURANCE_PREMIUM = 200_000;
-export const ASSET_INSURANCE_PREMIUM = 300_000;
-
 // 경제/인플레이션
 export const ANNUAL_INFLATION_RATE = 0.02; // 연 인플레이션율 2%
 

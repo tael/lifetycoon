@@ -65,7 +65,6 @@ export function decodeShareCode(code: string): ShareEnvelope | null {
         : [],
       realEstateCount: (raw.realEstateCount as number) ?? 0,
       hadLoanAndRepaid: (raw.hadLoanAndRepaid as boolean) ?? false,
-      bothInsurancesHeld: (raw.bothInsurancesHeld as boolean) ?? false,
       boomTimeBillionaireReached: (raw.boomTimeBillionaireReached as boolean) ?? false,
       survivedRecessionWithAssets: (raw.survivedRecessionWithAssets as boolean) ?? false,
       finalWisdom: (raw.finalWisdom as number) ?? 0,

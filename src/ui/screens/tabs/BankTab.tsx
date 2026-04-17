@@ -19,8 +19,6 @@ export function BankTab({
   const takeLoan = useGameStore((s) => s.takeLoan);
   const repayLoan = useGameStore((s) => s.repayLoan);
   const loanHistory = useGameStore((s) => s.loanHistory);
-  const insurance = useGameStore((s) => s.insurance);
-  const toggleInsurance = useGameStore((s) => s.toggleInsurance);
   const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
 
   const [loanHistoryExpanded, setLoanHistoryExpanded] = useState(false);
@@ -213,91 +211,6 @@ export function BankTab({
             if (maxRepay > 0 && repayLoan(maxRepay)) showToast(`${formatWon(maxRepay)} 상환!`, '✅', 'success', 1200);
           }} disabled={maxRepay <= 0} />
         </div>
-      </div>
-
-      {/* Insurance */}
-      <div className="card">
-        <div style={{ fontWeight: 700, marginBottom: 'var(--sp-sm)' }}>🛡️ 보험</div>
-        <div className="flex flex-col gap-xs">
-          <div className="flex flex-between" style={{ alignItems: 'center' }}>
-            <div>
-              <span style={{ fontSize: 'var(--font-size-sm)' }}>건강보험</span>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 6 }}>
-                연 20만 · 건강 피해 -50%
-              </span>
-            </div>
-            <button
-              onClick={() => {
-                toggleInsurance('health');
-                showToast(
-                  insurance.health ? '건강보험 해지' : '건강보험 가입!',
-                  '🛡️',
-                  insurance.health ? 'warning' : 'success',
-                  1200,
-                );
-              }}
-              aria-label={insurance.health ? '건강보험 해지' : '건강보험 가입'}
-              aria-pressed={insurance.health}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-sm)',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: 'var(--font-size-xs)',
-                background: insurance.health ? 'var(--success)' : '#ccc',
-                color: '#fff',
-              }}
-            >
-              {insurance.health ? 'ON' : 'OFF'}
-            </button>
-          </div>
-          <div className="flex flex-between" style={{ alignItems: 'center' }}>
-            <div>
-              <span style={{ fontSize: 'var(--font-size-sm)' }}>자산보험</span>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginLeft: 6 }}>
-                연 30만 · 현금 손실 -30%
-              </span>
-            </div>
-            <button
-              onClick={() => {
-                toggleInsurance('asset');
-                showToast(
-                  insurance.asset ? '자산보험 해지' : '자산보험 가입!',
-                  '🛡️',
-                  insurance.asset ? 'warning' : 'success',
-                  1200,
-                );
-              }}
-              aria-label={insurance.asset ? '자산보험 해지' : '자산보험 가입'}
-              aria-pressed={insurance.asset}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 'var(--radius-sm)',
-                border: 'none',
-                cursor: 'pointer',
-                fontWeight: 700,
-                fontSize: 'var(--font-size-xs)',
-                background: insurance.asset ? 'var(--success)' : '#ccc',
-                color: '#fff',
-              }}
-            >
-              {insurance.asset ? 'ON' : 'OFF'}
-            </button>
-          </div>
-        </div>
-        {insurance.premium > 0 && (
-          <div style={{
-            marginTop: 'var(--sp-sm)',
-            padding: 'var(--sp-xs) var(--sp-sm)',
-            background: '#f0fff4',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: 'var(--font-size-xs)',
-            color: 'var(--success)',
-          }}>
-            📋 연 보험료 합계: {(insurance.premium / 10000).toFixed(0)}만원
-          </div>
-        )}
       </div>
 
       {/* 대출 이력 */}

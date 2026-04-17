@@ -16,7 +16,7 @@ export function processCrisisAndLiquidation(
   const { character } = monthlyResult;
 
   // V5-04: 위기 레벨 계산
-  const totalExpensesForCrisis = monthlyResult.insuranceCost + annualResult.totalTax + monthlyResult.academyExpense + monthlyResult.costOfLivingExpense + monthlyResult.upkeepExpense + monthlyResult.repaymentExpense;
+  const totalExpensesForCrisis = annualResult.totalTax + monthlyResult.academyExpense + monthlyResult.costOfLivingExpense + monthlyResult.upkeepExpense + monthlyResult.repaymentExpense;
   const stocksValForCrisis = annualResult.holdings.reduce((s, h) => s + (annualResult.prices[h.ticker] ?? 0) * h.shares, 0);
   const totalAssetsForCrisis = annualResult.finalCash + monthlyResult.bankBalance + stocksValForCrisis + annualResult.realEstate.reduce((s, re) => s + re.currentValue, 0);
   const crisisLevel = computeCrisisLevel({

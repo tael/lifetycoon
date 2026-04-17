@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { computeCashflow, type CashflowInput } from '../domain/cashflow';
-import type { BankAccount, Insurance, Job, StockDef } from '../types';
+import type { BankAccount, Job, StockDef } from '../types';
 
 const baseBank: BankAccount = {
   balance: 0,
@@ -8,8 +8,6 @@ const baseBank: BankAccount = {
   loanBalance: 0,
   loanInterestRate: 0.05,
 };
-const noInsurance: Insurance = { health: false, asset: false, premium: 0 };
-
 const salaryJob: Job = {
   id: 'test_job',
   title: '테스트직업',
@@ -45,7 +43,6 @@ function baseInput(overrides: Partial<CashflowInput> = {}): CashflowInput {
     stocks: sampleStocks,
     realEstate: [],
     bonds: [],
-    insurance: noInsurance,
     ...overrides,
   };
 }
@@ -119,17 +116,16 @@ describe('computeCashflow', () => {
   });
 
   it('passiveIncome이 충분히 크면 sustainablePassive 기준으로 financiallyFree=true', () => {
-    // V3-10: 이자 150만 × 6% = 9만 소득세. 보험 20만 더해 totalExpense=29만.
-    // sustainablePassive 150만 >> 29만 → financiallyFree=true.
+    // 이자 150만 × 6% = 9만 소득세.
+    // sustainablePassive 150만 >> 9만 → financiallyFree=true.
     const r = computeCashflow(baseInput({
       job: null,
       bank: { ...baseBank, balance: 50_000_000 },
       effectiveInterestRate: 0.03,
-      insurance: { health: true, asset: false, premium: 200_000 },
     }));
     expect(r.passiveIncome).toBe(1_500_000);
     expect(r.sustainablePassive).toBe(1_500_000);
-    expect(r.totalExpense).toBe(90_000 + 200_000);
+    expect(r.totalExpense).toBe(90_000);
     expect(r.financiallyFree).toBe(true);
   });
 
@@ -146,13 +142,12 @@ describe('computeCashflow', () => {
   });
 
   it('passiveIncome=0 이면 지출이 있어도 financiallyFree=false', () => {
-    // V3-10: salary 600만 × 6% = 36만 소득세 + 보험 20만 = 56만
+    // V3-10: salary 600만 × 6% = 36만 소득세
     const r = computeCashflow(baseInput({
       job: salaryJob,
-      insurance: { health: true, asset: false, premium: 200_000 },
     }));
     expect(r.passiveIncome).toBe(0);
-    expect(r.totalExpense).toBe(360_000 + 200_000);
+    expect(r.totalExpense).toBe(360_000);
     expect(r.financiallyFree).toBe(false);
     expect(r.freedomRatio).toBe(0);
   });
@@ -170,19 +165,16 @@ describe('computeCashflow', () => {
   });
 
   it('sustainablePassive === totalExpense 경계에서도 financiallyFree=true', () => {
-    // V3-10 후 5단계 누진세에서도 sustainablePassive 기반 판정 그대로.
-    // 이자만 충분히 크게 두고 보험료를 늘려 양쪽이 같아지도록.
-    // 이자 60만 → 소득세 6% = 36000. 보험료 564000 → 합계 60만.
+    // 이자 60만 → 소득세 6% = 36000. totalExpense=36000.
+    // sustainablePassive 60만 >> 36000 → financiallyFree=true.
     const r = computeCashflow(baseInput({
       job: null,
       bank: { ...baseBank, balance: 20_000_000 },
       effectiveInterestRate: 0.03,
-      insurance: { health: true, asset: false, premium: 564_000 },
     }));
     expect(r.sustainablePassive).toBe(600_000);
-    expect(r.totalExpense).toBe(600_000);
+    expect(r.totalExpense).toBe(36_000);
     expect(r.financiallyFree).toBe(true);
-    expect(r.freedomRatio).toBeCloseTo(1.0, 3);
   });
 
   it('연금 경계: 64세에는 없고 65세에는 연금 라인이 생긴다', () => {

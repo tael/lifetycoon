@@ -151,7 +151,7 @@ export function processDreamsAndLogs(
     : st.assetHistory;
 
   // Track cashflow history
-  const totalExpensesForCrisis = monthlyResult.insuranceCost + annualResult.totalTax + monthlyResult.academyExpense + monthlyResult.costOfLivingExpense + monthlyResult.upkeepExpense + monthlyResult.repaymentExpense;
+  const totalExpensesForCrisis = annualResult.totalTax + monthlyResult.academyExpense + monthlyResult.costOfLivingExpense + monthlyResult.upkeepExpense + monthlyResult.repaymentExpense;
   const netMonthlyNow = Math.round((monthlyResult.grossPeriodIncome - totalExpensesForCrisis) / 12);
   const cashflowHistory = [...st.cashflowHistory, { age: intAge, netMonthly: netMonthlyNow }].slice(-90);
 

@@ -24,7 +24,6 @@ export type RunResult = {
   keyMomentCount: number;
   hadLoan: boolean;
   loanFullyRepaid: boolean;
-  insuranceEnrolled: { health: boolean; life: boolean };
   holdings: { ticker: string; shares: number; holdYears: number }[];
   realEstateHoldings: { purchasedAtAge: number; currentValue: number; purchasePrice: number }[];
   bondHoldings: { purchasedAtAge: number; faceValue: number; matured: boolean }[];

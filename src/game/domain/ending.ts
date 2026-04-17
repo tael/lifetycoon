@@ -187,7 +187,6 @@ function gradeWord(g: Grade): string {
 export type EndingExtras = {
   realEstateCount: number;
   hadLoanAndRepaid: boolean;
-  bothInsurancesHeld: boolean;
   boomTimeBillionaireReached: boolean;
   survivedRecessionWithAssets: boolean;
   finalWisdom: number;

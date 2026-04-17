@@ -39,7 +39,6 @@ export type YearTickState = {
   usedScenarioIds: string[];
   assetHistory: { age: number; value: number }[];
   autoInvest: boolean;
-  insurance: import('../../types').Insurance;
   realEstate: RealEstate[];
   bonds: Bond[];
   economyCycle: EconomyCycle;
@@ -98,7 +97,6 @@ export type MonthlyLoopResult = {
   /** 마이너스 잔고 발생 시 로그 */
   overdraftLog: LifeEvent[];
   /** 세금 계산용 상수 */
-  insuranceCost: number;
   academyExpense: number;
   costOfLivingExpense: number;
   upkeepExpense: number;

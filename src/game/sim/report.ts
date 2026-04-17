@@ -211,14 +211,6 @@ function renderMarkdown(
   lines.push(`- 완전 상환 비율 (대출 사용 런 중): ${pct(lu.fullyRepaidRatio)}`);
   lines.push('');
 
-  // Insurance
-  lines.push('## 보험 가입');
-  lines.push('');
-  const ins = m.insuranceEnrollment;
-  lines.push(`- 건강보험 가입 비율: ${pct(ins.healthRatio)}`);
-  lines.push(`- 생명보험 가입 비율: ${pct(ins.lifeRatio)}`);
-  lines.push('');
-
   // Traits
   lines.push('## 특성 (Traits) 요약');
   lines.push('');

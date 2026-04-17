@@ -66,11 +66,6 @@ export type LoanUsage = {
   fullyRepaidRatio: number; // among runs that had a loan
 };
 
-export type InsuranceEnrollment = {
-  healthRatio: number;
-  lifeRatio: number;
-};
-
 export type TraitsSummary = {
   meanTraitCount: number;
   top20: { trait: string; count: number; ratio: number }[];
@@ -87,11 +82,9 @@ export type DashboardMetrics = {
   assetHistorySummary: AssetHistorySummary;
   investmentHoldingRatios: InvestmentHoldingRatios;
   loanUsage: LoanUsage;
-  insuranceEnrollment: InsuranceEnrollment;
   traitsSummary: TraitsSummary;
   // TODO(g): Per-year income decomposition — not available (no income tracking per source in state)
   // TODO(k): Tax stats detail — totalTaxPaid exists but bracket/inflation breakdown not tracked
-  // TODO(l): Insurance claims — claim events not tracked in state
   // TODO(d): Per-year stat penalty history — only final stats available
   // TODO(e): Economy cycle history — only finalEconomyPhase available per run
   // TODO(i partial): Realized investment PnL — avgBuyPrice exists but realized PnL not tracked
@@ -270,14 +263,6 @@ export function aggregate(results: RunResult[]): DashboardMetrics {
     fullyRepaidRatio: hadLoanCount > 0 ? fullyRepaidCount / hadLoanCount : 0,
   };
 
-  // Insurance enrollment
-  const healthInsCount = valid.filter((r) => r.insuranceEnrolled.health).length;
-  const lifeInsCount = valid.filter((r) => r.insuranceEnrolled.life).length;
-  const insuranceEnrollment: InsuranceEnrollment = {
-    healthRatio: healthInsCount / validTotal,
-    lifeRatio: lifeInsCount / validTotal,
-  };
-
   // Traits summary
   const traitCountArr = valid.map((r) => r.traits.length);
   const traitFreq: Record<string, number> = {};
@@ -306,7 +291,6 @@ export function aggregate(results: RunResult[]): DashboardMetrics {
     assetHistorySummary,
     investmentHoldingRatios,
     loanUsage,
-    insuranceEnrollment,
     traitsSummary,
   };
 }

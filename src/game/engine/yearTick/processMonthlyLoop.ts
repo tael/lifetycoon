@@ -68,8 +68,6 @@ export function processMonthlyLoop(
   const monthlyCostOfLiving = Math.round(costOfLivingYearly / 12);
 
   const monthlyUpkeep = job?.upkeepCost ?? 0;
-  const monthlyInsurance = Math.round(st.insurance.premium / 12);
-
   const isStudent = job?.id === 'student';
   let parentalRepaymentBase = st.parentalRepaymentBase;
   if (!isStudent && parentalRepaymentBase == null && intAge >= REPAYMENT_START_AGE) {
@@ -139,9 +137,8 @@ export function processMonthlyLoop(
     mTotalAllowance += monthlyAllowance;
 
     // ── 월 지출 ──
-    const monthExpense = monthlyCostOfLiving + monthlyInsurance + monthlyAcademy + monthlyUpkeep + monthlyRepayment;
+    const monthExpense = monthlyCostOfLiving + monthlyAcademy + monthlyUpkeep + monthlyRepayment;
     mCash -= monthlyCostOfLiving;
-    mCash -= monthlyInsurance;
     mCash -= monthlyAcademy;
     mCash -= monthlyUpkeep;
     mCash -= monthlyRepayment;
@@ -225,7 +222,6 @@ export function processMonthlyLoop(
   }
 
   // 연간 합계 (세금/위기 판정용)
-  const insuranceCost = Math.round(st.insurance.premium * deltaYears);
   const academyExpense = Math.round(yearlyAllowanceForAge * ACADEMY_RATIO * deltaYears);
   const costOfLivingExpense = Math.round(costOfLivingYearly * deltaYears);
   const upkeepExpense = job?.upkeepCost
@@ -250,7 +246,6 @@ export function processMonthlyLoop(
     totalExpenses: mTotalExpenses,
     dripSpent: mDripSpent,
     overdraftLog,
-    insuranceCost,
     academyExpense,
     costOfLivingExpense,
     upkeepExpense,

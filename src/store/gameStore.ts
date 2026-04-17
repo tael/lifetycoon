@@ -10,7 +10,6 @@ import type {
   EventChoice,
   FriendNPC,
   Holding,
-  Insurance,
   Job,
   KeyMoment,
   LifeEvent,
@@ -41,10 +40,6 @@ import {
 } from '../game/engine/economyCycle';
 import { createNpcFromSeed } from '../game/domain/npc';
 import { buildEnding, type EndingExtras } from '../game/domain/ending';
-import {
-  HEALTH_INSURANCE_PREMIUM,
-  ASSET_INSURANCE_PREMIUM,
-} from '../game/constants';
 import type { Season } from '../game/engine/season';
 import type { ChallengeMode } from '../game/engine/challengeMode';
 import {
@@ -99,7 +94,6 @@ export type GameStoreState = {
   usedScenarioIds: string[];
   assetHistory: { age: number; value: number }[];
   autoInvest: boolean;
-  insurance: Insurance;
   realEstate: RealEstate[];
   bonds: Bond[];
   ending: Ending | null;
@@ -166,7 +160,6 @@ export type GameStoreState = {
   repayLoan: (amount: number) => boolean;
   setSpeed: (s: 0.5 | 1 | 2) => void;
   changeJob: (jobId: string) => { success: boolean; reason?: string };
-  toggleInsurance: (type: 'health' | 'asset') => void;
   toggleDrip: () => void;
   buyRealEstate: (id: string) => { success: boolean; acquisitionTax: number };
   sellRealEstate: (index: number) => { success: boolean; capitalGainsTax: number };
@@ -221,7 +214,6 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     usedScenarioIds: [],
     assetHistory: [{ age: 10, value: 50000 }],
     autoInvest: false,
-    insurance: { health: false, asset: false, premium: 0 },
     realEstate: [],
     bonds: [],
     ending: null,
@@ -270,7 +262,6 @@ type GameStoreActions = Pick<
   | 'repayLoan'
   | 'setSpeed'
   | 'changeJob'
-  | 'toggleInsurance'
   | 'toggleDrip'
   | 'buyRealEstate'
   | 'sellRealEstate'
@@ -409,20 +400,6 @@ export const useGameStore = create<GameStoreState>()(
       const event = st.phase.event;
       const choice: EventChoice | undefined = event.choices[choiceIndex];
       if (!choice) return { warnings: [], timeCostMonths: 0 };
-      // 보험이 피해를 막아줌: 건강 피해는 절반, 현금 손실은 30% 덜 빠지게 한다.
-      // TODO(B2): 라벨은 원래 금액을 보여주는데 실제 차감액은 보험이 먹은 만큼 다름.
-      // EventModal이 이 보정치 기준으로 표시하도록 mitigatedEffects를 노출할 것.
-      const ins = st.insurance;
-      const mitigatedEffects = choice.effects.map((eff) => {
-        if (eff.kind === 'health' && eff.delta < 0 && ins.health) {
-          return { ...eff, delta: Math.round(eff.delta * 0.5) };
-        }
-        if (eff.kind === 'cash' && eff.delta < 0 && ins.asset) {
-          return { ...eff, delta: Math.round(eff.delta * 0.7) };
-        }
-        return eff;
-      });
-      const mitigatedChoice: EventChoice = { ...choice, effects: mitigatedEffects };
       const next = applyChoice(
         {
           character: st.character,
@@ -437,7 +414,7 @@ export const useGameStore = create<GameStoreState>()(
           realEstate: st.realEstate,
           bonds: st.bonds,
         },
-        mitigatedChoice,
+        choice,
         event.triggeredAtAge,
       );
       const newUsed = [...st.usedScenarioIds, event.scenarioId];
@@ -568,21 +545,6 @@ export const useGameStore = create<GameStoreState>()(
       set({ job: newJob, lastJobChangeAge: intAge });
       return { success: true };
     },
-    toggleInsurance(type) {
-      const st = get();
-      const ins = st.insurance;
-      const healthPremium = HEALTH_INSURANCE_PREMIUM;
-      const assetPremium = ASSET_INSURANCE_PREMIUM;
-      if (type === 'health') {
-        const newHealth = !ins.health;
-        const newPremium = (newHealth ? healthPremium : 0) + (ins.asset ? assetPremium : 0);
-        set({ insurance: { ...ins, health: newHealth, premium: newPremium } });
-      } else {
-        const newAsset = !ins.asset;
-        const newPremium = (ins.health ? healthPremium : 0) + (newAsset ? assetPremium : 0);
-        set({ insurance: { ...ins, asset: newAsset, premium: newPremium } });
-      }
-    },
     toggleDrip() {
       set({ dripEnabled: !get().dripEnabled });
     },
@@ -664,7 +626,6 @@ export const useGameStore = create<GameStoreState>()(
       const extras: EndingExtras = {
         realEstateCount: st.realEstate.length,
         hadLoanAndRepaid: st.loanFullyRepaid,
-        bothInsurancesHeld: st.insurance.health && st.insurance.asset,
         boomTimeBillionaireReached: st.boomTimeBillionaireReached,
         survivedRecessionWithAssets: st.survivedRecessionWithAssets,
         finalWisdom: st.character.wisdom,

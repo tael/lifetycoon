@@ -172,12 +172,6 @@ export type KeyMoment = {
   tag: string; // "유년기" | "청년기" | "장년기" | "노년기" 또는 커스텀
 };
 
-export type Insurance = {
-  health: boolean;   // 건강보험 가입 여부
-  asset: boolean;    // 자산보험 가입 여부
-  premium: number;   // 연간 보험료 합계
-};
-
 export type LifeEvent = {
   age: number;
   text: string;
@@ -215,7 +209,6 @@ export type Ending = {
   // Extended fields for achievements
   realEstateCount: number;
   hadLoanAndRepaid: boolean;
-  bothInsurancesHeld: boolean;
   boomTimeBillionaireReached: boolean;
   survivedRecessionWithAssets: boolean;
   finalWisdom: number;

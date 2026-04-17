@@ -143,13 +143,6 @@ const ACHIEVEMENTS: Achievement[] = [
     check: (e) => e.hadLoanAndRepaid,
   },
   {
-    id: 'insurance_master',
-    title: '리스크 관리자',
-    description: '건강보험 + 자산보험 모두 가입한 채로 엔딩!',
-    emoji: '🛡️',
-    check: (e) => e.bothInsurancesHeld,
-  },
-  {
     id: 'daily_champion',
     title: '일일 챌린지 완주',
     description: '일일 챌린지를 완료했어!',

@@ -1,4 +1,4 @@
-import type { BankAccount, Bond, Holding, Insurance, Job, RealEstate, StockDef } from '../types';
+import type { BankAccount, Bond, Holding, Job, RealEstate, StockDef } from '../types';
 import { ADULT_STUDENT_MONTHLY } from '../constants';
 import { calculateIncomeTax, calculatePropertyTax } from '../engine/tax';
 import { computePensionYearly, PENSION_START_AGE } from './pension';
@@ -67,7 +67,6 @@ export type CashflowInput = {
   stocks: StockDef[];
   realEstate: RealEstate[];
   bonds: Bond[];
-  insurance: Insurance;
   /**
    * 연금 공식 입력. gameStore.advanceYear와 동일한 계산식을 쓰기 위해
    * 호출자가 직업/파트타임 경력 수와 인플레 배수를 넘겨준다. 둘 다 생략 시
@@ -123,7 +122,6 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     stocks,
     realEstate,
     bonds,
-    insurance,
     careerCount,
     inflationMultiplier,
     householdClass,
@@ -208,14 +206,12 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   const incomeTaxYearly = Math.round(calculateIncomeTax(totalIncome));
   const propertyTaxYearly = Math.round(calculatePropertyTax(realEstateValue));
   const taxYearly = incomeTaxYearly + propertyTaxYearly;
-  const insuranceYearly = insurance.premium ?? 0;
   const loanInterestYearly = bank.loanBalance > 0
     ? Math.round(bank.loanBalance * bank.loanInterestRate)
     : 0;
 
   const expense: ExpenseItem[] = [];
   if (taxYearly > 0) expense.push({ label: '세금', emoji: '🧾', amount: taxYearly });
-  if (insuranceYearly > 0) expense.push({ label: '보험료', emoji: '🏥', amount: insuranceYearly });
   if (loanInterestYearly > 0) expense.push({ label: '대출 이자', emoji: '💳', amount: loanInterestYearly });
   // V3-04: 유년기 학원비 — 부모 용돈의 65% 만큼 자동 차감.
   if (academyYearly > 0) expense.push({ label: '학원비', emoji: '📚', amount: academyYearly });

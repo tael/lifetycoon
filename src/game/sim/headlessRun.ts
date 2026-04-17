@@ -45,7 +45,7 @@ function seededPick3(ids: string[], seed: number): string[] {
 // rng를 써서 약간의 변동을 주되, 대체로 합리적인 의사결정을 한다.
 //
 // 전략 구조:
-// 1) 보험 — 20세 이후 가입 (한 번만)
+// 1) 배당재투자 — 25세 활성화
 // 2) 직업 — 나이에 맞는 더 높은 월급 직업으로 전직
 // 3) 대출 상환 — 여유 현금 있으면 우선 상환
 // 4) 예금 — 현금의 일부를 은행에
@@ -76,18 +76,12 @@ function applyFinancialStrategy(age: number, rng: () => number): void {
   const actions = useGameStore.getState();
   const st = useGameStore.getState();
 
-  // ── 1) 보험 가입 (20세, 한 번) ──
-  if (age === 20) {
-    if (!st.insurance.health) actions.toggleInsurance('health');
-    if (!st.insurance.asset) actions.toggleInsurance('asset');
-  }
-
-  // ── 2) 배당재투자 활성화 (25세) ──
+  // ── 1) 배당재투자 활성화 (25세) ──
   if (age === 25 && !st.dripEnabled) {
     actions.toggleDrip();
   }
 
-  // ── 3) 직업 전환 — 나이에 맞는 최고급여 직업으로 ──
+  // ── 2) 직업 전환 — 나이에 맞는 최고급여 직업으로 ──
   if (age >= 15 && age < 65) {
     const currentSalary = st.job?.salary ?? 0;
     // 나이에 맞고 현재보다 급여가 높은 직업 중 최고를 선택
@@ -101,7 +95,7 @@ function applyFinancialStrategy(age: number, rng: () => number): void {
     actions.changeJob('retired');
   }
 
-  // ── 4) 대출 상환 (여유 현금 있으면 우선) ──
+  // ── 3) 대출 상환 (여유 현금 있으면 우선) ──
   {
     const fresh = useGameStore.getState();
     if (fresh.bank.loanBalance > 0 && fresh.cash > 5_000_000) {
@@ -113,7 +107,7 @@ function applyFinancialStrategy(age: number, rng: () => number): void {
     }
   }
 
-  // ── 5) 예금 — 현금의 일부를 은행에 ──
+  // ── 4) 예금 — 현금의 일부를 은행에 ──
   {
     const fresh = useGameStore.getState();
     const depositRatio = age < 30 ? 0.3 : age < 50 ? 0.2 : 0.1;
@@ -123,7 +117,7 @@ function applyFinancialStrategy(age: number, rng: () => number): void {
     }
   }
 
-  // ── 6) 투자 전략 (나이대별) ──
+  // ── 5) 투자 전략 (나이대별) ──
   {
     const fresh = useGameStore.getState();
     const availableCash = fresh.cash;
@@ -270,7 +264,7 @@ export async function runSingleGame(seed: number, runIndex: number): Promise<Run
         safety++;
       }
 
-      // Apply AI financial strategy — exercises stocks, bonds, real estate, loans, insurance, jobs
+      // Apply AI financial strategy — exercises stocks, bonds, real estate, loans, jobs
       // Toggle via environment variable: SIM_NO_STRATEGY=1 disables to see raw baseline
       if (!process.env.SIM_NO_STRATEGY) {
         applyFinancialStrategy(age, strategyRng);
@@ -334,10 +328,6 @@ export async function runSingleGame(seed: number, runIndex: number): Promise<Run
       keyMomentCount: st.keyMoments.length,
       hadLoan: st.hadLoan,
       loanFullyRepaid: st.loanFullyRepaid,
-      insuranceEnrolled: {
-        health: st.insurance.health,
-        life: st.insurance.asset, // 'asset' insurance maps to 'life' in spec
-      },
       holdings: st.holdings.map((h) => ({
         ticker: h.ticker,
         shares: h.shares,
@@ -382,7 +372,6 @@ export async function runSingleGame(seed: number, runIndex: number): Promise<Run
       keyMomentCount: 0,
       hadLoan: false,
       loanFullyRepaid: false,
-      insuranceEnrolled: { health: false, life: false },
       holdings: [],
       realEstateHoldings: [],
       bondHoldings: [],

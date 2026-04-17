@@ -16,7 +16,6 @@ export function usePlayDerived() {
   const job = useGameStore((s) => s.job);
   const realEstate = useGameStore((s) => s.realEstate);
   const bonds = useGameStore((s) => s.bonds);
-  const insurance = useGameStore((s) => s.insurance);
   const unlockedSkills = useGameStore((s) => s.unlockedSkills);
   const usedScenarioIds = useGameStore((s) => s.usedScenarioIds);
   const economyCycle = useGameStore((s) => s.economyCycle);
@@ -71,13 +70,12 @@ export function usePlayDerived() {
       stocks: STOCKS,
       realEstate,
       bonds,
-      insurance,
       careerCount,
       inflationMultiplier,
       householdClass: character.householdClass,
       parentalRepaymentBase,
     }),
-    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, insurance, careerCount, inflationMultiplier, parentalRepaymentBase],
+    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, careerCount, inflationMultiplier, parentalRepaymentBase],
   );
 
   // 월 단위 표시용 float age
