@@ -1,0 +1,41 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- 파스텔 퍼플 스타 -->
+  <path d="M32 7L40 22L57 24L45 36L48 53L32 45L16 53L19 36L7 24L24 22Z" 
+        fill="#E1BEE7" 
+        stroke="#2D3436" 
+        stroke-width="2.5" 
+        stroke-linejoin="round" 
+        stroke-linecap="round"/>
+  
+  <!-- 상단 음표 -->
+  <circle cx="52" cy="18" r="3.5" fill="#CE93D8" stroke="#2D3436" stroke-width="2.5"/>
+  <path d="M55.5 18V8C55.5 8 58 9 60 8" 
+        fill="none" 
+        stroke="#2D3436" 
+        stroke-width="2.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <!-- 하단 음표 -->
+  <circle cx="12" cy="48" r="3.5" fill="#CE93D8" stroke="#2D3436" stroke-width="2.5"/>
+  <path d="M15.5 48V38" 
+        fill="none" 
+        stroke="#2D3436" 
+        stroke-width="2.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  
+  <!-- 반짝임 효과 -->
+  <path d="M14 14L16 11L18 14L21 16L18 18L16 21L14 18L11 16Z" 
+        fill="#FFFFFF" 
+        stroke="#2D3436" 
+        stroke-width="2.5" 
+        stroke-linejoin="round" 
+        stroke-linecap="round"/>
+  <path d="M48 46L50 43L52 46L55 48L52 50L50 53L48 50L45 48Z" 
+        fill="#FFFFFF" 
+        stroke="#2D3436" 
+        stroke-width="2.5" 
+        stroke-linejoin="round" 
+        stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Coins popping out from the back -->
+  <circle cx="24" cy="22" r="8" fill="#FDCB6E" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="40" cy="18" r="8" fill="#FFEAA7" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Wallet Body -->
+  <rect x="8" y="28" width="48" height="28" rx="6" fill="#A8E6CF" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Wallet Flap -->
+  <rect x="34" y="34" width="22" height="16" rx="4" fill="#81C784" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Snap Button -->
+  <circle cx="40" cy="42" r="2.5" fill="#2D3436"/>
+</svg>

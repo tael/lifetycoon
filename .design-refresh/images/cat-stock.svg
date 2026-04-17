@@ -1,0 +1,17 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Stock Chart Line -->
+  <path d="M10 46L22 34L34 40L54 20" stroke="#A5D6A7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Magnifying Glass Handle -->
+  <path d="M44 44L58 58" stroke="#2D3436" stroke-width="7" stroke-linecap="round" />
+  <path d="M44 44L58 58" stroke="#FFCCBC" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Magnifying Glass Lens & Frame -->
+  <circle cx="32" cy="32" r="18" fill="#E3F2FD" stroke="#2D3436" stroke-width="2.5" />
+  
+  <!-- Magnified Chart Line Segment -->
+  <path d="M22 38L30 30L38 34L44 26" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Lens Shine -->
+  <path d="M25 25C27 23 29 22 32 22" stroke="white" stroke-width="2" stroke-linecap="round" />
+</svg>

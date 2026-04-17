@@ -1,4 +1,4 @@
-import type { Character, Holding, StockDef } from '../../types';
+import type { Character, StockDef } from '../../types';
 import type { YearTickState, YearTickContext, AgeAndDecayResult, MonthlyLoopResult } from './types';
 import { ageSalaryMultiplier } from '../../domain/salaryCurve';
 import { getEffectiveInterestRate } from '../economyCycle';

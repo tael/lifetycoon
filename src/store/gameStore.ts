@@ -80,7 +80,6 @@ export async function loadScenarios(): Promise<void> {
 }
 
 const KEY_MOMENT_LIMIT = 30;
-const RECENT_LOG_LIMIT = 100;
 
 export type GameStoreState = {
   schemaVersion: 1;

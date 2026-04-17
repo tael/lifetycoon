@@ -1,0 +1,172 @@
+{
+  "slots": [
+    {
+      "id": "nav-home",
+      "label": "홈",
+      "context": "하단 탭바 홈 버튼 및 메인 화면",
+      "replaces": ["🏠", "🎮"],
+      "prompt": "Flat vector icon of a cozy pastel house with a small chimney, rounded corners, thick bold outlines, soft warm colors, minimalist, white background, 2D illustration, friendly style for kids."
+    },
+    {
+      "id": "nav-cashflow",
+      "label": "현금흐름",
+      "context": "하단 탭바 현금흐름 버튼",
+      "replaces": ["💰", "💸"],
+      "prompt": "Flat vector icon of a cute pastel wallet with gold coins popping out, thick outlines, soft green and yellow tones, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "nav-bank",
+      "label": "은행",
+      "context": "하단 탭바 은행 버튼",
+      "replaces": ["🏦"],
+      "prompt": "Flat vector icon of a classic bank building with pillars, soft blue pastel tones, thick rounded outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "nav-invest",
+      "label": "투자",
+      "context": "하단 탭바 투자 버튼",
+      "replaces": ["📈", "📊", "💹"],
+      "prompt": "Flat vector icon of a rising bar chart with a friendly upward arrow, pastel green and orange, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "nav-friends",
+      "label": "친구",
+      "context": "하단 탭바 친구/랭킹 버튼",
+      "replaces": ["👥", "👤", "👥"],
+      "prompt": "Flat vector icon of two smiling children's faces together, soft skin tones and pastel clothes, thick rounded outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "nav-settings",
+      "label": "설정",
+      "context": "하단 탭바 또는 메뉴의 설정 버튼",
+      "replaces": ["⚙️", "⚙️"],
+      "prompt": "Flat vector icon of a smooth rounded gear wheel, soft grey pastel tones, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "stat-happiness",
+      "label": "행복",
+      "context": "캐릭터 행복 수치 지표",
+      "replaces": ["💛", "😊", "🥰", "🥨", "😋"],
+      "prompt": "Flat vector icon of a glowing yellow heart with a subtle smiley face, soft pastel yellow, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "stat-health",
+      "label": "건강",
+      "context": "캐릭터 건강 수치 지표",
+      "replaces": ["❤️", "🏥", "💊", "🩺", "🏃"],
+      "prompt": "Flat vector icon of a red heart with a small white medical cross inside, soft pastel red, thick rounded outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "stat-wisdom",
+      "label": "지혜",
+      "context": "캐릭터 지혜 수치 지표",
+      "replaces": ["📘", "🎓", "📖", "📒", "📚"],
+      "prompt": "Flat vector icon of a blue hardcover book with a small graduation cap symbol, soft pastel blue, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "stat-charisma",
+      "label": "매력",
+      "context": "캐릭터 매력 수치 지표",
+      "replaces": ["✨", "🎤", "💃", "🕺"],
+      "prompt": "Flat vector icon of a sparkling purple star with musical notes, soft pastel purple, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "asset-cash",
+      "label": "현금",
+      "context": "보유 현금(Cash) 표시",
+      "replaces": ["💵", "💸", "💵"],
+      "prompt": "Flat vector icon of a bundle of green banknotes tied with a band, soft pastel green, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "asset-total",
+      "label": "총자산",
+      "context": "전체 자산/부유함 지표",
+      "replaces": ["💎", "💰", "🤑"],
+      "prompt": "Flat vector icon of a sparkling blue diamond, soft cyan pastel tones, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "cat-job",
+      "label": "직업",
+      "context": "직업, 경력, 업무 관련 이벤트",
+      "replaces": ["💼", "👔", "💼"],
+      "prompt": "Flat vector icon of a professional brown briefcase, soft pastel brown, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "cat-property",
+      "label": "부동산",
+      "context": "건물, 아파트, 상가 관련 이벤트",
+      "replaces": ["🏢", "🏘️", "🏨", "🏭"],
+      "prompt": "Flat vector icon of a modern apartment building with windows, soft pastel grey and blue, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "cat-stock",
+      "label": "주식",
+      "context": "주식 종목 및 투자 관련 이벤트",
+      "replaces": ["📊", "📉", "💹"],
+      "prompt": "Flat vector icon of a magnifying glass over a small stock line chart, soft pastel colors, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "cat-savings",
+      "label": "저축",
+      "context": "예금, 적금, 채권 관련 이벤트",
+      "replaces": ["📜", "🧾", "🏦"],
+      "prompt": "Flat vector icon of a golden safe box with a dial, soft pastel yellow and gold, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "status-alert",
+      "label": "경고",
+      "context": "알림, 오류, 마이너스 지표",
+      "replaces": ["⚠️", "🚨", "🛑", "⛔", "🔴"],
+      "prompt": "Flat vector icon of a bright yellow triangle with a rounded exclamation mark, soft pastel yellow, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "status-check",
+      "label": "성공",
+      "context": "완료, 성공, 긍정 지표",
+      "replaces": ["✅", "🎉", "🎊", "🟢"],
+      "prompt": "Flat vector icon of a bright green checkmark inside a soft circle, soft pastel green, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "eco-boom",
+      "label": "호황",
+      "context": "경기 호황기 상태",
+      "replaces": ["🔥", "🚀", "🆙"],
+      "prompt": "Flat vector icon of a small red rocket flying upwards with a friendly flame, soft pastel red and orange, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "eco-slump",
+      "label": "불황",
+      "context": "경기 불황기 상태",
+      "replaces": ["🥶", "📉", "⏬"],
+      "prompt": "Flat vector icon of a shivering blue cloud with a downward arrow, soft pastel blue, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "rank-crown",
+      "label": "S등급",
+      "context": "최고 등급, 왕관",
+      "replaces": ["👑"],
+      "prompt": "Flat vector icon of a golden crown with red and blue jewels, soft pastel gold, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "rank-trophy",
+      "label": "성취",
+      "context": "업적 달성, 트로피",
+      "replaces": ["🏆"],
+      "prompt": "Flat vector icon of a golden trophy cup with handles, soft pastel yellow, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "rank-medal",
+      "label": "메달",
+      "context": "A/B/C 등급, 메달",
+      "replaces": ["🏅", "🥇", "🥈", "🥉", "🎖️"],
+      "prompt": "Flat vector icon of a shiny silver medal with a colorful ribbon, soft pastel tones, thick bold outlines, minimalist, white background, friendly style for kids."
+    },
+    {
+      "id": "feature-dream",
+      "label": "꿈",
+      "context": "목표, 꿈(Dream) 관련",
+      "replaces": ["🌈", "👣", "🌈"],
+      "prompt": "Flat vector icon of a colorful rainbow over a small soft cloud, pastel rainbow colors, thick bold outlines, minimalist, white background, friendly style for kids."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="roofGrad" x1="32" y1="10" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF8A65"/>
+      <stop offset="100%" stop-color="#FF7043"/>
+    </linearGradient>
+  </defs>
+  <!-- Main House Body -->
+  <path d="M15 30V52C15 54.2091 16.7909 56 19 56H45C47.2091 56 49 54.2091 49 52V30" fill="#FFF9F0" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  
+  <!-- Roof with Rounded Peak -->
+  <path d="M8 32L29.2679 10.7321C30.7797 9.22025 33.2203 9.22025 34.7321 10.7321L56 32H8Z" fill="url(#roofGrad)" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Windows -->
+  <rect x="20" y="35" width="8" height="8" rx="2" fill="#E1F5FE" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="36" y="35" width="8" height="8" rx="2" fill="#E1F5FE" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+  
+  <!-- Door -->
+  <rect x="27" y="44" width="10" height="12" rx="2" fill="#D7CCC8" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round"/>
+</svg>

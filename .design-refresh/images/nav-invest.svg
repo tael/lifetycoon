@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bar 1 (Pastel Orange) -->
+  <rect x="8" y="42" width="12" height="12" rx="3" fill="#FFD3B6" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bar 2 (Pastel Green) -->
+  <rect x="26" y="28" width="12" height="26" rx="3" fill="#A8E6CF" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bar 3 (Pastel Orange) -->
+  <rect x="44" y="14" width="12" height="40" rx="3" fill="#FFD3B6" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Rising Arrow -->
+  <path d="M 6 52 C 20 52 40 35 56 8" fill="none" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Arrow Head -->
+  <path d="M 44 8 H 56 V 20" fill="none" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

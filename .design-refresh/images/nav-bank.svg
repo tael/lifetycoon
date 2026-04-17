@@ -1,0 +1,16 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Base steps -->
+  <rect x="6" y="54" width="52" height="6" rx="2" fill="#7EBFFF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="9" y="48" width="46" height="6" rx="2" fill="#A5D1FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  
+  <!-- Columns -->
+  <rect x="15" y="28" width="6" height="20" rx="2" fill="#D1E9FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="29" y="28" width="6" height="20" rx="2" fill="#D1E9FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="43" y="28" width="6" height="20" rx="2" fill="#D1E9FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  
+  <!-- Frieze/Roof Base -->
+  <rect x="11" y="22" width="42" height="6" rx="2" fill="#A5D1FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  
+  <!-- Pediment/Roof -->
+  <path d="M8 22L32 8L56 22Z" fill="#D1E9FF" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

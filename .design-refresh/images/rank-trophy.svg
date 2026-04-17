@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Handles -->
+  <path d="M18 18C10 18 10 34 18 34" fill="#FDCB6E" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M46 18C54 18 54 34 46 34" fill="#FDCB6E" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Base & Stem -->
+  <path d="M22 52H42L40 46H24L22 52Z" fill="#FDCB6E" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M32 40V46" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Cup Body -->
+  <path d="M18 12H46V30C46 37.7 39.7 44 32 44C24.3 44 18 37.7 18 30V12Z" fill="#FFEAA7" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Highlight -->
+  <path d="M24 18V24" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+</svg>

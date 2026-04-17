@@ -9,7 +9,7 @@ export function processCrisisAndLiquidation(
   st: YearTickState,
   intAge: number,
   deltaYears: number,
-  ageResult: AgeAndDecayResult,
+  _ageResult: AgeAndDecayResult,
   monthlyResult: MonthlyLoopResult,
   annualResult: AnnualSettlementResult,
 ): CrisisResult {

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rainbow Arcs (Background to Foreground) -->
+  <path d="M8 50 A 24 24 0 0 1 56 50 L 48 50 A 16 16 0 0 0 16 50 Z" 
+        fill="#FF9AA2" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" />
+  <path d="M16 50 A 16 16 0 0 1 48 50 L 40 50 A 8 8 0 0 0 24 50 Z" 
+        fill="#FFDAC1" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" />
+  <path d="M24 50 A 8 8 0 0 1 40 50 L 32 50 A 0 0 0 0 0 32 50 Z" 
+        fill="#B5EAD7" stroke="#2D3436" stroke-width="2.5" stroke-linejoin="round" />
+
+  <!-- Soft Cloud (Foreground) -->
+  <path d="M12 52 C 12 44, 22 42, 24 44 C 28 36, 40 36, 44 44 C 48 42, 58 44, 58 52 C 58 58, 12 58, 12 52 Z" 
+        fill="#FFFFFF" stroke="#2D3436" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
