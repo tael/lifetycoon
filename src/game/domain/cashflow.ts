@@ -1,4 +1,5 @@
 import type { BankAccount, Bond, Holding, Insurance, Job, RealEstate, StockDef } from '../types';
+import { ADULT_STUDENT_MONTHLY } from '../constants';
 import { calculateIncomeTax, calculatePropertyTax } from '../engine/tax';
 import { computePensionYearly, PENSION_START_AGE } from './pension';
 import {
@@ -144,7 +145,6 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
 
   // --- Income --------------------------------------------------------------
   // 성인(19세+) 학생은 용돈 3만이 아니라 아르바이트 월 200만(연 2400만) 적용
-  const ADULT_STUDENT_MONTHLY = 2_000_000;
   const effectiveSalary = job
     ? (job.id === 'student' && intAge >= 19 ? ADULT_STUDENT_MONTHLY : job.salary)
     : 0;

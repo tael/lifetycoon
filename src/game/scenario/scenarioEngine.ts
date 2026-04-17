@@ -11,8 +11,10 @@ import type {
   KeyMoment,
   RealEstate,
 } from '../types';
+import { CASH_FLOOR } from '../constants';
 import { clampStats } from '../domain/character';
 import { shockPrice } from '../domain/stock';
+import { stageForAge } from '../types';
 
 export type EffectContext = {
   character: Character;
@@ -37,11 +39,6 @@ export type EffectContext = {
 
 // 이벤트 buyStock의 강제대출 최소 단위 (100만원) — UI의 대출 버튼 단위와 일치.
 const FORCED_LOAN_UNIT = 1_000_000;
-
-// cash 필드의 하한선. 현금은 음수 상태를 허용하지만 "파산 수렁"으로 무제한
-// 내려가지 않도록 -5억원에서 막는다. 이 한도를 넘는 손실은 effect가 조용히
-// 절단돼서 플레이어가 영영 회복 불가능한 상태에 빠지는 걸 방지한다.
-const CASH_FLOOR = -500_000_000;
 
 // 캐릭터의 수치형 스탯 필드 4종. applyEffect에서 반복되는 업데이트 패턴을
 // 하나로 모아 단순화하기 위한 좁은 타입.
@@ -225,7 +222,7 @@ function applyEffect(
             age,
             importance: eff.importance,
             text: eff.text,
-            tag: stageTagFromAge(age),
+            tag: stageForAge(age),
           },
         ],
       };
@@ -278,13 +275,6 @@ function formatForcedLoan(amount: number): string {
   return amount.toLocaleString('ko-KR');
 }
 
-function stageTagFromAge(age: number): string {
-  if (age < 20) return '유년기';
-  if (age < 35) return '청년기';
-  if (age < 55) return '중년기';
-  if (age < 75) return '장년기';
-  return '노년기';
-}
 
 // Keep key moments limited to top-N by importance
 export function pruneKeyMoments(moments: KeyMoment[], limit: number): KeyMoment[] {

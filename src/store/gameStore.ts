@@ -21,52 +21,40 @@ import type {
   Seeds,
   StockDef,
 } from '../game/types';
-import { REAL_ESTATE_LISTINGS, appreciateValue } from '../game/domain/realEstate';
+import { REAL_ESTATE_LISTINGS } from '../game/domain/realEstate';
 import { calculateAcquisitionTax, calculateCapitalGainsTax } from '../game/domain/realEstateTax';
-import { BOND_LISTINGS, applyBondCoupon } from '../game/domain/bond';
+import { BOND_LISTINGS } from '../game/domain/bond';
 import { SKILLS } from '../game/domain/skills';
-import { createCharacter, emojiFor, computeStatPenalty, costOfLivingMultiplier } from '../game/domain/character';
+import { createCharacter } from '../game/domain/character';
 import {
-  ACADEMY_RATIO,
-  getYearlyParentalAllowance,
   pickRandomHouseholdClass,
 } from '../game/domain/household';
-import { computeCostOfLiving } from '../game/domain/costOfLiving';
 import { showToast } from '../ui/components/Toast';
-import { ageSalaryMultiplier } from '../game/domain/salaryCurve';
-import {
-  REPAYMENT_START_AGE,
-  computeParentalRepaymentBase,
-  parentalRepaymentForAge,
-} from '../game/domain/parentalRepayment';
-import { computePensionYearly } from '../game/domain/pension';
 import { createBankAccount, takeLoan, repayLoan } from '../game/domain/bankAccount';
 import { applyChoice, pruneKeyMoments } from '../game/scenario/scenarioEngine';
-import { evaluateCondition, checkAndMarkDreams } from '../game/domain/dream';
-import { nextPrice, splitRatioFor } from '../game/domain/stock';
 import { createStreams, randomSeeds, type RngStreams } from '../game/engine/prng';
 import {
   createEconomyCycle,
-  stepEconomyCycle,
-  PHASE_DRIFT_BONUS,
-  getEffectiveInterestRate,
   dynamicListingPrice,
   dynamicMonthlyRent,
   type EconomyCycle,
 } from '../game/engine/economyCycle';
-import { createNpcFromSeed, stepNpc } from '../game/domain/npc';
+import { createNpcFromSeed } from '../game/domain/npc';
 import { buildEnding, type EndingExtras } from '../game/domain/ending';
-import { type Season, seasonFromYearIndex, SEASON_KO, SEASON_EMOJI } from '../game/engine/season';
 import {
-  pickEligibleEvent,
-  eventChancePerYear,
-  type DispatchContext,
-} from '../game/engine/eventDispatcher';
-import { calculateIncomeTax, calculatePropertyTax } from '../game/engine/tax';
+  HEALTH_INSURANCE_PREMIUM,
+  ASSET_INSURANCE_PREMIUM,
+} from '../game/constants';
+import type { Season } from '../game/engine/season';
 import type { ChallengeMode } from '../game/engine/challengeMode';
-import { computeCrisisLevel } from '../game/domain/crisisEngine';
-import { forcedLiquidation } from '../game/domain/forcedLiquidation';
-import { formatWon } from '../game/domain/asset';
+import {
+  applyAgeAndDecay,
+  processMonthlyLoop,
+  processAnnualSettlement,
+  processCrisisAndLiquidation,
+  processDreamsAndLogs,
+  type YearTickContext,
+} from '../game/engine/yearTick';
 import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
@@ -346,633 +334,68 @@ export const useGameStore = create<GameStoreState>()(
       set({ dreams: freshDreams(ids) });
     },
     advanceYear(intAge, deltaYears) {
-      let st = get();
-
-      // ── Feature: 성인 학생 최대 10년 → 강제 직업 변경 ──
-      const educationEndAge = st.educationEndAge ?? 19;
-      if (st.job?.id === 'student' && intAge >= educationEndAge + 10) {
-        const parttime = JOBS.find((j) => j.id === 'parttime');
-        if (parttime) {
-          set({ job: parttime, lastJobChangeAge: intAge });
-          st = get();
-          showToast('학업 기간이 끝났습니다. 아르바이트를 시작합니다.', '🏪', 'info', 3000);
-        }
-      }
-
-      // ── Feature: 생활비 비율 → 스탯 감소 배수 계산 ──
-      const jobId = st.job?.id;
-      const baseSalaryYearly = st.job ? Math.round(st.job.salary * ageSalaryMultiplier(intAge, st.job.id) * 12) : 0;
-      const expectedCostOfLiving = computeCostOfLiving(intAge, baseSalaryYearly, jobId);
-      // costOfLivingRatio: 순현금흐름이 마이너스이면 생활비 절감 → ratio < 1
-      // 전년도 cashflowHistory에서 순현금흐름을 확인하여 비율 계산
-      const lastCf = st.cashflowHistory.length > 0 ? st.cashflowHistory[st.cashflowHistory.length - 1] : null;
-      const cfRatio = lastCf && lastCf.netMonthly < 0 && expectedCostOfLiving > 0
-        ? Math.max(0.1, 1 + (lastCf.netMonthly * 12) / expectedCostOfLiving)
-        : 1;
-      const colMult = costOfLivingMultiplier(cfRatio);
-
-      // 1) Age up + natural stat decay (tamagotchi mechanic, gentle for kids)
-      const happyDecay = (intAge > 70 ? 1.2 : intAge > 50 ? 0.8 : 0.4) * colMult.decayMult;
-      const healthDecay = (intAge > 70 ? 1.0 : intAge > 50 ? 0.5 : 0.15) * colMult.decayMult;
-      let character = {
-        ...st.character,
-        age: intAge,
-        happiness: Math.max(10, st.character.happiness - happyDecay * deltaYears),
-        health: Math.max(10, st.character.health - healthDecay * deltaYears),
-      };
-      // 2) Economy cycle step
-      const { cycle: economyCycle, changed: cycleChanged } = stepEconomyCycle(
-        st.economyCycle,
-        deltaYears,
-        streams.misc,
-      );
-      const driftBonus = PHASE_DRIFT_BONUS[economyCycle.phase];
-
-      // 경기사이클 전환 시 예금 base rate 조정 (±0.005)
-      const newBaseInterestRate = cycleChanged
-        ? (() => {
-            const rateAdj = economyCycle.phase === 'boom' ? 0.005
-              : economyCycle.phase === 'recession' ? -0.005
-              : 0;
-            return Math.min(0.15, Math.max(0.01, st.bank.interestRate + rateAdj));
-          })()
-        : st.bank.interestRate;
-
-      // ── 월별 분할 처리 ──────────────────────────────────────────────
-      // 기존 연 단위 일괄 계산을 12개월 루프로 분할하여 월별 현금흐름을 반영한다.
-      // 연 1회 처리 항목(세금, 주가 변동, NPC, 이벤트 등)은 루프 밖에서 처리.
-      const totalMonths = Math.round(deltaYears * 12);
-
-      // 연초에 한 번 계산하는 상수들
-      const effectiveInterestRate = getEffectiveInterestRate(
-        st.bank.interestRate,
-        economyCycle.phase,
-        st.unlockedSkills.includes('finance_101'),
-      );
-      const monthlyInterestRate = Math.pow(1 + effectiveInterestRate, 1 / 12) - 1;
-      const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
-      const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
-      const statPenalty = computeStatPenalty(character);
-      // 성인(19세+) 학생은 용돈 3만이 아니라 아르바이트 월 200만(연 2400만) 적용
-      const ADULT_STUDENT_MONTHLY = 2_000_000;
-      const effectiveMonthlySalary = st.job
-        ? (st.job.id === 'student' && intAge >= 19 ? ADULT_STUDENT_MONTHLY : st.job.salary)
-        : 0;
-      const monthlySalary = effectiveMonthlySalary > 0
-        ? Math.round(effectiveMonthlySalary * ageSalaryMultiplier(intAge, st.job!.id) * salaryBonus * inflationMultiplier * statPenalty.salaryMult)
-        : 0;
-      const careerCount = st.usedScenarioIds.filter(
-        (id) => id.includes('job') || id.includes('career') || id.includes('part_time'),
-      ).length + 1;
-      const pensionYearly = computePensionYearly(intAge, careerCount, inflationMultiplier, 1);
-      const monthlyPension = Math.round(pensionYearly / 12);
-      const monthlyRental = st.realEstate.reduce((sum, re) => sum + re.monthlyRent, 0);
-
-      const isChildhood = intAge >= 10 && intAge < educationEndAge;
-      const householdClassForTick = character.householdClass;
-      const yearlyAllowanceForAge = isChildhood && householdClassForTick
-        ? getYearlyParentalAllowance(householdClassForTick, intAge)
-        : 0;
-      const monthlyAllowance = Math.round(yearlyAllowanceForAge / 12);
-      const monthlyAcademy = Math.round(yearlyAllowanceForAge * ACADEMY_RATIO / 12);
-
-      const costOfLivingYearly = computeCostOfLiving(intAge, baseSalaryYearly, jobId);
-      const monthlyCostOfLiving = Math.round(costOfLivingYearly / 12);
-
-      const monthlyUpkeep = st.job?.upkeepCost ?? 0;
-      const monthlyInsurance = Math.round(st.insurance.premium / 12);
-
-      const isStudent = st.job?.id === 'student';
-      let parentalRepaymentBase = st.parentalRepaymentBase;
-      if (!isStudent && parentalRepaymentBase == null && intAge >= REPAYMENT_START_AGE) {
-        parentalRepaymentBase = computeParentalRepaymentBase(
-          st.parentalInvestment,
-          inflationMultiplier,
-        );
-      }
-      const repaymentYearly = !isStudent && parentalRepaymentBase != null
-        ? parentalRepaymentForAge(intAge, parentalRepaymentBase)
-        : 0;
-      const monthlyRepayment = Math.round(repaymentYearly / 12);
-
-      // STOCKS 사전 매핑 (O(N)→O(1)) — 루프 밖에서 한 번만 생성
-      const stockMap: Record<string, (typeof STOCKS)[number]> = Object.fromEntries(
-        STOCKS.map((s) => [s.ticker, s]),
-      );
-
-      // 월별 누적 변수
-      let mCash = st.cash;
-      let mBankBalance = st.bank.balance;
-      let mLoanBalance = st.bank.loanBalance;
-      let mHoldings = [...st.holdings];
-      let mTotalAllowance = 0; // 유년기 부모 용돈 누적 (parentalInvestment용)
-      let mTotalSalaryIncome = 0; // 연간 급여 총액 (auto-invest, 세금용)
-      let mTotalDividendIncome = 0; // 연간 배당 총액 (세금용)
-      let mTotalPensionIncome = 0; // 연간 연금 총액 (세금용)
-      let mTotalRentalIncome = 0; // 연간 임대 총액 (세금용)
-      let mTotalExpenses = 0; // 연간 지출 총액 (위기 판정용) — 실제 차감된 값으로 누적
-      let mDripSpent = 0; // DRIP 비용 누적
-
-      const CASH_FLOOR = -500_000_000; // -5억 하한
-      const overdraftLogEntry: LifeEvent[] = [];
-
-      for (let m = 0; m < totalMonths; m++) {
-        // ── 월 수입 ──
-        // 월급 (이미 월 단위)
-        mCash += monthlySalary;
-        mTotalSalaryIncome += monthlySalary;
-
-        // 예금 이자 (월 복리)
-        if (mBankBalance > 0) {
-          const monthlyInterest = Math.round(mBankBalance * monthlyInterestRate);
-          mBankBalance += monthlyInterest;
-        }
-
-        // 배당 (연 배당률 / 12)
-        let monthlyDividend = 0;
-        for (const h of mHoldings) {
-          const stockDef = stockMap[h.ticker];
-          const divRate = (st.dividendRates[h.ticker] ?? stockDef?.dividendRate) ?? 0;
-          if (divRate <= 0) continue;
-          // 주당배당금 = basePrice 기준 고정 (주가 변동과 독립)
-          const basePriceForDiv = stockDef?.basePrice ?? (st.prices[h.ticker] ?? 0);
-          const div = Math.round(basePriceForDiv * h.shares * divRate / 12);
-          monthlyDividend += div;
-        }
-        mCash += monthlyDividend;
-        mTotalDividendIncome += monthlyDividend;
-
-        // 임대 수입 (이미 월 단위)
-        mCash += monthlyRental;
-        mTotalRentalIncome += monthlyRental;
-
-        // 연금 (연 금액 / 12)
-        mCash += monthlyPension;
-        mTotalPensionIncome += monthlyPension;
-
-        // 부모님 용돈 (유년기)
-        mCash += monthlyAllowance;
-        mTotalAllowance += monthlyAllowance;
-
-        // ── 월 지출 ──
-        const monthExpense = monthlyCostOfLiving + monthlyInsurance + monthlyAcademy + monthlyUpkeep + monthlyRepayment;
-        mCash -= monthlyCostOfLiving;
-        mCash -= monthlyInsurance;
-        mCash -= monthlyAcademy;
-        mCash -= monthlyUpkeep;
-        mCash -= monthlyRepayment;
-        mTotalExpenses += monthExpense; // 실제 차감된 값으로 누적 (반올림 오차 없음)
-
-        // 성인 순현금흐름 마이너스 대응: 스탯 감소 + 생활비 절감 + 강제 부업
-        const monthlyBankInterest = mBankBalance > 0 ? Math.round(mBankBalance * monthlyInterestRate) : 0;
-        const monthlyNetFlow = monthlySalary + monthlyBankInterest + monthlyDividend + monthlyRental + monthlyPension + monthlyAllowance - monthExpense;
-        if (intAge >= 19 && monthlyNetFlow < 0) {
-          // (1) 행복/건강/매력 중 랜덤 1~2개 감소
-          const rng = streams.misc();
-          if (rng < 0.33) { character = { ...character, happiness: Math.max(0, character.happiness - 1) }; }
-          else if (rng < 0.66) { character = { ...character, health: Math.max(0, character.health - 1) }; }
-          else { character = { ...character, charisma: Math.max(0, character.charisma - 1) }; }
-
-          // (2) 강제 생활비 50% 절감 (차감한 생활비의 절반을 돌려줌)
-          const costRefund = Math.round(monthlyCostOfLiving * 0.5);
-          mCash += costRefund;
-          mTotalExpenses -= costRefund;
-
-          // (3) 강제 부업 소득 월 100만(연 1200만)
-          const SIDE_JOB_MONTHLY = 1_000_000;
-          mCash += SIDE_JOB_MONTHLY;
-          mTotalSalaryIncome += SIDE_JOB_MONTHLY;
-        }
-
-        // 대출 이자: 현금에서 납부. 현금 부족 시에만 원금에 가산(복리).
-        if (mLoanBalance > 0) {
-          const loanMonthlyRate = st.bank.loanInterestRate / 12;
-          const loanInterest = Math.round(mLoanBalance * loanMonthlyRate);
-          if (mCash >= loanInterest) {
-            mCash -= loanInterest;
-            mTotalExpenses += loanInterest;
-          } else {
-            // 현금 부족: 이자가 원금에 가산 (복리 — 대출 잔액 증가의 유일한 경로)
-            mLoanBalance += loanInterest;
-          }
-        }
-
-        // 자유입출금통장 이자 (양수: 연 0.1% 가산, 음수: 마이너스통장 이자 차감)
-        if (mCash > 0) {
-          const cashInterest = Math.round(mCash * 0.001 / 12);
-          mCash += cashInterest;
-        } else if (mCash < 0) {
-          const overdraftRate = st.bank.loanInterestRate + 0.01;
-          const overdraftInterest = Math.round(Math.abs(mCash) * overdraftRate / 12);
-          mCash = Math.max(mCash - overdraftInterest, CASH_FLOOR);
-        }
-
-        // DRIP (월 배당분으로 매수) — 현금이 0 이하면 스킵
-        if (st.dripEnabled && monthlyDividend > 0 && mCash > 0) {
-          for (let hi = 0; hi < mHoldings.length; hi++) {
-            const h = mHoldings[hi];
-            const stockDef = stockMap[h.ticker]; // O(1) 조회
-            const divRate = (st.dividendRates[h.ticker] ?? stockDef?.dividendRate) ?? 0;
-            if (divRate <= 0) continue;
-            const price = st.prices[h.ticker] ?? 0;
-            if (price <= 0) continue;
-            const basePriceForDiv = stockDef?.basePrice ?? price;
-            const div = Math.round(basePriceForDiv * h.shares * divRate / 12);
-            const additionalShares = Math.floor(div / price);
-            if (additionalShares <= 0) continue;
-            const cost = additionalShares * price;
-            if (mCash < cost) continue; // 현금 부족 시 스킵
-            mCash -= cost;
-            mDripSpent += cost;
-            const totalShares = h.shares + additionalShares;
-            const newAvg = Math.round(
-              (h.avgBuyPrice * h.shares + price * additionalShares) / totalShares,
-            );
-            // in-place mutate — 매월 새 배열 생성 대신 직접 수정
-            mHoldings[hi] = { ticker: h.ticker, shares: totalShares, avgBuyPrice: newAvg };
-          }
-        }
-      }
-      // ── 월별 루프 종료 ──────────────────────────────────────────────
-
-      // 마이너스통장 로그 (연 1회, 연초 대비 현금이 마이너스면)
-      if (mCash < 0 && st.cash >= 0) {
-        overdraftLogEntry.push({
-          age: intAge,
-          text: `⚠️ 마이너스 잔고 발생`,
-          timestamp: Date.now(),
-        });
-      }
-
-      // bank 결산: 월별 복리로 계산된 balance와 loanBalance 반영
-      const bank: BankAccount = {
-        ...st.bank,
-        balance: Math.round(mBankBalance),
-        loanBalance: Math.round(mLoanBalance),
-      };
-
-      // 연간 합계 (세금/위기 판정용)
-      const salaryIncome = mTotalSalaryIncome;
-      const dividendIncome = mTotalDividendIncome;
-      const pensionIncome = mTotalPensionIncome;
-      const rentalIncome = mTotalRentalIncome;
-      const allowanceIncome = mTotalAllowance;
-      const insuranceCost = Math.round(st.insurance.premium * deltaYears);
-      const academyExpense = Math.round(yearlyAllowanceForAge * ACADEMY_RATIO * deltaYears);
-      const costOfLivingExpense = Math.round(costOfLivingYearly * deltaYears);
-      const upkeepExpense = st.job?.upkeepCost
-        ? Math.round(st.job.upkeepCost * 12 * deltaYears)
-        : 0;
-      const repaymentExpense = Math.round(repaymentYearly * deltaYears);
-
-      // 4) Stock price drift (with economy cycle bonus + stat penalty) — 연 1회
-      const prices: Record<string, number> = { ...st.prices };
-      const driftAdj = driftBonus + statPenalty.returnMult;
-      const splitEvents: { ticker: string; name: string; ratio: number }[] = [];
-      for (const s of STOCKS) {
-        const adjustedStock = driftAdj !== 0
-          ? { ...s, drift: s.drift + driftAdj }
-          : s;
-        const newPrice = nextPrice(prices[s.ticker], adjustedStock, streams.stock, deltaYears);
-        const splitRatio = splitRatioFor(newPrice, s.basePrice);
-        if (splitRatio > 1) {
-          prices[s.ticker] = Math.round(newPrice / splitRatio);
-          splitEvents.push({ ticker: s.ticker, name: s.name, ratio: splitRatio });
-        } else {
-          prices[s.ticker] = newPrice;
-        }
-      }
-      // 보유 주식 분할 반영
-      for (const ev of splitEvents) {
-        mHoldings = mHoldings.map((h) =>
-          h.ticker === ev.ticker
-            ? {
-                ...h,
-                shares: h.shares * ev.ratio,
-                avgBuyPrice: Math.round(h.avgBuyPrice / ev.ratio),
-              }
-            : h,
-        );
-      }
-      // 4b) 배당성장: 매년 종목별 2% 성장 (호황 +0.5%, 침체 -0.5%) — 연 1회
-      const divGrowthBase = 0.02;
-      const divGrowthBonus = economyCycle.phase === 'boom' ? 0.005 : economyCycle.phase === 'recession' ? -0.005 : 0;
-      const updatedDividendRates: Record<string, number> = { ...st.dividendRates };
-      for (const s of STOCKS) {
-        if (s.dividendRate <= 0) continue;
-        const currentRate = updatedDividendRates[s.ticker] ?? s.dividendRate;
-        const growth = 1 + divGrowthBase + divGrowthBonus;
-        // 상한: 원래 배당률의 3배
-        updatedDividendRates[s.ticker] = Math.min(currentRate * growth, s.dividendRate * 3);
-      }
-
-      // 5) NPC step - 플레이어 총자산 기반 catch-up — 연 1회
-      const playerStocksVal = mHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-      const playerAssets = mCash + bank.balance + playerStocksVal + st.realEstate.reduce((s, re) => s + re.currentValue, 0) + st.bonds.reduce((s, b) => s + b.faceValue, 0);
-      const npcs = st.npcs.map((n) => stepNpc(n, intAge, streams.npc, playerAssets));
-      // 5b) Auto-invest: 10% of salary into random stocks — 연 1회
-      let autoInvestSpent = 0;
-      let autoHoldings = mHoldings;
-      if (st.autoInvest && salaryIncome > 0) {
-        const budget = Math.round(salaryIncome * 0.1);
-        const affordable = STOCKS.filter((s) => prices[s.ticker] <= budget);
-        if (affordable.length > 0) {
-          const pick = affordable[Math.floor(streams.misc() * affordable.length)];
-          const shares = Math.max(1, Math.floor(budget / prices[pick.ticker]));
-          const cost = shares * prices[pick.ticker];
-          autoInvestSpent = cost;
-          const existing = autoHoldings.find((h) => h.ticker === pick.ticker);
-          if (existing) {
-            const total = existing.shares + shares;
-            const avg = Math.round((existing.avgBuyPrice * existing.shares + prices[pick.ticker] * shares) / total);
-            autoHoldings = autoHoldings.map((h) =>
-              h.ticker === pick.ticker ? { ticker: pick.ticker, shares: total, avgBuyPrice: avg } : h,
-            );
-          } else {
-            autoHoldings = [...autoHoldings, { ticker: pick.ticker, shares, avgBuyPrice: prices[pick.ticker] }];
-          }
-        }
-      }
-
-      // Real estate: appreciate values — 연 1회
-      const appreciatedRealEstate = st.realEstate.map((re) => appreciateValue(re, deltaYears, streams.misc));
-      // 채권 쿠폰/원금 상환 — 연 1회
-      const { bonds: updatedBonds, couponCash, principalCash } = applyBondCoupon(st.bonds, intAge, deltaYears);
-
-      // 세금 계산 — 연말 1회 정산
-      const grossPeriodIncome = salaryIncome + dividendIncome + pensionIncome + Math.round(rentalIncome);
-      const realEstateValueForTax = st.realEstate.reduce((sum, re) => sum + re.currentValue, 0);
-      const interestIncome = Math.max(0, Math.round(mBankBalance) - st.bank.balance);
-      const taxableIncome = grossPeriodIncome + interestIncome + couponCash;
-      const avgYearlyTaxable = deltaYears > 0 ? taxableIncome / deltaYears : taxableIncome;
-      const incomeTax = Math.round(calculateIncomeTax(avgYearlyTaxable) * deltaYears);
-      const propertyTax = Math.round(calculatePropertyTax(realEstateValueForTax) * deltaYears);
-      const totalTax = incomeTax + propertyTax;
-
-      // 세금 + 채권 수입 + auto-invest를 최종 현금에 반영
-      const bondIncome = couponCash + principalCash;
-      let finalCash = mCash + bondIncome - autoInvestSpent - totalTax;
-
-      // V3-05: 부모가 나에게 준 총액 (학원비 차감 전). 유년기에만 누적.
-      const parentalInvestment = st.parentalInvestment + allowanceIncome;
-      // V3-11: 납세액 누계.
-      const totalTaxPaid = st.totalTaxPaid + totalTax;
-
-      // V5-04: 위기 레벨 계산 (강제 매각·정부 대출보다 먼저 결정해야 함)
-      const totalExpensesForCrisis = insuranceCost + totalTax + academyExpense + costOfLivingExpense + upkeepExpense + repaymentExpense;
-      const stocksValForCrisis = autoHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-      const totalAssetsForCrisis = finalCash + bank.balance + stocksValForCrisis + appreciatedRealEstate.reduce((s, re) => s + re.currentValue, 0);
-      const crisisLevel = computeCrisisLevel({
-        netCashflow: (grossPeriodIncome - totalExpensesForCrisis) / 12,
-        monthlyExpense: totalExpensesForCrisis / 12,
-        totalAssets: totalAssetsForCrisis,
-        cash: finalCash,
-      });
-
-      // V5-05: 강제 매각 — red 위기 시 자산 순서대로 매각해 현금 보충
-      const forcedSaleLogEntry: LifeEvent[] = [];
-      let postSaleHoldings = autoHoldings;
-      let postSaleRealEstate = appreciatedRealEstate;
-      let postSaleBank = bank;
-      if (finalCash < 0 && crisisLevel === 'red') {
-        const deficit = Math.abs(finalCash);
-        const liq = forcedLiquidation(
-          deficit,
-          finalCash,
-          bank,
-          autoHoldings,
-          prices,
-          appreciatedRealEstate,
-        );
-        finalCash += liq.cashRecovered;
-        postSaleBank = { ...bank, balance: bank.balance - liq.bankWithdrawn };
-        postSaleHoldings = autoHoldings
-          .map((h) => {
-            const sold = liq.stocksSold.find((s) => s.ticker === h.ticker);
-            if (!sold) return h;
-            const remaining = h.shares - sold.shares;
-            return remaining > 0 ? { ...h, shares: remaining } : null;
-          })
-          .filter((h): h is NonNullable<typeof h> => h !== null);
-        postSaleRealEstate = appreciatedRealEstate.filter(
-          (re) => !liq.realEstateSold.some((s) => s.id === re.id),
-        );
-        for (const warn of liq.warnings) {
-          forcedSaleLogEntry.push({ age: intAge, text: warn, timestamp: Date.now() });
-        }
-      }
-
-      // V5-06: 정부 긴급 생활안정 대출 (최후 안전망)
-      const govLoanLogEntry: LifeEvent[] = [];
-      let postGovBank = postSaleBank;
-      let govLoanRecord: LoanRecord | null = null;
-      const isAdult = intAge >= 19;
-      const noLiquidAssets =
-        postSaleBank.balance <= 0 &&
-        postSaleHoldings.length === 0 &&
-        postSaleRealEstate.length === 0;
-      const MIN_GOV_LOAN = 100_000_000;
-      if (finalCash < 0 && noLiquidAssets && isAdult && Math.abs(finalCash) >= MIN_GOV_LOAN) {
-        const deficit = Math.abs(finalCash);
-        const LOAN_UNIT = 1_000_000;
-        const govLoanAmount = Math.ceil(deficit / LOAN_UNIT) * LOAN_UNIT;
-        postGovBank = { ...postSaleBank, loanBalance: postSaleBank.loanBalance + govLoanAmount };
-        finalCash += govLoanAmount;
-        govLoanLogEntry.push({
-          age: intAge,
-          text: `🏛️ 정부 긴급 생활안정 대출 ${formatWon(govLoanAmount)}이 실행됐습니다`,
-          timestamp: Date.now(),
-        });
-        govLoanRecord = { age: intAge, amount: govLoanAmount, source: 'government', reason: '정부 긴급 생활안정 대출' };
-      }
-
-      // Dream check
-      const { dreams, newlyAchieved } = checkAndMarkDreams(
-        st.dreams,
-        intAge,
-        (d) =>
-          evaluateCondition(d.targetCondition, {
-            character,
-            cash: finalCash,
-            bank: postGovBank,
-            holdings: postSaleHoldings,
-            prices,
-            job: st.job,
-            realEstate: postSaleRealEstate,
-          }),
-      );
-      // Key moments from newly achieved dreams
-      let keyMoments = [...st.keyMoments];
-      for (const d of newlyAchieved) {
-        keyMoments.push({
-          age: intAge,
-          importance: 0.85,
-          text: d.rewardKeyMoment,
-          tag: stageTag(intAge),
-        });
-      }
-      keyMoments = pruneKeyMoments(keyMoments, KEY_MOMENT_LIMIT);
-      // Emoji update
-      const stocksVal = postSaleHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-      const bondsValForEmoji = updatedBonds.reduce((s, b) => s + (b.matured ? 0 : b.faceValue), 0);
-      const totalAssetsForEmoji =
-        finalCash + postGovBank.balance + stocksVal +
-        postSaleRealEstate.reduce((s, re) => s + re.currentValue, 0) +
-        bondsValForEmoji;
-      const emoji = emojiFor({ ...character, happiness: character.happiness }, totalAssetsForEmoji);
-
-      // Emit event possibility check
-      const dispatchCtx: DispatchContext = {
-        age: intAge,
-        cash: finalCash,
-        job: st.job ? { id: st.job.id } : null,
-        traits: st.traits,
-        usedScenarioIds: new Set(st.usedScenarioIds),
-      };
-      const specificFiredFirst = SCENARIOS.some((ev) =>
-        ev.triggers.some((t) => t.kind === 'specificAge' && t.age === intAge),
-      );
-      const roll = streams.event();
-      const fireChance =
-        specificFiredFirst ? 1 : eventChancePerYear() * deltaYears;
-      let phase: Phase = st.phase;
-      let triggeredEvent: EconomicEvent | null = null;
-      if (roll < fireChance) {
-        const picked = pickEligibleEvent(
-          SCENARIOS,
-          dispatchCtx,
-          streams.event,
-          specificFiredFirst,
-        );
-        if (picked && picked.pausesGame) {
-          triggeredEvent = {
-            scenarioId: picked.id,
-            triggeredAtAge: intAge,
-            title: picked.title,
-            text: picked.text,
-            choices: picked.choices,
-            category: picked.category,
-          };
-          phase = { kind: 'paused', event: triggeredEvent };
-        }
-      }
-
-      // Recent log update
-      const cycleLogEntry = cycleChanged
-        ? [{
-            age: intAge,
-            text: economyCycle.phase === 'boom'
-              ? `📢 경제 호황기 시작! 주가 상승세 기대`
-              : economyCycle.phase === 'recession'
-                ? `📢 경기 침체 시작. 주가 하락 주의`
-                : `📢 경기가 안정세로 접어들었습니다`,
-            timestamp: Date.now(),
-          }]
-        : [];
-      const taxLogEntry = (intAge % 5 === 0 && totalTax > 0)
-        ? [{
-            age: intAge,
-            text: `🧾 ${intAge}세 세금: 소득세 ${Math.round(incomeTax / 10000)}만원 + 재산세 ${Math.round(propertyTax / 10000)}만원 = 합계 ${Math.round(totalTax / 10000)}만원 납부`,
-            timestamp: Date.now(),
-          }]
-        : [];
-      // Season update
-      const newSeason = seasonFromYearIndex(intAge - 10);
-      const seasonChanged = newSeason !== st.currentSeason;
-      const seasonLogEntry = seasonChanged
-        ? [{
-            age: intAge,
-            text: `${SEASON_EMOJI[newSeason]} ${SEASON_KO[newSeason]}이 찾아왔어요!`,
-            timestamp: Date.now(),
-          }]
-        : [];
-
-      const recentLog = [
-        ...st.recentLog,
-        ...cycleLogEntry,
-        ...taxLogEntry,
-        ...seasonLogEntry,
-        ...overdraftLogEntry,
-        ...forcedSaleLogEntry,
-        ...govLoanLogEntry,
-        {
-          age: intAge,
-          text: `${intAge}세: 자산 ${Math.round((finalCash + postGovBank.balance) / 10000)}만원`,
-          timestamp: Date.now(),
+      const st = get();
+      const ctx: YearTickContext = {
+        stocks: STOCKS,
+        jobs: JOBS,
+        scenarios: SCENARIOS,
+        streams: {
+          stock: streams.stock,
+          event: streams.event,
+          npc: streams.npc,
+          misc: streams.misc,
         },
-      ].slice(-RECENT_LOG_LIMIT);
+      };
 
-      // Track asset history every 5 years
-      const totalNow = finalCash + postGovBank.balance + stocksVal;
-      const assetHistory = intAge % 5 === 0
-        ? [...st.assetHistory, { age: intAge, value: totalNow }]
-        : st.assetHistory;
+      // 1) 나이 증가 + 스탯 감소 + 경기사이클 + 강제 직업 변경
+      const ageResult = applyAgeAndDecay(st, intAge, deltaYears, ctx);
 
-      // Track cashflow history every year (up to 90 entries, ages 10-100)
-      const netMonthlyNow = Math.round((grossPeriodIncome - totalExpensesForCrisis) / 12);
-      const cashflowHistory = [...st.cashflowHistory, { age: intAge, netMonthly: netMonthlyNow }].slice(-90);
+      // 2) 12개월 루프: 급여/이자/배당/임대/연금/용돈/대출이자/DRIP
+      const monthlyResult = processMonthlyLoop(st, intAge, deltaYears, ageResult, ctx);
 
-      const stocksValNow = postSaleHoldings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-      const totalAssetsNow = finalCash + postGovBank.balance + stocksValNow + postSaleRealEstate.reduce((s, re) => s + re.currentValue, 0);
-      const newBoomReached = st.boomTimeBillionaireReached || (economyCycle.phase === 'boom' && totalAssetsNow >= 100000000);
-      const newSurvivedRecession = st.survivedRecessionWithAssets || (economyCycle.phase === 'recession' && totalAssetsNow >= 10000000);
+      // 3) 연간 정산: 주가 변동, 배당 성장, NPC, 자동투자, 부동산 감정, 채권, 세금
+      const annualResult = processAnnualSettlement(st, intAge, deltaYears, ageResult, monthlyResult, ctx);
 
-      // V5-04: 위기 스탯 차감 (crisisLevel은 강제 매각 전에 이미 계산됨)
-      const crisisTurns = (crisisLevel === 'orange' || crisisLevel === 'red')
-        ? st.crisisTurns + deltaYears
-        : st.crisisTurns;
-      // 위기 스탯 차감 (orange: -3/-2/-1/-1, red: -6/-4/-2/-2 × deltaYears)
-      const crisisCharacter = (() => {
-        if (crisisLevel === 'orange') {
-          return {
-            ...character,
-            happiness: Math.max(0, Math.min(100, character.happiness - 3 * deltaYears)),
-            health: Math.max(0, Math.min(100, character.health - 2 * deltaYears)),
-            wisdom: Math.max(0, Math.min(100, character.wisdom - 1 * deltaYears)),
-            charisma: Math.max(0, Math.min(100, character.charisma - 1 * deltaYears)),
-          };
-        }
-        if (crisisLevel === 'red') {
-          return {
-            ...character,
-            happiness: Math.max(0, Math.min(100, character.happiness - 6 * deltaYears)),
-            health: Math.max(0, Math.min(100, character.health - 4 * deltaYears)),
-            wisdom: Math.max(0, Math.min(100, character.wisdom - 2 * deltaYears)),
-            charisma: Math.max(0, Math.min(100, character.charisma - 2 * deltaYears)),
-          };
-        }
-        return character;
-      })();
+      // 4) 위기 판정 + 강제 매각 + 정부 긴급 대출
+      const crisisResult = processCrisisAndLiquidation(st, intAge, deltaYears, ageResult, monthlyResult, annualResult);
+
+      // 5) 꿈 달성, 키 모먼트, 로그, 시즌, 이벤트 발동
+      const logResult = processDreamsAndLogs(st, intAge, deltaYears, ageResult, monthlyResult, annualResult, crisisResult, ctx);
+
+      // Toast 메시지 발행 (순수 함수 밖에서만 호출)
+      for (const t of ageResult.toasts) {
+        showToast(t.message, t.icon, t.type, t.duration);
+      }
 
       set({
-        character: { ...crisisCharacter, emoji },
-        cash: finalCash,
-        bank: { ...postGovBank, interestRate: newBaseInterestRate },
-        holdings: postSaleHoldings,
-        prices,
-        npcs,
-        dreams,
-        keyMoments,
-        recentLog,
-        assetHistory,
-        phase,
-        economyCycle,
-        realEstate: postSaleRealEstate,
-        bonds: updatedBonds,
-        boomTimeBillionaireReached: newBoomReached,
-        survivedRecessionWithAssets: newSurvivedRecession,
-        currentSeason: newSeason,
-        parentalInvestment,
-        totalTaxPaid,
-        parentalRepaymentBase,
-        crisisTurns,
-        loanHistory: govLoanRecord ? [...st.loanHistory, govLoanRecord] : st.loanHistory,
-        cashflowHistory,
-        costOfLivingRatio: cfRatio,
-        dividendRates: updatedDividendRates,
-        splitNotices: splitEvents.length > 0
-          ? splitEvents.map((ev) => `📈 ${ev.name} ${ev.ratio}:1 액면분할! 주식 수 ${ev.ratio}배, 가격 1/${ev.ratio}로 조정됩니다.`)
-          : [],
+        character: { ...crisisResult.character, emoji: logResult.emoji },
+        cash: crisisResult.finalCash,
+        bank: { ...crisisResult.bank, interestRate: ageResult.newBaseInterestRate },
+        holdings: crisisResult.holdings,
+        prices: annualResult.prices,
+        npcs: annualResult.npcs,
+        dreams: logResult.dreams,
+        keyMoments: logResult.keyMoments,
+        recentLog: logResult.recentLog,
+        assetHistory: logResult.assetHistory,
+        phase: logResult.phase,
+        economyCycle: ageResult.economyCycle,
+        realEstate: crisisResult.realEstate,
+        bonds: annualResult.bonds,
+        boomTimeBillionaireReached: logResult.boomTimeBillionaireReached,
+        survivedRecessionWithAssets: logResult.survivedRecessionWithAssets,
+        currentSeason: logResult.currentSeason,
+        parentalInvestment: monthlyResult.parentalInvestment,
+        totalTaxPaid: annualResult.totalTaxPaid,
+        parentalRepaymentBase: monthlyResult.parentalRepaymentBase,
+        crisisTurns: crisisResult.crisisTurns,
+        loanHistory: crisisResult.govLoanRecord ? [...st.loanHistory, crisisResult.govLoanRecord] : st.loanHistory,
+        cashflowHistory: logResult.cashflowHistory,
+        costOfLivingRatio: ageResult.cfRatio,
+        dividendRates: annualResult.dividendRates,
+        splitNotices: logResult.splitNotices,
+        job: ageResult.job,
+        lastJobChangeAge: ageResult.lastJobChangeAge,
       });
     },
     clearSplitNotices() {
@@ -1149,8 +572,8 @@ export const useGameStore = create<GameStoreState>()(
     toggleInsurance(type) {
       const st = get();
       const ins = st.insurance;
-      const healthPremium = 200000;
-      const assetPremium = 300000;
+      const healthPremium = HEALTH_INSURANCE_PREMIUM;
+      const assetPremium = ASSET_INSURANCE_PREMIUM;
       if (type === 'health') {
         const newHealth = !ins.health;
         const newPremium = (newHealth ? healthPremium : 0) + (ins.asset ? assetPremium : 0);
@@ -1296,13 +719,6 @@ export function setRngStreams(s: Seeds) {
   streams = createStreams(s);
 }
 
-function stageTag(age: number): string {
-  if (age < 20) return '유년기';
-  if (age < 35) return '청년기';
-  if (age < 55) return '중년기';
-  if (age < 75) return '장년기';
-  return '노년기';
-}
 
 export { STOCKS, JOBS, DREAMS_MASTER };
 export function getSCENARIOS(): ScenarioEvent[] { return SCENARIOS; }
