@@ -3,9 +3,9 @@ import { calculateGrade, selectKeyMoments, highlightMoment } from '../domain/end
 import type { KeyMoment } from '../types';
 
 // calculateGrade: 꿈 달성(0-60점) + 자산(0-40점) 복합 점수제
-// 꿈: 전부달성=60점, 절반=30점, 0개=0점
-// 자산: 100억+=40, 50억+=30, 20억+=20, 5억+=10, 미만=0
-// 등급: 80+→S, 55+→A, 35+→B, 15+→C, 달성>0→D, else→F
+// 꿈: 100%=60점, 75%+=45점, 50%+=30점, 25%+=15점, 0%=0점
+// 자산: 100억+=40, 50억+=30, 20억+=20, 5억+=10, 1억+=5, 미만=0
+// 등급: 80+→S, 55+→A, 25+→B, 15+→C, 달성>0→D, else→F
 describe('calculateGrade', () => {
   it('total 0이면 F', () => {
     expect(calculateGrade(0, 0)).toBe('F');
@@ -23,36 +23,39 @@ describe('calculateGrade', () => {
     expect(calculateGrade(1, 2, 0, 10_000_000_000)).toBe('A');
   });
 
-  it('꿈 절반 + 50억: B (30+30=60, ≥55 → A)', () => {
+  it('꿈 절반 + 50억: A (30+30=60, ≥55)', () => {
     expect(calculateGrade(1, 2, 0, 5_000_000_000)).toBe('A');
   });
 
-  it('꿈 절반 + 20억: B (30+20=50, ≥35)', () => {
+  it('꿈 절반 + 20억: B (30+20=50, ≥25)', () => {
     expect(calculateGrade(1, 2, 0, 2_000_000_000)).toBe('B');
   });
 
-  it('꿈 0개 + 100억: B (0+40=40, ≥35)', () => {
+  it('꿈 0개 + 100억: B (0+40=40, ≥25)', () => {
     expect(calculateGrade(0, 2, 0, 10_000_000_000)).toBe('B');
   });
 
-  it('꿈 절반 + 5억: C (30+10=40, ≥35 → B)', () => {
+  it('꿈 절반 + 5억: B (30+10=40, ≥25)', () => {
     expect(calculateGrade(1, 2, 0, 500_000_000)).toBe('B');
   });
 
-  it('꿈 절반 + 자산 없음: C (30+0=30, ≥15)', () => {
-    expect(calculateGrade(1, 2, 0, 0)).toBe('C');
+  it('꿈 절반 + 자산 없음: B (30+0=30, ≥25)', () => {
+    expect(calculateGrade(1, 2, 0, 0)).toBe('B');
   });
 
-  it('꿈 0개 + 5억: C (0+10=10, < 15 → D, 달성>0 없음 → D/F)', () => {
-    // 달성=0, score=10 → score>0이지만 achieved=0 → F
+  it('꿈 25% + 자산 없음: C (15+0=15, ≥15)', () => {
+    expect(calculateGrade(1, 4, 0, 0)).toBe('C');
+  });
+
+  it('꿈 0개 + 5억: D (0+10=10, score>0 but achieved=0 → D)', () => {
     expect(calculateGrade(0, 2, 0, 500_000_000)).toBe('D');
   });
 
-  it('꿈 1/2 + 1억 자산 → B', () => {
+  it('꿈 1/2 + 1억 자산 → B (30+5=35, ≥25)', () => {
     expect(calculateGrade(1, 2, 0, 100_000_000)).toBe('B');
   });
 
-  it('꿈 0/2 + 1억 자산 → D', () => {
+  it('꿈 0/2 + 1억 자산 → D (0+5=5, score>0 but achieved=0)', () => {
     expect(calculateGrade(0, 2, 0, 100_000_000)).toBe('D');
   });
 
