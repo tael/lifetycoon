@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback } from 'react';
 import { useGameStore, STOCKS } from '../../store/gameStore';
 import { computeCashflow } from '../../game/domain/cashflow';
 import { getEffectiveInterestRate } from '../../game/engine/economyCycle';
+import { ANNUAL_INFLATION_RATE, NEGOTIATION_BONUS } from '../../game/constants';
 
 /**
  * PlayScreen에서 사용하는 파생값 계산을 모아둔 커스텀 hook.
@@ -21,22 +22,26 @@ export function usePlayDerived() {
   const economyCycle = useGameStore((s) => s.economyCycle);
   const parentalRepaymentBase = useGameStore((s) => s.parentalRepaymentBase);
 
-  // 자산 계산
-  const stocksValue = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
-  const realEstateValue = realEstate.reduce((s, re) => s + re.currentValue, 0);
-  const totalAssets = cash + bank.balance + stocksValue + realEstateValue;
+  // 자산 계산 (useMemo — holdings/prices/cash/bank/realEstate 변경 시만 재계산)
+  const { stocksValue, realEstateValue, totalAssets, totalCost } = useMemo(() => {
+    const sv = holdings.reduce((s, h) => s + (prices[h.ticker] ?? 0) * h.shares, 0);
+    const rev = realEstate.reduce((s, re) => s + re.currentValue, 0);
+    const tc = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
+    return { stocksValue: sv, realEstateValue: rev, totalAssets: cash + bank.balance + sv + rev, totalCost: tc };
+  }, [holdings, prices, cash, bank.balance, realEstate]);
 
-  // 주식 수익률 + 배당
-  const totalCost = holdings.reduce((s, h) => s + h.avgBuyPrice * h.shares, 0);
-  const dividendIncome = holdings.reduce((sum, h) => {
+  // 배당 계산 — processMonthlyLoop와 동일하게 basePrice 기준 (시장가 아님)
+  const dividendIncome = useMemo(() => holdings.reduce((sum, h) => {
     const def = STOCKS.find((s) => s.ticker === h.ticker);
     const divRate = def?.dividendRate ?? 0;
-    const price = prices[h.ticker] ?? 0;
-    return sum + Math.round(price * h.shares * divRate);
-  }, 0);
-  const stockReturnPct = totalCost > 0
-    ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%`
-    : undefined;
+    const basePriceForDiv = def?.basePrice ?? (prices[h.ticker] ?? 0);
+    return sum + Math.round(basePriceForDiv * h.shares * divRate);
+  }, 0), [holdings, prices]);
+
+  const stockReturnPct = useMemo(
+    () => totalCost > 0 ? `${((stocksValue / totalCost - 1) * 100).toFixed(1)}%` : undefined,
+    [stocksValue, totalCost],
+  );
 
   // 유효 이자율
   const effectiveInterestRate = economyCycle
@@ -56,7 +61,9 @@ export function usePlayDerived() {
     ).length + 1,
     [usedScenarioIds],
   );
-  const inflationMultiplier = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
+  const inflationMultiplier = intAge > 30 ? 1 + ANNUAL_INFLATION_RATE * (intAge - 30) : 1;
+  // processMonthlyLoop와 동일한 salaryBonus 계산
+  const salaryBonus = unlockedSkills.includes('negotiation') ? NEGOTIATION_BONUS : 1;
 
   // 캐시플로
   const cashflow = useMemo(
@@ -74,8 +81,9 @@ export function usePlayDerived() {
       inflationMultiplier,
       householdClass: character.householdClass,
       parentalRepaymentBase,
+      salaryBonus,
     }),
-    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, careerCount, inflationMultiplier, parentalRepaymentBase],
+    [character.age, character.householdClass, job, bank, effectiveInterestRate, holdings, prices, realEstate, bonds, careerCount, inflationMultiplier, parentalRepaymentBase, salaryBonus],
   );
 
   // 월 단위 표시용 float age

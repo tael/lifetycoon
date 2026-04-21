@@ -50,6 +50,7 @@ import {
   processDreamsAndLogs,
   type YearTickContext,
 } from '../game/engine/yearTick';
+import { ANNUAL_INFLATION_RATE, KEY_MOMENT_LIMIT } from '../game/constants';
 import stocksData from '../game/data/stocks.json';
 import jobsData from '../game/data/jobs.json';
 import dreamsData from '../game/data/dreams.json';
@@ -74,7 +75,6 @@ export async function loadScenarios(): Promise<void> {
   useGameStore.setState({ scenariosMaster: SCENARIOS });
 }
 
-const KEY_MOMENT_LIMIT = 30;
 
 export type GameStoreState = {
   schemaVersion: 1;
@@ -152,15 +152,16 @@ export type GameStoreState = {
   advanceYear: (intAge: number, deltaYears: number) => void;
   triggerEvent: (ev: EconomicEvent) => void;
   chooseOption: (choiceIndex: number) => { warnings: string[]; timeCostMonths: number };
-  buy: (ticker: string, shares: number) => boolean;
-  sell: (ticker: string, shares: number) => boolean;
-  deposit: (amount: number) => boolean;
-  withdraw: (amount: number) => boolean;
+  buy: (ticker: string, shares: number) => { success: boolean; reason?: string };
+  sell: (ticker: string, shares: number) => { success: boolean; reason?: string };
+  deposit: (amount: number) => { success: boolean; reason?: string };
+  withdraw: (amount: number) => { success: boolean; reason?: string };
   takeLoan: (amount: number) => boolean;
   repayLoan: (amount: number) => boolean;
   setSpeed: (s: 0.5 | 1 | 2) => void;
   changeJob: (jobId: string) => { success: boolean; reason?: string };
   toggleDrip: () => void;
+  toggleAutoInvest: () => void;
   buyRealEstate: (id: string) => { success: boolean; acquisitionTax: number };
   sellRealEstate: (index: number) => { success: boolean; capitalGainsTax: number };
   buyBond: (id: string) => boolean;
@@ -263,6 +264,7 @@ type GameStoreActions = Pick<
   | 'setSpeed'
   | 'changeJob'
   | 'toggleDrip'
+  | 'toggleAutoInvest'
   | 'buyRealEstate'
   | 'sellRealEstate'
   | 'buyBond'
@@ -275,6 +277,32 @@ type GameStoreActions = Pick<
 
 // Single shared stream per game (recreated from seeds)
 let streams: RngStreams = createStreams(randomSeeds());
+
+/** 이벤트 선택으로 발생한 강제 대출을 LoanRecord 배열에 추가해 반환한다. */
+function recordLoanFromChoice(
+  loanHistory: LoanRecord[],
+  prevLoanBalance: number,
+  nextLoanBalance: number,
+  triggeredAtAge: number,
+  eventTitle: string,
+): LoanRecord[] {
+  const forcedLoanAmount = nextLoanBalance - prevLoanBalance;
+  if (forcedLoanAmount <= 0) return loanHistory;
+  return [
+    ...loanHistory,
+    { age: triggeredAtAge, amount: forcedLoanAmount, source: 'forced', reason: eventTitle },
+  ];
+}
+
+/** choiceHistory 배열에 새 항목을 추가해 반환한다. */
+function buildChoiceHistory(
+  choiceHistory: { scenarioId: string; choiceIndex: number; age: number }[],
+  scenarioId: string,
+  choiceIndex: number,
+  age: number,
+): { scenarioId: string; choiceIndex: number; age: number }[] {
+  return [...choiceHistory, { scenarioId, choiceIndex, age }];
+}
 
 export const useGameStore = create<GameStoreState>()(
   subscribeWithSelector((set, get) => ({
@@ -419,17 +447,16 @@ export const useGameStore = create<GameStoreState>()(
       );
       const newUsed = [...st.usedScenarioIds, event.scenarioId];
       const newKeyMoments = pruneKeyMoments(next.keyMoments, KEY_MOMENT_LIMIT);
-      const newChoiceHistory = [
-        ...st.choiceHistory,
-        { scenarioId: event.scenarioId, choiceIndex, age: event.triggeredAtAge },
-      ];
+      const newChoiceHistory = buildChoiceHistory(
+        st.choiceHistory, event.scenarioId, choiceIndex, event.triggeredAtAge,
+      );
       // buyStock의 강제대출 경로를 탔다면 hadLoan 플래그도 올려서
       // "대출을 받았다가 완납" 업적 트래킹과 일관되게 한다.
       const forcedLoanTaken = next.bank.loanBalance > st.bank.loanBalance;
-      const forcedLoanAmount = forcedLoanTaken ? next.bank.loanBalance - st.bank.loanBalance : 0;
-      const newLoanHistory: LoanRecord[] = forcedLoanTaken
-        ? [...st.loanHistory, { age: event.triggeredAtAge, amount: forcedLoanAmount, source: 'forced', reason: event.title }]
-        : st.loanHistory;
+      const newLoanHistory = recordLoanFromChoice(
+        st.loanHistory, st.bank.loanBalance, next.bank.loanBalance,
+        event.triggeredAtAge, event.title,
+      );
       set({
         character: next.character,
         cash: next.cash,
@@ -455,9 +482,9 @@ export const useGameStore = create<GameStoreState>()(
     buy(ticker, shares) {
       const st = get();
       const price = st.prices[ticker];
-      if (!price) return false;
+      if (!price) return { success: false, reason: '종목을 찾을 수 없어요' };
       const cost = price * shares;
-      if (cost <= 0 || cost > st.cash) return false;
+      if (cost <= 0 || cost > st.cash) return { success: false, reason: '현금이 부족해요' };
       const existing = st.holdings.find((h) => h.ticker === ticker);
       let newHoldings: Holding[];
       if (existing) {
@@ -472,14 +499,15 @@ export const useGameStore = create<GameStoreState>()(
         newHoldings = [...st.holdings, { ticker, shares, avgBuyPrice: price }];
       }
       set({ cash: st.cash - cost, holdings: newHoldings });
-      return true;
+      return { success: true };
     },
     sell(ticker, shares) {
       const st = get();
       const price = st.prices[ticker];
-      if (!price) return false;
+      if (!price) return { success: false, reason: '종목을 찾을 수 없어요' };
       const existing = st.holdings.find((h) => h.ticker === ticker);
-      if (!existing || existing.shares < shares || shares <= 0) return false;
+      if (!existing) return { success: false, reason: '보유 주식이 없어요' };
+      if (shares <= 0 || existing.shares < shares) return { success: false, reason: '보유 수량이 부족해요' };
       const proceeds = price * shares;
       const remaining = existing.shares - shares;
       const newHoldings =
@@ -489,25 +517,25 @@ export const useGameStore = create<GameStoreState>()(
               h.ticker === ticker ? { ...h, shares: remaining } : h,
             );
       set({ cash: st.cash + proceeds, holdings: newHoldings });
-      return true;
+      return { success: true };
     },
     deposit(amount) {
       const st = get();
-      if (amount <= 0 || amount > st.cash) return false;
+      if (amount <= 0 || amount > st.cash) return { success: false, reason: '현금이 부족해요' };
       set({
         cash: st.cash - amount,
         bank: { ...st.bank, balance: st.bank.balance + amount },
       });
-      return true;
+      return { success: true };
     },
     withdraw(amount) {
       const st = get();
-      if (amount <= 0 || amount > st.bank.balance) return false;
+      if (amount <= 0 || amount > st.bank.balance) return { success: false, reason: '예금 잔액이 부족해요' };
       set({
         cash: st.cash + amount,
         bank: { ...st.bank, balance: st.bank.balance - amount },
       });
-      return true;
+      return { success: true };
     },
     takeLoan(amount) {
       const st = get();
@@ -548,13 +576,16 @@ export const useGameStore = create<GameStoreState>()(
     toggleDrip() {
       set({ dripEnabled: !get().dripEnabled });
     },
+    toggleAutoInvest() {
+      set({ autoInvest: !get().autoInvest });
+    },
     buyRealEstate(id) {
       const st = get();
       const listing = REAL_ESTATE_LISTINGS.find((l) => l.id === id);
       if (!listing) return { success: false, acquisitionTax: 0 };
       if (st.realEstate.length >= 10) return { success: false, acquisitionTax: 0 };
       const intAge = Math.floor(st.character.age);
-      const inflationMult = intAge > 30 ? 1 + 0.02 * (intAge - 30) : 1;
+      const inflationMult = intAge > 30 ? 1 + ANNUAL_INFLATION_RATE * (intAge - 30) : 1;
       const dynPrice = dynamicListingPrice(listing.price, st.economyCycle.phase, inflationMult);
       const dynRent = listing.monthlyRent > 0
         ? dynamicMonthlyRent(listing.monthlyRent, st.economyCycle.phase)

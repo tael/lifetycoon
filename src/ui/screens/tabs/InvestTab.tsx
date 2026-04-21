@@ -8,6 +8,7 @@ import { incrementBought, incrementSold } from '../../../store/globalStats';
 import { REAL_ESTATE_LISTINGS } from '../../../game/domain/realEstate';
 import { dynamicListingPrice, dynamicMonthlyRent } from '../../../game/engine/economyCycle';
 import type { EconomyPhase } from '../../../game/engine/economyCycle';
+import { ANNUAL_INFLATION_RATE } from '../../../game/constants';
 import type { StockDef, RealEstate } from '../../../game/types';
 import { Icon } from '../../icons/Icon';
 
@@ -25,13 +26,14 @@ export function InvestTab({
   const prices = useGameStore((s) => s.prices);
   const autoInvest = useGameStore((s) => s.autoInvest);
   const dripEnabled = useGameStore((s) => s.dripEnabled);
+  const toggleAutoInvest = useGameStore((s) => s.toggleAutoInvest);
   const realEstate = useGameStore((s) => s.realEstate);
   const buyRealEstate = useGameStore((s) => s.buyRealEstate);
   const sellRealEstate = useGameStore((s) => s.sellRealEstate);
   const economyPhase = useGameStore((s) => s.economyCycle.phase) as EconomyPhase;
   const inflationMult = useGameStore((s) => {
     const age = Math.floor(s.character.age);
-    return age > 30 ? 1 + 0.02 * (age - 30) : 1;
+    return age > 30 ? 1 + ANNUAL_INFLATION_RATE * (age - 30) : 1;
   });
   const dividendRates = useGameStore((s) => s.dividendRates);
   const buy = useGameStore((s) => s.buy);
@@ -81,7 +83,7 @@ export function InvestTab({
               </span>
             )}
             <button
-              onClick={() => useGameStore.setState({ autoInvest: !autoInvest })}
+              onClick={toggleAutoInvest}
               aria-label={autoInvest ? '자동투자 끄기' : '자동투자 켜기'}
               aria-pressed={autoInvest}
               style={{
@@ -165,10 +167,14 @@ export function InvestTab({
               price={price}
               holding={holding}
               onBuy={(n) => {
-                if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
+                const result = buy(s.ticker, n);
+                if (result.success) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
+                else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
               }}
               onSell={(n) => {
-                if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
+                const result = sell(s.ticker, n);
+                if (result.success) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
+                else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
               }}
               canBuy={cash >= price}
               cash={cash}
@@ -192,10 +198,14 @@ export function InvestTab({
             holding={h}
             cash={cash}
             onBuy={(n) => {
-              if (buy(s.ticker, n)) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
+              const result = buy(s.ticker, n);
+              if (result.success) { sfx.buy(); showToast(`${s.name} ${n}주 매수!`, s.iconEmoji, 'success', 1500); incrementBought(); }
+              else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
             }}
             onSell={(n) => {
-              if (sell(s.ticker, n)) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
+              const result = sell(s.ticker, n);
+              if (result.success) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
+              else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
             }}
             onClose={() => setSelectedStock(null)}
           />

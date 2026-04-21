@@ -1,5 +1,5 @@
 import type { BankAccount, Bond, Holding, Job, RealEstate, StockDef } from '../types';
-import { ADULT_STUDENT_MONTHLY } from '../constants';
+import { ADULT_STUDENT_MONTHLY, ANNUAL_INFLATION_RATE, SIDE_JOB_MONTHLY } from '../constants';
 import { calculateIncomeTax, calculatePropertyTax } from '../engine/tax';
 import { computePensionYearly, PENSION_START_AGE } from './pension';
 import {
@@ -95,6 +95,12 @@ export type CashflowInput = {
    * 미지정 시 19 (고졸 기본값) — 기존 동작 완전 호환.
    */
   educationEndAge?: number;
+  /**
+   * 협상 스킬(negotiation) 보유 여부에 따른 급여 보너스 배수.
+   * processMonthlyLoop와 동일하게 negotiation 스킬 보유 시 1.1, 미보유 시 1.0.
+   * 미지정 시 1.0 (기존 동작 호환).
+   */
+  salaryBonus?: number;
 };
 
 /**
@@ -110,6 +116,20 @@ export type CashflowInput = {
  *   단순 500,000원(이전 UI 노출값 호환).
  * - 채권 쿠폰은 만기 전 bond 전체 합. 원금 상환은 포함하지 않는다(올해 발생 플로우가 아님).
  * - deltaYears=1 을 가정 — 이번 사이클은 UI 노출용이라 가장 흔한 케이스만 다룬다.
+ *
+ * ## processMonthlyLoop와의 관계
+ *
+ * ### 동일해야 하는 항목 (버그로 간주)
+ * - 기본 월급 공식: effectiveSalary × ageSalaryMultiplier × salaryBonus × inflationMultiplier × 12
+ * - 배당 기준가: stockDef.basePrice (시장가 아님)
+ * - 부업 조건 및 금액: 순현금흐름 음수 시 연 1200만(월 100만 × 12)
+ * - 생활비 절감: 순현금흐름 음수 시 50% 절감
+ *
+ * ### 의도적으로 다른 항목 (UI 예측 특성상 허용)
+ * - statPenalty.salaryMult: UI는 "정상 상태" 기준 예측이므로 미포함. 실제 루프는 스탯 상태에 따라 실시간 반영.
+ * - 대출 이자 계산: UI는 연단위 단순 계산(loanBalance × loanInterestRate), 실제 루프는 월 복리.
+ * - 현금 이자/마이너스 이자: UI는 연단위 단순 계산, 실제 루프는 월 복리.
+ * - 부업 판정 기준: UI는 (totalIncome - totalExpense) 기준, 실제 루프는 은행이자 포함 월별 순현금흐름 기준.
  */
 export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   const {
@@ -128,6 +148,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     parentalRepaymentBase,
     cash,
     educationEndAge,
+    salaryBonus = 1,
   } = input;
 
   const intAge = Math.floor(age);
@@ -146,7 +167,12 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   const effectiveSalary = job
     ? (job.id === 'student' && intAge >= 19 ? ADULT_STUDENT_MONTHLY : job.salary)
     : 0;
-  const salaryYearly = effectiveSalary > 0 ? Math.round(effectiveSalary * ageSalaryMultiplier(intAge, job!.id) * 12) : 0;
+  // processMonthlyLoop와 동일하게 salaryBonus(협상 스킬) + inflationMultiplier(30세 이후 인플레) 적용.
+  // inflationMultiplier가 미지정이면 processMonthlyLoop와 동일한 공식으로 자체 계산한다.
+  const _inflationMultiplier = inflationMultiplier ?? (intAge > 30 ? 1 + ANNUAL_INFLATION_RATE * (intAge - 30) : 1);
+  const salaryYearly = effectiveSalary > 0
+    ? Math.round(effectiveSalary * ageSalaryMultiplier(intAge, job!.id) * salaryBonus * _inflationMultiplier * 12)
+    : 0;
   const interestYearly = bank.balance > 0
     ? Math.round(bank.balance * effectiveInterestRate)
     : 0;
@@ -154,8 +180,10 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
     const def = stocks.find((s) => s.ticker === h.ticker);
     const divRate = def?.dividendRate ?? 0;
     if (divRate <= 0) return sum;
-    const price = prices[h.ticker] ?? 0;
-    return sum + Math.round(price * h.shares * divRate);
+    // processMonthlyLoop와 동일하게 basePrice 기준으로 배당 계산.
+    // 시장가(prices)가 아닌 기준가를 써야 배당수익률이 일관되게 유지된다.
+    const basePriceForDiv = def?.basePrice ?? (prices[h.ticker] ?? 0);
+    return sum + Math.round(basePriceForDiv * h.shares * divRate);
   }, 0);
   const rentalYearly = realEstate.reduce((s, re) => s + re.monthlyRent * 12, 0);
   // 연금: 호출자가 careerCount/inflationMultiplier를 주면 gameStore와 동일 공식,
@@ -246,9 +274,9 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
       totalExpense -= cut;
     }
     // 강제 부업 소득
-    const SIDE_JOB_YEARLY = 12_000_000;
-    income.push({ label: '부업', emoji: '🔧', amount: SIDE_JOB_YEARLY, passive: false, incomeType: '(근로소득)' });
-    adjustedTotalIncome += SIDE_JOB_YEARLY;
+    const sideJobYearly = SIDE_JOB_MONTHLY * 12;
+    income.push({ label: '부업', emoji: '🔧', amount: sideJobYearly, passive: false, incomeType: '(근로소득)' });
+    adjustedTotalIncome += sideJobYearly;
   }
 
   const netCashflow = adjustedTotalIncome - totalExpense;

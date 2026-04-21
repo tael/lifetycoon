@@ -17,7 +17,19 @@ import {
   CASH_FLOOR,
   ADULT_STUDENT_MONTHLY,
   ANNUAL_INFLATION_RATE,
+  STAT_DECAY_LOW_THRESHOLD,
+  STAT_DECAY_HIGH_THRESHOLD,
+  SIDE_JOB_MONTHLY,
+  NEGOTIATION_BONUS,
+  CASH_INTEREST_RATE,
+  OVERDRAFT_RATE_PREMIUM,
 } from '../../constants';
+
+function decayRandomStat(character: Character, rng: number): Character {
+  if (rng < STAT_DECAY_LOW_THRESHOLD) return { ...character, happiness: Math.max(0, character.happiness - 1) };
+  if (rng < STAT_DECAY_HIGH_THRESHOLD) return { ...character, health: Math.max(0, character.health - 1) };
+  return { ...character, charisma: Math.max(0, character.charisma - 1) };
+}
 
 export function processMonthlyLoop(
   st: YearTickState,
@@ -38,7 +50,7 @@ export function processMonthlyLoop(
     st.unlockedSkills.includes('finance_101'),
   );
   const monthlyInterestRate = Math.pow(1 + effectiveInterestRate, 1 / 12) - 1;
-  const salaryBonus = st.unlockedSkills.includes('negotiation') ? 1.1 : 1;
+  const salaryBonus = st.unlockedSkills.includes('negotiation') ? NEGOTIATION_BONUS : 1;
   const inflationMultiplier = intAge > 30 ? 1 + ANNUAL_INFLATION_RATE * (intAge - 30) : 1;
   // 성인(19세+) 학생은 용돈 3만이 아니라 아르바이트 월 200만(연 2400만) 적용
   const effectiveMonthlySalary = job
@@ -148,16 +160,12 @@ export function processMonthlyLoop(
     const monthlyBankInterest = mBankBalance > 0 ? Math.round(mBankBalance * monthlyInterestRate) : 0;
     const monthlyNetFlow = monthlySalary + monthlyBankInterest + monthlyDividend + monthlyRental + monthlyPension + monthlyAllowance - monthExpense;
     if (intAge >= 19 && monthlyNetFlow < 0) {
-      const rng = ctx.streams.misc();
-      if (rng < 0.33) { character = { ...character, happiness: Math.max(0, character.happiness - 1) }; }
-      else if (rng < 0.66) { character = { ...character, health: Math.max(0, character.health - 1) }; }
-      else { character = { ...character, charisma: Math.max(0, character.charisma - 1) }; }
+      character = decayRandomStat(character, ctx.streams.misc());
 
       const costRefund = Math.round(monthlyCostOfLiving * 0.5);
       mCash += costRefund;
       mTotalExpenses -= costRefund;
 
-      const SIDE_JOB_MONTHLY = 1_000_000;
       mCash += SIDE_JOB_MONTHLY;
       mTotalSalaryIncome += SIDE_JOB_MONTHLY;
     }
@@ -176,10 +184,10 @@ export function processMonthlyLoop(
 
     // 자유입출금통장 이자
     if (mCash > 0) {
-      const cashInterest = Math.round(mCash * 0.001 / 12);
+      const cashInterest = Math.round(mCash * CASH_INTEREST_RATE / 12);
       mCash += cashInterest;
     } else if (mCash < 0) {
-      const overdraftRate = st.bank.loanInterestRate + 0.01;
+      const overdraftRate = st.bank.loanInterestRate + OVERDRAFT_RATE_PREMIUM;
       const overdraftInterest = Math.round(Math.abs(mCash) * overdraftRate / 12);
       mCash = Math.max(mCash - overdraftInterest, CASH_FLOOR);
     }
