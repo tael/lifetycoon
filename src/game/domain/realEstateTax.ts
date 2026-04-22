@@ -1,3 +1,8 @@
+import {
+  ACQ_TAX_COMMERCIAL, ACQ_TAX_1ST_HOME, ACQ_TAX_2ND_HOME, ACQ_TAX_3RD_PLUS_HOME,
+  CAP_GAINS_TAX_SHORT, CAP_GAINS_TAX_MID, CAP_GAINS_TAX_LONG_MULTI,
+} from '../constants';
+
 /**
  * 부동산 취득세 / 양도세 계산 모듈
  *
@@ -29,13 +34,13 @@ export function calculateAcquisitionTax(
   if (price <= 0) return 0;
   let rate: number;
   if (isCommercial) {
-    rate = 0.04;
+    rate = ACQ_TAX_COMMERCIAL;
   } else if (ownedCountAfter === 1) {
-    rate = 0.02;
+    rate = ACQ_TAX_1ST_HOME;
   } else if (ownedCountAfter === 2) {
-    rate = 0.08;
+    rate = ACQ_TAX_2ND_HOME;
   } else {
-    rate = 0.12;
+    rate = ACQ_TAX_3RD_PLUS_HOME;
   }
   return Math.round(price * rate);
 }
@@ -59,16 +64,15 @@ export function calculateCapitalGainsTax(
 
   let rate: number;
   if (yearsHeld < 1) {
-    rate = 0.70;
+    rate = CAP_GAINS_TAX_SHORT;
   } else if (yearsHeld < 2) {
-    rate = 0.40;
+    rate = CAP_GAINS_TAX_MID;
   } else {
     // 2년 이상 보유
     if (totalOwnedBeforeSell === 1) {
-      // 1주택 비과세
-      rate = 0;
+      rate = 0; // 1주택 비과세
     } else {
-      rate = 0.20;
+      rate = CAP_GAINS_TAX_LONG_MULTI;
     }
   }
   return Math.round(gain * rate);

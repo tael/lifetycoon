@@ -93,3 +93,19 @@ export const CRISIS_EXPENSE_MONTHS_YELLOW = 6; // 6개월치 이상 → yellow
 
 // 강제 매각 할인율
 export const FIRE_SALE_RATIO = 0.8; // 부동산 급매 시가의 80%
+
+// 은행 초기값
+export const BANK_INITIAL_INTEREST_RATE = 0.03; // 초기 예금 이자율
+export const BANK_INITIAL_LOAN_RATE = 0.05;     // 초기 대출 이자율
+export const LOAN_LTV_RATIO = 0.5;              // 대출 LTV 상한 (자산의 50%)
+
+// 부동산 취득세율
+export const ACQ_TAX_COMMERCIAL = 0.04;   // 상가
+export const ACQ_TAX_1ST_HOME = 0.02;    // 1주택
+export const ACQ_TAX_2ND_HOME = 0.08;    // 2주택
+export const ACQ_TAX_3RD_PLUS_HOME = 0.12; // 3주택+
+
+// 부동산 양도세율
+export const CAP_GAINS_TAX_SHORT = 0.70;      // 1년 미만 보유
+export const CAP_GAINS_TAX_MID = 0.40;        // 1-2년 보유
+export const CAP_GAINS_TAX_LONG_MULTI = 0.20; // 2년+ 다주택

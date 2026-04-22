@@ -1,7 +1,8 @@
 import type { BankAccount } from '../types';
+import { BANK_INITIAL_INTEREST_RATE, BANK_INITIAL_LOAN_RATE, LOAN_LTV_RATIO } from '../constants';
 
 export function createBankAccount(): BankAccount {
-  return { balance: 0, interestRate: 0.03, loanBalance: 0, loanInterestRate: 0.05 };
+  return { balance: 0, interestRate: BANK_INITIAL_INTEREST_RATE, loanBalance: 0, loanInterestRate: BANK_INITIAL_LOAN_RATE };
 }
 
 export function applyInterestForYears(
@@ -50,7 +51,7 @@ export function takeLoan(
   totalAssets: number,
 ): { cash: number; bank: BankAccount; executed: boolean } {
   if (amount <= 0) return { cash, bank, executed: false };
-  const maxLoan = Math.floor(totalAssets * 0.5);
+  const maxLoan = Math.floor(totalAssets * LOAN_LTV_RATIO);
   const remainingLimit = Math.max(0, maxLoan - bank.loanBalance);
   if (amount > remainingLimit) return { cash, bank, executed: false };
   return {
