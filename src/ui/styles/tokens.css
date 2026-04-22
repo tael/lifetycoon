@@ -45,6 +45,17 @@
   --grade-a: #ff7043;
   --grade-b: #42a5f5;
   --grade-c: #bdbdbd;
+  --gold: var(--grade-s);
+
+  /* Soft variants — 배경/뱃지용 연한 색상 */
+  --danger-soft: #ffebee;
+  --success-soft: #e8f5e9;
+  --warning-soft: #fff3e0;
+  --info-soft: #e3f2fd;
+  --warning-strong: #e65100;
+  --info-strong: #1565c0;
+  --accent-secondary-strong: #6a1b9a;
+  --accent-secondary-soft: #f3e5f5;
 
   /* Hard shadow — 색상별 진한 버전 */
   --accent-shadow: #58a700;
@@ -54,6 +65,7 @@
   /* 테두리 */
   --border-duo: #e5ddd0;
   --border-strong: #cec2af;
+  --border: var(--border-duo);
 
   /* Surface & Border & State */
   --surface-1: #ffffff;

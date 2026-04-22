@@ -329,15 +329,15 @@ export function PlayScreen() {
                 padding: '1px 6px',
                 borderRadius: 'var(--radius-full)',
                 background: economyCycle.phase === 'boom'
-                  ? '#fff3e0'
+                  ? 'var(--warning-soft)'
                   : economyCycle.phase === 'recession'
-                    ? '#e3f2fd'
-                    : '#f3e5f5',
+                    ? 'var(--info-soft)'
+                    : 'var(--accent-secondary-soft)',
                 color: economyCycle.phase === 'boom'
-                  ? '#e65100'
+                  ? 'var(--warning-strong)'
                   : economyCycle.phase === 'recession'
-                    ? '#1565c0'
-                    : '#6a1b9a',
+                    ? 'var(--info-strong)'
+                    : 'var(--accent-secondary-strong)',
               }}>
                 {PHASE_LABEL[economyCycle.phase]}
               </span>
@@ -429,10 +429,10 @@ export function PlayScreen() {
 
             {/* Stats row */}
             <div className="stat-chips" style={{ padding: '0 10px 8px' }}>
-              <StatMini label="행복" value={character.happiness} emoji="💛" color="#f59e0b" showHints={showStatHints} />
-              <StatMini label="건강" value={character.health} emoji="❤️" color="#ef4444" showHints={showStatHints} />
-              <StatMini label="지혜" value={character.wisdom} emoji="📘" color="#3b82f6" showHints={showStatHints} />
-              <StatMini label="매력" value={character.charisma} emoji="✨" color="#a855f7" showHints={showStatHints} />
+              <StatMini label="행복" value={character.happiness} emoji="💛" color="var(--warning)" showHints={showStatHints} />
+              <StatMini label="건강" value={character.health} emoji="❤️" color="var(--danger)" showHints={showStatHints} />
+              <StatMini label="지혜" value={character.wisdom} emoji="📘" color="var(--info)" showHints={showStatHints} />
+              <StatMini label="매력" value={character.charisma} emoji="✨" color="var(--accent-secondary)" showHints={showStatHints} />
             </div>
 
             {/* Penalty */}
@@ -651,7 +651,7 @@ export function PlayScreen() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 'var(--sp-sm)' }}>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 2 }}><Icon slot="asset-total" size="md" /> 월 순수입</div>
-                  <div className="num-big" style={{ fontSize: 'var(--font-size-lg)', color: netPositive ? 'var(--success)' : 'var(--danger, #c62828)' }}>
+                  <div className="num-big" style={{ fontSize: 'var(--font-size-lg)', color: netPositive ? 'var(--success)' : 'var(--danger)' }}>
                     {netPositive ? '+' : '-'}{formatWon(Math.abs(monthlyNet))}
                   </div>
                 </div>
@@ -682,11 +682,11 @@ export function PlayScreen() {
               )}
               <AssetCompositionBar
                 segments={[
-                  { label: '현금', value: cash, color: cash < 0 ? '#ef9a9a' : '#2196f3', emoji: '💵' },
+                  { label: '현금', value: cash, color: cash < 0 ? '#ef9a9a' : 'var(--info)', emoji: '💵' },
                   { label: '예금', value: bank.balance, color: '#42a5f5', emoji: '🏦' },
-                  { label: '주식', value: stocksValue, color: '#4caf50', emoji: '📈' },
-                  { label: '부동산', value: realEstateValue, color: '#ff9800', emoji: '🏠' },
-                  { label: '채권', value: bonds.reduce((s, b) => s + b.faceValue, 0), color: '#9c27b0', emoji: '📜' },
+                  { label: '주식', value: stocksValue, color: 'var(--success)', emoji: '📈' },
+                  { label: '부동산', value: realEstateValue, color: 'var(--warning)', emoji: '🏠' },
+                  { label: '채권', value: bonds.reduce((s, b) => s + b.faceValue, 0), color: 'var(--accent-secondary)', emoji: '📜' },
                 ]}
                 total={totalAssets}
               />

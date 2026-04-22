@@ -16,6 +16,9 @@ import {
   HEALTH_DECAY_SENIOR,
   HEALTH_DECAY_MIDDLE,
   HEALTH_DECAY_YOUNG,
+  INTEREST_RATE_CYCLE_ADJ,
+  INTEREST_RATE_MIN,
+  INTEREST_RATE_MAX,
 } from '../../constants';
 
 export function applyAgeAndDecay(
@@ -70,10 +73,10 @@ export function applyAgeAndDecay(
   // 경기사이클 전환 시 예금 base rate 조정
   const newBaseInterestRate = cycleChanged
     ? (() => {
-        const rateAdj = economyCycle.phase === 'boom' ? 0.005
-          : economyCycle.phase === 'recession' ? -0.005
+        const rateAdj = economyCycle.phase === 'boom' ? INTEREST_RATE_CYCLE_ADJ
+          : economyCycle.phase === 'recession' ? -INTEREST_RATE_CYCLE_ADJ
           : 0;
-        return Math.min(0.15, Math.max(0.01, st.bank.interestRate + rateAdj));
+        return Math.min(INTEREST_RATE_MAX, Math.max(INTEREST_RATE_MIN, st.bank.interestRate + rateAdj));
       })()
     : st.bank.interestRate;
 

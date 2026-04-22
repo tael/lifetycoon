@@ -40,7 +40,7 @@ function ThemeShowcase() {
 
       <section style={{ marginBottom: 24 }}>
         <h3 style={{ fontSize: 14, fontWeight: 700, color: '#888', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.1em' }}>액센트</h3>
-        <ColorSwatch name="액센트 (오렌지)" var="--accent" hex="#FF7043" />
+        <ColorSwatch name="듀오 그린 (액센트)" var="--accent" hex="#58CC02" />
         <ColorSwatch name="보조 액센트 (보라)" var="--accent-secondary" hex="#7C3AED" />
         <ColorSwatch name="골드 (S등급)" var="--grade-s" hex="#FFD700" />
       </section>

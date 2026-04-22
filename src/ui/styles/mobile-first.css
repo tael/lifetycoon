@@ -62,6 +62,8 @@
 /* Duolingo-style feedback cards */
 .card--success { background: #d7ffb8; border-color: var(--success); box-shadow: 0 3px 0 var(--success-shadow); }
 .card--danger  { background: #ffdfe0; border-color: var(--danger);  box-shadow: 0 3px 0 var(--danger-shadow); }
+.card--warning { background: var(--warning-soft); border-color: var(--warning); box-shadow: 0 3px 0 #ffb300; }
+.card--cashflow { background: var(--section-cashflow); border-color: #e9d5ff; box-shadow: 0 3px 0 #d8b4fe; }
 
 /* Button system - 3D Effect */
 .btn {

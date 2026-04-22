@@ -23,7 +23,7 @@ export function CashflowTab({
       <CashflowPanel data={cashflow} age={character.age} />
 
       {/* 현금흐름 추이 차트 (접이식) */}
-      <div className="card" style={{ padding: 'var(--sp-sm)' }}>
+      <div className="card card--cashflow" style={{ padding: 'var(--sp-sm)' }}>
         <button
           onClick={() => setCashflowChartExpanded((v) => !v)}
           style={{

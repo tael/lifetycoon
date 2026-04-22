@@ -224,12 +224,9 @@ export function EndingScreen() {
 
       {/* ═══ 등급 이유 (C/D/F) ═══ */}
       {(['C', 'D', 'F'] as Grade[]).includes(ending.grade) && (
-        <div style={{
+        <div className={`card${ending.grade === 'F' ? ' card--danger' : ending.grade === 'D' ? ' card--warning' : ''}`} style={{
           maxWidth: 400, width: '100%',
-          background: ending.grade === 'F' ? '#ffebee' : ending.grade === 'D' ? '#fff3e0' : '#f3f4f6',
-          borderRadius: 'var(--radius-md)',
           padding: 'var(--sp-md)',
-          border: `1px solid ${ending.grade === 'F' ? '#ef9a9a' : ending.grade === 'D' ? '#ffcc80' : '#e0e0e0'}`,
         }}>
           <div style={{ fontWeight: 700, marginBottom: 6, fontSize: 'var(--font-size-sm)' }}>
             💡 이번에 더 잘하려면?
@@ -250,12 +247,9 @@ export function EndingScreen() {
       )}
 
       {/* ═══ Life Summary Quote ═══ */}
-      <div style={{
+      <div className="card" style={{
         maxWidth: 400, width: '100%',
-        background: 'var(--bg-card)',
-        borderRadius: 'var(--radius-md)',
         padding: 'var(--sp-lg)',
-        boxShadow: 'var(--shadow-md)',
         position: 'relative',
         textAlign: 'center',
       }}>
@@ -300,12 +294,9 @@ export function EndingScreen() {
       </div>
 
       {/* ═══ Epitaph — Typing Animation ═══ */}
-      <div style={{
+      <div className="card" style={{
         maxWidth: 400, width: '100%',
-        background: 'var(--bg-card)',
-        borderRadius: 'var(--radius-md)',
         padding: 'var(--sp-lg)',
-        boxShadow: 'var(--shadow-sm)',
       }}>
         <div style={{
           fontWeight: 700,
@@ -333,12 +324,9 @@ export function EndingScreen() {
       </div>
 
       {/* ═══ Timeline — Life Journey ═══ */}
-      <div style={{
+      <div className="card" style={{
         maxWidth: 400, width: '100%',
-        background: 'var(--bg-card)',
-        borderRadius: 'var(--radius-md)',
         padding: 'var(--sp-lg)',
-        boxShadow: 'var(--shadow-sm)',
       }}>
         <div style={{
           fontWeight: 700,
@@ -369,12 +357,9 @@ export function EndingScreen() {
       </div>
 
       {/* ═══ Dream Cards ═══ */}
-      <div style={{
+      <div className="card" style={{
         maxWidth: 400, width: '100%',
-        background: 'var(--bg-card)',
-        borderRadius: 'var(--radius-md)',
         padding: 'var(--sp-lg)',
-        boxShadow: 'var(--shadow-sm)',
       }}>
         <div style={{
           fontWeight: 700,
@@ -466,12 +451,9 @@ export function EndingScreen() {
       </div>
 
       {/* ═══ Life Statistics ═══ */}
-      <div style={{
+      <div className="card" style={{
         maxWidth: 400, width: '100%',
-        background: 'var(--bg-card)',
-        borderRadius: 'var(--radius-md)',
         padding: 'var(--sp-lg)',
-        boxShadow: 'var(--shadow-sm)',
       }}>
         <div style={{
           fontWeight: 700,

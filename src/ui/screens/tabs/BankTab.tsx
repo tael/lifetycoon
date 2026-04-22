@@ -72,8 +72,8 @@ export function BankTab({
                 취소
               </button>
               <button
-                className="btn btn-primary"
-                style={{ flex: 1, minHeight: 44, background: 'var(--danger)', boxShadow: '0 4px 0 #b71c1c' }}
+                className="btn btn-danger"
+                style={{ flex: 1, minHeight: 44 }}
                 onClick={confirmLoan}
               >
                 그래도 빌릴래
@@ -84,7 +84,7 @@ export function BankTab({
       )}
 
       {/* 은행 잔액 요약 */}
-      <div className="card">
+      <div className="card card--bank">
         <div className="flex flex-between" style={{ alignItems: 'center', marginBottom: 'var(--sp-sm)' }}>
           <span style={{ fontWeight: 700, display: 'flex', alignItems: 'center' }}>
             <Icon slot="nav-bank" size="md" /> 은행
@@ -157,7 +157,7 @@ export function BankTab({
               fontSize: '0.6rem',
               padding: '2px 7px',
               borderRadius: 'var(--radius-full)',
-              background: autoSave ? '#1565c0' : '#eee',
+              background: autoSave ? 'var(--info)' : '#eee',
               color: autoSave ? '#fff' : '#999',
               fontWeight: 700,
               border: 'none',
@@ -255,7 +255,7 @@ export function BankTab({
 
       {/* 대출 이력 */}
       {loanHistory.length > 0 && (
-      <div className="card">
+      <div className="card card--bank">
         <button
           onClick={() => setLoanHistoryExpanded((v) => !v)}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
@@ -271,7 +271,7 @@ export function BankTab({
               const sourceLabel = r.source === 'bank' ? '은행 대출' : r.source === 'government' ? '정부 긴급 대출' : '이벤트 강제 대출';
               const color = r.source === 'government' ? 'var(--warning)' : r.source === 'forced' ? 'var(--danger)' : 'var(--text-secondary)';
               return (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--font-size-xs)', padding: '4px 0', borderBottom: '1px solid var(--border)' }}>
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--font-size-xs)', padding: '4px 0', borderBottom: '1px solid var(--border-duo)' }}>
                   <span style={{ color: 'var(--text-muted)' }}>{r.age}세 | {sourceLabel}</span>
                   <span style={{ fontWeight: 700, color }}>{formatWon(r.amount)}</span>
                 </div>
