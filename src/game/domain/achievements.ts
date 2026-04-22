@@ -1,4 +1,10 @@
 import type { Ending, Grade } from '../types';
+import {
+  ACHIEVEMENT_BILLIONAIRE,
+  ACHIEVEMENT_RICH,
+  ACHIEVEMENT_BALANCED_ASSETS,
+  ACHIEVEMENT_POOR_THRESHOLD,
+} from '../constants';
 
 export type Achievement = {
   id: string;
@@ -46,7 +52,7 @@ const ACHIEVEMENTS: Achievement[] = [
     title: '억만장자',
     description: '최종 자산 1억원 이상!',
     emoji: '🤑',
-    check: (e) => e.finalAssets >= 100000000,
+    check: (e) => e.finalAssets >= ACHIEVEMENT_BILLIONAIRE,
   },
   {
     id: 'happy_ending',
@@ -74,7 +80,7 @@ const ACHIEVEMENTS: Achievement[] = [
     title: '가난하지만 행복',
     description: '자산 100만원 이하 + 행복도 80 이상',
     emoji: '🌻',
-    check: (e) => e.finalAssets <= 1000000 && e.finalHappiness >= 80,
+    check: (e) => e.finalAssets <= ACHIEVEMENT_POOR_THRESHOLD && e.finalHappiness >= 80,
   },
   {
     id: 'all_grades',
@@ -91,7 +97,7 @@ const ACHIEVEMENTS: Achievement[] = [
     title: '10억 부자',
     description: '최종 자산 10억원 이상!',
     emoji: '💎',
-    check: (e) => e.finalAssets >= 1000000000,
+    check: (e) => e.finalAssets >= ACHIEVEMENT_RICH,
   },
   {
     id: 'many_moments',
@@ -119,7 +125,7 @@ const ACHIEVEMENTS: Achievement[] = [
     title: '균형 잡힌 인생',
     description: '행복도 70+, 자산 5000만+, 꿈 2개+ 달성!',
     emoji: '⚖️',
-    check: (e) => e.finalHappiness >= 70 && e.finalAssets >= 50000000 && e.dreamsAchieved >= 2,
+    check: (e) => e.finalHappiness >= 70 && e.finalAssets >= ACHIEVEMENT_BALANCED_ASSETS && e.dreamsAchieved >= 2,
   },
   {
     id: 'no_dreams',

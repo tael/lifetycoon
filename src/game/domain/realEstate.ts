@@ -1,5 +1,6 @@
 import type { RealEstate } from '../types';
 import { randFloat } from '../engine/prng';
+import { REAL_ESTATE_APPRECIATION_MIN, REAL_ESTATE_APPRECIATION_MAX } from '../constants';
 
 export type RealEstateDef = {
   id: string;
@@ -21,9 +22,9 @@ export const REAL_ESTATE_LISTINGS: RealEstateDef[] = [
   { id: 'factory',    name: '공장',        price: 2_500_000_000, monthlyRent: 7_000_000 },
 ];
 
-/** 연 3~5% 가치 상승 (PRNG 기반) */
+/** 연 REAL_ESTATE_APPRECIATION_MIN~MAX % 가치 상승 (PRNG 기반) */
 export function appreciateValue(re: RealEstate, years: number, rng: () => number): RealEstate {
-  const annualRate = randFloat(rng, 0.03, 0.05);
+  const annualRate = randFloat(rng, REAL_ESTATE_APPRECIATION_MIN, REAL_ESTATE_APPRECIATION_MAX);
   const newValue = Math.round(re.currentValue * Math.pow(1 + annualRate, years));
   return { ...re, currentValue: newValue };
 }

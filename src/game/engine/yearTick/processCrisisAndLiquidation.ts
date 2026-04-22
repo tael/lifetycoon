@@ -3,7 +3,7 @@ import type { YearTickState, AgeAndDecayResult, MonthlyLoopResult, AnnualSettlem
 import { computeCrisisLevel } from '../../domain/crisisEngine';
 import { forcedLiquidation } from '../../domain/forcedLiquidation';
 import { formatWon } from '../../domain/asset';
-import { MIN_GOV_LOAN } from '../../constants';
+import { MIN_GOV_LOAN, CRISIS_ORANGE_STAT, CRISIS_RED_STAT } from '../../constants';
 
 export function processCrisisAndLiquidation(
   st: YearTickState,
@@ -94,22 +94,23 @@ export function processCrisisAndLiquidation(
     ? st.crisisTurns + deltaYears
     : st.crisisTurns;
   const crisisCharacter = (() => {
+    const clamp = (v: number) => Math.max(0, Math.min(100, Math.round(v)));
     if (crisisLevel === 'orange') {
       return {
         ...character,
-        happiness: Math.max(0, Math.min(100, character.happiness - 3 * deltaYears)),
-        health: Math.max(0, Math.min(100, character.health - 2 * deltaYears)),
-        wisdom: Math.max(0, Math.min(100, character.wisdom - 1 * deltaYears)),
-        charisma: Math.max(0, Math.min(100, character.charisma - 1 * deltaYears)),
+        happiness: clamp(character.happiness - CRISIS_ORANGE_STAT.happiness * deltaYears),
+        health: clamp(character.health - CRISIS_ORANGE_STAT.health * deltaYears),
+        wisdom: clamp(character.wisdom - CRISIS_ORANGE_STAT.wisdom * deltaYears),
+        charisma: clamp(character.charisma - CRISIS_ORANGE_STAT.charisma * deltaYears),
       };
     }
     if (crisisLevel === 'red') {
       return {
         ...character,
-        happiness: Math.max(0, Math.min(100, character.happiness - 6 * deltaYears)),
-        health: Math.max(0, Math.min(100, character.health - 4 * deltaYears)),
-        wisdom: Math.max(0, Math.min(100, character.wisdom - 2 * deltaYears)),
-        charisma: Math.max(0, Math.min(100, character.charisma - 2 * deltaYears)),
+        happiness: clamp(character.happiness - CRISIS_RED_STAT.happiness * deltaYears),
+        health: clamp(character.health - CRISIS_RED_STAT.health * deltaYears),
+        wisdom: clamp(character.wisdom - CRISIS_RED_STAT.wisdom * deltaYears),
+        charisma: clamp(character.charisma - CRISIS_RED_STAT.charisma * deltaYears),
       };
     }
     return character;

@@ -5,6 +5,12 @@ import { appreciateValue } from '../../domain/realEstate';
 import { applyBondCoupon } from '../../domain/bond';
 import { stepNpc } from '../../domain/npc';
 import { calculateIncomeTax, calculatePropertyTax } from '../tax';
+import {
+  DIVIDEND_GROWTH_BASE,
+  DIVIDEND_GROWTH_BOOM,
+  DIVIDEND_GROWTH_RECESSION,
+  AUTO_INVEST_RATIO,
+} from '../../constants';
 
 export function processAnnualSettlement(
   st: YearTickState,
@@ -48,13 +54,12 @@ export function processAnnualSettlement(
   }
 
   // 4b) 배당성장 — 연 1회
-  const divGrowthBase = 0.02;
-  const divGrowthBonus = economyCycle.phase === 'boom' ? 0.005 : economyCycle.phase === 'recession' ? -0.005 : 0;
+  const divGrowthBonus = economyCycle.phase === 'boom' ? DIVIDEND_GROWTH_BOOM : economyCycle.phase === 'recession' ? DIVIDEND_GROWTH_RECESSION : 0;
   const updatedDividendRates: Record<string, number> = { ...st.dividendRates };
   for (const s of ctx.stocks) {
     if (s.dividendRate <= 0) continue;
     const currentRate = updatedDividendRates[s.ticker] ?? s.dividendRate;
-    const growth = 1 + divGrowthBase + divGrowthBonus;
+    const growth = 1 + DIVIDEND_GROWTH_BASE + divGrowthBonus;
     updatedDividendRates[s.ticker] = Math.min(currentRate * growth, s.dividendRate * 3);
   }
 
@@ -67,7 +72,7 @@ export function processAnnualSettlement(
   let autoInvestSpent = 0;
   let autoHoldings = holdings;
   if (st.autoInvest && monthlyResult.totalSalaryIncome > 0) {
-    const budget = Math.round(monthlyResult.totalSalaryIncome * 0.1);
+    const budget = Math.round(monthlyResult.totalSalaryIncome * AUTO_INVEST_RATIO);
     const affordable = ctx.stocks.filter((s: StockDef) => prices[s.ticker] <= budget);
     if (affordable.length > 0) {
       const pick = affordable[Math.floor(ctx.streams.misc() * affordable.length)];
