@@ -1,7 +1,27 @@
-import { SKILLS } from '../../game/domain/skills';
+import { SKILLS, type Skill } from '../../game/domain/skills';
 import { useGameStore } from '../../store/gameStore';
 import { showToast } from '../components/Toast';
 import { Icon } from '../icons/Icon';
+import { formatWon } from '../../game/domain/asset';
+
+function skillPreviewText(skill: Skill, monthlySalary: number, bankBalance: number, bankInterestRate: number): string {
+  switch (skill.effect) {
+    case 'salaryBonus': {
+      const bonus = Math.round(monthlySalary * skill.value);
+      return bonus > 0 ? `지금 월급에서 매달 ${formatWon(bonus)} 추가` : '월급 10% 상승';
+    }
+    case 'bankInterest': {
+      const extra = Math.round(bankBalance * skill.value);
+      return bankBalance > 0 ? `예금에서 연 ${formatWon(extra)} 추가 이자` : `예금 이자율 +${(skill.value * 100).toFixed(0)}%`;
+    }
+    case 'stockDiscount':
+      return `주식 살 때마다 ${(skill.value * 100).toFixed(0)}% 할인`;
+    case 'eventLuck':
+      return `행운 이벤트가 ${(skill.value * 100).toFixed(0)}% 더 자주 발생`;
+    default:
+      return '';
+  }
+}
 
 type Props = {
   onClose: () => void;
@@ -11,6 +31,8 @@ export function SkillModal({ onClose }: Props) {
   const wisdom = useGameStore((s) => s.character.wisdom);
   const unlockedSkills = useGameStore((s) => s.unlockedSkills);
   const unlockSkill = useGameStore((s) => s.unlockSkill);
+  const bank = useGameStore((s) => s.bank);
+  const monthlySalary = useGameStore((s) => s.job?.salary ?? 0);
 
   return (
     <div
@@ -109,11 +131,16 @@ export function SkillModal({ onClose }: Props) {
                     style={{
                       fontSize: 'var(--font-size-xs)',
                       color: lacking ? '#9e9e9e' : 'var(--text-secondary)',
-                      marginBottom: 6,
+                      marginBottom: 4,
                     }}
                   >
                     {skill.description}
                   </div>
+                  {!unlocked && (
+                    <div style={{ fontSize: '0.65rem', color: canUnlock ? '#e65100' : '#bdbdbd', marginBottom: 6 }}>
+                      💡 {skillPreviewText(skill, monthlySalary, bank.balance, bank.interestRate)}
+                    </div>
+                  )}
 
                   {/* 상태 표시 */}
                   {unlocked ? (

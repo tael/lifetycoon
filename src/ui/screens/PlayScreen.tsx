@@ -47,6 +47,7 @@ export function PlayScreen() {
     try { return localStorage.getItem(KEY_SHOW_STAT_HINTS) === 'true'; } catch { return false; }
   });
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
+  const triggeredAssetMilestonesRef = useRef<Set<number>>(new Set());
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
   const phase = useGameStore((s) => s.phase);
@@ -166,6 +167,22 @@ export function PlayScreen() {
     }
     clearSplitNotices();
   }, [splitNotices, clearSplitNotices]);
+
+  // 자산 마일스톤 달성 축하 토스트
+  useEffect(() => {
+    if (phase.kind !== 'playing') return;
+    const milestones: [number, string, string][] = [
+      [100_000_000, '자산 1억원 돌파!', '💰'],
+      [500_000_000, '자산 5억원 돌파!', '🤑'],
+      [1_000_000_000, '자산 10억원! 억만장자!', '👑'],
+    ];
+    for (const [threshold, msg, icon] of milestones) {
+      if (totalAssets >= threshold && !triggeredAssetMilestonesRef.current.has(threshold)) {
+        triggeredAssetMilestonesRef.current.add(threshold);
+        showToast(msg, icon, 'achievement', 4000);
+      }
+    }
+  }, [totalAssets, phase.kind]);
 
   // Economy cycle change -> NewsTicker alert
   useEffect(() => {

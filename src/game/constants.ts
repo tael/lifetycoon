@@ -80,7 +80,7 @@ export const GRADE_ASSET_TIER_0 = 100_000_000;    // 1억+: 5점
 // 엔딩 등급 점수 컷오프
 export const GRADE_SCORE_S = 80;
 export const GRADE_SCORE_A = 55;
-export const GRADE_SCORE_B = 25;
+export const GRADE_SCORE_B = 20; // C 과다 현상 완화: 25→20
 export const GRADE_SCORE_C = 15;
 
 // 위기 턴 누적 하향 임계값
