@@ -496,7 +496,7 @@ export function PlayScreen() {
         {dreamExpanded && (
           <div style={{ marginTop: 'var(--sp-xs)' }} onClick={(e) => e.stopPropagation()}>
             {dreams.map((d) => {
-              const progress = dreamProgress(d, totalAssets, character.happiness, character.age, job);
+              const progress = dreamProgress(d, totalAssets, character.happiness, character.age, job, character);
               const pct = Math.round(progress * 100);
               const cond = d.targetCondition;
               let relationText = '';
@@ -1038,23 +1038,38 @@ function CareBtn({ emoji: _emoji, label, cost, stat, delta, loopRef, timeCostMon
 }
 
 function dreamProgress(
-  d: { targetCondition: { kind: string; value?: number; shares?: number; jobId?: string } },
+  d: { targetCondition: { kind: string; value?: number; shares?: number; jobId?: string; trait?: string; traits?: string[]; age?: number; happiness?: number } },
   totalAssets: number,
   happiness: number,
   age: number,
   job: { id: string } | null,
+  character: { wisdom: number; charisma: number; traits: string[] },
 ): number {
   const cond = d.targetCondition;
+  const c = (v: number) => Math.min(1, Math.max(0, v));
   switch (cond.kind) {
     case 'totalAssetsGte':
+      return c(totalAssets / (cond.value ?? 1));
     case 'cashGte':
-      return Math.min(1, totalAssets / (cond.value ?? 1));
+      return c(totalAssets / (cond.value ?? 1));
     case 'happinessGte':
-      return Math.min(1, happiness / (cond.value ?? 1));
+      return c(happiness / (cond.value ?? 1));
+    case 'wisdomGte':
+      return c(character.wisdom / (cond.value ?? 1));
+    case 'charismaGte':
+      return c(character.charisma / (cond.value ?? 1));
     case 'ageReached':
-      return Math.min(1, age / (cond.value ?? 100));
+      return c(age / (cond.value ?? 100));
+    case 'ageReachedAndHappinessGte':
+      return c((age / (cond.age ?? 100) + happiness / (cond.happiness ?? 100)) / 2);
+    case 'totalAssetsGteByAge':
+      return c(totalAssets / (cond.value ?? 1));
     case 'stockOwnedShares':
       return 0;
+    case 'hasTrait':
+      return character.traits.includes(cond.trait ?? '') ? 1 : 0;
+    case 'hasTraitAny':
+      return (cond.traits ?? []).some((t) => character.traits.includes(t)) ? 1 : 0;
     case 'jobHeld':
       return job?.id === cond.jobId ? 1 : 0;
     default:

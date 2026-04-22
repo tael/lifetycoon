@@ -120,7 +120,7 @@
     "id": "d_philanthropist",
     "title": "자선가",
     "description": "자선가 또는 기부왕 특성 획득",
-    "targetCondition": { "kind": "hasTraitAny", "traits": ["자선가", "기부왕"] },
+    "targetCondition": { "kind": "hasTraitAny", "traits": ["자선가", "기부왕", "봉사왕"] },
     "achieved": false,
     "rewardKeyMoment": "나의 선행이 많은 사람들을 도왔다",
     "iconEmoji": "🤝"
