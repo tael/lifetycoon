@@ -69,6 +69,7 @@ export function PlayScreen() {
   const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
   const splitNotices = useGameStore((s) => s.splitNotices);
   const clearSplitNotices = useGameStore((s) => s.clearSplitNotices);
+  const addTrait = useGameStore((s) => s.addTrait);
 
   const {
     stocksValue,
@@ -214,15 +215,14 @@ export function PlayScreen() {
     }
     if (prevFreeRef.current) return;
     prevFreeRef.current = true;
-    if (traits.includes('재정 자유')) return;
-    useGameStore.setState((s) => ({ traits: [...s.traits, '재정 자유'] }));
+    addTrait('재정 자유');
     showToast(
       '재정 자유 상태에 도달했습니다. 자동수입이 월 지출을 넘었습니다.',
       '💎',
       'achievement',
       4000,
     );
-  }, [cashflow.financiallyFree, traits]);
+  }, [cashflow.financiallyFree, addTrait]);
 
   // NPC ranking
   const sortedNpcs = [...npcs].sort((a, b) => b.currentAssets - a.currentAssets);

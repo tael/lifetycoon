@@ -137,6 +137,7 @@ export type GameStoreState = {
   /** 액면분할 알림 메시지 목록. advanceYear에서 채워지고 PlayScreen에서 소비 후 clear. */
   splitNotices: string[];
   clearSplitNotices: () => void;
+  addTrait: (trait: string) => void;
   // Transient
   speedMultiplier: 0.5 | 1 | 2;
   activeChallengeId: string | null;
@@ -273,6 +274,7 @@ type GameStoreActions = Pick<
   | 'unlockSkill'
   | 'loadSnapshot'
   | 'clearSplitNotices'
+  | 'addTrait'
 >;
 
 // Single shared stream per game (recreated from seeds)
@@ -578,6 +580,11 @@ export const useGameStore = create<GameStoreState>()(
     },
     toggleAutoInvest() {
       set({ autoInvest: !get().autoInvest });
+    },
+    addTrait(trait) {
+      const st = get();
+      if (st.traits.includes(trait)) return;
+      set({ traits: [...st.traits, trait] });
     },
     buyRealEstate(id) {
       const st = get();

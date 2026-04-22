@@ -1,6 +1,12 @@
 import type { Dream, Ending, Grade, KeyMoment } from '../types';
 import { stageForAge } from '../types';
 import { josa } from './josa';
+import {
+  GRADE_ASSET_TIER_4, GRADE_ASSET_TIER_3, GRADE_ASSET_TIER_2,
+  GRADE_ASSET_TIER_1, GRADE_ASSET_TIER_0,
+  GRADE_SCORE_S, GRADE_SCORE_A, GRADE_SCORE_B, GRADE_SCORE_C,
+  CRISIS_TURNS_HEAVY, CRISIS_TURNS_LIGHT,
+} from '../constants';
 
 function downgradeByLevel(grade: Grade, levels: number): Grade {
   const grades: Grade[] = ['S', 'A', 'B', 'C', 'D', 'F'];
@@ -24,27 +30,27 @@ export function calculateGrade(
   // 자산 보너스 점수 (0-40점)
   const assets = finalAssets ?? 0;
   const assetScore =
-    assets >= 10_000_000_000 ? 40  // 100억+
-    : assets >= 5_000_000_000 ? 30 // 50억+
-    : assets >= 2_000_000_000 ? 20 // 20억+
-    : assets >= 500_000_000 ? 10   // 5억+
-    : assets >= 100_000_000 ? 5    // 1억+
+    assets >= GRADE_ASSET_TIER_4 ? 40
+    : assets >= GRADE_ASSET_TIER_3 ? 30
+    : assets >= GRADE_ASSET_TIER_2 ? 20
+    : assets >= GRADE_ASSET_TIER_1 ? 10
+    : assets >= GRADE_ASSET_TIER_0 ? 5
     : 0;
 
   const score = dreamScore + assetScore;
 
   let grade: Grade;
-  if (score >= 80) grade = 'S';
-  else if (score >= 55) grade = 'A';
-  else if (score >= 25) grade = 'B';
-  else if (score >= 15) grade = 'C';
+  if (score >= GRADE_SCORE_S) grade = 'S';
+  else if (score >= GRADE_SCORE_A) grade = 'A';
+  else if (score >= GRADE_SCORE_B) grade = 'B';
+  else if (score >= GRADE_SCORE_C) grade = 'C';
   else if (score > 0 || achieved > 0) grade = 'D';
   else grade = 'F';
 
-  // crisisTurns 하향 조정 유지
+  // crisisTurns 하향 조정
   const ct = crisisTurns ?? 0;
-  if (ct > 20) grade = downgradeByLevel(grade, 2);
-  else if (ct > 10) grade = downgradeByLevel(grade, 1);
+  if (ct > CRISIS_TURNS_HEAVY) grade = downgradeByLevel(grade, 2);
+  else if (ct > CRISIS_TURNS_LIGHT) grade = downgradeByLevel(grade, 1);
 
   return grade;
 }
