@@ -1,4 +1,5 @@
 import type { Character } from '../types';
+import { ACHIEVEMENT_BALANCED_ASSETS } from '../constants';
 
 /** 컨디션 페널티가 발동하는 스탯 임계치. 미만에서 발동, 이 값 이상은 정상. */
 export const STAT_PENALTY_THRESHOLD = 30;
@@ -107,7 +108,7 @@ export function emojiFor(c: Character, totalAssets?: number): string {
   const gender = c.gender ?? 'male';
 
   // 특성 기반 우선 이모지
-  if ((totalAssets ?? 0) >= 50_000_000) return '🤑';
+  if ((totalAssets ?? 0) >= ACHIEVEMENT_BALANCED_ASSETS) return '🤑';
   if (traits.includes('의사')) return '🧑‍⚕️';
   if (traits.includes('과학자')) return '🧑‍🔬';
   if (traits.includes('유튜버') || traits.includes('인플루언서')) return '🎬';

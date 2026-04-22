@@ -144,6 +144,10 @@ export const NPC_LUCK_BONUS_MAX = 0.8;
 export const NPC_DREAM_PROB_1 = 0.05; // 꿈 달성 확률 (매년 1)
 export const NPC_DREAM_PROB_2 = 0.03; // 꿈 달성 확률 (매년 2)
 
+// 가정 형편 확률 분포 (균등 1/3 배분)
+export const HOUSEHOLD_PROB_THRIFTY = 1 / 3;
+export const HOUSEHOLD_PROB_AVERAGE = 2 / 3;
+
 // 주식 최저 가격 및 액면분할 임계값 배수
 export const MIN_STOCK_PRICE = 1;
 export const STOCK_SPLIT_10X_THRESHOLD = 10; // 기준가의 10배 → 10:1 분할

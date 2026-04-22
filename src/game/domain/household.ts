@@ -1,3 +1,5 @@
+import { HOUSEHOLD_PROB_THRIFTY, HOUSEHOLD_PROB_AVERAGE } from '../constants';
+
 /**
  * 가정 형편 시스템 (v0.4.0 경제 스케일 재조정).
  *
@@ -93,7 +95,7 @@ export function householdLabel(c: HouseholdClass): string {
  */
 export function pickRandomHouseholdClass(rng: () => number): HouseholdClass {
   const r = rng();
-  if (r < 1 / 3) return 'thrifty';
-  if (r < 2 / 3) return 'average';
+  if (r < HOUSEHOLD_PROB_THRIFTY) return 'thrifty';
+  if (r < HOUSEHOLD_PROB_AVERAGE) return 'average';
   return 'affluent';
 }
