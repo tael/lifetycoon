@@ -113,6 +113,20 @@ export const CAP_GAINS_TAX_LONG_MULTI = 0.20; // 2년+ 다주택
 // 나이 임계값 (경제 시스템)
 export const ADULT_START_AGE = 19;            // 성인 생활비 시작 나이 (기본 고졸 기준)
 
+// 소득세 구간 (한국 종합소득세 단순화)
+export const INCOME_TAX_BRACKET_1 = 14_000_000;  // 1400만
+export const INCOME_TAX_BRACKET_2 = 50_000_000;  // 5000만
+export const INCOME_TAX_BRACKET_3 = 88_000_000;  // 8800만
+export const INCOME_TAX_BRACKET_4 = 150_000_000; // 1억5천만
+export const INCOME_TAX_RATE_1 = 0.06;  // ~1400만: 6%
+export const INCOME_TAX_RATE_2 = 0.15;  // ~5000만: 15%
+export const INCOME_TAX_RATE_3 = 0.24;  // ~8800만: 24%
+export const INCOME_TAX_RATE_4 = 0.35;  // ~1억5천만: 35%
+export const INCOME_TAX_RATE_5 = 0.42;  // 1억5천만+: 42%
+
+// 재산세율
+export const PROPERTY_TAX_RATE = 0.003; // 부동산 총가치의 0.3%
+
 // 연금 정책
 export const PENSION_BASE_PER_CAREER = 400_000; // 경력 1건당 연금 기본 금액(원/년)
 export const PENSION_CAREER_CAP = 5;            // 경력 인정 상한 (건 수)

@@ -1,3 +1,9 @@
+import {
+  INCOME_TAX_BRACKET_1, INCOME_TAX_BRACKET_2, INCOME_TAX_BRACKET_3, INCOME_TAX_BRACKET_4,
+  INCOME_TAX_RATE_1, INCOME_TAX_RATE_2, INCOME_TAX_RATE_3, INCOME_TAX_RATE_4, INCOME_TAX_RATE_5,
+  PROPERTY_TAX_RATE,
+} from '../constants';
+
 /**
  * 세금 계산 모듈
  * - 소득세: 연 소득 구간별 누진세
@@ -21,38 +27,33 @@
 export function calculateIncomeTax(yearlyIncome: number): number {
   if (yearlyIncome <= 0) return 0;
 
-  const B1 = 14_000_000;   // 1400만
-  const B2 = 50_000_000;   // 5000만
-  const B3 = 88_000_000;   // 8800만
-  const B4 = 150_000_000;  // 1억5000만
-
-  if (yearlyIncome <= B1) {
-    return Math.round(yearlyIncome * 0.06);
+  if (yearlyIncome <= INCOME_TAX_BRACKET_1) {
+    return Math.round(yearlyIncome * INCOME_TAX_RATE_1);
   }
-  if (yearlyIncome <= B2) {
-    return Math.round(B1 * 0.06 + (yearlyIncome - B1) * 0.15);
+  if (yearlyIncome <= INCOME_TAX_BRACKET_2) {
+    return Math.round(INCOME_TAX_BRACKET_1 * INCOME_TAX_RATE_1 + (yearlyIncome - INCOME_TAX_BRACKET_1) * INCOME_TAX_RATE_2);
   }
-  if (yearlyIncome <= B3) {
+  if (yearlyIncome <= INCOME_TAX_BRACKET_3) {
     return Math.round(
-      B1 * 0.06 +
-      (B2 - B1) * 0.15 +
-      (yearlyIncome - B2) * 0.24,
+      INCOME_TAX_BRACKET_1 * INCOME_TAX_RATE_1 +
+      (INCOME_TAX_BRACKET_2 - INCOME_TAX_BRACKET_1) * INCOME_TAX_RATE_2 +
+      (yearlyIncome - INCOME_TAX_BRACKET_2) * INCOME_TAX_RATE_3,
     );
   }
-  if (yearlyIncome <= B4) {
+  if (yearlyIncome <= INCOME_TAX_BRACKET_4) {
     return Math.round(
-      B1 * 0.06 +
-      (B2 - B1) * 0.15 +
-      (B3 - B2) * 0.24 +
-      (yearlyIncome - B3) * 0.35,
+      INCOME_TAX_BRACKET_1 * INCOME_TAX_RATE_1 +
+      (INCOME_TAX_BRACKET_2 - INCOME_TAX_BRACKET_1) * INCOME_TAX_RATE_2 +
+      (INCOME_TAX_BRACKET_3 - INCOME_TAX_BRACKET_2) * INCOME_TAX_RATE_3 +
+      (yearlyIncome - INCOME_TAX_BRACKET_3) * INCOME_TAX_RATE_4,
     );
   }
   return Math.round(
-    B1 * 0.06 +
-    (B2 - B1) * 0.15 +
-    (B3 - B2) * 0.24 +
-    (B4 - B3) * 0.35 +
-    (yearlyIncome - B4) * 0.42,
+    INCOME_TAX_BRACKET_1 * INCOME_TAX_RATE_1 +
+    (INCOME_TAX_BRACKET_2 - INCOME_TAX_BRACKET_1) * INCOME_TAX_RATE_2 +
+    (INCOME_TAX_BRACKET_3 - INCOME_TAX_BRACKET_2) * INCOME_TAX_RATE_3 +
+    (INCOME_TAX_BRACKET_4 - INCOME_TAX_BRACKET_3) * INCOME_TAX_RATE_4 +
+    (yearlyIncome - INCOME_TAX_BRACKET_4) * INCOME_TAX_RATE_5,
   );
 }
 
@@ -62,5 +63,5 @@ export function calculateIncomeTax(yearlyIncome: number): number {
  */
 export function calculatePropertyTax(totalRealEstateValue: number): number {
   if (totalRealEstateValue <= 0) return 0;
-  return Math.round(totalRealEstateValue * 0.003);
+  return Math.round(totalRealEstateValue * PROPERTY_TAX_RATE);
 }
