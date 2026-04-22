@@ -50,6 +50,7 @@ export function PlayScreen() {
   const triggeredAssetMilestonesRef = useRef<Set<number>>(new Set());
   const taxEducationShownRef = useRef(false);
   const prevCrisisLevelRef = useRef<string>('safe');
+  const passiveExceedActiveShownRef = useRef(false);
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
   const phase = useGameStore((s) => s.phase);
@@ -169,6 +170,15 @@ export function PlayScreen() {
     }
     clearSplitNotices();
   }, [splitNotices, clearSplitNotices]);
+
+  // 패시브 수입 > 액티브 수입 첫 달성 기념
+  useEffect(() => {
+    if (passiveExceedActiveShownRef.current || phase.kind !== 'playing') return;
+    if (cashflow.sustainablePassive > 0 && cashflow.sustainablePassive >= cashflow.totalExpense) {
+      passiveExceedActiveShownRef.current = true;
+      showToast('자동수입이 지출을 넘었어요! 💎 돈이 돈을 벌고 있어요. 복리의 마법!', '🌟', 'achievement', 5000);
+    }
+  }, [cashflow.sustainablePassive, cashflow.totalExpense, phase.kind]);
 
   // 위기 극복 격려 토스트
   useEffect(() => {

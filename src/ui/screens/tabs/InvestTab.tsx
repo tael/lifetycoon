@@ -172,8 +172,15 @@ export function InvestTab({
                 else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
               }}
               onSell={(n) => {
+                const avgBuyPrice = holding?.avgBuyPrice ?? 0;
+                const profit = avgBuyPrice > 0 ? (price - avgBuyPrice) * n : 0;
                 const result = sell(s.ticker, n);
-                if (result.success) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
+                if (result.success) {
+                  sfx.sell();
+                  const profitText = profit > 0 ? ` +${formatWon(profit)} 이익!` : profit < 0 ? ` ${formatWon(profit)} 손실` : '';
+                  showToast(`${s.name} ${n}주 매도!${profitText}`, s.iconEmoji, profit >= 0 ? 'success' : 'warning', 2000);
+                  incrementSold();
+                }
                 else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
               }}
               canBuy={cash >= price}
@@ -203,8 +210,15 @@ export function InvestTab({
               else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
             }}
             onSell={(n) => {
+              const avgBuyPrice = h?.avgBuyPrice ?? 0;
+              const profit = avgBuyPrice > 0 ? (p - avgBuyPrice) * n : 0;
               const result = sell(s.ticker, n);
-              if (result.success) { sfx.sell(); showToast(`${s.name} ${n}주 매도!`, s.iconEmoji, 'warning', 1500); incrementSold(); }
+              if (result.success) {
+                sfx.sell();
+                const profitText = profit > 0 ? ` +${formatWon(profit)} 이익!` : profit < 0 ? ` ${formatWon(profit)} 손실` : '';
+                showToast(`${s.name} ${n}주 매도!${profitText}`, s.iconEmoji, profit >= 0 ? 'success' : 'warning', 2000);
+                incrementSold();
+              }
               else if (result.reason) showToast(result.reason, '😢', 'danger', 1500);
             }}
             onClose={() => setSelectedStock(null)}
