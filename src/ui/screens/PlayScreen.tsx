@@ -49,6 +49,7 @@ export function PlayScreen() {
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
   const triggeredAssetMilestonesRef = useRef<Set<number>>(new Set());
   const taxEducationShownRef = useRef(false);
+  const prevCrisisLevelRef = useRef<string>('safe');
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
   const phase = useGameStore((s) => s.phase);
@@ -169,6 +170,15 @@ export function PlayScreen() {
     clearSplitNotices();
   }, [splitNotices, clearSplitNotices]);
 
+  // 위기 극복 격려 토스트
+  useEffect(() => {
+    const prev = prevCrisisLevelRef.current;
+    if ((prev === 'orange' || prev === 'red') && currentCrisisLevel === 'safe') {
+      showToast('위기를 극복했어요! 대단해요! 💪 더 강해진 인생!', '🌈', 'achievement', 4000);
+    }
+    prevCrisisLevelRef.current = currentCrisisLevel;
+  }, [currentCrisisLevel]);
+
   // 자산 마일스톤 달성 축하 토스트
   useEffect(() => {
     if (phase.kind !== 'playing') return;
@@ -228,6 +238,14 @@ export function PlayScreen() {
   };
 
   const progress = progressFraction(character.age);
+
+  // 현재 위기 레벨 계산 (위기 극복 감지용)
+  const currentCrisisLevel = computeCrisisLevel({
+    netCashflow: cashflow.netCashflow / 12,
+    monthlyExpense: cashflow.totalExpense / 12,
+    totalAssets,
+    cash,
+  });
 
   // Previous total for Y-o-Y change
   const prevTotalRef = useRef(totalAssets);
@@ -442,12 +460,7 @@ export function PlayScreen() {
 
       {/* 위기 뱃지 — 홈 탭에서만 */}
       {tab === 'home' && (() => {
-        const crisisLevel = computeCrisisLevel({
-          netCashflow: cashflow.netCashflow / 12,
-          monthlyExpense: cashflow.totalExpense / 12,
-          totalAssets,
-          cash,
-        });
+        const crisisLevel = currentCrisisLevel;
         if (crisisLevel === 'safe' || crisisLevel === 'yellow') return null;
         const badgeConfig = crisisLevel === 'red'
           ? { emoji: '🔴', label: '긴급 상황', bg: '#ffebee', border: '#ef9a9a', color: '#c62828' }
