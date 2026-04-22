@@ -32,9 +32,9 @@
   --text-primary: #1a1a1a;
   --text-secondary: #555;
   --text-muted: #999;
-  --accent: #ff7043;
-  --accent-hover: #ff5722;
-  --accent-light: #ffe0b2;
+  --accent: #58cc02;
+  --accent-hover: #4caf00;
+  --accent-light: #d7ffb8;
   --accent-secondary: #7c3aed;
   --accent-secondary-shadow: #5b21b6;
   --success: #58cc02;
@@ -47,7 +47,7 @@
   --grade-c: #bdbdbd;
 
   /* Hard shadow — 색상별 진한 버전 */
-  --accent-shadow: #c4501e;
+  --accent-shadow: #58a700;
   --success-shadow: #46a302;
   --danger-shadow: #cc3c3c;
   --info-shadow: #1899d6;

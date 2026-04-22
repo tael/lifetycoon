@@ -460,7 +460,7 @@ export function TitleScreen() {
         <button
           onClick={handleOpenReleaseNotes}
           style={{
-            background: 'linear-gradient(90deg, #ff9800, var(--accent))',
+            background: 'linear-gradient(90deg, var(--accent-hover), var(--accent))',
             color: '#fff',
             border: 'none',
             borderRadius: 999,
@@ -468,7 +468,7 @@ export function TitleScreen() {
             fontSize: '0.75rem',
             fontWeight: 700,
             cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(255,112,67,0.35)',
+            boxShadow: '0 2px 8px rgba(88,204,2,0.35)',
           }}
         >
           <Icon slot="status-alert" size="md" /> 새 소식 {unseenReleaseCount}건
