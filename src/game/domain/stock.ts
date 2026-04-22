@@ -1,5 +1,6 @@
 import type { Holding, StockDef } from '../types';
 import { gaussian } from '../engine/prng';
+import { MIN_STOCK_PRICE, STOCK_SPLIT_10X_THRESHOLD, STOCK_SPLIT_5X_THRESHOLD, STOCK_SPLIT_2X_THRESHOLD } from '../constants';
 
 // Simulated GBM with discrete yearly steps (for simplicity)
 // drift: annual expected return, volatility: annual stddev
@@ -15,8 +16,8 @@ export function nextPrice(
   const change = mu + sigma * z;
   const next = prev * Math.exp(change);
   // Safety: NaN guard + floor at 1 (stocks can't go to zero, kids friendly)
-  if (!Number.isFinite(next) || next <= 0) return Math.max(1, Math.round(prev));
-  return Math.max(1, Math.round(next));
+  if (!Number.isFinite(next) || next <= 0) return Math.max(MIN_STOCK_PRICE, Math.round(prev));
+  return Math.max(MIN_STOCK_PRICE, Math.round(next));
 }
 
 export function buyShares(
@@ -72,7 +73,7 @@ export function sellShares(
 }
 
 export function shockPrice(price: number, multiplier: number): number {
-  return Math.max(1, Math.round(price * multiplier));
+  return Math.max(MIN_STOCK_PRICE, Math.round(price * multiplier));
 }
 
 export function holdingsValue(
@@ -90,11 +91,8 @@ export function holdingsValue(
  * 분할 없으면 1 반환.
  */
 export function splitRatioFor(price: number, basePrice: number): number {
-  // basePrice의 10배 초과 시 10:1 분할
-  if (price >= basePrice * 10) return 10;
-  // basePrice의 5배 초과 시 5:1 분할
-  if (price >= basePrice * 5) return 5;
-  // basePrice의 3배 초과 시 2:1 분할
-  if (price >= basePrice * 3) return 2;
+  if (price >= basePrice * STOCK_SPLIT_10X_THRESHOLD) return 10;
+  if (price >= basePrice * STOCK_SPLIT_5X_THRESHOLD) return 5;
+  if (price >= basePrice * STOCK_SPLIT_2X_THRESHOLD) return 2;
   return 1;
 }

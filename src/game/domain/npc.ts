@@ -1,5 +1,10 @@
 import type { FriendNPC } from '../types';
 import { randFloat } from '../engine/prng';
+import {
+  NPC_INITIAL_AGE, NPC_INITIAL_ASSETS, NPC_MIN_ASSETS, NPC_MIN_ASSETS_CATCHUP,
+  NPC_LUCK_PROB_BASE, NPC_NOISE_MIN, NPC_NOISE_MAX, NPC_LUCK_BONUS_MIN, NPC_LUCK_BONUS_MAX,
+  NPC_DREAM_PROB_1, NPC_DREAM_PROB_2,
+} from '../constants';
 
 export type NpcPersonalityParams = {
   riskAppetite: number; // 0..1
@@ -28,8 +33,8 @@ export function createNpcFromSeed(
     name,
     personality,
     iconEmoji,
-    currentAge: 10,
-    currentAssets: 50000,
+    currentAge: NPC_INITIAL_AGE,
+    currentAssets: NPC_INITIAL_ASSETS,
     currentJob: '학생',
     dreamsAchieved: 0,
     status: '학교 다니는 중',
@@ -58,23 +63,23 @@ export function stepNpc(
   if (yearsPassed <= 0) return npc;
   // Volatile growth
   const base = p.growthRate * yearsPassed;
-  const noise = randFloat(rng, -0.25, 0.35) * p.riskAppetite * yearsPassed;
+  const noise = randFloat(rng, NPC_NOISE_MIN, NPC_NOISE_MAX) * p.riskAppetite * yearsPassed;
   const lucky =
-    rng() < 0.1 * p.luckFactor ? randFloat(rng, 0.2, 0.8) * yearsPassed : 0;
+    rng() < NPC_LUCK_PROB_BASE * p.luckFactor ? randFloat(rng, NPC_LUCK_BONUS_MIN, NPC_LUCK_BONUS_MAX) * yearsPassed : 0;
   const growth = 1 + base + noise + lucky;
-  let newAssets = Math.max(1000, Math.round(npc.currentAssets * growth));
+  let newAssets = Math.max(NPC_MIN_ASSETS, Math.round(npc.currentAssets * growth));
 
   // 플레이어 자산 기반 catch-up 보정
   if (playerAssets > 0) {
     const targetAssets = playerAssets * TARGET_MULTIPLIER[npc.personality];
     const deltaToTarget = (targetAssets - newAssets) * CATCH_UP_FACTOR * yearsPassed;
-    newAssets = Math.max(10000, Math.round(newAssets + deltaToTarget));
+    newAssets = Math.max(NPC_MIN_ASSETS_CATCHUP, Math.round(newAssets + deltaToTarget));
   }
   const newJob = pickJob(newAge, npc.personality);
   const newDreams =
     npc.dreamsAchieved +
-    (rng() < 0.05 * yearsPassed ? 1 : 0) +
-    (rng() < 0.03 * yearsPassed ? 1 : 0);
+    (rng() < NPC_DREAM_PROB_1 * yearsPassed ? 1 : 0) +
+    (rng() < NPC_DREAM_PROB_2 * yearsPassed ? 1 : 0);
   const newStatus = pickStatus(npc.personality, newAge, rng);
   return {
     ...npc,

@@ -130,3 +130,22 @@ export const PROPERTY_TAX_RATE = 0.003; // 부동산 총가치의 0.3%
 // 연금 정책
 export const PENSION_BASE_PER_CAREER = 400_000; // 경력 1건당 연금 기본 금액(원/년)
 export const PENSION_CAREER_CAP = 5;            // 경력 인정 상한 (건 수)
+
+// NPC 초기값 및 성장 파라미터
+export const NPC_INITIAL_AGE = 10;
+export const NPC_INITIAL_ASSETS = 50_000;
+export const NPC_MIN_ASSETS = 1_000;
+export const NPC_MIN_ASSETS_CATCHUP = 10_000;
+export const NPC_LUCK_PROB_BASE = 0.1;
+export const NPC_NOISE_MIN = -0.25;
+export const NPC_NOISE_MAX = 0.35;
+export const NPC_LUCK_BONUS_MIN = 0.2;
+export const NPC_LUCK_BONUS_MAX = 0.8;
+export const NPC_DREAM_PROB_1 = 0.05; // 꿈 달성 확률 (매년 1)
+export const NPC_DREAM_PROB_2 = 0.03; // 꿈 달성 확률 (매년 2)
+
+// 주식 최저 가격 및 액면분할 임계값 배수
+export const MIN_STOCK_PRICE = 1;
+export const STOCK_SPLIT_10X_THRESHOLD = 10; // 기준가의 10배 → 10:1 분할
+export const STOCK_SPLIT_5X_THRESHOLD = 5;   // 기준가의 5배 → 5:1 분할
+export const STOCK_SPLIT_2X_THRESHOLD = 3;   // 기준가의 3배 → 2:1 분할
