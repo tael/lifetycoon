@@ -19,7 +19,7 @@ import { AssetCompositionBar } from '../components/AssetCompositionBar';
 import { AssetChart } from '../components/AssetChart';
 import { TutorialOverlay } from '../components/TutorialOverlay';
 import { StockQuizMiniGame } from '../components/StockQuizMiniGame';
-import { PHASE_LABEL } from '../../game/engine/economyCycle';
+import { PHASE_LABEL, getNextPhase, isTransitionImminent } from '../../game/engine/economyCycle';
 import type { EconomyPhase } from '../../game/engine/economyCycle';
 import { KEY_SHOW_STAT_HINTS, SettingsModal } from '../components/SettingsModal';
 import { computeCrisisLevel } from '../../game/domain/crisisEngine';
@@ -48,6 +48,7 @@ export function PlayScreen() {
   });
   const prevCyclePhaseRef = useRef<EconomyPhase | null>(null);
   const triggeredAssetMilestonesRef = useRef<Set<number>>(new Set());
+  const taxEducationShownRef = useRef(false);
   const prevAgeRef = useRef(10);
   const prevDreamsRef = useRef(0);
   const phase = useGameStore((s) => s.phase);
@@ -184,7 +185,7 @@ export function PlayScreen() {
     }
   }, [totalAssets, phase.kind]);
 
-  // Economy cycle change -> NewsTicker alert
+  // Economy cycle change -> NewsTicker alert + 임박 힌트
   useEffect(() => {
     if (!economyCycle) return;
     const prev = prevCyclePhaseRef.current;
@@ -196,9 +197,25 @@ export function PlayScreen() {
           : '⚡ 경기가 안정세로 돌아왔습니다';
       setCycleTickerMsg(msg);
       setTimeout(() => setCycleTickerMsg(undefined), 5500);
+    } else if (prev === economyCycle.phase && isTransitionImminent(economyCycle, 2)) {
+      const next = getNextPhase(economyCycle.phase);
+      const hint = next === 'boom'
+        ? '📰 경제 전문가들 "소비 심리 회복 조짐" 분석...'
+        : next === 'recession'
+          ? '📰 경제 지표 둔화 신호... 전문가 "대비 필요"'
+          : '📰 시장 안정세 예상... 경기 조정 국면 예고';
+      setCycleTickerMsg(hint);
+      setTimeout(() => setCycleTickerMsg(undefined), 5500);
     }
     prevCyclePhaseRef.current = economyCycle.phase;
-  }, [economyCycle?.phase]);
+  }, [economyCycle?.phase, economyCycle?.yearsSinceChange]);
+
+  // 세금 교육 메시지 — 첫 납세 시 1회
+  useEffect(() => {
+    if (taxEducationShownRef.current || totalTaxPaid <= 0 || phase.kind !== 'playing') return;
+    taxEducationShownRef.current = true;
+    showToast('납세 완료! 세금은 도로·학교·병원에 쓰인답니다 🏫', '🧾', 'info', 4000);
+  }, [totalTaxPaid, phase.kind]);
 
   const handleMilestoneClose = () => {
     setShowMilestone(null);
@@ -635,9 +652,14 @@ export function PlayScreen() {
                   자산 {assetDelta > 0 ? '▲' : '▼'}{formatWon(Math.abs(assetDelta))}
                 </div>
               )}
+              {cash < 0 && (
+                <div role="alert" style={{ background: '#ffebee', border: '1px solid #ef9a9a', borderRadius: 'var(--radius-sm)', padding: '6px 10px', marginBottom: 6, fontSize: 'var(--font-size-xs)', color: '#c62828', fontWeight: 700 }}>
+                  ⚠️ 현금 마이너스! 이자가 쌓이고 있어요. ({formatWon(cash)})
+                </div>
+              )}
               <AssetCompositionBar
                 segments={[
-                  { label: '현금', value: cash, color: '#2196f3', emoji: '💵' },
+                  { label: '현금', value: cash, color: cash < 0 ? '#ef9a9a' : '#2196f3', emoji: '💵' },
                   { label: '예금', value: bank.balance, color: '#42a5f5', emoji: '🏦' },
                   { label: '주식', value: stocksValue, color: '#4caf50', emoji: '📈' },
                   { label: '부동산', value: realEstateValue, color: '#ff9800', emoji: '🏠' },

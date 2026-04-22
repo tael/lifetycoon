@@ -85,6 +85,17 @@ export function stepEconomyCycle(
   };
 }
 
+/** 현재 phase 다음 phase 반환 */
+export function getNextPhase(current: EconomyPhase): EconomyPhase {
+  const idx = PHASE_SEQUENCE.indexOf(current);
+  return PHASE_SEQUENCE[(idx + 1) % PHASE_SEQUENCE.length];
+}
+
+/** 사이클 변화가 N년 이내면 true */
+export function isTransitionImminent(cycle: EconomyCycle, withinYears = 2): boolean {
+  return cycle.nextChangeAfter - cycle.yearsSinceChange <= withinYears;
+}
+
 export const PHASE_LABEL: Record<EconomyPhase, string> = {
   boom: '🔥호황',
   normal: '⚡보통',
