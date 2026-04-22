@@ -87,6 +87,14 @@ export function PlayScreen() {
     onDisplayAgeChange,
   } = usePlayDerived();
 
+  // 위기 레벨 계산 (여러 곳에서 사용 — 단일 출처)
+  const currentCrisisLevel = computeCrisisLevel({
+    netCashflow: cashflow.netCashflow / 12,
+    monthlyExpense: cashflow.totalExpense / 12,
+    totalAssets,
+    cash,
+  });
+
   const onIntAgeChange = useCallback(
     (newIntAge: number, deltaYears: number, _elapsedMs: number) => {
       advanceYear(newIntAge, deltaYears);
@@ -248,14 +256,6 @@ export function PlayScreen() {
   };
 
   const progress = progressFraction(character.age);
-
-  // 현재 위기 레벨 계산 (위기 극복 감지용)
-  const currentCrisisLevel = computeCrisisLevel({
-    netCashflow: cashflow.netCashflow / 12,
-    monthlyExpense: cashflow.totalExpense / 12,
-    totalAssets,
-    cash,
-  });
 
   // Previous total for Y-o-Y change
   const prevTotalRef = useRef(totalAssets);

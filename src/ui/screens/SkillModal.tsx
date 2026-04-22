@@ -4,7 +4,7 @@ import { showToast } from '../components/Toast';
 import { Icon } from '../icons/Icon';
 import { formatWon } from '../../game/domain/asset';
 
-function skillPreviewText(skill: Skill, monthlySalary: number, bankBalance: number, bankInterestRate: number): string {
+function skillPreviewText(skill: Skill, monthlySalary: number, bankBalance: number): string {
   switch (skill.effect) {
     case 'salaryBonus': {
       const bonus = Math.round(monthlySalary * skill.value);
@@ -138,7 +138,7 @@ export function SkillModal({ onClose }: Props) {
                   </div>
                   {!unlocked && (
                     <div style={{ fontSize: '0.65rem', color: canUnlock ? '#e65100' : '#bdbdbd', marginBottom: 6 }}>
-                      💡 {skillPreviewText(skill, monthlySalary, bank.balance, bank.interestRate)}
+                      💡 {skillPreviewText(skill, monthlySalary, bank.balance)}
                     </div>
                   )}
 
