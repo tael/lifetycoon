@@ -1,5 +1,6 @@
 import type { Ending, Grade, KeyMoment } from '../types';
 import { josa } from './josa';
+import { ACHIEVEMENT_RICH, ACHIEVEMENT_BILLIONAIRE, ACHIEVEMENT_BALANCED_ASSETS } from '../constants';
 
 export function generateLifeTitle(
   traits: string[],
@@ -29,8 +30,8 @@ export function generateLifeTitle(
   // 부동산 왕 - 부동산 3개 이상 보유
   if (realEstateCount >= 3) return '🏰 부동산 왕';
 
-  if (finalAssets >= 1000000000) return '💎 10억 부자';
-  if (finalAssets >= 100000000) return '🤑 억만장자';
+  if (finalAssets >= ACHIEVEMENT_RICH) return '💎 10억 부자';
+  if (finalAssets >= ACHIEVEMENT_BILLIONAIRE) return '🤑 억만장자';
 
   // 백수의 왕 - 은퇴 상태 + 자산 5억 이상
   if (isRetired && finalAssets >= 500000000) return '🦁 백수의 왕';
@@ -67,7 +68,7 @@ export function generateLifeTitle(
   if (hasTrait('은퇴농부')) return '🌾 행복한 농부';
   if (finalHappiness >= 95) return '😊 행복 만렙';
   if (traitsCount >= 8) return '🏅 다재다능한 인재';
-  if (finalAssets >= 50000000) return '💰 알뜰한 부자';
+  if (finalAssets >= ACHIEVEMENT_BALANCED_ASSETS) return '💰 알뜰한 부자';
   if (finalHappiness >= 80) return '☀️ 밝은 인생';
   return '🌱 평범한 시민';
 }
@@ -105,7 +106,7 @@ export function generateLifeSummary(
     parts.push('화제의 중심에 선');
   } else if (traits.includes('용감함')) {
     parts.push('용기 있는');
-  } else if (finalAssets > 100000000) {
+  } else if (finalAssets > ACHIEVEMENT_BILLIONAIRE) {
     parts.push('부를 일군');
   } else if (finalHappiness >= 90) {
     parts.push('행복을 찾은');

@@ -1,5 +1,5 @@
 import type { BankAccount, Bond, Holding, Job, RealEstate, StockDef } from '../types';
-import { ADULT_STUDENT_MONTHLY, ANNUAL_INFLATION_RATE, SIDE_JOB_MONTHLY } from '../constants';
+import { ADULT_STUDENT_MONTHLY, ANNUAL_INFLATION_RATE, SIDE_JOB_MONTHLY, CASH_INTEREST_RATE, OVERDRAFT_RATE_PREMIUM } from '../constants';
 import { calculateIncomeTax, calculatePropertyTax } from '../engine/tax';
 import { computePensionYearly, PENSION_START_AGE } from './pension';
 import {
@@ -218,7 +218,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   if (allowanceYearly > 0) income.push({ label: '부모님 용돈', emoji: '👛', amount: allowanceYearly, passive: true, incomeType: '(이전소득)' });
   // 입출금 이자: 현금 양수 시 연 0.1%
   const cashDepositInterestYearly = cash != null && cash > 0
-    ? Math.round(cash * 0.001)
+    ? Math.round(cash * CASH_INTEREST_RATE)
     : 0;
   if (cashDepositInterestYearly > 0) income.push({ label: '입출금 이자', emoji: '💵', amount: cashDepositInterestYearly, passive: true, incomeType: '(자산소득)' });
 
@@ -257,7 +257,7 @@ export function computeCashflow(input: CashflowInput): CashflowBreakdown {
   if (repaymentYearly > 0) expense.push({ label: '부모님 용돈', emoji: '💝', amount: repaymentYearly });
   // 마이너스통장: 현금이 음수이면 (loanInterestRate + 0.01) 적용.
   const overdraftInterestYearly = cash != null && cash < 0
-    ? Math.round(Math.abs(cash) * (bank.loanInterestRate + 0.01))
+    ? Math.round(Math.abs(cash) * (bank.loanInterestRate + OVERDRAFT_RATE_PREMIUM))
     : 0;
   if (overdraftInterestYearly > 0) expense.push({ label: '마이너스 이자', emoji: '🔻', amount: overdraftInterestYearly });
 

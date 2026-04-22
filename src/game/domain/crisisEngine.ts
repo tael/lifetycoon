@@ -1,3 +1,5 @@
+import { CRISIS_EXPENSE_MONTHS_RED, CRISIS_EXPENSE_MONTHS_YELLOW } from '../constants';
+
 export type CrisisLevel = 'safe' | 'yellow' | 'orange' | 'red';
 
 export type CrisisInput = {
@@ -10,8 +12,8 @@ export type CrisisInput = {
 export function computeCrisisLevel(input: CrisisInput): CrisisLevel {
   const { netCashflow, monthlyExpense, totalAssets, cash } = input;
 
-  // red: 현금 마이너스 + 자산 3개월치 미만
-  if (cash < -monthlyExpense && totalAssets < monthlyExpense * 3) {
+  // red: 현금 마이너스 + 자산 CRISIS_EXPENSE_MONTHS_RED개월치 미만
+  if (cash < -monthlyExpense && totalAssets < monthlyExpense * CRISIS_EXPENSE_MONTHS_RED) {
     return 'red';
   }
 
@@ -21,8 +23,8 @@ export function computeCrisisLevel(input: CrisisInput): CrisisLevel {
   }
 
   // 이하 적자 상태
-  // yellow: 자산 6개월치 이상
-  if (totalAssets >= monthlyExpense * 6) {
+  // yellow: 자산 CRISIS_EXPENSE_MONTHS_YELLOW개월치 이상
+  if (totalAssets >= monthlyExpense * CRISIS_EXPENSE_MONTHS_YELLOW) {
     return 'yellow';
   }
 

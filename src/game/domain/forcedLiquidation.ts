@@ -1,4 +1,5 @@
 import type { BankAccount, Holding, RealEstate } from '../types';
+import { FIRE_SALE_RATIO } from '../constants';
 
 export type LiquidationResult = {
   cashRecovered: number;
@@ -62,16 +63,16 @@ export function forcedLiquidation(
     }
   }
 
-  // 3단계: 부동산 급매 (currentValue * 0.8, 가장 싼 것부터)
+  // 3단계: 부동산 급매 (currentValue * FIRE_SALE_RATIO, 가장 싼 것부터)
   if (remaining > 0 && realEstate.length > 0) {
     const sorted = [...realEstate].sort((a, b) => a.currentValue - b.currentValue);
 
     for (const re of sorted) {
       if (remaining <= 0) break;
-      const proceeds = Math.round(re.currentValue * 0.8);
+      const proceeds = Math.round(re.currentValue * FIRE_SALE_RATIO);
       realEstateSold.push({ id: re.id, proceeds });
       remaining -= proceeds;
-      warnings.push(`⚠️ 위기: ${re.name} 급매 (${Math.round(proceeds / 10000)}만원, 시세의 80%)`);
+      warnings.push(`⚠️ 위기: ${re.name} 급매 (${Math.round(proceeds / 10000)}만원, 시세의 ${Math.round(FIRE_SALE_RATIO * 100)}%)`);
     }
   }
 

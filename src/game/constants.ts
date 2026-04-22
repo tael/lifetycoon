@@ -86,3 +86,10 @@ export const GRADE_SCORE_C = 15;
 // 위기 턴 누적 하향 임계값
 export const CRISIS_TURNS_HEAVY = 20; // 2단계 하향
 export const CRISIS_TURNS_LIGHT = 10; // 1단계 하향
+
+// 위기 레벨 판정 — 월 지출 대비 자산 배수 임계값
+export const CRISIS_EXPENSE_MONTHS_RED = 3;    // 3개월치 미만 → red
+export const CRISIS_EXPENSE_MONTHS_YELLOW = 6; // 6개월치 이상 → yellow
+
+// 강제 매각 할인율
+export const FIRE_SALE_RATIO = 0.8; // 부동산 급매 시가의 80%
