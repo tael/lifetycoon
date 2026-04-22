@@ -39,6 +39,7 @@ export type YearTickState = {
   usedScenarioIds: string[];
   assetHistory: { age: number; value: number }[];
   autoInvest: boolean;
+  autoSave: boolean;
   realEstate: RealEstate[];
   bonds: Bond[];
   economyCycle: EconomyCycle;
@@ -120,7 +121,9 @@ export type AnnualSettlementResult = {
   totalTax: number;
   /** auto-invest 비용 */
   autoInvestSpent: number;
-  /** 최종 현금 (세금/채권/auto-invest 반영) */
+  /** auto-save 금액 (예금에 추가) */
+  autoSaveAmount: number;
+  /** 최종 현금 (세금/채권/auto-invest/auto-save 반영) */
   finalCash: number;
   totalTaxPaid: number;
 };

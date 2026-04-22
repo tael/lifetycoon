@@ -10,6 +10,7 @@ import {
   DIVIDEND_GROWTH_BOOM,
   DIVIDEND_GROWTH_RECESSION,
   AUTO_INVEST_RATIO,
+  AUTO_SAVE_RATIO,
 } from '../../constants';
 
 export function processAnnualSettlement(
@@ -109,7 +110,17 @@ export function processAnnualSettlement(
 
   // 세금 + 채권 수입 + auto-invest를 최종 현금에 반영
   const bondIncome = couponCash + principalCash;
-  const finalCash = monthlyResult.cash + bondIncome - autoInvestSpent - totalTax;
+  let finalCash = monthlyResult.cash + bondIncome - autoInvestSpent - totalTax;
+
+  // Auto-save — 연 급여의 AUTO_SAVE_RATIO를 예금에 자동 저축
+  let autoSaveAmount = 0;
+  if (st.autoSave && monthlyResult.totalSalaryIncome > 0) {
+    const saveBudget = Math.round(monthlyResult.totalSalaryIncome * AUTO_SAVE_RATIO);
+    if (saveBudget > 0 && finalCash >= saveBudget) {
+      autoSaveAmount = saveBudget;
+      finalCash -= autoSaveAmount;
+    }
+  }
 
   return {
     prices,
@@ -125,6 +136,7 @@ export function processAnnualSettlement(
     propertyTax,
     totalTax,
     autoInvestSpent,
+    autoSaveAmount,
     finalCash,
     totalTaxPaid: st.totalTaxPaid + totalTax,
   };

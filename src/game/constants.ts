@@ -52,6 +52,7 @@ export const NEGOTIATION_BONUS = 1.1; // 협상 스킬 급여 배수
 
 // 자동투자
 export const AUTO_INVEST_RATIO = 0.1; // 자동투자 — 연 급여 대비 투자 비율
+export const AUTO_SAVE_RATIO = 0.2;   // 자동저축 — 연 급여 대비 저축 비율
 
 // 키 모먼트
 export const KEY_MOMENT_LIMIT = 30; // 키 모먼트 최대 보관 수

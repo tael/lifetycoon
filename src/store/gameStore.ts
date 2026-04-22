@@ -94,6 +94,7 @@ export type GameStoreState = {
   usedScenarioIds: string[];
   assetHistory: { age: number; value: number }[];
   autoInvest: boolean;
+  autoSave: boolean;
   realEstate: RealEstate[];
   bonds: Bond[];
   ending: Ending | null;
@@ -163,6 +164,7 @@ export type GameStoreState = {
   changeJob: (jobId: string) => { success: boolean; reason?: string };
   toggleDrip: () => void;
   toggleAutoInvest: () => void;
+  toggleAutoSave: () => void;
   buyRealEstate: (id: string) => { success: boolean; acquisitionTax: number };
   sellRealEstate: (index: number) => { success: boolean; capitalGainsTax: number };
   buyBond: (id: string) => boolean;
@@ -216,6 +218,7 @@ function makeInitialState(): Omit<GameStoreState, keyof GameStoreActions> {
     usedScenarioIds: [],
     assetHistory: [{ age: 10, value: 50000 }],
     autoInvest: false,
+    autoSave: false,
     realEstate: [],
     bonds: [],
     ending: null,
@@ -266,6 +269,7 @@ type GameStoreActions = Pick<
   | 'changeJob'
   | 'toggleDrip'
   | 'toggleAutoInvest'
+  | 'toggleAutoSave'
   | 'buyRealEstate'
   | 'sellRealEstate'
   | 'buyBond'
@@ -390,7 +394,7 @@ export const useGameStore = create<GameStoreState>()(
       set({
         character: { ...crisisResult.character, emoji: logResult.emoji },
         cash: crisisResult.finalCash,
-        bank: { ...crisisResult.bank, interestRate: ageResult.newBaseInterestRate },
+        bank: { ...crisisResult.bank, interestRate: ageResult.newBaseInterestRate, balance: crisisResult.bank.balance + annualResult.autoSaveAmount },
         holdings: crisisResult.holdings,
         prices: annualResult.prices,
         npcs: annualResult.npcs,
@@ -580,6 +584,9 @@ export const useGameStore = create<GameStoreState>()(
     },
     toggleAutoInvest() {
       set({ autoInvest: !get().autoInvest });
+    },
+    toggleAutoSave() {
+      set({ autoSave: !get().autoSave });
     },
     addTrait(trait) {
       const st = get();

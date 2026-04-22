@@ -20,6 +20,8 @@ export function BankTab({
   const repayLoan = useGameStore((s) => s.repayLoan);
   const loanHistory = useGameStore((s) => s.loanHistory);
   const totalTaxPaid = useGameStore((s) => s.totalTaxPaid);
+  const autoSave = useGameStore((s) => s.autoSave);
+  const toggleAutoSave = useGameStore((s) => s.toggleAutoSave);
 
   const [loanHistoryExpanded, setLoanHistoryExpanded] = useState(false);
   const [pendingLoan, setPendingLoan] = useState<number | null>(null);
@@ -146,15 +148,27 @@ export function BankTab({
           </div>
         </div>
 
-        <div
-          style={{
-            marginTop: 'var(--sp-xs)',
-            fontSize: '0.7rem',
-            color: 'var(--text-muted)',
-            textAlign: 'right',
-          }}
-        >
-          지금까지 낸 세금: {formatWon(totalTaxPaid)}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'var(--sp-xs)' }}>
+          <button
+            onClick={toggleAutoSave}
+            aria-pressed={autoSave}
+            title="자동저축: 매년 월급의 20%를 자동으로 예금에 저축해요!"
+            style={{
+              fontSize: '0.6rem',
+              padding: '2px 7px',
+              borderRadius: 'var(--radius-full)',
+              background: autoSave ? '#1565c0' : '#eee',
+              color: autoSave ? '#fff' : '#999',
+              fontWeight: 700,
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            {autoSave ? '💰 자동저축 ON' : '자동저축 OFF'}
+          </button>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+            세금 합계: {formatWon(totalTaxPaid)}
+          </div>
         </div>
 
         {/* 입금 */}
