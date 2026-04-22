@@ -203,6 +203,26 @@ export function StockDetailModal({ stock, price, holding, cash, onBuy, onSell, o
           </div>
         )}
 
+        {/* 배당 교육 팁 */}
+        {stock.dividendRate > 0 && (
+          <div style={{ background: '#e8f5e9', borderRadius: 'var(--radius-sm)', padding: '8px 10px', marginBottom: 12, fontSize: 'var(--font-size-xs)' }}>
+            <div style={{ fontWeight: 700, color: '#2e7d32', marginBottom: 2 }}>💡 배당금이란?</div>
+            {shares > 0 ? (
+              <div style={{ color: '#388e3c' }}>
+                {stock.name} {shares}주 보유 시 연 약{' '}
+                <strong>{formatWon(Math.round(stock.basePrice * (dividendRates[stock.ticker] ?? stock.dividendRate) * shares))}</strong>
+                을 배당금으로 받을 수 있어요! 돈이 돈을 버는 거예요 🎉
+              </div>
+            ) : (
+              <div style={{ color: '#388e3c' }}>
+                주식을 사면 회사 이익을 나눠받아요. 1주당 연 약{' '}
+                <strong>{formatWon(Math.round(stock.basePrice * (dividendRates[stock.ticker] ?? stock.dividendRate)))}</strong>
+                을 받을 수 있어요!
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Buy buttons */}
         <div style={{ marginBottom: 8 }}>
           <div style={{ fontWeight: 700, fontSize: 'var(--font-size-sm, 14px)', marginBottom: 6 }}>매수</div>
