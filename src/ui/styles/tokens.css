@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
 
 /* 배민(우아한형제들) 무료 한글 폰트 — 유저 친화 둥근 스타일 */
@@ -81,8 +82,8 @@
   --sp-2xl: 40px;
 
   /* Typography */
-  --font-main: 'Pretendard Variable', 'BMJUA', 'BMDOHYEON', 'Noto Sans KR', -apple-system, sans-serif;
-  --font-display: 'BMDOHYEON', 'BMJUA', 'Pretendard Variable', -apple-system, sans-serif;
+  --font-main: 'Nunito', 'Pretendard Variable', 'BMJUA', 'Noto Sans KR', -apple-system, sans-serif;
+  --font-display: 'Nunito', 'BMDOHYEON', 'BMJUA', 'Pretendard Variable', -apple-system, sans-serif;
   --font-numeric: 'Pretendard Variable', var(--font-main);
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
