@@ -222,6 +222,33 @@ export function EndingScreen() {
         </div>
       </div>
 
+      {/* ═══ 등급 이유 (C/D/F) ═══ */}
+      {(['C', 'D', 'F'] as Grade[]).includes(ending.grade) && (
+        <div style={{
+          maxWidth: 400, width: '100%',
+          background: ending.grade === 'F' ? '#ffebee' : ending.grade === 'D' ? '#fff3e0' : '#f3f4f6',
+          borderRadius: 'var(--radius-md)',
+          padding: 'var(--sp-md)',
+          border: `1px solid ${ending.grade === 'F' ? '#ef9a9a' : ending.grade === 'D' ? '#ffcc80' : '#e0e0e0'}`,
+        }}>
+          <div style={{ fontWeight: 700, marginBottom: 6, fontSize: 'var(--font-size-sm)' }}>
+            💡 이번에 더 잘하려면?
+          </div>
+          {ending.dreamsAchieved === 0 && (
+            <div style={{ fontSize: 'var(--font-size-xs)', marginBottom: 4 }}>• 꿈을 0개 달성했어요 — 꿈 조건을 미리 확인해보세요!</div>
+          )}
+          {ending.dreamsAchieved > 0 && ending.dreamsAchieved < ending.totalDreams && (
+            <div style={{ fontSize: 'var(--font-size-xs)', marginBottom: 4 }}>• 꿈 {ending.dreamsAchieved}/{ending.totalDreams}개 달성했어요 — 조금만 더 도전해봐요!</div>
+          )}
+          {ending.crisisTurns > 10 && (
+            <div style={{ fontSize: 'var(--font-size-xs)', marginBottom: 4 }}>• 위기 상황이 {Math.round(ending.crisisTurns)}년이나 됐어요 — 지출을 줄이거나 자산을 늘려보세요!</div>
+          )}
+          {ending.finalAssets < 100_000_000 && (
+            <div style={{ fontSize: 'var(--font-size-xs)', marginBottom: 4 }}>• 최종 자산이 1억 미만이에요 — 저축과 투자를 일찍 시작해봐요!</div>
+          )}
+        </div>
+      )}
+
       {/* ═══ Life Summary Quote ═══ */}
       <div style={{
         maxWidth: 400, width: '100%',

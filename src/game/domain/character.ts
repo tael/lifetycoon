@@ -49,15 +49,15 @@ export function computeStatPenalty(char: Character): StatPenalty {
   if (char.wisdom < STAT_PENALTY_THRESHOLD) {
     salaryMult *= WISDOM_SALARY_MULT;
     returnMult += WISDOM_RETURN_PENALTY;
-    reasons.push('지혜 저하: 연봉 -15%, 투자 수익률 -2%p');
+    reasons.push('📘 지혜가 낮아 월급이 줄어들고 있어요!');
   }
   if (char.health < STAT_PENALTY_THRESHOLD) {
     careEffMult *= HEALTH_CARE_EFF_MULT;
-    reasons.push('건강 저하: 케어 효율 -25%');
+    reasons.push('❤️ 건강이 낮아 회복이 어려워요!');
   }
   if (char.charisma < STAT_PENALTY_THRESHOLD) {
     charmMult *= CHARISMA_CHARM_MULT;
-    reasons.push('매력 저하: 상호작용 보너스 -15%');
+    reasons.push('✨ 매력이 낮아 관계가 어색해지고 있어요!');
   }
 
   return { salaryMult, returnMult, careEffMult, charmMult, reasons };
