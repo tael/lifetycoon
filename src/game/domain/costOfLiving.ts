@@ -12,6 +12,8 @@
  *     같은 한 줄 설명으로 충분.
  */
 
+import { ADULT_START_AGE } from '../constants';
+
 /** 기본 성인 연봉 대비 생활비 비율. 0.42 = 연봉의 42%. */
 export const ADULT_COST_OF_LIVING_RATIO = 0.42;
 
@@ -44,7 +46,7 @@ export const JOB_COST_RATIO: Record<string, number> = {
  * - 직업 있음: max(UNEMPLOYED_MIN_YEARLY, 연봉 * 직업별비율)
  */
 export function computeCostOfLiving(age: number, yearlySalary: number, jobId?: string): number {
-  if (age < 19) return 0;
+  if (age < ADULT_START_AGE) return 0;
   if (yearlySalary <= 0) return UNEMPLOYED_MIN_YEARLY;
   const ratio = jobId ? (JOB_COST_RATIO[jobId] ?? ADULT_COST_OF_LIVING_RATIO) : ADULT_COST_OF_LIVING_RATIO;
   return Math.max(

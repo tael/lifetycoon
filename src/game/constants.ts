@@ -109,3 +109,10 @@ export const ACQ_TAX_3RD_PLUS_HOME = 0.12; // 3주택+
 export const CAP_GAINS_TAX_SHORT = 0.70;      // 1년 미만 보유
 export const CAP_GAINS_TAX_MID = 0.40;        // 1-2년 보유
 export const CAP_GAINS_TAX_LONG_MULTI = 0.20; // 2년+ 다주택
+
+// 나이 임계값 (경제 시스템)
+export const ADULT_START_AGE = 19;            // 성인 생활비 시작 나이 (기본 고졸 기준)
+
+// 연금 정책
+export const PENSION_BASE_PER_CAREER = 400_000; // 경력 1건당 연금 기본 금액(원/년)
+export const PENSION_CAREER_CAP = 5;            // 경력 인정 상한 (건 수)

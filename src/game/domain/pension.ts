@@ -2,14 +2,10 @@
 // v0.2.0 리뷰에서 gameStore.advanceYear의 공식과 computeCashflow의 공식이
 // 어긋나 UI 표시와 실제 지급액이 달라지는 불일치가 발견돼 도메인 함수로 뽑았다.
 
+import { PENSION_BASE_PER_CAREER, PENSION_CAREER_CAP } from '../constants';
+
 /** 65세부터 연금 지급 시작. */
 export const PENSION_START_AGE = 65;
-
-/** 경력 1건당 연금 기본 금액(원/년). */
-const PENSION_BASE_PER_CAREER = 400_000;
-
-/** 경력 인정 상한 (5건 이상이어도 5로 캡). */
-const PENSION_CAREER_CAP = 5;
 
 /**
  * 연간 연금액을 계산한다.
