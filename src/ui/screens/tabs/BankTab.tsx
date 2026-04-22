@@ -160,31 +160,57 @@ export function BankTab({
         {/* 입금 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 'var(--sp-sm)' }}>
           <QuickActionBtn label="입금 100만" onClick={() => {
-            if (deposit(1000000)) showToast('100만원 입금!', '🏦', 'info', 1200);
+            const r = deposit(1000000);
+            if (r.success) showToast('100만원 입금!', '🏦', 'info', 1200);
+            else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
           }} disabled={cash < 1000000} />
-          <QuickActionBtn label="입금 500만" onClick={() => {
-            if (deposit(5000000)) showToast('500만원 입금!', '🏦', 'info', 1200);
-          }} disabled={cash < 5000000} />
-          <QuickActionBtn label="입금 1천만" onClick={() => {
-            if (deposit(10000000)) showToast('1,000만원 입금!', '🏦', 'success', 1200);
-          }} disabled={cash < 10000000} />
+          <QuickActionBtn label="25% 입금" onClick={() => {
+            const amt = Math.floor(cash * 0.25);
+            if (amt > 0) {
+              const r = deposit(amt);
+              if (r.success) showToast(`${formatWon(amt)} 입금!`, '🏦', 'info', 1200);
+              else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
+            }
+          }} disabled={cash <= 0} />
+          <QuickActionBtn label="절반 입금" onClick={() => {
+            const amt = Math.floor(cash * 0.5);
+            if (amt > 0) {
+              const r = deposit(amt);
+              if (r.success) showToast(`${formatWon(amt)} 입금!`, '🏦', 'success', 1200);
+              else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
+            }
+          }} disabled={cash <= 0} />
           <QuickActionBtn label="전액 입금" onClick={() => {
-            if (cash > 0 && deposit(cash)) showToast(`${formatWon(cash)} 입금!`, '🏦', 'success', 1200);
+            if (cash > 0) {
+              const r = deposit(cash);
+              if (r.success) showToast(`${formatWon(cash)} 입금!`, '🏦', 'success', 1200);
+              else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
+            }
           }} disabled={cash <= 0} />
         </div>
         {/* 출금 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 4, marginTop: 4 }}>
           <QuickActionBtn label="출금 100만" onClick={() => {
-            if (withdraw(1000000)) showToast('100만원 출금!', '💸', 'info', 1200);
+            const r = withdraw(1000000);
+            if (r.success) showToast('100만원 출금!', '💸', 'info', 1200);
+            else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
           }} disabled={bank.balance < 1000000} />
           <QuickActionBtn label="출금 500만" onClick={() => {
-            if (withdraw(5000000)) showToast('500만원 출금!', '💸', 'info', 1200);
+            const r = withdraw(5000000);
+            if (r.success) showToast('500만원 출금!', '💸', 'info', 1200);
+            else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
           }} disabled={bank.balance < 5000000} />
           <QuickActionBtn label="출금 1천만" onClick={() => {
-            if (withdraw(10000000)) showToast('1,000만원 출금!', '💸', 'success', 1200);
+            const r = withdraw(10000000);
+            if (r.success) showToast('1,000만원 출금!', '💸', 'success', 1200);
+            else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
           }} disabled={bank.balance < 10000000} />
           <QuickActionBtn label="전액 출금" onClick={() => {
-            if (bank.balance > 0 && withdraw(bank.balance)) showToast(`${formatWon(bank.balance)} 출금!`, '💸', 'success', 1200);
+            if (bank.balance > 0) {
+              const r = withdraw(bank.balance);
+              if (r.success) showToast(`${formatWon(bank.balance)} 출금!`, '💸', 'success', 1200);
+              else if (r.reason) showToast(r.reason, '😢', 'danger', 1200);
+            }
           }} disabled={bank.balance <= 0} />
         </div>
         {/* 대출/상환 */}
