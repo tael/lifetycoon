@@ -328,19 +328,29 @@ function RealEstateCard({
   );
 }
 
+/**
+ * StockRow — 토스증권/Robinhood 스타일 컴팩트 리스트 행
+ * - 1행: 이모지 + 종목명/섹터 + 미니차트 + 가격/등락률 + (보유 배지)
+ * - 거래는 클릭 → StockDetailModal에서 처리
+ * - 한 종목당 ~60px만 차지하므로 10종목도 한 화면에 가시성 확보
+ */
 function StockRow({
-  stock, price, holding, onBuy, onSell, canBuy, onDetail, cash, dividendRates,
+  stock, price, holding, onDetail, dividendRates,
 }: {
-  stock: StockDef; price: number; holding?: { shares: number; avgBuyPrice: number };
-  onBuy: (n: number) => void; onSell: (n: number) => void; canBuy: boolean;
-  onDetail: () => void; cash: number; dividendRates: Record<string, number>;
+  stock: StockDef;
+  price: number;
+  holding?: { shares: number; avgBuyPrice: number };
+  onBuy: (n: number) => void;
+  onSell: (n: number) => void;
+  canBuy: boolean;
+  onDetail: () => void;
+  cash: number;
+  dividendRates: Record<string, number>;
 }) {
-  const maxBuyable = price > 0 ? Math.floor(cash / price) : 0;
   const pnl = holding ? (price - holding.avgBuyPrice) * holding.shares : 0;
   const pnlPct = holding && holding.avgBuyPrice > 0
     ? ((price - holding.avgBuyPrice) / holding.avgBuyPrice) * 100
     : 0;
-  const holdingValue = holding ? price * holding.shares : 0;
   const priceDiff = price - stock.basePrice;
   const priceDiffPct = stock.basePrice > 0 ? (priceDiff / stock.basePrice) * 100 : 0;
   const isUp = priceDiff > 0;
@@ -352,131 +362,78 @@ function StockRow({
     ? (stock.basePrice * currentDivRate / price) * 100
     : 0;
 
-  // Sparkline: basePrice 중심선에서 현재가까지 곡선 (등락 시각화)
-  const sparkW = 80;
-  const sparkH = 22;
+  // 미니 스파크라인 (basePrice→현재가 곡선)
+  const sparkW = 56;
+  const sparkH = 28;
   const sparkRatio = stock.basePrice > 0 ? Math.max(0.6, Math.min(1.4, price / stock.basePrice)) : 1;
-  const sparkEndY = sparkH / 2 - (sparkRatio - 1) * sparkH;
+  const sparkEndY = sparkH / 2 - (sparkRatio - 1) * (sparkH * 0.7);
   const sparkPath = `M0 ${sparkH / 2} Q${sparkW / 2} ${(sparkH / 2 + sparkEndY) / 2} ${sparkW} ${sparkEndY}`;
 
   return (
-    <div className="card card--invest" style={{ marginBottom: 8, cursor: 'pointer' }} onClick={onDetail} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') onDetail(); }} aria-label={`${stock.name} 상세 보기`}>
-      {/* 헤더: 종목명 + 등락률 */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
-          <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>{stock.iconEmoji}</span>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontWeight: 800, fontSize: 'var(--font-size-base)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {stock.name}
-            </div>
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
-              {stock.ticker} · {stock.sector}
-            </div>
-          </div>
-        </div>
-        <div style={{ textAlign: 'right', flexShrink: 0 }}>
-          <div style={{ fontSize: 'var(--font-size-base)', fontWeight: 800, color: trendColor }}>
-            {arrow} {priceDiffPct >= 0 ? '+' : ''}{priceDiffPct.toFixed(1)}%
-          </div>
-        </div>
-      </div>
-
-      {/* 가격 + 스파크라인 */}
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 'var(--font-size-xl)', fontWeight: 800, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
-            {formatWon(price)}
-          </div>
-          <div style={{ fontSize: 'var(--font-size-xs)', color: trendColor, marginTop: 2, fontWeight: 600 }}>
-            전일대비 {priceDiff >= 0 ? '+' : ''}{formatWon(priceDiff)}
-          </div>
-        </div>
-        <svg width={sparkW} height={sparkH} viewBox={`0 0 ${sparkW} ${sparkH}`} style={{ flexShrink: 0 }} aria-hidden="true">
-          <path d={sparkPath} stroke={trendColor} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          <circle cx={sparkW} cy={sparkEndY} r="3" fill={trendColor} />
-        </svg>
-      </div>
-
-      {/* 보유 정보 (홀딩 있을 때만) */}
-      {holding && (
-        <div style={{
-          background: 'var(--surface-2)',
-          padding: '8px 10px',
-          borderRadius: 'var(--radius-sm)',
-          marginBottom: 8,
-          border: '1px solid var(--border-soft)',
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--font-size-sm)' }}>
-            <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>보유 {holding.shares}주</span>
-            <span style={{ fontWeight: 700 }}>{formatWon(holdingValue)}</span>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-xs)', marginTop: 3 }}>
-            <span style={{ color: 'var(--text-muted)' }}>평균 {formatWon(holding.avgBuyPrice)}</span>
-            <span style={{ fontWeight: 700, color: pnl >= 0 ? 'var(--success)' : 'var(--danger)' }}>
-              {pnl >= 0 ? '+' : ''}{formatWon(pnl)} ({pnlPct >= 0 ? '+' : ''}{pnlPct.toFixed(1)}%)
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* 시가배당률 */}
-      {currentYield > 0 && (
-        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)', marginBottom: 8, fontWeight: 600 }}>
-          💎 시가배당률 {currentYield.toFixed(2)}%
-        </div>
-      )}
-
-      {/* 매수/매도 큰 버튼 */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }} onClick={(e) => e.stopPropagation()}>
-        <button
-          className="btn btn-success"
-          disabled={!canBuy}
-          onClick={() => onBuy(1)}
-          aria-label={`${stock.name} 매수`}
-          style={{ minHeight: 48, fontSize: 'var(--font-size-base)' }}
-        >
-          매수
-        </button>
-        <button
-          className="btn btn-danger"
-          disabled={!holding || holding.shares < 1}
-          onClick={() => holding && onSell(1)}
-          aria-label={`${stock.name} 매도`}
-          style={{ minHeight: 48, fontSize: 'var(--font-size-base)' }}
-        >
-          매도
-        </button>
-      </div>
-
-      {/* 빠른 옵션 */}
-      <div style={{ display: 'flex', gap: 4, marginTop: 6 }} onClick={(e) => e.stopPropagation()}>
-        <QuickQty label="+5주" onClick={() => onBuy(5)} disabled={maxBuyable < 5} positive />
-        <QuickQty label={`+전량${maxBuyable > 0 ? `(${maxBuyable})` : ''}`} onClick={() => maxBuyable > 0 && onBuy(maxBuyable)} disabled={maxBuyable < 1} positive />
-        <QuickQty label="-전량" onClick={() => onSell(holding?.shares ?? 0)} disabled={!holding || holding.shares < 1} positive={false} />
-      </div>
-    </div>
-  );
-}
-
-function QuickQty({ label, onClick, disabled, positive }: { label: string; onClick: () => void; disabled: boolean; positive: boolean }) {
-  return (
     <button
-      onClick={onClick}
-      disabled={disabled}
+      type="button"
+      onClick={onDetail}
+      aria-label={`${stock.name} 상세 보기 및 거래`}
       style={{
-        flex: 1,
-        padding: '4px 6px',
-        background: disabled ? 'transparent' : positive ? 'var(--success-soft)' : 'var(--danger-soft)',
-        color: disabled ? 'var(--text-muted)' : positive ? 'var(--success)' : 'var(--danger)',
-        border: `1px solid ${disabled ? 'var(--border-duo)' : 'transparent'}`,
-        borderRadius: 'var(--radius-sm)',
-        fontSize: '0.7rem',
-        fontWeight: 700,
-        cursor: disabled ? 'default' : 'pointer',
-        minHeight: 32,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        width: '100%',
+        padding: '10px 12px',
+        background: 'transparent',
+        border: 'none',
+        borderBottom: '1px solid var(--border-soft)',
+        cursor: 'pointer',
+        textAlign: 'left',
+        font: 'inherit',
       }}
     >
-      {label}
+      {/* 이모지 */}
+      <span style={{ fontSize: '1.6rem', flexShrink: 0, width: 32, textAlign: 'center' }}>
+        {stock.iconEmoji}
+      </span>
+
+      {/* 종목 정보 */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+          <span style={{ fontWeight: 700, fontSize: 'var(--font-size-base)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {stock.name}
+          </span>
+          {currentYield > 0 && (
+            <span style={{ fontSize: '0.6rem', color: 'var(--success)', fontWeight: 600, flexShrink: 0 }}>
+              💎{currentYield.toFixed(1)}%
+            </span>
+          )}
+        </div>
+        {holding ? (
+          <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            보유 {holding.shares}주
+            <span style={{ color: pnl >= 0 ? 'var(--success)' : 'var(--danger)', fontWeight: 700, marginLeft: 4 }}>
+              {pnl >= 0 ? '+' : ''}{pnlPct.toFixed(1)}%
+            </span>
+          </div>
+        ) : (
+          <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+            {stock.sector}
+          </div>
+        )}
+      </div>
+
+      {/* 미니 스파크라인 */}
+      <svg width={sparkW} height={sparkH} viewBox={`0 0 ${sparkW} ${sparkH}`} style={{ flexShrink: 0 }} aria-hidden="true">
+        <path d={sparkPath} stroke={trendColor} strokeWidth="2" fill="none" strokeLinecap="round" />
+        <circle cx={sparkW} cy={sparkEndY} r="2.5" fill={trendColor} />
+      </svg>
+
+      {/* 가격 + 등락률 */}
+      <div style={{ textAlign: 'right', flexShrink: 0, minWidth: 76 }}>
+        <div style={{ fontWeight: 800, fontSize: 'var(--font-size-base)', fontFamily: 'var(--font-display)', lineHeight: 1.1 }}>
+          {formatWon(price)}
+        </div>
+        <div style={{ fontSize: 'var(--font-size-xs)', color: trendColor, fontWeight: 700, marginTop: 1 }}>
+          {arrow} {priceDiffPct >= 0 ? '+' : ''}{priceDiffPct.toFixed(1)}%
+        </div>
+      </div>
     </button>
   );
 }
